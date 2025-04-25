@@ -1,132 +1,156 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Berbagi Config HTTP Custom</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Share Config HTTP Custom</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: #121212;
       color: #fff;
+      padding: 20px;
       margin: 0;
-      padding: 0;
     }
 
-    header {
-      background: #333;
-      padding: 20px;
+    h1 {
       text-align: center;
+      color: #00ffc4;
+      margin-bottom: 40px;
     }
 
-    header h1 {
-      color: #ff5733;
-      font-size: 2rem;
-    }
-
-    .container {
-      max-width: 700px;
-      margin: 30px auto;
-      background: #222;
+    .config-box {
+      background: #1f1f1f;
+      border-radius: 10px;
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      max-width: 600px;
+      box-shadow: 0 0 15px rgba(0,255,196,0.2);
     }
 
-    .config-item {
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #333;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .config-item h3 {
-      margin: 0;
-      font-size: 1.5rem;
-      color: #ff5733;
-    }
-
-    .config-item pre {
-      background: #1c1c1c;
-      padding: 15px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      color: #e1e1e1;
-      overflow-x: auto;
-    }
-
-    .download-btn {
-      display: inline-block;
-      padding: 10px 15px;
-      margin-top: 10px;
-      background: #ff5733;
-      color: white;
+    .config-title {
+      font-size: 18px;
       font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      text-decoration: none;
-      text-align: center;
+      color: #00ffc4;
+      margin-bottom: 10px;
     }
 
-    .download-btn:hover {
-      background: #e44d24;
+    .config-text {
+      background: #292929;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      word-break: break-word;
+      font-size: 14px;
+    }
+
+    .btns {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+
+    .btn {
+      background: #00ffc4;
+      color: #000;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      background: #00d6a5;
     }
 
     footer {
       text-align: center;
-      padding: 10px;
-      background: #333;
-      position: fixed;
-      width: 100%;
-      bottom: 0;
-    }
-
-    footer p {
-      margin: 0;
+      margin-top: 50px;
+      font-size: 13px;
       color: #888;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo-container">
-    <h1>Berbagi Config HTTP Custom & V2RAY</h1>
-  </div>
-  <p>Config free tidak untuk diperjual belikan, gunakan dengan bijak, jika lemot atau susah konek on/off mode pesawat</p></p>
-</header>
-  <p></p></p>
-<div class="container">
-  <!-- Example of a shared config -->
-  <div class="config-item">
-    <h3>CONFIG XL VIDIO - LINK V2RAY</h3>
-    <pre>
-vmess://eyAidiI6ICIyIiwgInBzIjogIlRyaWFsLVZNMTgyIiwgImFkZCI6ICJuZXZheC5weHN0b3JlLmJpei5pZCIsICJwb3J0IjogIjQ0MyIsICJpZCI6ICIyZmYyYzc4Zi1lNTJmLTQ5OWYtOTlmNC1iYTU2NDc4MjA4YjYiLCAiYWlkIjogIjAiLCAibmV0IjogIndzIiwgInBhdGgiOiAiL3ZtZXNzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogIm5ldmF4LnB4c3RvcmUuYml6LmlkIiwgInRscyI6ICJ0bHMiIH0K
-    </pre>
-    <a href="http://example.com/path/to/config1.conf" download="config1.conf" class="download-btn">Download</a>
+  <h1>Share Config HTTP Custom</h1>
+
+  <!-- Config 1 -->
+  <div class="config-box">
+    <div class="config-title">Config SSH 1 - High Speed</div>
+    <div class="config-text" id="config1">
+      ssh1.server.com:443@user1:pass1#bug.com
+    </div>
+    <div class="btns">
+      <button class="btn" onclick="copyConfig('config1')">Salin</button>
+      <a class="btn" href="https://yourdomain.com/config1.hc" download>Download</a>
+    </div>
   </div>
 
-  <div class="config-item">
-    <h3>CONFIG XUTS - LINK V2RAY</h3>
-    <pre>
-vmess://eyAidiI6ICIyIiwgInBzIjogIlRyaWFsLVZNMTgyIiwgImFkZCI6ICJuZXZheC5weHN0b3JlLmJpei5pZCIsICJwb3J0IjogIjQ0MyIsICJpZCI6ICIyZmYyYzc4Zi1lNTJmLTQ5OWYtOTlmNC1iYTU2NDc4MjA4YjYiLCAiYWlkIjogIjAiLCAibmV0IjogIndzIiwgInBhdGgiOiAiL3ZtZXNzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogIm5ldmF4LnB4c3RvcmUuYml6LmlkIiwgInRscyI6ICJ0bHMiIH0K
-    </pre>
-    <a href="http://example.com/path/to/config2.conf" download="config2.conf" class="download-btn">Download</a>
+  <!-- Config 2 -->
+  <div class="config-box">
+    <div class="config-title">Config SSH 2 - Secure Connection</div>
+    <div class="config-text" id="config2">
+      ssh2.server.com:80@user2:pass2#example.com
+    </div>
+    <div class="btns">
+      <button class="btn" onclick="copyConfig('config2')">Salin</button>
+      <a class="btn" href="https://yourdomain.com/config2.hc" download>Download</a>
+    </div>
   </div>
 
-  <div class="config-item">
-    <h3>CONFIG ILMUPEDIA - LINK V2RAY</h3>
-    <pre>
-vmess://eyAidiI6ICIyIiwgInBzIjogIlRyaWFsLVZNMTgyIiwgImFkZCI6ICJuZXZheC5weHN0b3JlLmJpei5pZCIsICJwb3J0IjogIjQ0MyIsICJpZCI6ICIyZmYyYzc4Zi1lNTJmLTQ5OWYtOTlmNC1iYTU2NDc4MjA4YjYiLCAiYWlkIjogIjAiLCAibmV0IjogIndzIiwgInBhdGgiOiAiL3ZtZXNzIiwgInR5cGUiOiAibm9uZSIsICJob3N0IjogIm5ldmF4LnB4c3RvcmUuYml6LmlkIiwgInRscyI6ICJ0bHMiIH0K
-    </pre>
-    <a href="http://example.com/path/to/config3.conf" download="config3.conf" class="download-btn">Download</a>
+  <!-- Config 3 -->
+  <div class="config-box">
+    <div class="config-title">Config SSH 3 - Optimal Performance</div>
+    <div class="config-text" id="config3">
+      ssh3.server.net:22@user3:pass3#sni.bug.com
+    </div>
+    <div class="btns">
+      <button class="btn" onclick="copyConfig('config3')">Salin</button>
+      <a class="btn" href="https://yourdomain.com/config3.hc" download>Download</a>
+    </div>
   </div>
-</div>
 
-<footer>
-  <p>&copy; 2025 px store, All Rights Reserved.</p>
-</footer>
+  <!-- Config 4 -->
+  <div class="config-box">
+    <div class="config-title">Config SSH 4 - Fast & Reliable</div>
+    <div class="config-text" id="config4">
+      ssh4.net.id:8080@user4:pass4#bughost.com
+    </div>
+    <div class="btns">
+      <button class="btn" onclick="copyConfig('config4')">Salin</button>
+      <a class="btn" href="https://yourdomain.com/config4.hc" download>Download</a>
+    </div>
+  </div>
+
+  <!-- Config 5 -->
+  <div class="config-box">
+    <div class="config-title">Config SSH 5 - Ultra Speed</div>
+    <div class="config-text" id="config5">
+      ssh5.co.id:443@user5:pass5#bug.example.com
+    </div>
+    <div class="btns">
+      <button class="btn" onclick="copyConfig('config5')">Salin</button>
+      <a class="btn" href="https://yourdomain.com/config5.hc" download>Download</a>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 YourConfigStore. All Rights Reserved.
+  </footer>
+
+  <script>
+    function copyConfig(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Config berhasil disalin!");
+      });
+    }
+  </script>
 
 </body>
 </html>
