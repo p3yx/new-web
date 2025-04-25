@@ -3,159 +3,152 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Order VPS - PX STORE</title>
+  <title>Order VPS</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0f0f0f;
+      background-color: #121212;
       color: #fff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
     }
 
-    header {
-      background-color: #1a1a1a;
+    h1 {
       text-align: center;
-      padding: 20px 0;
-      border-bottom: 2px solid #00ffcc;
-    }
-
-    header img {
-      width: 60px;
-      height: 60px;
-    }
-
-    header h1 {
-      margin: 10px 0 0;
-      font-size: 2rem;
-      color: #00ffcc;
+      margin-bottom: 30px;
+      color: #00ffc4;
     }
 
     .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
-      padding: 40px 20px;
     }
 
-    .vps-card {
+    .box {
       background: #1e1e1e;
-      border-radius: 10px;
-      width: 300px;
       padding: 20px;
-      box-shadow: 0 0 15px rgba(0,255,204,0.1);
-      transition: transform 0.3s ease;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,255,196,0.1);
+      position: relative;
+      transition: transform 0.3s;
     }
 
-    .vps-card:hover {
-      transform: translateY(-5px);
+    .box:hover {
+      transform: scale(1.02);
     }
 
-    .vps-card h2 {
-      color: #00ffcc;
+    .box h2 {
+      font-size: 20px;
       margin-bottom: 10px;
     }
 
-    .vps-card ul {
-      padding-left: 20px;
+    .details {
       font-size: 14px;
       margin-bottom: 15px;
+      line-height: 1.6;
     }
 
-    .vps-card .price {
+    .price {
+      color: #ffb347;
       font-weight: bold;
-      font-size: 18px;
-      color: #ffcc00;
-      margin-bottom: 10px;
+      margin: 10px 0;
     }
 
     .order-btn {
       display: inline-block;
-      background-color: #00ffcc;
+      background: #00ffc4;
       color: #000;
       padding: 10px 16px;
       border-radius: 6px;
-      text-decoration: none;
       font-weight: bold;
-      transition: background-color 0.3s;
+      text-decoration: none;
+      transition: background 0.3s;
     }
 
     .order-btn:hover {
-      background-color: #00e6b8;
+      background: #00d6a5;
     }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #1a1a1a;
-      color: #999;
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #00ff00;
+      border-radius: 50%;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      animation: blink 1s infinite;
+      box-shadow: 0 0 8px #00ff00;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo-container">
-    <img src="/assets/images/px.png" alt="Store Logo">
-    <h1>PX STORE</h1>
+  <h1>Order VPS Murah & Handal</h1>
+
+  <div class="container">
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>VPS Starter</h2>
+      <div class="details">
+        1 vCPU<br>
+        RAM 1GB<br>
+        SSD 10GB<br>
+        Bandwidth Unlimited<br>
+        Lokasi: Singapore
+      </div>
+      <div class="price">Rp 25.000 / bulan</div>
+      <a class="order-btn" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20order%20VPS%20Starter" target="_blank">Order via WhatsApp</a>
+    </div>
+
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>VPS Basic</h2>
+      <div class="details">
+        2 vCPU<br>
+        RAM 2GB<br>
+        SSD 20GB<br>
+        Bandwidth Unlimited<br>
+        Lokasi: Indonesia
+      </div>
+      <div class="price">Rp 45.000 / bulan</div>
+      <a class="order-btn" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20order%20VPS%20Basic" target="_blank">Order via WhatsApp</a>
+    </div>
+
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>VPS Pro</h2>
+      <div class="details">
+        2 vCPU<br>
+        RAM 4GB<br>
+        SSD 40GB<br>
+        Bandwidth Unlimited<br>
+        Lokasi: Japan
+      </div>
+      <div class="price">Rp 75.000 / bulan</div>
+      <a class="order-btn" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20order%20VPS%20Pro" target="_blank">Order via WhatsApp</a>
+    </div>
+
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>VPS Ultimate</h2>
+      <div class="details">
+        4 vCPU<br>
+        RAM 8GB<br>
+        SSD 80GB<br>
+        Bandwidth Unlimited<br>
+        Lokasi: USA
+      </div>
+      <div class="price">Rp 120.000 / bulan</div>
+      <a class="order-btn" href="https://wa.me/6281234567890?text=Halo%2C%20saya%20ingin%20order%20VPS%20Ultimate" target="_blank">Order via WhatsApp</a>
+    </div>
   </div>
-  <p>Silahkan Pilih Spesifikasi VPS</p>
-  <p>Sesuai Dengan Kebutuhan Anda</p></p>
-</header>
-
-<div class="container">
-  <!-- VPS 1 -->
-  <div class="vps-card">
-    <h2>VPS DIGITAL OCEAN</h2>
-    <ul>
-      <li>1 vCPU Core</li>
-      <li>1 GB RAM</li>
-      <li>20 GB SSD</li>
-      <li>1 TB Bandwidth</li>
-    </ul>
-    <div class="price">Rp 35.000 / bulan</div>
-    <a href="#" class="order-btn" onclick="orderVPS('VPS DIGITAL OCEAN', '35000')">Order Sekarang</a>
-  </div>
-
-  <!-- VPS 2 -->
-  <div class="vps-card">
-    <h2>VPS DIGITAL OCEAN</h2>
-    <ul>
-      <li>1 vCPU Core</li>
-      <li>2 GB RAM</li>
-      <li>40 GB SSD</li>
-      <li>2 TB Bandwidth</li>
-    </ul>
-    <div class="price">Rp 50.000 / bulan</div>
-    <a href="#" class="order-btn" onclick="orderVPS('VPS Standard', '50000')">Order Sekarang</a>
-  </div>
-
-  <!-- VPS 3 -->
-  <div class="vps-card">
-    <h2>VPS DIGITAL OCEAN</h2>
-    <ul>
-      <li>2 vCPU Core</li>
-      <li>2 GB RAM</li>
-      <li>80 GB SSD</li>
-      <li>3 TB Bandwidth</li>
-    </ul>
-    <div class="price">Rp 65.000 / bulan</div>
-    <a href="#" class="order-btn" onclick="orderVPS('VPS DIGITAL OCEAN', '65000')">Order Sekarang</a>
-  </div>
-</div>
-
-<footer>
-  &copy; 2025 px store. All rights reserved.
-</footer>
-
-<script>
-  function orderVPS(paket, harga) {
-    const waNumber = "6287781625000"; // Ganti dengan nomor admin kamu
-    const pesan = `Halo Admin, saya ingin order ${paket} seharga Rp ${harga}/bulan. Mohon informasinya.`;
-    const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(pesan)}`;
-    window.open(waLink, "_blank");
-  }
-</script>
 
 </body>
 </html>
