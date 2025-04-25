@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Berbagi Config HTTP Custom</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #333;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      color: #ff5733;
+      font-size: 2rem;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 30px auto;
+      background: #222;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .config-item {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #333;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .config-item h3 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #ff5733;
+    }
+
+    .config-item pre {
+      background: #1c1c1c;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #e1e1e1;
+      overflow-x: auto;
+    }
+
+    .download-btn {
+      display: inline-block;
+      padding: 10px 15px;
+      margin-top: 10px;
+      background: #ff5733;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .download-btn:hover {
+      background: #e44d24;
+    }
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #333;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+
+    footer p {
+      margin: 0;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-container">
+    <h1>Berbagi Config HTTP Custom & V2RAY</h1>
+  </div>
+  <p>Config free tidak untuk diperjual belikan, gunakan dengan bijak, jika lemot atau susah konek on/off mode pesawat</p></p>
+</header>
+  <p></p></p>
+<div class="container">
+  <!-- Example of a shared config -->
+  <div class="config-item">
+    <h3>Config 1 - Server 1</h3>
+    <pre>
+http://example.com/path/to/config1.conf
+# Configuration details:
+server=example.com
+port=8080
+timeout=300
+    </pre>
+    <a href="http://example.com/path/to/config1.conf" download="config1.conf" class="download-btn">Download</a>
+  </div>
+
+  <div class="config-item">
+    <h3>Config 2 - Server 2</h3>
+    <pre>
+http://example.com/path/to/config2.conf
+# Configuration details:
+server=example2.com
+port=9090
+timeout=250
+    </pre>
+    <a href="http://example.com/path/to/config2.conf" download="config2.conf" class="download-btn">Download</a>
+  </div>
+
+  <div class="config-item">
+    <h3>Config 3 - Server 3</h3>
+    <pre>
+http://example.com/path/to/config3.conf
+# Configuration details:
+server=example3.com
+port=7070
+timeout=400
+    </pre>
+    <a href="http://example.com/path/to/config3.conf" download="config3.conf" class="download-btn">Download</a>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 Berbagi Config HTTP Custom</p>
+</footer>
+
+</body>
+</html>

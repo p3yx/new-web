@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PX STORE NET</title>
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #0f0f0f;
+      color: #f0f0f0;
+    }
+
+    header {
+      background: linear-gradient(to right, #111, #222);
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+
+    header h1 {
+      font-size: 2.8em;
+      color: #ff4757;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.1em;
+      color: #ccc;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background-color: #1a1a1a;
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      padding: 12px 25px;
+      text-decoration: none;
+      background-color: #2a2a2a;
+      color: white;
+      border-radius: 10px;
+      transition: 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #ff4757;
+      transform: scale(1.05);
+    }
+
+    .slider {
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+      height: 200px;
+      margin: 30px auto;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 71, 87, 0.3);
+    }
+
+    .slides {
+      display: flex;
+      width: 300%;
+      animation: slide 9s infinite;
+    }
+
+    .slides img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      33% { transform: translateX(-65%); }
+      50% { transform: translateX(-90%); }
+      100% { transform: translateX(0); }
+    }
+
+    .menu-section {
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .menu-section h2 {
+      font-size: 2.2em;
+      color: #ff4757;
+      margin-bottom: 30px;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+
+    .service-btn {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      background-color: #1f1f1f;
+      border: 1px solid #444;
+      border-radius: 12px;
+      padding: 20px;
+      font-size: 1.1em;
+      color: white;
+      transition: all 0.3s ease;
+    }
+
+    .service-btn:hover {
+      background-color: #ff4757;
+      transform: translateY(-5px);
+    }
+
+    footer {
+      margin-top: 50px;
+      background-color: #111;
+      color: #aaa;
+      text-align: center;
+      padding: 30px;
+      font-size: 0.9em;
+    }
+
+    footer img {
+      height: 30px;
+      margin: 10px 10px 0;
+      filter: brightness(0.8);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>𝐏𝐗 𝐒𝐓𝐎𝐑𝐄 𝐍𝐄𝐓</h1>
+    <p>Layanan PPOB Top up Game • Kebutuhan Internet • All Tunneling. Aman terpercaya Insya Allah Amanah Fast Respon Kecepatan Server stabil Jarang Terjadi Eror/Gangguan.</p>
+  </header>
+
+
+  <div class="slider">
+    <div class="slides">
+      <img src="./assets/images/vps.jpg" alt="Slide 2">
+      <img src="./assets/images/ml.jpg" alt="Slide 3">
+      <img src="./assets/images/ff.jpg" alt="Slide 4">
+      <img src="./assets/images/pubg.jpg" alt="Slide 5">
+    </div>
+  </div>
+
+  <section class="menu-section" id="topup">
+    <h2>𝐋𝐚𝐲𝐚𝐧𝐚𝐧 𝐊𝐚𝐦𝐢</h2>
+    <div class="button-grid">
+      <a href="./topup/topup.html" class="service-btn">𝐓𝐎𝐏 𝐔𝐏 𝐆𝐀𝐌𝐄</a>
+      <a href="./vpn/akun.html" class="service-btn">𝐕𝐏𝐍 𝐏𝐑𝐄𝐌𝐈𝐔𝐌</a>
+     <a href="./vpn/vps.html" class="service-btn">𝐕𝐏𝐒 𝐓𝐔𝐍𝐍𝐄𝐋𝐈𝐍𝐆 </a>
+     <a href="./vpn/sc.html" class="service-btn" id="vpn">𝐒𝐂 𝐓𝐔𝐍𝐍𝐄𝐋𝐈𝐍𝐆</a>
+      <a href="./paket/paket.html" class="service-btn">𝐏𝐀𝐊𝐄𝐓 𝐈𝐍𝐓𝐄𝐑𝐍𝐄𝐓</a>
+      <a href="./paket/pulsa.html" class="service-btn" id="vpn">𝐏𝐔𝐋𝐒𝐀</a>
+      <a href="cf.html" class="service-btn" id="vpn">𝐂𝐎𝐍𝐅𝐈𝐆 𝐅𝐑𝐄𝐄</a>
+    </div>
+  </section>
+
+  <footer id="kontak">
+    &copy; 2025 Px Store Net. All Rights Reserved. <br>
+    <p>Pembayaran Otomatis Via Bot WhatsApp</p>
+</footer>
+</body>
+</html>
