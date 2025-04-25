@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pembayaran Menggunakan DANA QRIS</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #121212;
+      color: #fff;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #00ffc4;
+      margin-bottom: 40px;
+    }
+
+    .payment-box {
+      background: #1f1f1f;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      box-shadow: 0 0 15px rgba(0,255,196,0.2);
+    }
+
+    .payment-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #00ffc4;
+      margin-bottom: 10px;
+    }
+
+    .payment-content {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .payment-content img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .btns {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-start;
+    }
+
+    .btn {
+      background: #00ffc4;
+      color: #000;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      background: #00d6a5;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 13px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Pembayaran Menggunakan DANA QRIS</h1>
+
+  <!-- Payment DANA QRIS -->
+  <div class="payment-box">
+    <div class="payment-title">QRIS All Payment</div>
+    <div class="payment-content">
+      <p>Silakan scan QRIS atau salin nomor DANA/rekening berikut untuk melakukan pembayaran.</p>
+      <img src="./assets/images/qr.png" alt="DANA QRIS">
+      <p><strong>Nomor DANA:</strong> <span id="dana-number">083151636921</span></p>
+    </div>
+    <div class="btns">
+      <button class="btn" onclick="copyText('dana-number')">Salin Nomor DANA</button>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Peyx. All Rights Reserved.
+  </footer>
+
+  <script>
+    function copyText(id) {
+      const text = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Nomor DANA berhasil disalin!");
+      });
+    }
+  </script>
+
+</body>
+</html>
