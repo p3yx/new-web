@@ -3,151 +3,173 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Share Config HTTP Custom</title>
+  <title>Bagi-bagi Config HTTP Custom</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #121212;
+      background-color: #121212;
       color: #fff;
-      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
+      padding: 20px;
     }
 
     h1 {
       text-align: center;
+      margin-bottom: 30px;
       color: #00ffc4;
-      margin-bottom: 40px;
     }
 
-    .config-box {
-      background: #1f1f1f;
-      border-radius: 10px;
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .box {
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,255,196,0.1);
+      position: relative;
+      transition: transform 0.3s;
+    }
+
+    .box:hover {
+      transform: scale(1.02);
+    }
+
+    .box h2 {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      background-color: #00ff00;
+      border-radius: 50%;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      animation: blink 1s infinite;
+      box-shadow: 0 0 8px #00ff00;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .config-link {
+      word-break: break-all;
+      background: #2a2a2a;
       padding: 20px;
-      margin: 20px auto;
-      max-width: 600px;
-      box-shadow: 0 0 15px rgba(0,255,196,0.2);
-    }
-
-    .config-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #00ffc4;
-      margin-bottom: 10px;
-    }
-
-    .config-text {
-      background: #292929;
-      padding: 12px;
       border-radius: 6px;
-      margin-bottom: 10px;
-      word-break: break-word;
-      font-size: 14px;
+      font-size: 16px;
+      margin: 15px 0;
+      min-height: 60px; /* Membuat box lebih besar */
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .btns {
+    .button-group {
       display: flex;
       gap: 10px;
-      justify-content: flex-start;
+      flex-wrap: wrap;
     }
 
     .btn {
+      padding: 10px 20px;
       background: #00ffc4;
       color: #000;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
       text-decoration: none;
-      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
     }
 
     .btn:hover {
       background: #00d6a5;
     }
-
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      font-size: 13px;
-      color: #888;
-    }
   </style>
 </head>
 <body>
 
-  <h1>Share Config HTTP Custom & V2RAY</h1>
+  <h1>Bagikan Config HTTP Custom</h1>
 
-  <!-- Config 1 -->
-  <div class="config-box">
-    <div class="config-title">Config SSH 1 - High Speed</div>
-    <div class="config-text" id="config1">
-      ssh1.server.com:443@user1:pass1#bug.com
+  <div class="container">
+
+    <!-- Config Box Template -->
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>Config Telkomsel SG</h2>
+      <div class="config-link" id="link1">https://example.com/config/telkomsel-sg.hc</div>
+      <div class="button-group">
+        <button class="btn" onclick="copyToClipboard('link1')">Salin Link</button>
+        <a class="btn" href="https://example.com/config/telkomsel-sg.hc" download>Download</a>
+      </div>
     </div>
-    <div class="btns">
-      <button class="btn" onclick="copyConfig('config1')">Salin</button>
-      <a class="btn" href="https://yourdomain.com/config1.hc" download>Download</a>
+
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>Config Axis ID</h2>
+      <div class="config-link" id="link2">https://example.com/config/axis-id.hc</div>
+      <div class="button-group">
+        <button class="btn" onclick="copyToClipboard('link2')">Salin Link</button>
+        <a class="btn" href="https://example.com/config/axis-id.hc" download>Download</a>
+      </div>
     </div>
+
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>Config Indosat SG</h2>
+      <div class="config-link" id="link3">https://example.com/config/indosat-sg.hc</div>
+      <div class="button-group">
+        <button class="btn" onclick="copyToClipboard('link3')">Salin Link</button>
+        <a class="btn" href="https://example.com/config/indosat-sg.hc" download>Download</a>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>Config XL Japan</h2>
+      <div class="config-link" id="link4">https://example.com/config/xl-japan.hc</div>
+      <div class="button-group">
+        <button class="btn" onclick="copyToClipboard('link4')">Salin Link</button>
+        <a class="btn" href="https://example.com/config/xl-japan.hc" download>Download</a>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>Config Smartfren USA</h2>
+      <div class="config-link" id="link5">https://example.com/config/smartfren-usa.hc</div>
+      <div class="button-group">
+        <button class="btn" onclick="copyToClipboard('link5')">Salin Link</button>
+        <a class="btn" href="https://example.com/config/smartfren-usa.hc" download>Download</a>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="status-dot"></div>
+      <h2>Config Tri SG</h2>
+      <div class="config-link" id="link6">https://example.com/config/tri-sg.hc</div>
+      <div class="button-group">
+        <button class="btn" onclick="copyToClipboard('link6')">Salin Link</button>
+        <a class="btn" href="https://example.com/config/tri-sg.hc" download>Download</a>
+      </div>
+    </div>
+
   </div>
-
-  <!-- Config 2 -->
-  <div class="config-box">
-    <div class="config-title">Config SSH 2 - Secure Connection</div>
-    <div class="config-text" id="config2">
-      ssh2.server.com:80@user2:pass2#example.com
-    </div>
-    <div class="btns">
-      <button class="btn" onclick="copyConfig('config2')">Salin</button>
-      <a class="btn" href="https://yourdomain.com/config2.hc" download>Download</a>
-    </div>
-  </div>
-
-  <!-- Config 3 -->
-  <div class="config-box">
-    <div class="config-title">Config SSH 3 - Optimal Performance</div>
-    <div class="config-text" id="config3">
-      ssh3.server.net:22@user3:pass3#sni.bug.com
-    </div>
-    <div class="btns">
-      <button class="btn" onclick="copyConfig('config3')">Salin</button>
-      <a class="btn" href="https://yourdomain.com/config3.hc" download>Download</a>
-    </div>
-  </div>
-
-  <!-- Config 4 -->
-  <div class="config-box">
-    <div class="config-title">Config SSH 4 - Fast & Reliable</div>
-    <div class="config-text" id="config4">
-      ssh4.net.id:8080@user4:pass4#bughost.com
-    </div>
-    <div class="btns">
-      <button class="btn" onclick="copyConfig('config4')">Salin</button>
-      <a class="btn" href="https://yourdomain.com/config4.hc" download>Download</a>
-    </div>
-  </div>
-
-  <!-- Config 5 -->
-  <div class="config-box">
-    <div class="config-title">Config SSH 5 - Ultra Speed</div>
-    <div class="config-text" id="config5">
-      ssh5.co.id:443@user5:pass5#bug.example.com
-    </div>
-    <div class="btns">
-      <button class="btn" onclick="copyConfig('config5')">Salin</button>
-      <a class="btn" href="https://yourdomain.com/config5.hc" download>Download</a>
-    </div>
-  </div>
-
-  <footer>
-    &copy; 2025 YourConfigStore. All Rights Reserved.
-  </footer>
 
   <script>
-    function copyConfig(id) {
-      const text = document.getElementById(id).innerText;
+    function copyToClipboard(id) {
+      const text = document.getElementById(id).textContent;
       navigator.clipboard.writeText(text).then(() => {
-        alert("Config berhasil disalin!");
+        alert("Link berhasil disalin!");
       });
     }
   </script>
