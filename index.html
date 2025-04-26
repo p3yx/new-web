@@ -4,13 +4,89 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PXSTORE - Layanan Tunneling</title>
-  <style>
+    <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0f0f0f;
+      font-family: 'Poppins', sans-serif;
+      background: #0f0f0f;
       color: #fff;
     }
+    header {
+      background: rgb(31, 28, 44);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      animation: slideDown 1s ease forwards;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo-container img {
+      height: 40px;
+      margin-right: 10px;
+      animation: fadeIn 2s ease forwards;
+    }
+    .logo-container h1 {
+      font-size: 22px;
+      font-weight: bold;
+      margin: 0;
+      animation: fadeIn 2s ease forwards;
+    }
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #00ffc8;
+    }
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .menu-toggle div {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 5px;
+      transition: 0.3s;
+    }
+    @keyframes slideDown {
+      0% {transform: translateY(-100%);}
+      100% {transform: translateY(0);}
+    }
+    @keyframes fadeIn {
+      0% {opacity: 0;}
+      100% {opacity: 1;}
+    }
+    @media (max-width: 768px) {
+      nav {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgb(31, 28, 44);
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.3s ease-in;
+      }
+      nav.show {
+        max-height: 300px;
+      }
 
     header {
       background-color: #1a1a1a;
@@ -121,7 +197,12 @@
 </head>
 <body>
 
-  <header>PXSTORE - Layanan Digital</header>
+<header>
+  <div class="logo-container">
+    <img src="./assets/images/px.png" alt="PXStore Logo">
+  <h1>PX STORE</h1>
+</header>
+
 
   <div class="slider">
     <div class="slides">
