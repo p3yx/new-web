@@ -2,12 +2,15 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PXSTORE - Layanan Tunneling</title>
-    <style>
-    body {
-      margin: 0;
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PXStore - Layanan Digital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
+    }
+    body {
       background: #0f0f0f;
       color: #fff;
     }
@@ -17,26 +20,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-      animation: slideDown 1s ease forwards;
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      animation: slideDown 1s ease forwards;
     }
-    .logo-container {
+    .logo {
       display: flex;
       align-items: center;
     }
-    .logo-container img {
+    .logo img {
       height: 40px;
       margin-right: 10px;
-      animation: fadeIn 2s ease forwards;
-    }
-    .logo-container h1 {
-      font-size: 22px;
-      font-weight: bold;
-      margin: 0;
-      animation: fadeIn 2s ease forwards;
     }
     nav {
       display: flex;
@@ -51,94 +47,62 @@
     nav a:hover {
       color: #00ffc8;
     }
-    .menu-toggle {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-    }
-    .menu-toggle div {
-      width: 25px;
-      height: 3px;
-      background: white;
-      margin: 5px;
-      transition: 0.3s;
-    }
-    @keyframes slideDown {
-      0% {transform: translateY(-100%);}
-      100% {transform: translateY(0);}
-    }
-    @keyframes fadeIn {
-      0% {opacity: 0;}
-      100% {opacity: 1;}
-    }
-    @media (max-width: 768px) {
-      nav {
-        position: absolute;
-        top: 70px;
-        left: 0;
-        right: 0;
-        background: rgb(31, 28, 44);
-        flex-direction: column;
-        align-items: center;
-        overflow: hidden;
-        max-height: 0;
-        transition: max-height 0.3s ease-in;
-      }
-      nav.show {
-        max-height: 300px;
-      }
 
-    header {
-      background-color: #1a1a1a;
+    /* Description below header */
+    .header-description {
+      background: #1e1e1e;
       padding: 20px;
       text-align: center;
-      font-size: 28px;
-      font-weight: bold;
-      color: #00ffc8;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      color: #ccc;
+      font-size: 18px;
+      border-bottom: 2px solid #00ffc8;
     }
 
-    .slider {
+    /* Static Image Section with Glowing Box */
+    .static-image-section {
       position: relative;
-      overflow: hidden;
-      max-width: 100%;
-      height: 200px;
-      margin: 0 auto;
-    }
-
-    .slides {
+      height: 500px; /* Increased height */
+      margin-top: 20px;
+      background-color: #333;
       display: flex;
-      width: 300%;
-      animation: slide 12s infinite;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 12px rgba(0,255,200,0.3);
+      border-radius: 10px;
+    }
+    .static-image-box {
+      position: relative;
+      width: 90%; /* Increased width */
+      height: 90%; /* Increased height */
+      background-image: url('/assets/images/vps.jpg'); /* Default image */
+      background-size: cover;
+      background-position: center;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,255,200,0.5);
+      animation: glowing 1.5s ease-in-out infinite alternate;
     }
 
-    .slides img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    @keyframes slide {
-      0% { transform: translateX(0%); }
-      33% { transform: translateX(-97%); }
-      100% { transform: translateX(0%); }
+    /* Animation for glowing effect */
+    @keyframes glowing {
+      0% { box-shadow: 0 0 20px rgba(0,255,200,0.5); }
+      100% { box-shadow: 0 0 30px rgba(0,255,200,1); }
     }
 
     .section {
       padding: 40px 20px;
       text-align: center;
     }
-
     .section h2 {
       margin-bottom: 30px;
       color: #00ffc8;
+      font-size: 32px;
     }
 
     .menu-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
       justify-content: center;
+      gap: 20px;
     }
 
     .menu-box {
@@ -147,22 +111,29 @@
       border-radius: 12px;
       padding: 25px;
       box-shadow: 0 0 12px rgba(0,255,200,0.1);
-      transition: transform 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    /* Glow animation effect */
+    .menu-box h3 {
+      margin-bottom: 10px;
+      color: #fff;
+      text-shadow: 0 0 5px #00ffc8;
+      transition: text-shadow 0.3s;
     }
 
     .menu-box:hover {
       transform: translateY(-5px);
-      box-shadow: 0 0 15px rgba(0,255,200,0.4);
+      box-shadow: 0 0 20px rgba(0,255,200,0.4);
+    }
+
+    .menu-box:hover h3 {
+      text-shadow: 0 0 15px #00ffc8, 0 0 20px #00ffc8;
     }
 
     .menu-box img {
       width: 60px;
       margin-bottom: 15px;
-    }
-
-    .menu-box h3 {
-      margin-bottom: 10px;
-      color: #fff;
     }
 
     .menu-box p {
@@ -180,7 +151,7 @@
       font-weight: bold;
       transition: background 0.3s;
     }
-
+    
     .btn:hover {
       background: #00d6a8;
     }
@@ -190,106 +161,86 @@
       padding: 20px;
       background: #1a1a1a;
       color: #aaa;
-      margin-top: 40px;
       font-size: 14px;
+      margin-top: 40px;
+    }
+
+    @keyframes slideDown {
+      0% {transform: translateY(-100%);}
+      100% {transform: translateY(0);}
     }
   </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo-container">
-    <img src="./assets/images/px.png" alt="PXStore Logo">
-  <h1>PX STORE</h1>
+  <div class="logo">
+    <img src="/assets/images/px.png" alt="PXStore Logo">
+    <h1>PX STORE</h1>
+  </div>
+  <nav>
+    <a href="admin.html">Testimoni</a>
+    <a href="#kontak">Grup</a>
+  </nav>
 </header>
 
+<!-- Description below the header -->
+<div class="header-description">
+  <p>Selamat datang di PXStore! Kami menyediakan berbagai layanan digital seperti top-up game, paket internet, dan akun VPN dengan harga terjangkau dan pelayanan terbaik. Temukan layanan yang Anda butuhkan di sini!</p>
+</div>
 
-  <div class="slider">
-    <div class="slides">
-      <img src="./assets/images/vps.jpg" alt="slide1" />
-      <img src="./assets/images/ml.jpg" alt="slide2" />
-      <img src="./assets/images/pubg.jpg" alt="slide3" />
-      <img src="./assets/images/ff.jpg" alt="slide4" />
+<!-- Static Image Section with Glowing Box -->
+<div class="static-image-section">
+  <div class="static-image-box" style="background-image: url('/assets/images/banner.jpg');"></div>
+  <!-- Change the image dynamically by altering the background-image URL -->
+</div>
+
+<section class="section" id="layanan">
+  <h2>Layanan Kami</h2>
+  <div class="menu-container">
+
+    <div class="menu-box">
+      <img src="https://img.icons8.com/color/96/controller.png" alt="Top Up Game">
+      <h3>Top Up Game</h3>
+      <p>Mobile Legends, PUBG, FF, dll.</p>
+      <a href="./topup/topup.html" class="btn">List</a>
     </div>
+
+    <div class="menu-box">
+      <img src="https://img.icons8.com/?size=100&id=19679&format=png&color=000000" toscript Tunneling</h3>
+      <p>Script auto install vps untuk tunneling</p>
+      <a href="./vpn/sc.html" class="btn">View</a>
+    </div>
+
+    <div class="menu-box">
+      <img src="https://img.icons8.com/color/96/vpn.png" alt="Akun VPN">
+      <h3>Akun VPN</h3>
+      <p>SSH, VMess, VLESS, Trojan.</p>
+      <a href="./vpn/akun.html" class="btn">List VPN</a>
+    </div>
+
+    <div class="menu-box">
+      <img src="https://img.icons8.com/?size=100&id=21104&format=png&color=000000" alt="Config Gratis">
+      <h3>Config Gratis</h3>
+      <p>Config HTTP Custom terbaru.</p>
+      <a href="cf.html" class="btn">Download</a>
+    </div>
+
+    <div class="menu-box">
+      <img src="https://img.icons8.com/?size=100&id=13449&format=png&color=000000" alt="Akun Gratis">
+      <h3>Bug & Proxy</h3>
+      <p>Kumpulan Bug, Proxy Terupdate.</p>
+      <a href="./vpn/bug.html" class="btn">View</a>
+    </div>
+
   </div>
+</section>
 
-  <div class="section">
-    <h2>Layanan Kami</h2>
-    <div class="menu-container">
-
-      <div class="menu-box">
-        <img src="https://img.icons8.com/?size=100&id=ECJNud7UblDH&format=png&color=000000" alt="Top Up Game"/>
-        <h3>Top Up Game</h3>
-        <p>Mobile Legends, FF, PUBG, dan lainnya.</p>
-        <a href="./topup/topup.html" class="btn">List Game</a>
-      </div>
-
-      <div class="menu-box">
-        <img src="https://img.icons8.com/color/96/internet.png" alt="Internet"/>
-        <h3>Paket Internet</h3>
-        <p>Axis, Telkomsel, XL, Indosat, Tri.</p>
-        <a href="./paket/paket.html" class="btn">List kuota</a>
-      </div>
-
-      <div class="menu-box">
-        <img src="https://img.icons8.com/?size=100&id=CDessNPalvYi&format=png&color=000000" alt="VPN"/>
-        <h3>Akun VPN</h3>
-        <p>SSH, VMess, VLESS, Trojan.</p>
-        <a href="./vpn/akun.html" class="btn">List VPN</a>
-      </div>
-      
-     <div class="menu-box">
-        <img src="https://img.icons8.com/?size=100&id=65371&format=png&color=000000" alt="VPN"/>
-        <h3>VPS tunneling</h3>
-        <p>VPS Tunneling server premium.</p>
-        <a href="./vpn/vps.html" class="btn">List VPS</a>
-      </div>
-
-      <div class="menu-box">
-        <img src="https://img.icons8.com/color/96/money.png" alt="Payment"/>
-        <h3>Payment</h3>
-        <p>QRIS, DANA, tersedia.</p>
-        <a href="payment.html" class="btn">Bayar</a>
-      </div>
-
-      <div class="menu-box">
-        <img src="https://img.icons8.com/color/96/share--v1.png" alt="Config Free"/>
-        <h3>Config Gratis</h3>
-        <p>Config HTTP Custom Terupdate.</p>
-        <a href="cf.html" class="btn">Download</a>
-      </div>
-
-      <div class="menu-box">
-        <img src="https://img.icons8.com/color/96/bug.png" alt="Bug Config"/>
-        <h3>Bug Config</h3>
-        <p>Kumpulan Bug Telkomsel, Axis, XL.</p>
-        <a href="./vpn/bug.html" class="btn">Lihat</a>
-      </div>
-
-      <div class="menu-box">
-        <img src="https://img.icons8.com/?size=100&id=19679&format=png&color=000000" alt="Bug Config"/>
-        <h3>Autoscript Tunneling</h3>
-        <p>Script khusus untuk tunneling</p>
-        <a href="./vpn/sc.html" class="btn">Lihat</a>
-      </div>
-      
-    </div>
-  </div>
-
-   <footer>
-    <div style="padding: 20px; background-color: #111; color: #ccc;">
-      <h3 style="margin-bottom: 10px;">PXStore - Layanan Digital</h3>
-      <p>Layanan Top Up Game, Paket Internet, Akun VPN & Config Gratis</p>
-      <p>Hubungi Admin: <a href="https://wa.me/6287781625000" style="color: #00ffc8;">+62 831-5163-6921</a></p>
-      
-
-      </div>
-
-      <p>Design by <strong>Peyx</strong> | Powered by <strong>PX STORE</strong></p>
-      <p>&copy; 2025 PXStore. All rights reserved.</p>
-    </div>
-  </footer>
-
+<footer id="kontak">
+  <p>Hubungi Admin: <a href="https://wa.me/6283151636921" style="color: #00ffc8;">+62 831-5163-6921</a></p>
+  <p>© 2025 PXStore - All Rights Reserved</p>
+</footer>
 
 </body>
 </html>

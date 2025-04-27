@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - PXStore</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+    }
+    header {
+      background: #1e1e1e;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+    header h1 {
+      font-size: 22px;
+      color: #00ffc8;
+    }
+    .container {
+      padding: 20px;
+    }
+    .login, .dashboard {
+      max-width: 400px;
+      margin: 50px auto;
+      background: #1e1e1e;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,255,200,0.2);
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 6px;
+    }
+    input {
+      background: #333;
+      color: #fff;
+    }
+    button {
+      background: #00ffc8;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #00d6a8;
+    }
+    .service-list {
+      margin-top: 20px;
+    }
+    .service-item {
+      background: #292929;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      position: relative;
+    }
+    .service-item h3 {
+      margin: 0 0 5px;
+    }
+    .service-item p {
+      margin: 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+    .actions {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+    .actions button {
+      width: auto;
+      padding: 5px 10px;
+      margin-left: 5px;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>PXStore Admin Panel</h1>
+  <div id="logoutBtn" style="display:none;">
+    <button onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <div id="loginPage" class="login">
+    <h2>Login Admin</h2>
+    <input type="text" id="username" placeholder="Username Admin" />
+    <input type="password" id="password" placeholder="Password Admin" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="dashboardPage" class="dashboard" style="display:none;">
+    <h2>Tambah Layanan</h2>
+    <input type="text" id="title" placeholder="Judul Layanan" />
+    <input type="text" id="description" placeholder="Deskripsi" />
+    <input type="text" id="link" placeholder="Link Button (https://...)" />
+    <button onclick="addService()">Tambah Layanan</button>
+
+    <div class="service-list" id="serviceList"></div>
+  </div>
+
+</div>
+
+<script>
+  const adminUsername = "admin";
+  const adminPassword = "pxstore123";
+
+  let services = [];
+
+  function login() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    if (username === adminUsername && password === adminPassword) {
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('dashboardPage').style.display = 'block';
+      document.getElementById('logoutBtn').style.display = 'block';
+    } else {
+      alert('Username atau Password salah!');
+    }
+  }
+
+  function logout() {
+    document.getElementById('loginPage').style.display = 'block';
+    document.getElementById('dashboardPage').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'none';
+  }
+
+  function addService() {
+    const title = document.getElementById('title').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const link = document.getElementById('link').value.trim();
+    if (title && description && link) {
+      services.push({ title, description, link });
+      renderServices();
+      document.getElementById('title').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('link').value = '';
+    } else {
+      alert('Semua form harus diisi!');
+    }
+  }
+
+  function renderServices() {
+    const serviceList = document.getElementById('serviceList');
+    serviceList.innerHTML = '';
+    services.forEach((service, index) => {
+      serviceList.innerHTML += `
+        <div class="service-item">
+          <h3>${service.title}</h3>
+          <p>${service.description}</p>
+          <a href="${service.link}" target="_blank"><button>Menuju Link</button></a>
+          <div class="actions">
+            <button onclick="editService(${index})">Edit</button>
+            <button onclick="deleteService(${index})">Hapus</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function editService(index) {
+    const newTitle = prompt("Edit Judul:", services[index].title);
+    const newDescription = prompt("Edit Deskripsi:", services[index].description);
+    const newLink = prompt("Edit Link:", services[index].link);
+    if (newTitle && newDescription && newLink) {
+      services[index] = { title: newTitle, description: newDescription, link: newLink };
+      renderServices();
+    }
+  }
+
+  function deleteService(index) {
+    if (confirm("Yakin mau hapus layanan ini?")) {
+      services.splice(index, 1);
+      renderServices();
+    }
+  }
+</script>
+
+</body>
+</html>
