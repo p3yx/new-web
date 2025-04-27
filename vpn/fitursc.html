@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Box Foto + Nama Berwarna</title>
+  <style>
+    body {
+      background-color: #121212;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      animation: glow 2s infinite alternate;
+      background-color: #1e1e1e;
+      padding: 10px;
+    }
+
+    .box img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+    }
+
+    .box::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border-radius: 20px;
+      background: linear-gradient(45deg, #00ffc4, #00bfff, #00ffc4, #00bfff);
+      background-size: 400% 400%;
+      z-index: -1;
+      animation: glowBorder 5s ease infinite;
+    }
+
+    .caption {
+      margin-top: 10px;
+      font-size: 16px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .caption.foto1 {
+      color: #ffd700; /* Warna emas */
+    }
+
+    .caption.foto2 {
+      color: #ffd700; /* Warna emas */
+    }
+
+    .caption.foto3 {
+      color: #ffd700; /* Warna emas */
+    }
+
+    @keyframes glowBorder {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 10px #00ffc4;
+      }
+      100% {
+        box-shadow: 0 0 20px #00ffc4;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <img src="/assets/images/sc1.jpg" alt="Foto 1">
+   <div class="caption foto1">Tampilan Menu Utama</div>
+  </div>
+
+  <div class="box">
+    <img src="/assets/images/sc2.jpg" alt="Foto 2">
+     <div class="caption foto2">Menu All Services</div>
+  </div>
+
+  <div class="box">
+    <img src="/assets/images/sc3.jpg" alt="Foto 3">  <div class="caption foto3">Menu Add Bot Panel</div>
+  </div>
+
+</body>
+</html>
