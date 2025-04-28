@@ -155,6 +155,73 @@
     .btn:hover {
       background: #00d6a8;
     }
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #00ffc8;
+    }
+
+    /* Burger Icon */
+    .burger {
+      display: none;
+      cursor: pointer;
+    }
+    .burger div {
+      width: 25px;
+      height: 3px;
+      background-color: #fff;
+      margin: 5px 0;
+      transition: 0.3s;
+    }
+
+    /* Description below header */
+    .header-description {
+      background: #1e1e1e;
+      padding: 20px;
+      text-align: center;
+      color: #ccc;
+      font-size: 18px;
+      border-bottom: 2px solid #00ffc8;
+    }
+
+    /* Static Image Section with Glowing Box */
+    .static-image-section {
+      position: relative;
+      height: 500px;
+      margin-top: 20px;
+      background-color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 12px rgba(0,255,200,0.3);
+      border-radius: 10px;
+    }
+    /* Media Queries for Responsive Layout */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        background: rgb(31, 28, 44);
+        padding: 20px;
+      }
+      nav a {
+        margin: 10px 0;
+        text-align: center;
+      }
+      .burger {
+        display: block;
+      }
+      nav.active {
+        display: flex;
+      }
 
     footer {
       text-align: center;
@@ -177,13 +244,22 @@
 <header>
   <div class="logo">
     <img src="/assets/images/px.png" alt="PXStore Logo">
-    <h1>PX STORE</h1>
+    <h3>PX STORE</h3>
   </div>
   <nav>
-    <a href="admin.html">Testimoni</a>
-    <a href="#kontak">Grup</a>
+    <a href="#testimoni">Testimoni</a>
+    <a href="#kontak">Group</a>
+    <a href="#testimoni">Channel</a>
+    <a href="#kontak">Admin</a>
   </nav>
+  <!-- Burger Icon -->
+  <div class="burger" id="burger">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </header>
+
 
 <!-- Description below the header -->
 <div class="header-description">
@@ -242,6 +318,15 @@
   <p>Hubungi Admin: <a href="https://wa.me/6283151636921" style="color: #00ffc8;">+62 831-5163-6921</a></p>
   <p>© 2025 PXStore - All Rights Reserved</p>
 </footer>
+<script>
+  // Burger menu toggle
+  const burger = document.getElementById('burger');
+  const nav = document.querySelector('nav');
 
+  burger.addEventListener('click', () => {
+    nav.classList.toggle('active');
+  });
+  </script>
+  
 </body>
 </html>
