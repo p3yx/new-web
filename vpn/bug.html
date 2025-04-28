@@ -62,6 +62,21 @@
       margin-bottom: 8px;
       color: #00ffc4;
     }
+    
+  .popup-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00ffc4;
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
 
     .config-text {
       background: #2b2b2b;
@@ -116,13 +131,14 @@
   <h1>List Payload, Bug & Proxy</h1>
 
   <div class="container">
-
+  <div id="popup" class="popup-message">Payload berhasil disalin!</div>
     <div class="box">
       <div class="status-dot"></div>
       <h2>XL UNLIMITED VIDIO</h2>
       <div class="section-title">Payload</div>
       <div class="config-text" id="text1">ssh.example.com | user: testssh | pass: 12345</div>
       <button class="copy-btn" onclick="copyText('text1')">Salin Config</button>
+
 
       <div class="section-title">Proxy</div>
       <div class="small-box">
@@ -189,16 +205,26 @@
 
   </div>
 
-  <script>
-    function copyText(id) {
-      const text = document.getElementById(id).textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Teks berhasil disalin!');
-      }).catch(err => {
-        alert('Gagal menyalin teks');
-      });
-    }
-  </script>
+<script>
+  function copyText(id) {
+    const text = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      // Menampilkan pop-up
+      const popup = document.getElementById('popup');
+      popup.style.visibility = 'visible';
+      popup.style.opacity = 1;
+
+      // Menghilangkan pop-up setelah beberapa detik
+      setTimeout(() => {
+        popup.style.opacity = 0;
+        popup.style.visibility = 'hidden';
+      }, 2000);
+    }).catch(err => {
+      alert('Gagal menyalin teks');
+    });
+  }
+</script>
+
 
   <footer>
     <div style="padding: 20px; background-color: #111; color: #ccc;">
