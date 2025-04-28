@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Upload & Edit File ke GitHub</title>
+  <title>Upload & Edit File ke GitHub + Cloudflare DNS</title>
   <style>
     body {
       background-color: #121212;
@@ -11,136 +11,119 @@
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
       transition: background-color 0.3s ease;
     }
     h1 {
       text-align: center;
       margin-bottom: 30px;
       color: #00ff00;
-    }
-    p {
-      text-align: center;
-      font-size: 16px;
-      margin-bottom: 30px;
+      animation: glow 1.5s infinite alternate;
     }
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 20px;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-ChatGPT
-Anda bilang:
-rapihkan ukuran box edit file github agar rapih dan ukuran pas ditengah di script inih  <!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Upload & Edit File ke GitHub</title>
-  <style>
-    body {
-      background-color: #121212;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 20px;
-      transition: background-color 0.3s ease;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #00ff00;
-    }
-    p {
-      text-align: center;
-      font-size: 16px;
-      margin-bottom: 30px;
-    }
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
-      max-width: 900px;
-      margin: 0 auto;
+      max-width: 1200px;
+      width: 100%;
     }
     .box {
       background: #1e1e1e;
-      padding: 20px;
+      padding: 25px;
       border-radius: 12px;
       box-shadow: 0 0 20px rgba(0, 255, 196, 0.3);
-      transition: transform 0.3s ease, background-color 0.3s ease;
-      position: relative;
-      min-height: 250px;
-      box-sizing: border-box;
+      transition: transform 0.3s ease;
+      min-height: 300px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
+      box-sizing: border-box;
+      animation: fadeIn 1s ease-out;
     }
     .box:hover {
-      transform: scale(1.03);
+      transform: scale(1.02);
+    }
+    .box h2 {
+      color: #00ffc4;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 24px;
     }
     .form-group {
       margin-bottom: 20px;
+      width: 100%;
     }
     .form-group label {
       display: block;
+      margin-bottom: 8px;
       font-size: 14px;
-      margin-bottom: 5px;
+      color: #00ffc4;
     }
     input[type="text"], input[type="file"], select, textarea {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background: #333;
       color: #fff;
       border: 1px solid #555;
-      border-radius: 6px;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+      transition: all 0.3s;
     }
     textarea {
-      min-height: 150px;
+      min-height: 200px;
       resize: vertical;
+      font-family: monospace;
+    }
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+      justify-content: center;
     }
     .btn {
-      padding: 10px 20px;
+      flex: 1 1 50px;
+      padding: 5px 8px;
       background: #00ffc4;
       color: #000;
-      text-decoration: none;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s;
-      margin-right: 8px;
-      margin-top: 10px;
+      text-align: center;
+      font-size: 13px;
+      animation: glow 1.5s infinite alternate;
+      min-width: 50px;
     }
     .btn:hover {
       background: #00d6a5;
+      transform: translateY(-2px);
     }
     .btn:disabled {
       background: #444;
       cursor: not-allowed;
     }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #1a1a1a;
-      color: #aaa;
-      margin-top: 40px;
-      font-size: 14px;
-    }
     .loading {
       display: none;
       margin-top: 10px;
+      color: #00ffc4;
     }
-
-    /* Toast Notification */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      color: #aaa;
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 8px;
+    }
     .toast {
       position: fixed;
       top: 30px;
       right: 30px;
-      min-width: 250px;
       background: #333;
       color: #fff;
       padding: 15px 20px;
@@ -155,682 +138,632 @@ rapihkan ukuran box edit file github agar rapih dan ukuran pas ditengah di scrip
     .toast.success { background-color: #28a745; }
     .toast.error { background-color: #dc3545; }
     .toast.info { background-color: #17a2b8; }
-
     @keyframes fadeInOut {
       0% { opacity: 0; transform: translateY(-20px); }
       10%, 90% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(-20px); }
     }
-
-    /* Animasi Dark Mode */
-    .dark-mode {
-      background-color: #121212;
-      color: #fff;
-      transition: all 0.5s ease;
+    @keyframes glow {
+      0% { text-shadow: 0 0 5px #00d6a5, 0 0 10px #00d6a5, 0 0 15px #00d6a5; }
+      100% { text-shadow: 0 0 10px #00d6a5, 0 0 20px #00d6a5, 0 0 30px #00d6a5; }
     }
-    .dark-mode .box {
-      background-color: #1e1e1e;
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
-  </style>
-</head>
-<body class="dark-mode">
-
-<h1>Upload, Edit File GitHub & Website Lokal</h1>
-<p>Kelola file GitHub & file Website Anda langsung dari satu tempat!</p>
-
-<div class="container">
-  
-  <!-- BOX Upload & Edit GitHub -->
-  <div class="box">
-    <h2>Upload/Edit File di GitHub</h2>
-    <div class="form-group">
-      <label for="token">GitHub Token</label>
-      <input type="text" id="token" placeholder="Masukkan token GitHub" />
-    </div>
-    <div class="form-group">
-      <label for="repo">Repo Name</label>
-      <input type="text" id="repo" placeholder="Masukkan nama repo" />
-    </div>
-    <div class="form-group">
-      <label for="fileList">File yang Tersedia</label>
-      <select id="fileList">
-        <option value="">Pilih file untuk edit</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="fileUpload">Pilih File untuk Upload</label>
-      <input type="file" id="fileUpload" multiple />
-    </div>
-    <div class="button-group">
-      <button class="btn" id="uploadBtn" onclick="uploadFiles()">Upload</button>
-      <button class="btn" id="editBtn" onclick="editFile()">Edit</button>
-      <button class="btn" id="resetBtn" onclick="resetForm()">Reset</button>
-    </div>
-    <div class="loading" id="loadingIndicator">Proses...</div>
-  </div>
-
-  <!-- BOX Edit File GitHub -->
-  <div class="box" id="editBox" style="display: none;">
-    <h2>Edit File GitHub</h2>
-    <div class="form-group">
-      <label for="fileContent">Konten File</label>
-      <textarea id="fileContent" placeholder="Konten file akan ditampilkan di sini..."></textarea>
-    </div>
-    <div class="form-group">
-      <button class="btn" onclick="saveFile()">Simpan Perubahan</button>
-    </div>
-  </div>
-
-  <!-- BOX Edit Satu Teks Lokal -->
-  <div class="box">
-    <h2>Edit Satu Teks di File Website</h2>
-    <div class="form-group">
-      <label for="localFileSingle">Nama File (Contoh: config.html)</label>
-      <input type="text" id="localFileSingle" placeholder="Masukkan nama file lokal" />
-    </div>
-    <div class="form-group">
-      <label>Teks yang Mau Diganti</label>
-      <input type="text" id="oldText" placeholder="Teks lama" />
-    </div>
-    <div class="form-group">
-      <label>Pengganti Teks</label>
-      <input type="text" id="newText" placeholder="Teks baru" />
-    </div>
-    <button class="btn" onclick="editLocalFileSingle()">Ganti Teks</button>
-  </div>
-
-  <!-- BOX Edit Banyak Teks Lokal -->
-  <div class="box">
-    <h2>Edit Banyak Bagian File Website</h2>
-    <div class="form-group">
-      <label for="localFile">Nama File (Contoh: config.html)</label>
-      <input type="text" id="localFile" placeholder="Masukkan nama file lokal" />
-    </div>
-    
-    <div id="multiEditArea">
-      <div class="form-group">
-        <label>Pattern 1 (Teks yang mau diganti)</label>
-        <input type="text" class="patternInput" placeholder="Teks lama" />
-        <label>Replacement 1 (Teks pengganti)</label>
-        <input type="text" class="replacementInput" placeholder="Teks baru" />
-      </div>
-    </div>
-
-    <button class="btn" onclick="addMorePattern()">➕ Tambah Gantian</button>
-    <button class="btn" onclick="editLocalFileMulti()">Simpan Semua Perubahan</button>
-  </div>
-
-</div>
-
-<footer>
-  <p>&copy; 2025 File Manager. All rights reserved.</p>
-</footer>
-
-<script>
-  const tokenInput = document.getElementById('token');
-  const repoInput = document.getElementById('repo');
-  const fileListSelect = document.getElementById('fileList');
-  const uploadBtn = document.getElementById('uploadBtn');
-  const editBtn = document.getElementById('editBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const fileContentTextarea = document.getElementById('fileContent');
-  const loadingIndicator = document.getElementById('loadingIndicator');
-  const editBox = document.getElementById('editBox');
-
-  function showToast(message, type="info") {
-    const toast = document.createElement('div');
-    toast.className = toast ${type};
-    toast.innerText = message;
-    document.body.appendChild(toast);
-    setTimeout(() => {
-      toast.remove();
-    }, 4000);
-  }
-
-  function resetForm() {
-    tokenInput.value = '';
-    repoInput.value = '';
-    fileListSelect.innerHTML = '<option value="">Pilih file untuk edit</option>';
-    document.getElementById('fileUpload').value = '';
-    uploadBtn.disabled = false;
-    editBtn.disabled = false;
-    loadingIndicator.style.display = 'none';
-    showToast('♻️ Form berhasil direset!', 'info');
-  }
-
-  async function getFiles() {
-    const repo = repoInput.value;
-    const token = tokenInput.value;
-    if (!repo || !token) {
-      showToast('⚠️ Masukkan token dan repo!', 'error');
-      return;
-    }
-
-    const response = await fetch(https://api.github.com/repos/${repo}/contents, {
-      headers: { 'Authorization': token ${token} },
-    });
-
-    if (response.ok) {
-      const files = await response.json();
-      fileListSelect.innerHTML = '<option value="">Pilih file untuk edit</option>';
-      files.forEach(file => {
-        const option = document.createElement('option');
-        option.value = file.path;
-        option.textContent = file.name;
-        fileListSelect.appendChild(option);
-      });
-    } else {
-      showToast('❌ Gagal mengambil data repositori!', 'error');
-    }
-  }
-
-  async function uploadFiles() {
-    const repo = repoInput.value;
-    const token = tokenInput.value;
-    const files = document.getElementById('fileUpload').files;
-
-    if (!repo || !token || files.length === 0) {
-      showToast('⚠️ Masukkan token, repo, dan pilih file!', 'error');
-      return;
-    }
-
-    uploadBtn.disabled = true;
-    loadingIndicator.style.display = 'block';
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const content = await readFile(file);
-
-      const response = await fetch(https://api.github.com/repos/${repo}/contents/${file.name}, {
-        method: 'PUT',
-        headers: { 'Authorization': token ${token} },
-        body: JSON.stringify({
-          message: Upload ${file.name},
-          content: btoa(content),
-        }),
-      });
-
-      if (response.ok) {
-        showToast(✅ ${file.name} berhasil di-upload!, 'success');
-      } else {
-        showToast(❌ Gagal upload ${file.name}, 'error');
+    @media (max-width: 768px) {
+      .button-group {
+        flex-direction: column;
+      }
+      .btn {
+        width: 100%;
       }
     }
-
-    uploadBtn.disabled = false;
-    loadingIndicator.style.display = 'none';
-  }
-
-  function readFile(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsText(file);
-    });
-  }
-
-  async function editFile() {
-    const repo = repoInput.value;
-    const token = tokenInput.value;
-    const filePath = fileListSelect.value;
-
-    if (!repo || !token || !filePath) {
-      showToast('⚠️ Masukkan token, repo, dan pilih file!', 'error');
-      return;
-    }
-
-    editBtn.disabled = true;
-    loadingIndicator.style.display = 'block';
-
-    const response = await fetch(https://api.github.com/repos/${repo}/contents/${filePath}, {
-      headers: { 'Authorization': token ${token} },
-    });
-
-    if (response.ok) {
-      const fileData = await response.json();
-      const content = atob(fileData.content);
-      fileContentTextarea.value = content;
-      editBox.style.display = 'block';
-    } else {
-      showToast('❌ Gagal mengambil file untuk diubah!', 'error');
-    }
-
-    editBtn.disabled = false;
-    loadingIndicator.style.display = 'none';
-  }
-
-  async function saveFile() {
-    const repo = repoInput.value;
-    const token = tokenInput.value;
-    const filePath = fileListSelect.value;
-    const content = fileContentTextarea.value;
-
-    if (!repo || !token || !filePath || !content) {
-      showToast('⚠️ Masukkan token, repo, dan konten file!', 'error');
-      return;
-    }
-
-    loadingIndicator.style.display = 'block';
-
-    const response = await fetch(https://api.github.com/repos/${repo}/contents/${filePath}, {
-      method: 'PUT',
-      headers: { 'Authorization': token ${token} },
-      body: JSON.stringify({
-        message: Update ${filePath},
-        content: btoa(content),
-      }),
-    });
-
-    if (response.ok) {
-      showToast('✅ File berhasil disimpan!', 'success');
-    } else {
-      showToast('❌ Gagal menyimpan file!', 'error');
-    }
-
-    loadingIndicator.style.display = 'none';
-  }
-
-  // Inisialisasi saat pertama kali halaman dibuka
-  repoInput.addEventListener('change', getFiles);
-</script>
-</body>
-</html>
-ChatGPT bilang:
-Untuk merapikan ukuran box dan membuatnya pas di tengah layar, kita bisa mengubah gaya .container dan .box dengan menambahkan beberapa penyesuaian CSS. Berikut adalah modifikasi yang dapat membuat tampilan box lebih rapi dan terpusat dengan ukuran yang sesuai:
-
-Pusatkan konten secara horizontal dan vertikal
-
-Atur ukuran box dengan batasan yang sesuai
-
-Berikut adalah perubahan pada bagian CSS:
-
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;  /* Memastikan konten berada di tengah layar */
-  flex-direction: column;
-  gap: 20px;
-  margin: 0;
-}
-
-.box {
-  background: #1e1e1e;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0, 255, 196, 0.3);
-  transition: transform 0.3s ease, background-color 0.3s ease;
-  position: relative;
-  width: 100%;
-  max-width: 600px;  /* Membatasi lebar box agar tidak terlalu besar */
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  margin: 10px;  /* Memberikan jarak antara box */
-}
-
-h1, p {
-  text-align: center;
-}
-    }
-    .box:hover {
-      transform: scale(1.03);
-    }
-    .form-group {
+    .api-config {
+      background: #2a2a2a;
+      padding: 15px;
+      border-radius: 8px;
       margin-bottom: 20px;
     }
-    .form-group label {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-    input[type="text"], input[type="file"], select, textarea {
-      width: 100%;
-      padding: 10px;
-      background: #333;
-      color: #fff;
-      border: 1px solid #555;
-      border-radius: 6px;
-    }
-    textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-    .btn {
-      padding: 10px 20px;
-      background: #00ffc4;
-      color: #000;
-      text-decoration: none;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-      margin-right: 8px;
-      margin-top: 10px;
-    }
-    .btn:hover {
-      background: #00d6a5;
-    }
-    .btn:disabled {
-      background: #444;
-      cursor: not-allowed;
-    }
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #1a1a1a;
-      color: #aaa;
-      margin-top: 40px;
-      font-size: 14px;
-    }
-    .loading {
-      display: none;
-      margin-top: 10px;
-    }
-
-    /* Toast Notification */
-    .toast {
-      position: fixed;
-      top: 30px;
-      right: 30px;
-      min-width: 250px;
-      background: #333;
-      color: #fff;
-      padding: 15px 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.5);
-      opacity: 0;
-      transform: translateY(-20px);
-      animation: fadeInOut 4s ease forwards;
-      z-index: 1000;
-      font-weight: bold;
-    }
-    .toast.success { background-color: #28a745; }
-    .toast.error { background-color: #dc3545; }
-    .toast.info { background-color: #17a2b8; }
-
-    @keyframes fadeInOut {
-      0% { opacity: 0; transform: translateY(-20px); }
-      10%, 90% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-20px); }
-    }
-
-    /* Animasi Dark Mode */
-    .dark-mode {
-      background-color: #121212;
-      color: #fff;
-      transition: all 0.5s ease;
-    }
-    .dark-mode .box {
-      background-color: #1e1e1e;
+    .api-config h3 {
+      margin-top: 0;
+      color: #00ffc4;
     }
   </style>
 </head>
-<body class="dark-mode">
+<body>
 
-<h1>Upload, Edit File GitHub & Website Lokal</h1>
-<p>Kelola file GitHub & file Website Anda langsung dari satu tempat!</p>
+<h1>GitHub & Cloudflare Manager</h1>
+<p>Kelola GitHub dan Cloudflare langsung dari browser!</p>
 
 <div class="container">
-  
-  <!-- BOX Upload & Edit GitHub -->
-  <div class="box">
-    <h2>Upload/Edit File di GitHub</h2>
-    <div class="form-group">
-      <label for="token">GitHub Token</label>
-      <input type="text" id="token" placeholder="Masukkan token GitHub" />
-    </div>
-    <div class="form-group">
-      <label for="repo">Repo Name</label>
-      <input type="text" id="repo" placeholder="Masukkan nama repo" />
-    </div>
-    <div class="form-group">
-      <label for="fileList">File yang Tersedia</label>
-      <select id="fileList">
-        <option value="">Pilih file untuk edit</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label for="fileUpload">Pilih File untuk Upload</label>
-      <input type="file" id="fileUpload" multiple />
-    </div>
-    <div class="button-group">
-      <button class="btn" id="uploadBtn" onclick="uploadFiles()">Upload</button>
-      <button class="btn" id="editBtn" onclick="editFile()">Edit</button>
-      <button class="btn" id="resetBtn" onclick="resetForm()">Reset</button>
-    </div>
-    <div class="loading" id="loadingIndicator">Proses...</div>
-  </div>
 
-  <!-- BOX Edit File GitHub -->
-  <div class="box" id="editBox" style="display: none;">
-    <h2>Edit File GitHub</h2>
-    <div class="form-group">
-      <label for="fileContent">Konten File</label>
-      <textarea id="fileContent" placeholder="Konten file akan ditampilkan di sini..."></textarea>
-    </div>
-    <div class="form-group">
-      <button class="btn" onclick="saveFile()">Simpan Perubahan</button>
-    </div>
-  </div>
-
-  <!-- BOX Edit Satu Teks Lokal -->
+  <!-- Box API Configuration -->
   <div class="box">
-    <h2>Edit Satu Teks di File Website</h2>
-    <div class="form-group">
-      <label for="localFileSingle">Nama File (Contoh: config.html)</label>
-      <input type="text" id="localFileSingle" placeholder="Masukkan nama file lokal" />
-    </div>
-    <div class="form-group">
-      <label>Teks yang Mau Diganti</label>
-      <input type="text" id="oldText" placeholder="Teks lama" />
-    </div>
-    <div class="form-group">
-      <label>Pengganti Teks</label>
-      <input type="text" id="newText" placeholder="Teks baru" />
-    </div>
-    <button class="btn" onclick="editLocalFileSingle()">Ganti Teks</button>
-  </div>
-
-  <!-- BOX Edit Banyak Teks Lokal -->
-  <div class="box">
-    <h2>Edit Banyak Bagian File Website</h2>
-    <div class="form-group">
-      <label for="localFile">Nama File (Contoh: config.html)</label>
-      <input type="text" id="localFile" placeholder="Masukkan nama file lokal" />
-    </div>
+    <h2>Konfigurasi API</h2>
     
-    <div id="multiEditArea">
+    <div class="api-config">
+      <h3>GitHub API</h3>
       <div class="form-group">
-        <label>Pattern 1 (Teks yang mau diganti)</label>
-        <input type="text" class="patternInput" placeholder="Teks lama" />
-        <label>Replacement 1 (Teks pengganti)</label>
-        <input type="text" class="replacementInput" placeholder="Teks baru" />
+        <label for="token">GitHub Token</label>
+        <input type="text" id="token" placeholder="Masukkan token GitHub">
       </div>
     </div>
-
-    <button class="btn" onclick="addMorePattern()">➕ Tambah Gantian</button>
-    <button class="btn" onclick="editLocalFileMulti()">Simpan Semua Perubahan</button>
+    
+    <div class="api-config">
+      <h3>Cloudflare API</h3>
+      <div class="form-group">
+        <label for="cfToken">Cloudflare Token</label>
+        <input type="text" id="cfToken" placeholder="Masukkan token Cloudflare">
+      </div>
+      <div class="form-group">
+        <label for="cfZoneId">Zone ID</label>
+        <input type="text" id="cfZoneId" placeholder="Masukkan Zone ID">
+      </div>
+      <button class="btn" onclick="saveApiConfig()">Simpan Konfigurasi</button>
+    </div>
   </div>
 
+  <!-- Box GitHub File Manager -->
+  <div class="box">
+    <h2>GitHub File Manager</h2>
+
+    <div class="form-group">
+      <label for="repo">Repo (username/repo)</label>
+      <input type="text" id="repo" placeholder="Masukkan nama repo">
+    </div>
+
+    <div class="form-group">
+      <label for="branch">Branch</label>
+      <input type="text" id="branch" value="main">
+    </div>
+
+    <div class="form-group">
+      <label for="folderPath">Folder Tujuan (Optional)</label>
+      <input type="text" id="folderPath" placeholder="folder/subfolder">
+    </div>
+
+    <div class="form-group">
+      <label for="fileList">Pilih File untuk Edit</label>
+      <select id="fileList">
+        <option value="">Pilih file</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="fileUpload">Upload File Baru</label>
+      <input type="file" id="fileUpload" multiple>
+    </div>
+
+    <div class="button-group">
+      <button class="btn" onclick="listFiles()">List Files</button>
+      <button class="btn" onclick="uploadFiles()">Upload</button>
+      <button class="btn" onclick="editFile()">Edit</button>
+    </div>
+
+    <div class="loading" id="githubLoading">Proses...</div>
+  </div>
+
+  <!-- Box Edit File -->
+  <div class="box" id="editBox" style="display:none;">
+    <h2>Edit File GitHub</h2>
+
+    <div class="form-group">
+      <label for="filePath">Path File</label>
+      <input type="text" id="filePath" readonly>
+    </div>
+
+    <div class="form-group">
+      <label for="fileContent">Isi File</label>
+      <textarea id="fileContent"></textarea>
+    </div>
+
+    <div class="button-group">
+      <button class="btn" onclick="saveFile()">Simpan</button>
+      <button class="btn" onclick="cancelEdit()">Batal</button>
+    </div>
+
+    <div class="loading" id="saveLoading">Menyimpan...</div>
+  </div>
+  
+  <!-- Box Cloudflare DNS -->
+  <div class="box">
+    <h2>Cloudflare DNS Manager</h2>
+
+    <div class="form-group">
+      <label for="domain">Domain</label>
+      <input type="text" id="domain" placeholder="contoh: example.com">
+    </div>
+
+    <div class="form-group">
+      <label for="recordType">Tipe Record</label>
+      <select id="recordType">
+        <option value="A">A</option>
+        <option value="CNAME">CNAME</option>
+        <option value="TXT">TXT</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="recordName">Nama Record</label>
+      <input type="text" id="recordName" placeholder="contoh: www (kosongkan untuk root)">
+    </div>
+
+    <div class="form-group">
+      <label for="recordValue">Nilai Record</label>
+      <input type="text" id="recordValue" placeholder="IP untuk A, domain untuk CNAME">
+    </div>
+
+    <div class="form-group">
+      <label for="recordTTL">TTL (Seconds)</label>
+      <select id="recordTTL">
+        <option value="1">Auto</option>
+        <option value="60">1 menit</option>
+        <option value="300">5 menit</option>
+        <option value="3600" selected>1 jam</option>
+        <option value="86400">1 hari</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="recordProxied">Proxy melalui Cloudflare</label>
+      <select id="recordProxied">
+        <option value="false">Tidak</option>
+        <option value="true">Ya</option>
+      </select>
+    </div>
+
+    <div class="button-group">
+      <button class="btn" onclick="createDNSRecord()">Buat Record</button>
+      <button class="btn" onclick="createRandomDNSRecord()">Buat Random Subdomain</button>
+      <button class="btn" onclick="checkDNSRecords()">Cek Records</button>
+    </div>
+    
+    <div class="loading" id="dnsLoading">Proses...</div>
+  </div>
 </div>
 
 <footer>
-  <p>&copy; 2025 File Manager. All rights reserved.</p>
+  <p>&copy; 2023 Cloudflare & GitHub Manager. All rights reserved.</p>
 </footer>
 
 <script>
-  const tokenInput = document.getElementById('token');
-  const repoInput = document.getElementById('repo');
-  const fileListSelect = document.getElementById('fileList');
-  const uploadBtn = document.getElementById('uploadBtn');
-  const editBtn = document.getElementById('editBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const fileContentTextarea = document.getElementById('fileContent');
-  const loadingIndicator = document.getElementById('loadingIndicator');
-  const editBox = document.getElementById('editBox');
+// API Configuration
+const GITHUB_API = "https://api.github.com";
+const CLOUDFLARE_API = "https://api.cloudflare.com/client/v4";
 
-  function showToast(message, type="info") {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerText = message;
-    document.body.appendChild(toast);
-    setTimeout(() => {
-      toast.remove();
-    }, 4000);
+// Load saved API config from localStorage
+function loadApiConfig() {
+  const savedConfig = localStorage.getItem('apiConfig');
+  if (savedConfig) {
+    const config = JSON.parse(savedConfig);
+    document.getElementById('token').value = config.githubToken || '';
+    document.getElementById('cfToken').value = config.cfToken || '';
+    document.getElementById('cfZoneId').value = config.cfZoneId || '';
+  }
+}
+
+// Save API config to localStorage
+function saveApiConfig() {
+  const config = {
+    githubToken: document.getElementById('token').value.trim(),
+    cfToken: document.getElementById('cfToken').value.trim(),
+    cfZoneId: document.getElementById('cfZoneId').value.trim()
+  };
+  
+  localStorage.setItem('apiConfig', JSON.stringify(config));
+  showToast('Konfigurasi API disimpan!', 'success');
+}
+
+// Toast Notification
+function showToast(message, type = "info") {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerText = message;
+  document.body.appendChild(toast);
+  setTimeout(() => { toast.remove(); }, 4000);
+}
+
+// GitHub Functions
+async function listFiles() {
+  const token = document.getElementById('token').value.trim();
+  const repo = document.getElementById('repo').value.trim();
+  const branch = document.getElementById('branch').value.trim();
+  const folderPath = document.getElementById('folderPath').value.trim();
+  
+  if (!token || !repo) {
+    showToast('Token dan Repo wajib diisi!', 'error');
+    return;
   }
 
-  function resetForm() {
-    tokenInput.value = '';
-    repoInput.value = '';
-    fileListSelect.innerHTML = '<option value="">Pilih file untuk edit</option>';
-    document.getElementById('fileUpload').value = '';
-    uploadBtn.disabled = false;
-    editBtn.disabled = false;
-    loadingIndicator.style.display = 'none';
-    showToast('♻️ Form berhasil direset!', 'info');
-  }
-
-  async function getFiles() {
-    const repo = repoInput.value;
-    const token = tokenInput.value;
-    if (!repo || !token) {
-      showToast('⚠️ Masukkan token dan repo!', 'error');
-      return;
-    }
-
-    const response = await fetch(`https://api.github.com/repos/${repo}/contents`, {
-      headers: { 'Authorization': `token ${token}` },
+  try {
+    document.getElementById('githubLoading').style.display = 'block';
+    const path = folderPath ? `contents/${folderPath}` : 'contents';
+    const res = await fetch(`${GITHUB_API}/repos/${repo}/${path}?ref=${branch}`, {
+      headers: { 
+        Authorization: `token ${token}`,
+        Accept: 'application/vnd.github.v3+json'
+      }
     });
-
-    if (response.ok) {
-      const files = await response.json();
-      fileListSelect.innerHTML = '<option value="">Pilih file untuk edit</option>';
-      files.forEach(file => {
+    
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || 'Failed to fetch files');
+    }
+    
+    const data = await res.json();
+    const fileList = document.getElementById('fileList');
+    fileList.innerHTML = '<option value="">Pilih file</option>';
+    
+    data.forEach(file => {
+      if (file.type === 'file') {
         const option = document.createElement('option');
         option.value = file.path;
         option.textContent = file.name;
-        fileListSelect.appendChild(option);
-      });
-    } else {
-      showToast('❌ Gagal mengambil data repositori!', 'error');
-    }
+        fileList.appendChild(option);
+      }
+    });
+    
+    showToast('Daftar file berhasil dimuat!', 'success');
+  } catch (error) {
+    console.error('Error:', error);
+    showToast(`Gagal memuat daftar file: ${error.message}`, 'error');
+  } finally {
+    document.getElementById('githubLoading').style.display = 'none';
+  }
+}
+
+async function uploadFiles() {
+  const token = document.getElementById('token').value.trim();
+  const repo = document.getElementById('repo').value.trim();
+  const branch = document.getElementById('branch').value.trim();
+  const folderPath = document.getElementById('folderPath').value.trim();
+  const files = document.getElementById('fileUpload').files;
+  
+  if (!token || !repo || files.length === 0) {
+    showToast('Token, Repo dan File wajib diisi!', 'error');
+    return;
   }
 
-  async function uploadFiles() {
-    const repo = repoInput.value;
-    const token = tokenInput.value;
-    const files = document.getElementById('fileUpload').files;
-
-    if (!repo || !token || files.length === 0) {
-      showToast('⚠️ Masukkan token, repo, dan pilih file!', 'error');
-      return;
-    }
-
-    uploadBtn.disabled = true;
-    loadingIndicator.style.display = 'block';
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const content = await readFile(file);
-
-      const response = await fetch(`https://api.github.com/repos/${repo}/contents/${file.name}`, {
+  try {
+    document.getElementById('githubLoading').style.display = 'block';
+    
+    for (let file of files) {
+      const content = await readFileAsBase64(file);
+      const path = folderPath ? `${folderPath}/${file.name}` : file.name;
+      
+      // Check if file exists to get SHA
+      let sha = null;
+      try {
+        const checkRes = await fetch(`${GITHUB_API}/repos/${repo}/contents/${path}?ref=${branch}`, {
+          headers: { Authorization: `token ${token}` }
+        });
+        if (checkRes.ok) {
+          const fileData = await checkRes.json();
+          sha = fileData.sha;
+        }
+      } catch (e) {} // File doesn't exist, will create new
+      
+      const res = await fetch(`${GITHUB_API}/repos/${repo}/contents/${path}`, {
         method: 'PUT',
-        headers: { 'Authorization': `token ${token}` },
+        headers: {
+          Authorization: `token ${token}`,
+          'Content-Type': 'application/json',
+          Accept: 'application/vnd.github.v3+json'
+        },
         body: JSON.stringify({
           message: `Upload ${file.name}`,
-          content: btoa(content),
-        }),
+          content: content,
+          branch: branch,
+          sha: sha
+        })
       });
-
-      if (response.ok) {
-        showToast(`✅ ${file.name} berhasil di-upload!`, 'success');
-      } else {
-        showToast(`❌ Gagal upload ${file.name}`, 'error');
+      
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Failed to upload file');
       }
+      
+      showToast(`File ${file.name} berhasil diupload!`, 'success');
     }
+    await listFiles();
+  } catch (error) {
+    console.error('Error:', error);
+    showToast(`Gagal mengupload file: ${error.message}`, 'error');
+  } finally {
+    document.getElementById('githubLoading').style.display = 'none';
+  }
+}
 
-    uploadBtn.disabled = false;
-    loadingIndicator.style.display = 'none';
+function readFileAsBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      // Remove data URL prefix
+      const content = e.target.result.split(',')[1];
+      resolve(content);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function editFile() {
+  const token = document.getElementById('token').value.trim();
+  const repo = document.getElementById('repo').value.trim();
+  const branch = document.getElementById('branch').value.trim();
+  const path = document.getElementById('fileList').value;
+  
+  if (!token || !repo || !path) {
+    showToast('Pilih file untuk diedit!', 'error');
+    return;
   }
 
-  function readFile(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsText(file);
+  try {
+    document.getElementById('githubLoading').style.display = 'block';
+    const res = await fetch(`${GITHUB_API}/repos/${repo}/contents/${path}?ref=${branch}`, {
+      headers: { 
+        Authorization: `token ${token}`,
+        Accept: 'application/vnd.github.v3+json'
+      }
     });
+    
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.message || 'Failed to fetch file');
+    }
+    
+    const data = await res.json();
+    document.getElementById('filePath').value = path;
+    document.getElementById('fileContent').value = atob(data.content.replace(/\n/g, ''));
+    document.getElementById('editBox').style.display = 'block';
+  } catch (error) {
+    console.error('Error:', error);
+    showToast(`Gagal memuat file untuk edit: ${error.message}`, 'error');
+  } finally {
+    document.getElementById('githubLoading').style.display = 'none';
+  }
+}
+
+async function saveFile() {
+  const token = document.getElementById('token').value.trim();
+  const repo = document.getElementById('repo').value.trim();
+  const branch = document.getElementById('branch').value.trim();
+  const path = document.getElementById('filePath').value;
+  const content = document.getElementById('fileContent').value;
+  
+  if (!token || !repo || !path || !content) {
+    showToast('Semua field wajib diisi!', 'error');
+    return;
   }
 
-  async function editFile() {
-    const repo = repoInput.value;
-    const token = tokenInput.value;
-    const filePath = fileListSelect.value;
-
-    if (!repo || !token || !filePath) {
-      showToast('⚠️ Masukkan token, repo, dan pilih file!', 'error');
-      return;
-    }
-
-    editBtn.disabled = true;
-    loadingIndicator.style.display = 'block';
-
-    const response = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
-      headers: { 'Authorization': `token ${token}` },
-    });
-
-    if (response.ok) {
-      const fileData = await response.json();
-      const content = atob(fileData.content);
-      fileContentTextarea.value = content;
-      editBox.style.display = 'block';
-    } else {
-      showToast('❌ Gagal mengambil file untuk diubah!', 'error');
-    }
-
-    editBtn.disabled = false;
-    loadingIndicator.style.display = 'none';
-  }
-
-  async function saveFile() {
-    const repo = repoInput.value;
-    const token = tokenInput.value;
-    const filePath = fileListSelect.value;
-    const content = fileContentTextarea.value;
-
-    if (!repo || !token || !filePath || !content) {
-      showToast('⚠️ Masukkan token, repo, dan konten file!', 'error');
-      return;
-    }
-
-    loadingIndicator.style.display = 'block';
-
-    const response = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
+  try {
+    document.getElementById('saveLoading').style.display = 'block';
+    
+    // Get current file SHA
+    let sha = null;
+    try {
+      const getRes = await fetch(`${GITHUB_API}/repos/${repo}/contents/${path}?ref=${branch}`, {
+        headers: { Authorization: `token ${token}` }
+      });
+      if (getRes.ok) {
+        const fileData = await getRes.json();
+        sha = fileData.sha;
+      }
+    } catch (e) {} // File might not exist if it's new
+    
+    // Update file
+    const updateRes = await fetch(`${GITHUB_API}/repos/${repo}/contents/${path}`, {
       method: 'PUT',
-      headers: { 'Authorization': `token ${token}` },
+      headers: {
+        Authorization: `token ${token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/vnd.github.v3+json'
+      },
       body: JSON.stringify({
-        message: `Update ${filePath}`,
+        message: `Update ${path}`,
         content: btoa(content),
-      }),
+        branch: branch,
+        sha: sha
+      })
     });
-
-    if (response.ok) {
-      showToast('✅ File berhasil disimpan!', 'success');
-    } else {
-      showToast('❌ Gagal menyimpan file!', 'error');
+    
+    if (!updateRes.ok) {
+      const errorData = await updateRes.json();
+      throw new Error(errorData.message || 'Failed to save file');
     }
+    
+    showToast('File berhasil disimpan!', 'success');
+    cancelEdit();
+    await listFiles();
+  } catch (error) {
+    console.error('Error:', error);
+    showToast(`Gagal menyimpan file: ${error.message}`, 'error');
+  } finally {
+    document.getElementById('saveLoading').style.display = 'none';
+  }
+}
 
-    loadingIndicator.style.display = 'none';
+function cancelEdit() {
+  document.getElementById('editBox').style.display = 'none';
+  document.getElementById('filePath').value = '';
+  document.getElementById('fileContent').value = '';
+}
+
+// Cloudflare DNS Functions
+async function createDNSRecord() {
+  const config = JSON.parse(localStorage.getItem('apiConfig') || '{}');
+  const cfToken = config.cfToken;
+  const cfZoneId = config.cfZoneId;
+  const domain = document.getElementById('domain').value.trim();
+  const type = document.getElementById('recordType').value;
+  let name = document.getElementById('recordName').value.trim();
+  const value = document.getElementById('recordValue').value.trim();
+  const ttl = parseInt(document.getElementById('recordTTL').value);
+  const proxied = document.getElementById('recordProxied').value === 'true';
+  
+  if (!cfToken || !cfZoneId) {
+    showToast('Token dan Zone ID Cloudflare wajib diisi di Konfigurasi API!', 'error');
+    return;
+  }
+  
+  if (!domain || !type || !value) {
+    showToast('Domain, Tipe Record dan Nilai wajib diisi!', 'error');
+    return;
   }
 
-  // Inisialisasi saat pertama kali halaman dibuka
-  repoInput.addEventListener('change', getFiles);
+  // Format nama record
+  if (name === '') {
+    name = domain; // Root domain
+  } else if (!name.endsWith(domain)) {
+    name = `${name}.${domain}`;
+  }
+
+  try {
+    document.getElementById('dnsLoading').style.display = 'block';
+    
+    const res = await fetch(`${CLOUDFLARE_API}/zones/${cfZoneId}/dns_records`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${cfToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        type: type,
+        name: name,
+        content: value,
+        ttl: ttl,
+        proxied: proxied
+      })
+    });
+    
+    const data = await res.json();
+    if (data.success) {
+      showToast(`Record ${name} berhasil dibuat!`, 'success');
+    } else {
+      const errors = data.errors?.map(err => err.message).join(', ') || 'Unknown error';
+      showToast(`Gagal membuat record: ${errors}`, 'error');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    showToast('Terjadi kesalahan saat membuat record!', 'error');
+  } finally {
+    document.getElementById('dnsLoading').style.display = 'none';
+  }
+}
+
+async function createRandomDNSRecord() {
+  const config = JSON.parse(localStorage.getItem('apiConfig') || '{}');
+  const cfToken = config.cfToken;
+  const cfZoneId = config.cfZoneId;
+  const domain = document.getElementById('domain').value.trim();
+  const type = document.getElementById('recordType').value;
+  const value = document.getElementById('recordValue').value.trim();
+  const ttl = parseInt(document.getElementById('recordTTL').value);
+  const proxied = document.getElementById('recordProxied').value === 'true';
+  
+  if (!cfToken || !cfZoneId) {
+    showToast('Token dan Zone ID Cloudflare wajib diisi di Konfigurasi API!', 'error');
+    return;
+  }
+  
+  if (!domain || !value) {
+    showToast('Domain dan Nilai Record wajib diisi!', 'error');
+    return;
+  }
+
+  // Generate random subdomain (6 karakter)
+  const randomSub = Math.random().toString(36).substring(2, 8);
+  const fullName = `${randomSub}.${domain}`;
+
+  try {
+    document.getElementById('dnsLoading').style.display = 'block';
+    
+    const res = await fetch(`${CLOUDFLARE_API}/zones/${cfZoneId}/dns_records`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${cfToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        type: type,
+        name: fullName,
+        content: value,
+        ttl: ttl,
+        proxied: proxied
+      })
+    });
+    
+    const data = await res.json();
+    if (data.success) {
+      // Update record name field
+      document.getElementById('recordName').value = randomSub;
+      showToast(`Record ${fullName} berhasil dibuat!`, 'success');
+    } else {
+      const errors = data.errors?.map(err => err.message).join(', ') || 'Unknown error';
+      showToast(`Gagal membuat record: ${errors}`, 'error');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    showToast('Terjadi kesalahan saat membuat record!', 'error');
+  } finally {
+    document.getElementById('dnsLoading').style.display = 'none';
+  }
+}
+
+async function checkDNSRecords() {
+  const config = JSON.parse(localStorage.getItem('apiConfig') || '{}');
+  const cfToken = config.cfToken;
+  const cfZoneId = config.cfZoneId;
+  const domain = document.getElementById('domain').value.trim();
+  
+  if (!cfToken || !cfZoneId) {
+    showToast('Token dan Zone ID Cloudflare wajib diisi di Konfigurasi API!', 'error');
+    return;
+  }
+  
+  if (!domain) {
+    showToast('Domain wajib diisi!', 'error');
+    return;
+  }
+
+  try {
+    document.getElementById('dnsLoading').style.display = 'block';
+    
+    const res = await fetch(`${CLOUDFLARE_API}/zones/${cfZoneId}/dns_records?per_page=100`, {
+      headers: {
+        'Authorization': `Bearer ${cfToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    const data = await res.json();
+    if (data.success) {
+      const records = data.result.filter(record => record.name.includes(domain));
+      if (records.length > 0) {
+        const recordList = records.map(record => 
+          `${record.type} ${record.name} => ${record.content} (TTL: ${record.ttl}, Proxied: ${record.proxied})`
+        ).join('\n');
+        alert(`DNS Records untuk ${domain}:\n\n${recordList}`);
+      } else {
+        showToast(`Tidak ada records ditemukan untuk ${domain}`, 'info');
+      }
+    } else {
+      const errors = data.errors?.map(err => err.message).join(', ') || 'Unknown error';
+      showToast(`Gagal memuat records: ${errors}`, 'error');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    showToast('Terjadi kesalahan saat memuat records!', 'error');
+  } finally {
+    document.getElementById('dnsLoading').style.display = 'none';
+  }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+  loadApiConfig();
+});
 </script>
 </body>
 </html>
