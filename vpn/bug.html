@@ -136,13 +136,13 @@
       <div class="status-dot"></div>
       <h2>XL UNLIMITED VIDIO</h2>
       <div class="section-title">Payload</div>
-      <div class="config-text" id="text1">ssh.example.com | user: testssh | pass: 12345</div>
-      <button class="copy-btn" onclick="copyText('text1')">Salin Config</button>
+      <div class="config-text" id="text1">[PATCH / HTTP/1.1[crlf]Host: [host][crlf]Host: quiz.staging.vidio.com[crlf]Upgrade: websocket[crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf][crlf]</div>
+      <button class="copy-btn" onclick="copyText('text1')">Salin Payload</button>
 
 
       <div class="section-title">Proxy</div>
       <div class="small-box">
-        <div class="small-box-text" id="small1">Port: 22, 443</div>
+        <div class="small-box-text" id="small1">quiz.staging.vidio.com:80/2086</div>
       </div>
       <button class="copy-btn" onclick="copyText('small1')">Salin Proxy</button>
     </div>
@@ -151,12 +151,13 @@
       <div class="status-dot"></div>
       <h2>XL UNLIMITED TURBO SUPER</h2>
       <div class="section-title">Payload</div>
-      <div class="config-text" id="text2">vmess://example_config_1234</div>
-      <button class="copy-btn" onclick="copyText('text2')">Salin Config</button>
+      <div class="config-text" id="text2">GET / HTTP/1.1[crlf]Host: [host][crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf][crlf]<br><br></div>
+      <button class="copy-btn" onclick="copyText('text2')">Salin Payload</button>
 
       <div class="section-title">Proxy</div>
       <div class="small-box">
-        <div class="small-box-text" id="small2">TLS: ON, Port: 443</div>
+        <div class="small-box-text" id="small2">TLS SNI: graph.instagram.com:443<br><br>
+        NTLS: ava.game.naver.com:80</div>
       </div>
       <button class="copy-btn" onclick="copyText('small2')">Salin Proxy</button>
     </div>
@@ -165,12 +166,15 @@
       <div class="status-dot"></div>
       <h2>ILMUPEDIA TSEL & BYU</h2>
       <div class="section-title">Payload</div>
-      <div class="config-text" id="text3">vless://example_config_5678</div>
-      <button class="copy-btn" onclick="copyText('text3')">Salin Config</button>
+      <div class="config-text" id="text3">PAYLOAD 1<br>=======================================<br>GET /cdn-cgi/trace HTTP/1.1[crlf]Host: untar.ac.id[crlf]Connection: Keep-Alive[crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [host][crlf]Upgrade: websocket[crlf][crlf]<br><br>PAYLOAD 2<br>=======================================<br>
+      GET /cdn-cgi/trace HTTP/1.1[crlf]Host: unnes.ac.id[crlf]Connection: Keep-Alive[crlf][crlf]GET-RAY / HTTP/1.1[crlf]Host: [host][crlf]Upgrade: websocket[crlf][crlf]
+      </div>
+      <button class="copy-btn" onclick="copyText('text3')">Salin Payload</button>
 
       <div class="section-title">Proxy</div>
       <div class="small-box">
-        <div class="small-box-text" id="small3">Flow: xtls-rprx, Port: 443</div>
+        <div class="small-box-text" id="small3">XTLS/WILCARD: unnes.ac.id:80<br><br>XTLS/WILDCARD: untar.ac.id:80
+        </div>
       </div>
       <button class="copy-btn" onclick="copyText('small3')">Salin Proxy</button>
     </div>
@@ -179,12 +183,12 @@
       <div class="status-dot"></div>
       <h2>AXIS GAME</h2>
       <div class="section-title">Payload</div>
-      <div class="config-text" id="text4">trojan://example_config_9012</div>
-      <button class="copy-btn" onclick="copyText('text4')">Salin Config</button>
+      <div class="config-text" id="text4">GET / HTTP/1.1[crlf]Host: [host][crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf][crlf]</div>
+      <button class="copy-btn" onclick="copyText('text4')">Salin Payload</button>
 
       <div class="section-title">Proxy</div>
       <div class="small-box">
-        <div class="small-box-text" id="small4">Password: 123456, Port: 443</div>
+        <div class="small-box-text" id="small4">XTLS: dl.dir.freefiremobile.com:80</div>
       </div>
       <button class="copy-btn" onclick="copyText('small4')">Salin Proxy</button>
     </div>
@@ -193,12 +197,12 @@
       <div class="status-dot"></div>
       <h2>AXIS XL EDUKASI</h2>
       <div class="section-title">Payload</div>
-      <div class="config-text" id="text5">httpcustom://config-file.hc</div>
-      <button class="copy-btn" onclick="copyText('text5')">Salin Proxy</button>
+      <div class="config-text" id="text5">PAYLOAD 1<br>=======================================<br>GET / HTTP/1.1[crlf]Host: [host][crlf]Connection: Upgrade[crlf]User-Agent: [ua][crlf]Upgrade: websocket[crlf][crlf]<br><br>PAYLOAD 2<br>=======================================<br>GET / HTTP/1.1[crlf]Host: edu.ruangguru.com[crlf][crlf]PATCH / HTTP/1.1[crlf]Host: [host][crlf]Upgrade: websocket[crlf][crlf][split]HTTP/ 69[crlf][crlf]</div>
+      <button class="copy-btn" onclick="copyText('text5')">Salin Payload</button>
 
       <div class="section-title">Proxy</div>
       <div class="small-box">
-        <div class="small-box-text" id="small5">Host: example.com, Port: 8080</div>
+        <div class="small-box-text" id="small5">NTLS: 104.17.3.81:80<br><br>NTLS: 104.17.70.206:80</div>
       </div>
       <button class="copy-btn" onclick="copyText('small5')">Salin Proxy</button>
     </div>
