@@ -493,7 +493,7 @@
 <body>
   <header>
     <div class="nav-container">
-      <a href="#" class="brand">PX Store Menu</a>
+      <a href="#" class="brand">PX STORE Menu</a>
       <button class="burger" onclick="toggleMenu()">&#9776;</button>
       <nav id="navbar">
         <a href="index.html">Dashboard</a>
@@ -665,7 +665,7 @@
           
           <div class="form-group">
             <label for="vpnPhoneNumber"><strong>Nomor WhatsApp</label></strong>
-            <input type="tel" class="form-control" id="vpnPhoneNumber" placeholder="628123456789" required>
+            <input type="tel" class="form-control" id="vpnPhoneNumber" placeholder="083151636912" required>
           </div>
           
           <div class="form-group">
@@ -986,18 +986,18 @@
       
       // Format WhatsApp message
       let message = `🔰 *ORDER VPN* 🔰\n\n`;
-      message += `📦 Produk: ${productName}\n`;
-      message += `💰 Harga: ${productPrice}\n\n`;
-      message += `⚙️ Jenis: ${vpnType}\n`;
-      message += `🌐 Server: ${vpnServer}\n\n`;
-      message += `👤 Nama: ${customerName}\n`;
-      message += `📱 WA: ${formattedPhone}\n`;
+      message += `*📦 Produk:* ${productName}\n`;
+      message += `*💰 Harga:* ${productPrice}\n\n`;
+      message += `*⚙️ Protocol:* ${vpnType}\n`;
+      message += `*🌐 Server:* ${vpnServer}\n\n`;
+      message += `*👤 Nama:* ${customerName}\n`;
+      message += `*📱 WhatsApp:* ${formattedPhone}\n`;
       
       if (vpnNotes) {
         message += `\n📝 Catatan: ${vpnNotes}\n`;
       }
       
-      message += `\nSilakan konfirmasi ketersediaan.`;
+      message += `\n_Saya sudah mengisi semua form siap untuk membayar, Segera konfirmasi pesanan saya_`;
       
       // Open WhatsApp
       window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
@@ -1026,18 +1026,18 @@
       
       // Format WhatsApp message
       let message = `🎮 *ORDER DIAMOND* 🎮\n\n`;
-      message += `📦 Produk: ${productName}\n`;
-      message += `💰 Harga: ${productPrice}\n\n`;
-      message += `🕹️ Game: ${game}\n`;
-      message += `🆔 ID: ${playerId}\n\n`;
-      message += `👤 Nama: ${customerName}\n`;
-      message += `📱 WA: ${formattedPhone}\n`;
+      message += `*📦 Produk:* ${productName}\n`;
+      message += `*💰 Harga:* ${productPrice}\n\n`;
+      message += `*🕹️ Game*: ${game}\n`;
+      message += `*🆔 ID:* ${playerId}\n\n`;
+      message += `*👤 Nama:* ${customerName}\n`;
+      message += `*📱 WhatsApp:* ${formattedPhone}\n`;
       
       if (dmNotes) {
         message += `\n📝 Catatan: ${dmNotes}\n`;
       }
       
-      message += `\nSilakan konfirmasi ketersediaan.`;
+      message += `\_Saya sudah mengisi semua form siap untuk membayar, Segera konfirmasi pesanan saya_`;
       
       // Open WhatsApp
       window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
