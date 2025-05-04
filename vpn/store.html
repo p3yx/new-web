@@ -961,14 +961,15 @@
       // Format WhatsApp message
       let message = `🔰 *ORDER VPN* 🔰\n\n`;
       message += `*📦 Produk:* ${productName}\n`;
-      message += `*💰 Harga:* ${productPrice}\n\n`;
+      message += `*💰 Harga:* ${productPrice}\n`;
       message += `*⚙️ Protocol:* ${vpnType}\n`;
       message += `*🌐 Server:* ${vpnServer}\n\n`;
+      message += `*Data Pembeli:*\n`;
       message += `*👤 Nama:* ${customerName}\n`;
       message += `*📱 WhatsApp:* ${formattedPhone}\n`;
       
       if (vpnNotes) {
-        message += `\n📝 Catatan: ${vpnNotes}\n`;
+        message += `\n📝 *Catatan:* ${vpnNotes}\n`;
       }
       
       message += `\n_Saya sudah mengisi semua form siap untuk membayar, Segera konfirmasi pesanan saya_`;
@@ -1001,14 +1002,15 @@
       // Format WhatsApp message
       let message = `🎮 *ORDER DIAMOND* 🎮\n\n`;
       message += `*📦 Produk:* ${productName}\n`;
-      message += `*💰 Harga:* ${productPrice}\n\n`;
+      message += `*💰 Harga:* ${productPrice}\n`;
       message += `*🕹️ Game*: ${game}\n`;
       message += `*🆔 ID:* ${playerId}\n\n`;
+      message += `*Data Pembeli:*\n`;
       message += `*👤 Nama:* ${customerName}\n`;
       message += `*📱 WhatsApp:* ${formattedPhone}\n`;
       
       if (dmNotes) {
-        message += `\n📝 Catatan: ${dmNotes}\n`;
+        message += `\n📝 *Catatan:* ${dmNotes}\n`;
       }
       
       message += `\_Saya sudah mengisi semua form siap untuk membayar, Segera konfirmasi pesanan saya_`;
