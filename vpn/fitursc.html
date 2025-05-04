@@ -8,14 +8,23 @@
     body {
       background-color: #121212;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
       margin: 0;
       padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .container {
+      display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
-      font-family: 'Segoe UI', sans-serif;
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 1200px;
     }
 
     .box {
@@ -27,47 +36,71 @@
       overflow: hidden;
       animation: glow 2s infinite alternate;
       background-color: #1e1e1e;
-      padding: 10px;
+      padding: 15px;
+      box-sizing: border-box;
+      transition: transform 0.3s ease;
+      max-width: 100%;
+    }
+
+    .box:hover {
+      transform: translateY(-5px);
     }
 
     .box img {
       display: block;
-      width: 100%;
+      max-width: 100%;
       height: auto;
-      border-radius: 15px;
+      border-radius: 10px;
+      object-fit: cover;
     }
 
     .box::before {
       content: "";
       position: absolute;
-      top: -5px;
-      left: -5px;
-      right: -5px;
-      bottom: -5px;
-      border-radius: 20px;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 17px;
       background: linear-gradient(45deg, #00ffc4, #00bfff, #00ffc4, #00bfff);
       background-size: 400% 400%;
       z-index: -1;
       animation: glowBorder 5s ease infinite;
+      opacity: 0.8;
     }
 
     .caption {
-      margin-top: 10px;
-      font-size: 16px;
+      margin-top: 15px;
+      font-size: 18px;
       text-align: center;
       font-weight: bold;
+      color: #ffd700;
+      padding: 0 10px;
+      width: 100%;
     }
 
-    .caption.foto1 {
-      color: #ffd700; /* Warna emas */
+    .back-button {
+      background: linear-gradient(45deg, #00bfff, #00ffc4);
+      border: none;
+      color: #121212;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 191, 255, 0.3);
+      margin-top: 20px;
+      text-decoration: none;
     }
 
-    .caption.foto2 {
-      color: #ffd700; /* Warna emas */
+    .back-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 255, 196, 0.4);
     }
 
-    .caption.foto3 {
-      color: #ffd700; /* Warna emas */
+    .back-button:active {
+      transform: translateY(1px);
     }
 
     @keyframes glowBorder {
@@ -77,30 +110,49 @@
     }
 
     @keyframes glow {
-      0% {
-        box-shadow: 0 0 10px #00ffc4;
+      from {
+        box-shadow: 0 0 10px rgba(0, 255, 196, 0.5);
       }
-      100% {
-        box-shadow: 0 0 20px #00ffc4;
+      to {
+        box-shadow: 0 0 20px rgba(0, 191, 255, 0.8);
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .container {
+        gap: 15px;
+      }
+      
+      .box {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="box">
-    <img src="/assets/images/sc1.jpg" alt="Foto 1">
-   <div class="caption foto1">Tampilan Menu Utama</div>
+  <div class="container">
+    <div class="box">
+      <img src="sc1.jpg" alt="Tampilan Menu Utama">
+      <div class="caption">Tampilan Menu Utama</div>
+    </div>
+
+    <div class="box">
+      <img src="sc2.jpg" alt="Menu All Services">
+      <div class="caption">Menu All Services</div>
+    </div>
+
+    <div class="box">
+      <img src="sc3.jpg" alt="Menu Add Bot Panel">
+      <div class="caption">Menu Add Bot Panel</div>
+    </div>
   </div>
 
-  <div class="box">
-    <img src="/assets/images/sc2.jpg" alt="Foto 2">
-     <div class="caption foto2">Menu All Services</div>
-  </div>
-
-  <div class="box">
-    <img src="/assets/images/sc3.jpg" alt="Foto 3">  <div class="caption foto3">Menu Add Bot Panel</div>
-  </div>
+  <a href="dashboard.html" class="back-button">Kembali ke Dashboard</a>
 
 </body>
 </html>
