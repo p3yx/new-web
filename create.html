@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Create Akun</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --border-radius: 8px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+       .footer {
+        background-color: #2b2d42;
+        color: #ffffff;
+        padding: 4rem 0 0;
+        margin-top: 4rem;
+        font-size: 0.95rem;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .footer-top {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .footer-brand .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .footer-description {
+        color: #adb5bd;
+        line-height: 1.6;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .social-links a {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+    }
+
+    .social-links a:hover {
+        background-color: var(--primary);
+        transform: translateY(-3px);
+    }
+
+    .footer-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 2rem;
+    }
+
+    .links-column h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+    .links-column h3::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--primary);
+    }
+
+    .links-column ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .links-column a {
+        color: #adb5bd;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .links-column a:hover {
+        color: white;
+        padding-left: 5px;
+    }
+    footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .logo2 {
+            font-size: 2.0rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        .tagline {
+            color: #6c757d;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .copyright {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        color: #adb5bd;
+    }
+
+    .legal-links {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .legal-links a {
+        color: #adb5bd;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .legal-links a:hover {
+        color: white;
+    }
+
+    .legal-links span {
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    @media (min-width: 768px) {
+        .footer-bottom {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+        }
+    }
+    
+    /* Navbar styling */
+.navbar {
+  background-color: #0f4cbe; /* Biru profesional */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  position: relative;
+  z-index: 999;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff; /* Ganti warna di sini */
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.4s ease-in-out;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffd700; /* Kuning emas saat hover */
+}
+
+/* Burger menu */
+.burger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.burger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #0056b3;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .burger {
+    display: flex;
+  }
+}
+
+  @keyframes pulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
+        }
+        70% {
+            box-shadow: 0 0 0 10px rgba(74, 222, 128, 0);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+        }
+    }
+    
+    .protocol-card {
+        transition: transform 0.3s ease;
+    }
+    
+    .protocol-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    @media (max-width: 768px) {
+        .protocol-cards {
+            grid-template-columns: 1fr;
+        }
+        
+        .account-details > div {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+</style>
+<body>
+   <header class="navbar">
+  <div class="logo">Hi, Selamat Datang</div>
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">Dashboard</a>
+    <a href="server.html">Server Status</a>
+    <a href="https://wa.me/628778162500?text=.topupdiamond">Topup Game</a>
+    <a href="/vpn/vps.html">VPS Tunneling</a>  
+    <a href="/vpn/tools.html">Tools Menu</a>  
+    <a href="https://grupwa.pxstore.biz.id">Grup WhatsApp</a>
+  </nav>
+  <div class="burger" onclick="toggleMenu()">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+  </div>
+</header>
+
+<div class="account-creation-section" style="background-color: #f5f7ff; padding: 3rem 2rem;">
+    <h2 class="section-title" style="text-align: center; font-size: 2rem; color: #2b2d42; margin-bottom: 1rem;">Buat Akun VPN</h2>
+    <p class="section-subtitle" style="text-align: center; color: #6c757d; margin-bottom: 2rem; font-size: 1.1rem;">Pilih protokol, server, dan konfigurasi akun Anda</p>
+
+    <div class="server-tabs" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
+        <button class="server-tab active" data-server="indonesia" style="padding: 0.5rem 1.5rem; border: none; border-radius: 8px; background-color: #4361ee; color: white; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+            <span class="server-status-indicator" style="width: 10px; height: 10px; border-radius: 50%; background-color: #4ade80; box-shadow: 0 0 0 0 rgba(74, 222, 128, 1); animation: pulse 2s infinite;"></span>
+            Indonesia
+        </button>
+        <button class="server-tab" data-server="singapore" style="padding: 0.5rem 1.5rem; border: none; border-radius: 8px; background-color: #e9ecef; color: #495057; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+            <span class="server-status-indicator" style="width: 10px; height: 10px; border-radius: 50%; background-color: #4ade80; box-shadow: 0 0 0 0 rgba(74, 222, 128, 1); animation: pulse 2s infinite;"></span>
+            Singapore
+        </button>
+    </div>
+
+    <div class="protocol-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
+        <!-- SSH Card -->
+        <div class="protocol-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+            <div class="protocol-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div class="protocol-icon" style="font-size: 1.8rem; color: #4361ee;">
+                    <i class="fas fa-terminal"></i>
+                </div>
+                <h3 style="color: #2b2d42;">SSH Account</h3>
+            </div>
+            <div class="server-options" style="margin-bottom: 1.5rem;">
+                <div class="server-option indonesia" style="display: block;">
+                    <form class="account-form" data-protocol="ssh">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Username</label>
+                            <input type="text" name="username" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Password</label>
+                            <input type="password" name="password" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Durasi (Hari)</label>
+                            <select name="duration" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="15">15 Hari</option>
+                                <option value="30">30 Hari</option>
+                                <option value="60" selected>60 Hari</option>
+                                <option value="90">90 Hari</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Limit IP (Max: 2)</label>
+                            <input type="number" name="ip_limit" value="2" min="1" max="2" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="create-btn" style="width: 100%; padding: 0.7rem; background-color: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; position: relative;">
+                            <span class="btn-text">Buat Akun</span>
+                            <span class="loading-spinner" style="display: none; position: absolute; left: 50%; transform: translateX(-50%);">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+                <div class="server-option singapore" style="display: none;">
+                    <form class="account-form" data-protocol="ssh">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Username</label>
+                            <input type="text" name="username" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Password</label>
+                            <input type="password" name="password" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Durasi (Hari)</label>
+                            <select name="duration" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="15">15 Hari</option>
+                                <option value="30">30 Hari</option>
+                                <option value="60" selected>60 Hari</option>
+                                <option value="90">60 Hari</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Limit IP (Max: 2)</label>
+                            <input type="number" name="ip_limit" value="2" min="1" max="2" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="create-btn" style="width: 100%; padding: 0.7rem; background-color: #3f37c9; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; position: relative;">
+                            <span class="btn-text">Buat Akun</span>
+                            <span class="loading-spinner" style="display: none; position: absolute; left: 50%; transform: translateX(-50%);">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vmess Card -->
+        <div class="protocol-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+            <div class="protocol-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div class="protocol-icon" style="font-size: 1.8rem; color: #4361ee;">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 style="color: #2b2d42;">Vmess Account</h3>
+            </div>
+            <div class="server-options" style="margin-bottom: 1.5rem;">
+                <div class="server-option indonesia" style="display: block;">
+                    <form class="account-form" data-protocol="vmess">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Username</label>
+                            <input type="text" name="username" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Durasi (Hari)</label>
+                            <select name="duration" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="15">15 Hari</option>
+                                <option value="30">30 Hari</option>
+                                <option value="60" selected>60 Hari</option>
+                                <option value="90">90 Hari</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Limit IP (Max: 2)</label>
+                            <input type="number" name="ip_limit" value="2" min="1" max="2" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="create-btn" style="width: 100%; padding: 0.7rem; background-color: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; position: relative;">
+                            <span class="btn-text">Buat Akun</span>
+                            <span class="loading-spinner" style="display: none; position: absolute; left: 50%; transform: translateX(-50%);">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+                <div class="server-option singapore" style="display: none;">
+                    <form class="account-form" data-protocol="vmess">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Username</label>
+                            <input type="text" name="username" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Durasi (Hari)</label>
+                            <select name="duration" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="15">15 Hari</option>
+                                <option value="30">30 Hari</option>
+                                <option value="60" selected>60 Hari</option>
+                                <option value="90">90 Hari</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Limit IP (Max: 2)</label>
+                            <input type="number" name="ip_limit" value="2" min="1" max="2" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="create-btn" style="width: 100%; padding: 0.7rem; background-color: #3f37c9; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; position: relative;">
+                            <span class="btn-text">Buat Akun</span>
+                            <span class="loading-spinner" style="display: none; position: absolute; left: 50%; transform: translateX(-50%);">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vless Card -->
+        <div class="protocol-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+            <div class="protocol-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div class="protocol-icon" style="font-size: 1.8rem; color: #4361ee;">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 style="color: #2b2d42;">Vless Account</h3>
+            </div>
+            <div class="server-options" style="margin-bottom: 1.5rem;">
+                <div class="server-option indonesia" style="display: block;">
+                    <form class="account-form" data-protocol="vless">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Username</label>
+                            <input type="text" name="username" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Durasi (Hari)</label>
+                            <select name="duration" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="15">15 Hari</option>
+                                <option value="30">30 Hari</option>
+                                <option value="60" selected>60 Hari</option>
+                                <option value="90">90 Hari</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Limit IP (Max: 2)</label>
+                            <input type="number" name="ip_limit" value="2" min="1" max="2" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="create-btn" style="width: 100%; padding: 0.7rem; background-color: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; position: relative;">
+                            <span class="btn-text">Buat Akun</span>
+                            <span class="loading-spinner" style="display: none; position: absolute; left: 50%; transform: translateX(-50%);">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+                <div class="server-option singapore" style="display: none;">
+                    <form class="account-form" data-protocol="vless">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Username</label>
+                            <input type="text" name="username" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Durasi (Hari)</label>
+                            <select name="duration" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="15">15 Hari</option>
+                                <option value="30">30 Hari</option>
+                                <option value="60" selected>60 Hari</option>
+                                <option value="90">90 Hari</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Limit IP (Default: 2)</label>
+                            <input type="number" name="ip_limit" value="2" min="1" max="5" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="create-btn" style="width: 100%; padding: 0.7rem; background-color: #3f37c9; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; position: relative;">
+                            <span class="btn-text">Buat Akun</span>
+                            <span class="loading-spinner" style="display: none; position: absolute; left: 50%; transform: translateX(-50%);">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trojan Card -->
+        <div class="protocol-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);">
+            <div class="protocol-header" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div class="protocol-icon" style="font-size: 1.8rem; color: #4361ee;">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 style="color: #2b2d42;">Trojan Account</h3>
+            </div>
+            <div class="server-options" style="margin-bottom: 1.5rem;">
+                <div class="server-option indonesia" style="display: block;">
+                    <form class="account-form" data-protocol="trojan">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Username</label>
+                            <input type="text" name="username" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Durasi (Hari)</label>
+                            <select name="duration" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="15">15 Hari</option>
+                                <option value="30">30 Hari</option>
+                                <option value="60" selected>60 Hari</option>
+                                <option value="90">90 Hari</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Limit IP (Default: 2)</label>
+                            <input type="number" name="ip_limit" value="2" min="1" max="5" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="create-btn" style="width: 100%; padding: 0.7rem; background-color: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; position: relative;">
+                            <span class="btn-text">Buat Akun (Indonesia)</span>
+                            <span class="loading-spinner" style="display: none; position: absolute; left: 50%; transform: translateX(-50%);">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+                <div class="server-option singapore" style="display: none;">
+                    <form class="account-form" data-protocol="trojan">
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Username</label>
+                            <input type="text" name="username" required style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Durasi (Hari)</label>
+                            <select name="duration" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                                <option value="15">15 Hari</option>
+                                <option value="30">30 Hari</option>
+                                <option value="60" selected>60 Hari</option>
+                                <option value="90">90 Hari</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 1rem;">
+                            <label style="display: block; margin-bottom: 0.5rem; color: #495057;">Limit IP (Default: 2)</label>
+                            <input type="number" name="ip_limit" value="2" min="1" max="5" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px;">
+                        </div>
+                        <button type="submit" class="create-btn" style="width: 100%; padding: 0.7rem; background-color: #3f37c9; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; position: relative;">
+                            <span class="btn-text">Buat Akun (Singapore)</span>
+                            <span class="loading-spinner" style="display: none; position: absolute; left: 50%; transform: translateX(-50%);">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Account Result Modal -->
+<div id="accountResultModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background: white; border-radius: 12px; padding: 2rem; max-width: 600px; width: 90%; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3 style="color: #4361ee; margin: 0; font-size: 1.5rem;">Detail Akun VPN</h3>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <span id="result-status" style="background-color: #4ade80; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; display: flex; align-items: center; gap: 0.25rem;">
+                    <span style="width: 8px; height: 8px; border-radius: 50%; background-color: white;"></span>
+                    <span>AKTIF</span>
+                </span>
+                <span id="result-days-left" style="background-color: #f0f9ff; color: #0369a1; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
+                    <i class="fas fa-calendar-alt"></i> <span id="days-left-text">30 hari lagi</span>
+                </span>
+            </div>
+        </div>
+        
+        <div class="account-details" style="background-color: #f8fafc; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem;">Protocol</div>
+                    <div id="result-protocol" style="font-weight: 600; color: #1e293b;">SSH</div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem;">Server</div>
+                    <div id="result-server" style="font-weight: 600; color: #1e293b;">Indonesia</div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem;">Host</div>
+                    <div id="result-domain" style="font-weight: 600; color: #1e293b;">nevax.pxstore.biz.id</div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem;">Port</div>
+                    <div id="result-port" style="font-weight: 600; color: #1e293b;">443, 80</div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem;">Username</div>
+                    <div id="result-username" style="font-weight: 600; color: #1e293b; word-break: break-all;">user123</div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem;">Password/UUID</div>
+                    <div id="result-password" style="font-weight: 600; color: #1e293b; word-break: break-all;">********</div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem;">Masa Aktif</div>
+                    <div id="result-expiry" style="font-weight: 600; color: #1e293b;">31 Desember 2023, 23:59</div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 0.25rem;">Limit IP</div>
+                    <div id="result-ip-limit" style="font-weight: 600; color: #1e293b;">2 IP</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 1rem;">
+            <button onclick="copyAccountDetails()" style="flex: 1; padding: 0.7rem; background-color: #e0f2fe; color: #0369a1; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <i class="far fa-copy"></i> Salin
+            </button>
+            <button onclick="document.getElementById('accountResultModal').style.display = 'none'" style="flex: 1; padding: 0.7rem; background-color: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                <i class="fas fa-check"></i> Oke
+            </button>
+        </div>
+    </div>
+</div>
+
+ <footer class="footer">
+    <div class="footer-container">
+        <!-- Bagian Atas Footer -->
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>PX STORE</span>
+                </div>
+                <p class="footer-description">
+                    Layanan VPN premium dengan kecepatan tinggi dan keamanan maksimal untuk pengalaman internet tanpa batas.
+                </p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="links-column">
+                    <h3 class="links-title">Layanan</h3>
+                    <ul>
+                        <li><a href="#">Tunneling</a></li>
+                        <li><a href="#">PPOB</a></li>
+                        <li><a href="#">Topup Game</a></li>
+                    </ul>
+                </div>
+
+                <div class="links-column">
+                    <h3 class="links-title">Dukungan</h3>
+                    <ul>
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">Tutorial</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 PX STORE. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#"></a>
+                    <span></span>
+                    <a href="#"></a>
+                    <span></span>
+                    <a href="#"></a>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </footer>
+
+<!-- Include SweetAlert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Server tab switching
+    document.querySelectorAll('.server-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Update active tab
+            document.querySelectorAll('.server-tab').forEach(t => {
+                t.style.backgroundColor = '#e9ecef';
+                t.style.color = '#495057';
+            });
+            tab.style.backgroundColor = '#4361ee';
+            tab.style.color = 'white';
+            
+            // Show selected server options
+            const server = tab.getAttribute('data-server');
+            document.querySelectorAll('.server-option').forEach(option => {
+                option.style.display = 'none';
+            });
+            document.querySelectorAll(`.server-option.${server}`).forEach(option => {
+                option.style.display = 'block';
+            });
+        });
+    });
+
+    // Form submission handling
+    document.querySelectorAll('.account-form').forEach(form => {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Show loading spinner
+            const submitBtn = form.querySelector('.create-btn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const spinner = submitBtn.querySelector('.loading-spinner');
+            
+            btnText.style.visibility = 'hidden';
+            spinner.style.display = 'inline-block';
+            submitBtn.disabled = true;
+            
+            // Get form values
+            const formData = new FormData(form);
+            const protocol = form.getAttribute('data-protocol');
+            const server = form.closest('.server-option').classList.contains('indonesia') ? 'Indonesia' : 'Singapore';
+            const username = formData.get('username');
+            const password = formData.get('password') || generatePassword();
+            const duration = parseInt(formData.get('duration'));
+            const ipLimit = formData.get('ip_limit');
+            
+            try {
+                // Simulate API call delay (replace with actual API call)
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Random chance to simulate failure (remove in production)
+                const isSuccess = Math.random() > 0.2;
+                
+                if (!isSuccess) {
+                    throw new Error('Gagal membuat akun. Server sedang sibuk, silakan coba lagi.');
+                }
+                
+                // Generate result data (in real app, this would come from your backend)
+                const expiryDate = new Date();
+                expiryDate.setDate(expiryDate.getDate() + duration);
+                
+                const portMap = {
+                    'indonesia': { 'ssh': 80.443, 'vmess': 80.443, 'vless': 80.443, 'trojan': 443 },
+                    'singapore': { 'ssh': 80.443, 'vmess': 80.443, 'vless': 80.443, 'trojan': 443 }
+                };
+                
+                const serverType = server.toLowerCase();
+                const port = portMap[serverType][protocol];
+                
+                const resultData = {
+                    protocol: protocol.toUpperCase(),
+                    server: server,
+                    domain: server === 'Indonesia' ? 'nevax.pxstore.biz.id' : 'dox.pxstore.biz.id',
+                    port: port,
+                    username: username,
+                    password: password,
+                    expiry: expiryDate.toLocaleDateString('id-ID', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
+                    daysLeft: duration,
+                    ipLimit: ipLimit
+                };
+                
+                // Show success message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Akun Berhasil Dibuat!',
+                    text: 'Detail akun telah disiapkan untuk Anda.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                
+                // Show result modal after a short delay
+                setTimeout(() => {
+                    showAccountResult(resultData);
+                }, 1600);
+                
+            } catch (error) {
+                // Show error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal Membuat Akun',
+                    text: error.message,
+                    confirmButtonColor: '#4361ee'
+                });
+            } finally {
+                // Hide loading spinner
+                btnText.style.visibility = 'visible';
+                spinner.style.display = 'none';
+                submitBtn.disabled = false;
+                
+                // Reset form
+                form.reset();
+                form.querySelector('input[type="number"]').value = 2;
+            }
+        });
+    });
+
+    function generatePassword() {
+        return Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
+    }
+
+    function showAccountResult(data) {
+        document.getElementById('result-protocol').textContent = data.protocol;
+        document.getElementById('result-server').textContent = data.server;
+        document.getElementById('result-domain').textContent = data.domain;
+        document.getElementById('result-port').textContent = data.port;
+        document.getElementById('result-username').textContent = data.username;
+        document.getElementById('result-password').textContent = data.password;
+        document.getElementById('result-expiry').textContent = data.expiry;
+        document.getElementById('result-ip-limit').textContent = data.ipLimit + ' IP';
+        document.getElementById('days-left-text').textContent = data.daysLeft + ' hari lagi';
+        
+        document.getElementById('accountResultModal').style.display = 'flex';
+    }
+
+    function copyAccountDetails() {
+        const protocol = document.getElementById('result-protocol').textContent;
+        const server = document.getElementById('result-server').textContent;
+        const domain = document.getElementById('result-domain').textContent;
+        const port = document.getElementById('result-port').textContent;
+        const username = document.getElementById('result-username').textContent;
+        const password = document.getElementById('result-password').textContent;
+        const expiry = document.getElementById('result-expiry').textContent;
+        const ipLimit = document.getElementById('result-ip-limit').textContent;
+        
+        const textToCopy = `Detail Akun VPN:
+Protocol: ${protocol}
+Server: ${server}
+Domain: ${domain}
+Port: ${port}
+Username: ${username}
+Password: ${password}
+Masa Aktif: ${expiry}
+Limit IP: ${ipLimit}`;
+        
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Tersalin!',
+                text: 'Detail akun telah disalin ke clipboard',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        });
+    }
+    
+    function toggleMenu() {
+    const nav = document.getElementById('navLinks');
+    nav.classList.toggle('active');
+  }
+   </script>
+  </body>
+</html>
