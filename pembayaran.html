@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Premium VPN - Server Indonesia & Singapura</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --border-radius: 8px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        .tagline {
+            color: #6c757d;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .pricing-section {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        
+        .server-option {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+        
+        .server-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .server-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .server-header p {
+            opacity: 0.9;
+        }
+        
+        .server-flag {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 2px solid white;
+        }
+        
+        .protocol-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6c757d;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .pricing-table th {
+            background-color: #f1f3ff;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .pricing-table td {
+            padding: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .duration {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .price {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .btn-pay {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-pay:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 400px;
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            text-align: center;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+            background: none;
+            border: none;
+        }
+        
+        .modal-title {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .modal-subtitle {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+        
+        .qris-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .qris-code img {
+            max-width: 150%;
+            max-height: 150%;
+        }
+        
+        .timer {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--danger);
+            margin: 1rem 0;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-download {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-download:hover {
+            background-color: #3ab7d8;
+        }
+        
+        .btn-cancel {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #e5177e;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 280px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-desc {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-table th, .pricing-table td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .btn-pay {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>PX STORE VPN</span>
+            </div>
+            <p class="tagline">Server VPN berkecepatan tinggi di Indonesia dan Singapura dengan enkripsi tingkat tinggi dan uptime 99.9%</p>
+        </header>
+        
+        <div class="pricing-section">
+            <!-- Indonesia Server -->
+            <div class="server-option">
+                <div class="server-header">
+                    <img src="https://flagcdn.com/w80/id.png" alt="Indonesia" class="server-flag">
+                    <h2>Server Indonesia</h2>
+                    <p>Latensi rendah untuk koneksi lokal</p>
+                </div>
+                
+                <div class="protocol-tabs">
+                    <button class="tab-btn active" data-tab="ssh-id">SSH</button>
+                    <button class="tab-btn" data-tab="v2ray-id">V2Ray</button>
+                </div>
+                
+                <!-- SSH Indonesia -->
+                <div id="ssh-id" class="tab-content active">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Durasi</th>
+                                <th>Harga</th>
+                                <th>Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="duration">15 Hari</td>
+                                <td class="price">Rp 5.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-id15')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">30 Hari</td>
+                                <td class="price">Rp 10.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-id30')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">60 Hari</td>
+                                <td class="price">Rp 20.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-id60')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- V2Ray Indonesia -->
+                <div id="v2ray-id" class="tab-content">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Durasi</th>
+                                <th>Harga</th>
+                                <th>Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="duration">15 Hari</td>
+                                <td class="price">Rp 8.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-id15')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">30 Hari</td>
+                                <td class="price">Rp 15.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-id30')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">60 Hari</td>
+                                <td class="price">Rp 28.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-id60')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Singapore Server -->
+            <div class="server-option">
+                <div class="server-header">
+                    <img src="https://flagcdn.com/w80/sg.png" alt="Singapore" class="server-flag">
+                    <h2>Server Singapura</h2>
+                    <p>Dioptimalkan untuk koneksi internasional</p>
+                </div>
+                
+                <div class="protocol-tabs">
+                    <button class="tab-btn active" data-tab="ssh-sg">SSH</button>
+                    <button class="tab-btn" data-tab="v2ray-sg">V2Ray</button>
+                </div>
+                
+                <!-- SSH Singapura -->
+                <div id="ssh-sg" class="tab-content active">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Durasi</th>
+                                <th>Harga</th>
+                                <th>Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="duration">15 Hari</td>
+                                <td class="price">Rp 5.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-sg15')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">30 Hari</td>
+                                <td class="price">Rp 10.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-sg30')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">60 Hari</td>
+                                <td class="price">Rp 18.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-sg60')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- V2Ray Singapura -->
+                <div id="v2ray-sg" class="tab-content">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Durasi</th>
+                                <th>Harga</th>
+                                <th>Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="duration">15 Hari</td>
+                                <td class="price">Rp 7.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-sg15')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">30 Hari</td>
+                                <td class="price">Rp 13.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-sg30')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">60 Hari</td>
+                                <td class="price">Rp 25.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-sg60')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Kecepatan Tinggi</h3>
+                <p class="feature-desc">Server 1Gbps dengan bandwidth tidak terbatas untuk browsing dan streaming lancar</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="feature-title">Enkripsi Aman</h3>
+                <p class="feature-desc">Enkripsi AES-256 tingkat militer untuk melindungi aktivitas online Anda</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3 class="feature-title">Uptime 99.9%</h3>
+                <p class="feature-desc">Server andal dengan downtime minimal dan pemantauan 24/7</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="hidePaymentModal()">&times;</button>
+            <h2 class="modal-title" id="modalProductName">Paket VPN</h2>
+            <p class="modal-subtitle" id="modalProductPrice">Rp 0</p>
+            
+            <div class="qris-code">
+                <img id="qrisImage" src="" alt="Kode QRIS">
+            </div>
+            
+            <div class="timer" id="paymentTimer">05:00</div>
+            
+            <p>Scan kode QR ini menggunakan aplikasi mobile banking Anda untuk menyelesaikan pembayaran. Halaman Qris akan otomatis tertutup setelah transaksi</p>
+            
+            <div class="modal-actions">
+                <button class="btn btn-download" onclick="downloadQRIS()">
+                    <i class="fas fa-download"></i> Download QRIS
+                </button>
+                <button class="btn btn-cancel" onclick="hidePaymentModal()">
+                    <i class="fas fa-times"></i> Batalkan
+                </button>
+            </div>
+            
+            <div class="instructions">
+                <p><strong>Instruksi Pembayaran:</strong></p>
+                <ol style="text-align: left; padding-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>Buka aplikasi mobile banking/Ewallet Anda</li>
+                    <li>Pilih pembayaran QRIS</li>
+                    <li>Scan QR di atas</li>
+                    <li>Selesaikan Transaksi</li>
+                    <li>Kirim Bukti Transaksi via WhatsApp</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 PX STORE. Semua hak dilindungi.</p>
+        <p style="margin-top: 0.5rem;">Hubungi dukungan: +62 831 5163 6921</p>
+    </footer>
+    
+    <script>
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Payment modal functionality
+        let countdownInterval;
+        const totalTime = 5 * 60; // 5 minutes in seconds
+        
+        function showPaymentModal(packageId) {
+            const modal = document.getElementById('paymentModal');
+            const productName = document.getElementById('modalProductName');
+            const productPrice = document.getElementById('modalProductPrice');
+            const qrisImage = document.getElementById('qrisImage');
+            const timerElement = document.getElementById('paymentTimer');
+            
+            // Set product details based on packageId
+            let name, price, imageSrc;
+            
+            switch(packageId) {
+                // Indonesia SSH
+                case 'ssh-id15':
+                    name = 'SSH Indonesia - 15 Hari';
+                    price = 'Rp 5.290';
+                    imageSrc = '/assets/images/sshid15.png';
+                    break;
+                case 'ssh-id30':
+                    name = 'SSH Indonesia - 30 Hari';
+                    price = 'Rp 10.290';
+                    imageSrc = '/assets/images/sshid30.png';
+                    break;
+                case 'ssh-id60':
+                    name = 'SSH Indonesia - 60 Hari';
+                    price = 'Rp 20.290';
+                    imageSrc = '/assets/images/sshid60.png';
+                    break;
+                
+                // Indonesia V2Ray
+                case 'v2ray-id15':
+                    name = 'V2Ray Indonesia - 15 Hari';
+                    price = 'Rp 7.290';
+                    imageSrc = '/assets/images/vmessid15.png';
+                    break;
+                case 'v2ray-id30':
+                    name = 'V2Ray Indonesia - 30 Hari';
+                    price = 'Rp 15.290';
+                    imageSrc = '/assets/images/vmessid30.png';
+                    break;
+                case 'v2ray-id60':
+                    name = 'V2Ray Indonesia - 60 Hari';
+                    price = 'Rp 28.290';
+                    imageSrc = '/assets/images/vmessid60.png';
+                    break;
+                
+                // Singapore SSH
+                case 'ssh-sg15':
+                    name = 'SSH Singapura - 15 Hari';
+                    price = 'Rp 5.290';
+                    imageSrc = '/assets/images/sshsg15.png';
+                    break;
+                case 'ssh-sg30':
+                    name = 'SSH Singapura - 30 Hari';
+                    price = 'Rp 10.290';
+                    imageSrc = '/assets/images/sshsg30.png';
+                    break;
+                case 'ssh-sg60':
+                    name = 'SSH Singapura - 60 Hari';
+                    price = 'Rp 18.290';
+                    imageSrc = '/assets/images/sshsg60.png';
+                    break;
+                
+                // Singapore V2Ray
+                case 'v2ray-sg15':
+                    name = 'V2Ray Singapura - 15 Hari';
+                    price = 'Rp 7.290';
+                    imageSrc = '/assets/images/vmesssg15.png';
+                    break;
+                case 'v2ray-sg30':
+                    name = 'V2Ray Singapura - 30 Hari';
+                    price = 'Rp 13.290';
+                    imageSrc = '/assets/images/vmesssg30.png';
+                    break;
+                case 'v2ray-sg60':
+                    name = 'V2Ray Singapura - 60 Hari';
+                    price = 'Rp 25.290';
+                    imageSrc = '/assets/images/vmesssg60.png';
+                    break;
+            }
+            
+            productName.textContent = name;
+            productPrice.textContent = price;
+            qrisImage.src = imageSrc;
+            qrisImage.alt = `Pembayaran QRIS untuk ${name}`;
+            
+            // Start countdown timer
+            startCountdown(timerElement, totalTime);
+            
+            modal.classList.add('show');
+        }
+        
+        function startCountdown(timerElement, seconds) {
+            // Clear any existing interval
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            let remaining = seconds;
+            
+            function updateTimer() {
+                const minutes = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (remaining <= 0) {
+                    clearInterval(countdownInterval);
+                    hidePaymentModal();
+                } else {
+                    remaining--;
+                }
+            }
+            
+            updateTimer(); // Initial call
+            countdownInterval = setInterval(updateTimer, 1000);
+        }
+        
+        function hidePaymentModal() {
+            // Clear the countdown interval when modal is closed
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            document.getElementById('paymentModal').classList.remove('show');
+        }
+        
+        function downloadQRIS() {
+            const qrisImage = document.getElementById('qrisImage');
+            const productName = document.getElementById('modalProductName').textContent;
+            
+            // Create a temporary link element
+            const link = document.createElement('a');
+            link.href = qrisImage.src;
+            link.download = `QRIS_${productName.replace(/ /g, '_')}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target === modal) {
+                hidePaymentModal();
+            }
+        });
+    </script>
+</body>
+</html>
