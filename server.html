@@ -1,652 +1,920 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
-  <title>PX STORE - Admin Dashboard</title>
-  <style>
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Monitoring Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-lighter: #93c5fd;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
 
-    header {
-      background: #1f1f1f;
-      padding: 1rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #00ffcc;
-      box-shadow: 0 0 10px #00ffcc44;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
+        body {
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            min-height: 100vh;
+        }
 
-    .real-time-clock {
-      font-size: 1rem;
-      background: rgba(0,255,204,0.1);
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      border: 1px solid rgba(0,255,204,0.3);
-    }
+        .dashboard {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            min-height: 100vh;
+        }
 
-    .brand {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #00ffcc;
-    }
+        /* Sidebar */
+        .sidebar {
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            padding: 1.5rem 1rem;
+            position: fixed;
+            width: 240px;
+            height: 100vh;
+            overflow-y: auto;
+        }
 
-    .burger {
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #00ffcc;
-      margin-left: auto;
-      padding: 0 1rem;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+        }
 
-    nav {
-      display: flex;
-      gap: 1rem;
-    }
+        .logo-icon {
+            background: var(--primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
 
-    nav a {
-      color: #00ffcc;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 0.5rem;
-    }
+        .logo-text h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
 
-    nav a:hover {
-      text-decoration: underline;
-    }
-    
-    .tentang {
-      background: #1a1a1a;
-      padding: 2rem 1rem;
-      margin: 2rem auto;
-      margin-top: 30px;
-      box-shadow: 0 0 10px #00ffcc44;
-      border-radius: 15px;
-      max-width: 800px;
-    }
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--gray-400);
+        }
 
-    .tentang h2 {
-      color: #00ffcc;
-      margin-bottom: 1rem;
-    }
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
 
-    .tentang p {
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--gray-600);
+            font-size: 0.95rem;
+        }
 
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 1rem;
-    }
+        .nav-item:hover {
+            background: var(--gray-100);
+            color: var(--primary);
+        }
 
-    .dashboard-card {
-      background: #1a1a1a;
-      border-radius: 15px;
-      padding: 1.5rem;
-      box-shadow: 0 0 10px #00ffcc55;
-      margin-bottom: 1.5rem;
-    }
+        .nav-item.active {
+            background: var(--primary-light);
+            color: white;
+        }
 
-    .admin-logo {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
+        .nav-item.active i {
+            color: white;
+        }
 
-    .admin-logo img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #00ffcc;
-    }
+        .nav-item i {
+            width: 20px;
+            color: var(--gray-400);
+            font-size: 1rem;
+        }
 
-    .admin-panel {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
+        /* Main Content */
+        .main-content {
+            grid-column: 2;
+            padding: 1.5rem 2rem;
+            margin-left: 240px;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
 
-    .stats-panel {
-      flex: 2;
-    }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
 
-    .tech-graph {
-      flex: 1;
-      background: #222;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 0 8px #00ffcc33;
-      position: relative;
-      overflow: hidden;
-    }
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
 
-    .tech-graph::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        linear-gradient(90deg, #222 1px, transparent 1px) 0 0 / 20px 20px,
-        linear-gradient(#222 1px, transparent 1px) 0 0 / 20px 20px;
-      opacity: 0.3;
-    }
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
-    .graph-container {
-      width: 100%;
-      height: 150px;
-      position: relative;
-    }
+        .datetime {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
 
-    .graph-line {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: rgba(255,255,255,0.1);
-    }
+        .time {
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 500;
+            color: var(--primary);
+        }
 
-    .graph-path {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      width: 100%;
-      height: 120px;
-      stroke: #00ffcc;
-      stroke-width: 2;
-      fill: none;
-      filter: drop-shadow(0 0 5px #00ffcc);
-    }
+        .date {
+            color: var(--gray-600);
+            font-size: 0.85rem;
+        }
 
-    .graph-points {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      width: 100%;
-      height: 120px;
-    }
+        .clock-colon {
+            animation: blink 1s infinite;
+        }
 
-    .graph-point {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #00ffcc;
-      border-radius: 50%;
-      transform: translate(-4px, -4px);
-      box-shadow: 0 0 5px #00ffcc;
-    }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
 
-    .graph-labels {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.7);
-    }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
 
-    .graph-info {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-    }
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
-    .info-box {
-      background: rgba(0,255,204,0.1);
-      padding: 0.5rem;
-      border-radius: 5px;
-      text-align: center;
-      flex: 1;
-      margin: 0 5px;
-      border: 1px solid rgba(0,255,204,0.3);
-    }
+        /* Status Cards */
+        .status-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
 
-    .info-box h4 {
-      margin: 0;
-      color: #00ffcc;
-      font-size: 0.8rem;
-    }
+        .card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .info-box p {
-      margin: 5px 0 0;
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
+        .card:hover {
+            transform: translateY(-3px);
+        }
 
-    .ping-indicator {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 5px;
-    }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
 
-    .ping-good {
-      background: #00ff00;
-      box-shadow: 0 0 5px #00ff00;
-    }
+        .card-title {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-    .ping-medium {
-      background: #ffff00;
-      box-shadow: 0 0 5px #ffff00;
-    }
+        .card-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+            color: var(--gray-800);
+            font-family: 'Roboto Mono', monospace;
+        }
 
-    .ping-bad {
-      background: #ff0000;
-      box-shadow: 0 0 5px #ff0000;
-    }
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: var(--primary-lighter);
+            color: var(--primary);
+        }
 
-    .product-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
+        /* Mini Chart in Cards */
+        .mini-chart {
+            width: 100%;
+            height: 60px;
+            margin-top: 0.5rem;
+        }
 
-    .product-box {
-      flex: 1 1 calc(33% - 1rem);
-      background: #222;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 0 5px #00ffcc33;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid rgba(0,255,204,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+        /* Main Charts */
+        .chart-container {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+        }
 
-    .product-box:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px #00ffcc55;
-    }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
 
-    .product-box h3 {
-      margin: 0 0 0.5rem;
-      color: #00ffcc;
-    }
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
 
-    .product-box p {
-      margin: 0.25rem 0;
-      font-size: 0.9rem;
-    }
+        .chart-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
 
-    .product-box button {
-      margin-top: auto;
-      padding: 0.6rem;
-      font-size: 0.9rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: linear-gradient(to right, #00ccff, #00ffcc);
-      color: #000;
-      font-weight: bold;
-      box-shadow: 0 0 8px #00ffcc88;
-      transition: all 0.3s ease;
-    }
+        .chart-btn {
+            background: var(--gray-100);
+            border: none;
+            color: var(--gray-600);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-    .product-box button:hover {
-      background: linear-gradient(to right, #00ffcc, #00ccff);
-      transform: scale(1.05);
-    }
-    
-    .detail-button {
-  display: inline-block;
-  margin-top: auto;
-  padding: 0.6rem;
-  font-size: 0.9rem;
-  text-align: center;
-  border-radius: 8px;
-  cursor: pointer;
-  background: linear-gradient(to right, #00ccff, #00ffcc);
-  color: #000;
+        .chart-btn:hover {
+            background: var(--gray-200);
+        }
+
+        .chart-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Ping Status */
+        .ping-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .ping-value {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        .ping-value.good {
+            color: var(--success);
+        }
+
+        .ping-value.average {
+            color: var(--warning);
+        }
+
+        .ping-value.poor {
+            color: var(--danger);
+        }
+
+        .ping-unit {
+            font-size: 1rem;
+            color: var(--gray-600);
+            align-self: flex-end;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--gray-200);
+            }
+            .main-content {
+                margin-left: 0;
+                grid-column: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.25rem;
+            }
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            .header-info {
+                width: 100%;
+                justify-content: space-between;
+            }
+            .status-cards {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .status-cards {
+                grid-template-columns: 1fr;
+            }
+            .chart-actions {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+        }
+        
+        /* Navbar styling */
+.navbar {
+  background-color: #0f4cbe; /* Biru profesional */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  position: relative;
+  z-index: 999;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.logo {
+  font-size: 24px;
   font-weight: bold;
-  box-shadow: 0 0 8px #00ffcc88;
-  transition: all 0.3s ease;
+  color: #ffffff; /* Ganti warna di sini */
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.4s ease-in-out;
+}
+
+.nav-links a {
+  color: white;
   text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s;
 }
 
-.detail-button:hover {
-  background: linear-gradient(to right, #00ffcc, #00ccff);
-  transform: scale(1.05);
+.nav-links a:hover {
+  color: #ffd700; /* Kuning emas saat hover */
 }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 1rem;
-    }
+/* Burger menu */
+.burger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
 
-    .stat-card {
-      background: #222;
-      padding: 1rem;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 0 5px #00ffcc33;
-      border: 1px solid rgba(0,255,204,0.1);
-      transition: transform 0.3s ease;
-    }
+.burger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
 
-    .stat-card:hover {
-      transform: translateY(-3px);
-    }
-
-    .stat-card h4 {
-      margin: 0 0 0.5rem;
-      color: #00ffcc;
-      font-size: 0.9rem;
-    }
-
-    .stat-card p {
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    .stat-card .stat-trend {
-      font-size: 0.8rem;
-      margin-top: 5px;
-    }
-
-    .trend-up {
-      color: #00ff00;
-    }
-
-    .trend-down {
-      color: #ff0000;
-    }
-
-    @media (max-width: 768px) {
-      .admin-panel {
-        flex-direction: column;
-      }
-
-      .product-box {
-        flex: 1 1 100%;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      nav {
-        display: none;
-        position: absolute;
-        top: 70px;
-        right: 10px;
-        background: #1f1f1f;
-        flex-direction: column;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 0 10px #000;
-        z-index: 100;
-      }
-
-      nav.show {
-        display: flex;
-      }
-
-      .header-left {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-
-      .real-time-clock {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.8rem;
-      }
-    }
-
-    /* Animation for high-tech elements */
-    @keyframes pulse {
-      0% { opacity: 0.5; }
-      50% { opacity: 1; }
-      100% { opacity: 0.5; }
-    }
-
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
-      100% { transform: translateY(0px); }
-    }
-
-    .float {
-      animation: float 3s ease-in-out infinite;
-    }
-    
-     footer {
-      background: #1f1f1f;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1rem;
-      color: white;
-      box-shadow: 0 0 10px #00ffcc44;
-    }
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #0056b3;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
   }
-  </style>
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .burger {
+    display: flex;
+  }
+}
+    
+    footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+    </style>
 </head>
 <body>
-  <header>
-    <div class="header-left">
-      <div class="brand">PX STORE</div>
-      <div class="real-time-clock" id="realTimeClock"></div>
-    </div>
-    <div class="burger" onclick="toggleMenu()">☰</div>
-    <nav id="navbar">
-      <a href="index.html">Dashboard</a>
-      <a href="/vpn/tools.html">Tools Menu</a>
-      <a href="https://t.me/frel01">Admin</a>
-      <a href="https://whatsapp.com/channel/0029Vafk1D38F2pLQYx5Vu2B">Testimoni</a>
-    </nav>
-  </header>
+   <header class="navbar">
+  <div class="logo">Hi, Selamat Datang</div>
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">Dashboard</a>
+    <a href="server.html">Server Status</a>
+    <a href="https://wa.me/628778162500?text=.topupdiamond">Topup Game</a>
+    <a href="/vpn/vps.html">VPS Tunneling</a>  
+    <a href="/vpn/tools.html">Tools Menu</a>  
+    <a href="https://grupwa.pxstore.biz.id">Grup WhatsApp</a>
+  </nav>
+  <div class="burger" onclick="toggleMenu()">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
+  </div>
+</header>
 
-  <div class="container">
-    <div class="dashboard-card">
-      <div class="admin-logo">
-        <img src="/assets/images/px.png" alt="Admin Logo" class="float">
-        <h2>ADMIN DASHBOARD PANEL <span class="pulse">⚡</span></h2>
-      </div>
-      
-      <div class="admin-panel">
-        <div class="stats-panel">
-          <h3>Server Statistics</h3>
-          <div class="stats-grid">
-            <div class="stat-card">
-              <h4>Online Users</h4>
-              <p id="online-users">142</p>
-              <p class="stat-trend trend-up">↑ 8.2%</p>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div class="logo-text">
+                    <h2>ServerMonitor</h2>
+                    <p>v2.0.1</p>
+                </div>
             </div>
-            <div class="stat-card">
-              <h4>User Multilogin</h4>
-              <p id="today-buyers">28</p>
-              <p class="stat-trend trend-up">↑ 12.7%</p>
+            <div class="nav-menu">
+                <div class="nav-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-microchip"></i>
+                    <span>Resources</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-network-wired"></i>
+                    <span>Network</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Security</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
             </div>
-            <div class="stat-card">
-              <h4>Conversion Rate</h4>
-              <p id="conversion-rate">3.8%</p>
-              <p class="stat-trend trend-down">↓ 1.3%</p>
-            </div>
-          </div>
         </div>
-        
-        <div class="tech-graph">
-          <h3>Traffic Monitor</h3>
-          <div class="graph-container">
-            <div class="graph-line"></div>
-            <svg class="graph-path" viewBox="0 0 500 120" preserveAspectRatio="none">
-              <path id="graph-path" d=""></path>
-            </svg>
-            <div class="graph-points" id="graph-points"></div>
-            <div class="graph-labels">
-              <span>00:00</span>
-              <span>06:00</span>
-              <span>12:00</span>
-              <span>18:00</span>
-              <span>24:00</span>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Server Performance Dashboard</h1>
+                <div class="header-info">
+                    <div class="datetime">
+                        <div class="time" id="liveTime">00:00:00</div>
+                        <div class="date" id="liveDate">January 1, 2023</div>
+                    </div>
+                    <div class="user-info">
+                        <img src="/assets/images/px.png" class="user-avatar" alt="Admin">
+                        <span>ADMIN</span>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="graph-info">
-            <div class="info-box">
-              <h4>Ping</h4>
-              <p><span id="ping-indicator" class="ping-indicator ping-good"></span> <span id="ping-value">18ms</span></p>
+
+            <!-- Status Cards -->
+            <div class="status-cards">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">CPU Usage</div>
+                            <div class="card-value" id="cpuValue">--%</div>
+                        </div>
+                        <div class="card-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                    </div>
+                    <div class="mini-chart">
+                        <canvas id="cpuChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Memory</div>
+                            <div class="card-value" id="memoryValue">--%</div>
+                        </div>
+                        <div class="card-icon">
+                            <i class="fas fa-memory"></i>
+                        </div>
+                    </div>
+                    <div class="mini-chart">
+                        <canvas id="memoryChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Download</div>
+                            <div class="card-value" id="downloadValue">-- Mbps</div>
+                        </div>
+                        <div class="card-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                    </div>
+                    <div class="mini-chart">
+                        <canvas id="downloadChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Upload</div>
+                            <div class="card-value" id="uploadValue">-- Mbps</div>
+                        </div>
+                        <div class="card-icon">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                    </div>
+                    <div class="mini-chart">
+                        <canvas id="uploadChart"></canvas>
+                    </div>
+                </div>
             </div>
-            <div class="info-box">
-              <h4>Visits</h4>
-              <p id="visits-value">428</p>
+
+            <!-- Performance Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Server Performance (24 Hours)</div>
+                    <div class="chart-actions">
+                        <button class="chart-btn active">24H</button>
+                        <button class="chart-btn">7D</button>
+                        <button class="chart-btn">30D</button>
+                    </div>
+                </div>
+                <canvas id="performanceChart" height="250"></canvas>
             </div>
-            <div class="info-box">
-              <h4>Bounce Rate</h4>
-              <p id="bounce-rate">42%</p>
+
+            <!-- Network Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="chart-title">Network Activity</div>
+                    <div class="chart-actions">
+                        <button class="chart-btn active">Live</button>
+                        <button class="chart-btn">History</button>
+                    </div>
+                </div>
+                <canvas id="networkChart" height="200"></canvas>
+                <div class="ping-status">
+                    <div class="ping-value good" id="pingValue">--</div>
+                    <div class="ping-unit">ms</div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  
-    <footer>
-    <p>&copy; 2025 PeyxDev. All rights reserved.</p>
-  </footer>
+    
+    <footer>           
+    <div class="copyright">
+    <p>&copy; 2025 PX STORE. All rights reserved.</p>
+              <div class="legal-links">
+                    <a href="#"></a>
+                    <span></span>
+                    <a href="#"></a>
+                    <span></span>
+                    <a href="#"></a>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </footer>
 
-  <script>
-    // Update real-time clock
-    function updateClock() {
-      const now = new Date();
-      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-      
-      const dateString = now.toLocaleDateString('id-ID', dateOptions);
-      const timeString = now.toLocaleTimeString('id-ID', timeOptions);
-      
-      document.getElementById('realTimeClock').innerHTML = 
-        `${dateString} <br> ${timeString}`;
-      
-      setTimeout(updateClock, 1000);
+    <script>
+       
+       function toggleMenu() {
+    const nav = document.getElementById('navLinks');
+    nav.classList.toggle('active');
     }
+        // Update clock function
+        function updateClock() {
+            const now = new Date();
+            const timeElement = document.getElementById('liveTime');
+            const dateElement = document.getElementById('liveDate');
+            
+            // Format time with blinking colons
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            timeElement.innerHTML = `${hours}<span class="clock-colon">:</span>${minutes}<span class="clock-colon">:</span>${seconds}`;
+            
+            // Format date
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = now.toLocaleDateString('en-US', options);
+        }
 
-    // Generate tech graph data
-    function generateTechGraph() {
-      const path = document.getElementById('graph-path');
-      const pointsContainer = document.getElementById('graph-points');
-      pointsContainer.innerHTML = '';
-      
-      let d = "M0,60 ";
-      const segments = 15;
-      const baseY = 60;
-      let lastX = 0;
-      let lastY = baseY;
-      
-      for (let i = 1; i <= segments; i++) {
-        const x = i * (500 / segments);
-        let y;
-        
-        // Create tech-looking pattern
-        if (i % 4 === 0) {
-          // Spike up
-          y = baseY - 40 - Math.random() * 20;
-        } else if (i % 3 === 0) {
-          // Spike down
-          y = baseY + 20 + Math.random() * 10;
-        } else {
-          // Random fluctuation
-          y = baseY + (Math.random() * 30 - 15);
-        }
-        
-        // Smooth transitions
-        const controlX1 = lastX + (x - lastX) * 0.3;
-        const controlY1 = lastY;
-        const controlX2 = lastX + (x - lastX) * 0.7;
-        const controlY2 = y;
-        
-        d += `C${controlX1},${controlY1} ${controlX2},${controlY2} ${x},${y} `;
-        
-        // Add data points
-        if (i % 2 === 0) {
-          const point = document.createElement('div');
-          point.className = 'graph-point';
-          point.style.left = `${(x/500)*100}%`;
-          point.style.top = `${((120-y)/120)*100}%`;
-          pointsContainer.appendChild(point);
-        }
-        
-        lastX = x;
-        lastY = y;
-      }
-      
-      path.setAttribute('d', d);
-      
-      // Update network stats
-      updateStats();
-      
-      // Repeat every 2 seconds
-      setTimeout(generateTechGraph, 2000);
-    }
-    
-    function updateStats() {
-      // Random but realistic values
-      const ping = Math.floor(Math.random() * 25) + 5;
-      const visits = Math.floor(Math.random() * 300) + 200;
-      const bounceRate = Math.floor(Math.random() * 30) + 30;
-      
-      document.getElementById('ping-value').textContent = `${ping}ms`;
-      document.getElementById('visits-value').textContent = visits;
-      document.getElementById('bounce-rate').textContent = `${bounceRate}%`;
-      
-      // Update ping indicator color
-      const pingIndicator = document.getElementById('ping-indicator');
-      pingIndicator.className = 'ping-indicator ';
-      
-      if (ping < 15) {
-        pingIndicator.classList.add('ping-good');
-      } else if (ping < 30) {
-        pingIndicator.classList.add('ping-medium');
-      } else {
-        pingIndicator.classList.add('ping-bad');
-      }
-      
-      // Update other stats randomly
-      document.getElementById('online-users').textContent = Math.floor(Math.random() * 100) + 100;
-      document.getElementById('today-buyers').textContent = Math.floor(Math.random() * 15) + 20;
-      document.getElementById('conversion-rate').textContent = (Math.random() * 2 + 3).toFixed(1) + '%';
-    }
-    
-    function toggleMenu() {
-      const nav = document.getElementById("navbar");
-      nav.classList.toggle("show");
-    }
-    
-    // Initialize when page loads
-    window.onload = function() {
-      updateClock();
-      generateTechGraph();
-      
-      // Update stats every 3 seconds
-      setInterval(updateStats, 3000);
-    };
-  </script>
+        // Update clock every second
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call
+
+        // Mini Charts Configuration
+        const miniChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { x: { display: false }, y: { display: false } },
+            elements: { point: { radius: 0 }, line: { tension: 0.4 } },
+            animation: { duration: 1000, easing: 'linear' }
+        };
+
+        // CPU Mini Chart
+        const cpuCtx = document.getElementById('cpuChart').getContext('2d');
+        const cpuChart = new Chart(cpuCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 15}, (_, i) => ''),
+                datasets: [{
+                    data: Array.from({length: 15}, () => Math.floor(Math.random() * 30) + 40),
+                    borderColor: '#2563eb',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: miniChartOptions
+        });
+
+        // Memory Mini Chart
+        const memoryCtx = document.getElementById('memoryChart').getContext('2d');
+        const memoryChart = new Chart(memoryCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 15}, (_, i) => ''),
+                datasets: [{
+                    data: Array.from({length: 15}, () => Math.floor(Math.random() * 30) + 30),
+                    borderColor: '#3b82f6',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: miniChartOptions
+        });
+
+        // Download Mini Chart
+        const downloadMiniCtx = document.getElementById('downloadChart').getContext('2d');
+        const downloadMiniChart = new Chart(downloadMiniCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 15}, (_, i) => ''),
+                datasets: [{
+                    data: Array.from({length: 15}, () => Math.floor(Math.random() * 40) + 60),
+                    borderColor: '#10b981',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: miniChartOptions
+        });
+
+        // Upload Mini Chart
+        const uploadMiniCtx = document.getElementById('uploadChart').getContext('2d');
+        const uploadMiniChart = new Chart(uploadMiniCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 15}, (_, i) => ''),
+                datasets: [{
+                    data: Array.from({length: 15}, () => Math.floor(Math.random() * 30) + 30),
+                    borderColor: '#f59e0b',
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: miniChartOptions
+        });
+
+        // Performance Chart
+        const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+        const performanceChart = new Chart(performanceCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+                datasets: [
+                    {
+                        label: 'CPU Usage',
+                        data: Array.from({length: 24}, () => Math.floor(Math.random() * 30) + 40),
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Memory Usage',
+                        data: Array.from({length: 24}, () => Math.floor(Math.random() * 30) + 30),
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: { color: '#6b7280' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#6b7280' }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuad'
+                }
+            }
+        });
+
+        // Network Chart
+        const networkCtx = document.getElementById('networkChart').getContext('2d');
+        const networkChart = new Chart(networkCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: 20}, (_, i) => ''),
+                datasets: [
+                    {
+                        label: 'Download Speed',
+                        data: Array.from({length: 20}, () => Math.floor(Math.random() * 40) + 60),
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.2,
+                        fill: true
+                    },
+                    {
+                        label: 'Upload Speed',
+                        data: Array.from({length: 20}, () => Math.floor(Math.random() * 30) + 30),
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.2,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    tooltip: { mode: 'index', intersect: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: { color: '#6b7280' }
+                    },
+                    x: { display: false }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuad'
+                }
+            }
+        });
+
+        // Simulate real-time updates
+        setInterval(() => {
+            // Update mini charts
+            const updateMiniChart = (chart, min, max) => {
+                const data = chart.data.datasets[0].data;
+                data.shift();
+                data.push(Math.floor(Math.random() * (max - min + 1)) + min);
+                chart.update();
+                return data[data.length - 1];
+            };
+
+            const cpuUsage = updateMiniChart(cpuChart, 40, 80);
+            const memoryUsage = updateMiniChart(memoryChart, 30, 70);
+            const downloadSpeed = updateMiniChart(downloadMiniChart, 50, 120);
+            const uploadSpeed = updateMiniChart(uploadMiniChart, 20, 60);
+
+            // Update card values
+            document.getElementById('cpuValue').textContent = `${cpuUsage}%`;
+            document.getElementById('memoryValue').textContent = `${memoryUsage}%`;
+            document.getElementById('downloadValue').textContent = `${downloadSpeed} Mbps`;
+            document.getElementById('uploadValue').textContent = `${uploadSpeed} Mbps`;
+
+            // Update performance chart
+            performanceChart.data.datasets[0].data.shift();
+            performanceChart.data.datasets[0].data.push(cpuUsage + (Math.random() * 6 - 3));
+            
+            performanceChart.data.datasets[1].data.shift();
+            performanceChart.data.datasets[1].data.push(memoryUsage + (Math.random() * 6 - 3));
+            
+            performanceChart.update();
+
+            // Update network chart
+            networkChart.data.datasets[0].data.shift();
+            networkChart.data.datasets[0].data.push(downloadSpeed + (Math.random() * 10 - 5));
+            
+            networkChart.data.datasets[1].data.shift();
+            networkChart.data.datasets[1].data.push(uploadSpeed + (Math.random() * 8 - 4));
+            
+            networkChart.update();
+
+            // Update ping value
+            const pingValue = Math.max(5, Math.min(150, Math.floor(Math.random() * 30) + 20));
+            const pingElement = document.getElementById('pingValue');
+            pingElement.textContent = pingValue;
+            
+            // Update ping color
+            pingElement.className = 'ping-value';
+            if (pingValue < 30) {
+                pingElement.classList.add('good');
+            } else if (pingValue < 80) {
+                pingElement.classList.add('average');
+            } else {
+                pingElement.classList.add('poor');
+            }
+
+        }, 2000); // Update every 2 seconds
+    </script>
 </body>
 </html>
