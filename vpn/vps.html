@@ -1,179 +1,351 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
-  <title>Order VPS</title>
-  <style>
-    body {
-      background-color: #121212;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Monitoring Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --primary-lighter: #93c5fd;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-400: #9ca3af;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #00ffc4;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
+        body {
+            background-color: var(--gray-50);
+            color: var(--gray-800);
+            min-height: 100vh;
+        }
 
-    .box {
-      background: #1e1e1e;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,255,196,0.1);
-      position: relative;
-      transition: transform 0.3s;
-    }
+        /* Navbar styling */
+.navbar {
+  background-color: #0f4cbe; /* Biru profesional */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  position: relative;
+  z-index: 999;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
 
-    .box:hover {
-      transform: scale(1.02);
-    }
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff; /* Ganti warna di sini */
+}
 
-    .box h2 {
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
 
-    .details {
-      font-size: 14px;
-      margin-bottom: 15px;
-      line-height: 1.6;
-    }
+.nav-links {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.4s ease-in-out;
+}
 
-    .price {
-      color: #ffb347;
-      font-weight: bold;
-      margin: 10px 0;
-    }
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s;
+}
 
-    .order-btn {
-      display: inline-block;
-      background: #00ffc4;
-      color: #000;
-      padding: 10px 16px;
-      border-radius: 6px;
-      font-weight: bold;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
+.nav-links a:hover {
+  color: #ffd700; /* Kuning emas saat hover */
+}
 
-    .order-btn:hover {
-      background: #00d6a5;
-    }
+/* Burger menu */
+.burger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
 
-    .status-dot {
-      width: 10px;
-      height: 10px;
-      background-color: #00ff00;
-      border-radius: 50%;
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      animation: blink 1s infinite;
-      box-shadow: 0 0 8px #00ff00;
-    }
+.burger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #0056b3;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .burger {
+    display: flex;
+  }
+}
     
     footer {
-      text-align: center;
-      padding: 20px;
-      background: #1a1a1a;
-      color: #aaa;
-      margin-top: 40px;
-      font-size: 14px;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>VPS Murah & Handal</h1>
-  <p>Layanan server terbaik stabil privasi aman. Order otomatis via WhatsApp. Klik order anda akan di arahkan menuju WhatsApp bot.</p>
-
-  <div class="container">
-    <div class="box">
-      <div class="status-dot"></div>
-      <h2>VPS Starter</h2>
-      <div class="details">
-        1 vCPU<br>
-        RAM 1GB<br>
-        SSD 10GB<br>
-        Bandwidth 1TB<br>
-        Lokasi: Singapore
-      </div>
-      <div class="price">Rp 35.000 / bulan</div>
-      <a class="order-btn" href="https://wa.me/6287781625000?text=.ordervps" target="_blank">Order</a>
-    </div>
-
-    <div class="box">
-      <div class="status-dot"></div>
-      <h2>VPS Basic</h2>
-      <div class="details">
-        1 vCPU<br>
-        RAM 2GB<br>
-        SSD 20GB<br>
-        Bandwidth 2TB<br>
-        Lokasi: Singapore 
-      </div>
-      <div class="price">Rp 50.000 / bulan</div>
-      <a class="order-btn" href="https://wa.me/6287781625000?text=.ordervps" target="_blank">Order</a>
-    </div>
-
-    <div class="box">
-      <div class="status-dot"></div>
-      <h2>VPS Pro</h2>
-      <div class="details">
-        2 vCPU<br>
-        RAM 2GB<br>
-        SSD 40GB<br>
-        Bandwidth 3TB<br>
-        Lokasi: Singapore 
-      </div>
-      <div class="price">Rp 65.000 / bulan</div>
-      <a class="order-btn" href="https://wa.me/6287781625000?text=.ordervps" target="_blank">Order</a>
-    </div>
-
-    <div class="box">
-      <div class="status-dot"></div>
-      <h2>VPS Ultimate</h2>
-      <div class="details">
-        2 vCPU<br>
-        RAM 4GB<br>
-        SSD 80GB<br>
-        Bandwidth 4TB<br>
-        Lokasi: Singapore 
-      </div>
-      <div class="price">Rp 80.000 / bulan</div>
-      <a class="order-btn" href="https://wa.me/6287781625000?text=.ordervps" target="_blank">Order</a>
-    </div>
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+    </style>
+   </head>
+   <body>
+      <header class="navbar">
+  <div class="logo">Hi, Selamat Datang</div>
+  <nav class="nav-links" id="navLinks">
+    <a href="index.html">Dashboard</a>
+    <a href="server.html">Server Status</a>
+    <a href="https://wa.me/628778162500?text=.topupdiamond">Topup Game</a>
+    <a href="/vpn/vps.html">VPS Tunneling</a>  
+    <a href="/vpn/tools.html">Tools Menu</a>  
+    <a href="https://grupwa.pxstore.biz.id">Grup WhatsApp</a>
+  </nav>
+  <div class="burger" onclick="toggleMenu()">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
   </div>
+</header>
 
-   <footer>
-    <div style="padding: 20px; background-color: #111; color: #ccc;">
-      <h3 style="margin-bottom: 10px;">PXStore - Layanan Digital</h3>
-      <p>Layanan Top Up Game, Paket Internet, Akun VPN & Config Gratis</p>
-      <p>Hubungi Admin: <a href="https://wa.me/6287781625000" style="color: #00ffc8;">+62 831-5163-6921</a></p>
-      
+<div class="vps-pricing-section" style="background-color: #f5f7ff; padding: 3rem 2rem;">
+    <h2 class="section-title" style="text-align: center; font-size: 2rem; color: #2b2d42; margin-bottom: 1rem;">Paket VPS Premium untuk Tunneling</h2>
+    <p class="section-subtitle" style="text-align: center; color: #6c757d; margin-bottom: 2rem; font-size: 1.1rem;">Pilih paket yang sesuai dengan kebutuhan Anda</p>
 
-      </div>
+    <div class="vps-plans" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
+        <!-- Paket 1 -->
+        <div class="vps-plan" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; transition: all 0.3s ease; position: relative;">
+            <div class="popular-badge" style="position: absolute; top: -10px; right: 20px; background-color: #4361ee; color: white; padding: 0.25rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">POPULER</div>
+            <h3 style="color: #2b2d42; margin-bottom: 1rem; text-align: center;">VPS Basic</h3>
+            <div class="price" style="text-align: center; margin-bottom: 1.5rem;">
+                <span style="font-size: 2.5rem; font-weight: 700; color: #4361ee;">Rp 35.000</span>
+                <span style="color: #64748b;">/bulan</span>
+            </div>
+            <ul class="specs" style="list-style: none; padding: 0; margin-bottom: 2rem;">
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-microchip" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>1 vCPU Core</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-memory" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>1 GB RAM</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-tachometer-alt" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>1 TB Bandwidth</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-globe" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>1 IPv4 Address</span>
+                </li>
+                <li style="display: flex; align-items: center; color: #475569;">
+                    <i class="fas fa-server" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>Location: Singapore</span>
+                </li>
+            </ul>
+            <button class="order-btn" style="width: 100%; padding: 0.75rem; background-color: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                Pesan Sekarang
+            </button>
+        </div>
 
-      <p>Design by <strong>Peyx</strong> | Powered by <strong>PX STORE</strong></p>
-      <p>&copy; 2025 PXStore. All rights reserved.</p>
+        <!-- Paket 2 -->
+        <div class="vps-plan" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; transition: all 0.3s ease;">
+            <h3 style="color: #2b2d42; margin-bottom: 1rem; text-align: center;">VPS Standard</h3>
+            <div class="price" style="text-align: center; margin-bottom: 1.5rem;">
+                <span style="font-size: 2.5rem; font-weight: 700; color: #4361ee;">Rp 50.000</span>
+                <span style="color: #64748b;">/bulan</span>
+            </div>
+            <ul class="specs" style="list-style: none; padding: 0; margin-bottom: 2rem;">
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-microchip" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>1 vCPU Cores</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-memory" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>2 GB RAM</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-tachometer-alt" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>2 TB Bandwidth</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-globe" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>1 IPv4 Address</span>
+                </li>
+                <li style="display: flex; align-items: center; color: #475569;">
+                    <i class="fas fa-server" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>Location: Singapore</span>
+                </li>
+            </ul>
+            <button class="order-btn" style="width: 100%; padding: 0.75rem; background-color: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                Pesan Sekarang
+            </button>
+        </div>
+
+        <!-- Paket 3 -->
+        <div class="vps-plan" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; transition: all 0.3s ease;">
+            <h3 style="color: #2b2d42; margin-bottom: 1rem; text-align: center;">VPS Advanced</h3>
+            <div class="price" style="text-align: center; margin-bottom: 1.5rem;">
+                <span style="font-size: 2.5rem; font-weight: 700; color: #4361ee;">Rp 65.000</span>
+                <span style="color: #64748b;">/bulan</span>
+            </div>
+            <ul class="specs" style="list-style: none; padding: 0; margin-bottom: 2rem;">
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-microchip" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>2 vCPU Cores</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-tachometer-alt" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>3 TB Bandwidth</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-globe" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>1 IPv4 Addresses</span>
+                </li>
+                <li style="display: flex; align-items: center; color: #475569;">
+                    <i class="fas fa-server" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>Location: Singapore</span>
+                </li>
+            </ul>
+            <button class="order-btn" style="width: 100%; padding: 0.75rem; background-color: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                Pesan Sekarang
+            </button>
+        </div>
+
+        <!-- Paket 4 -->
+        <div class="vps-plan" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0; transition: all 0.3s ease;">
+            <h3 style="color: #2b2d42; margin-bottom: 1rem; text-align: center;">VPS Enterprise</h3>
+            <div class="price" style="text-align: center; margin-bottom: 1.5rem;">
+                <span style="font-size: 2.5rem; font-weight: 700; color: #4361ee;">Rp 80.000</span>
+                <span style="color: #64748b;">/bulan</span>
+            </div>
+            <ul class="specs" style="list-style: none; padding: 0; margin-bottom: 2rem;">
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-microchip" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>2 vCPU Cores</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-memory" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>4 GB RAM</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-tachometer-alt" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>4 TB Bandwidth</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem; color: #475569;">
+                    <i class="fas fa-globe" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>1 IPv4 Addresses</span>
+                </li>
+                <li style="display: flex; align-items: center; color: #475569;">
+                    <i class="fas fa-server" style="color: #4361ee; margin-right: 0.5rem; width: 20px; text-align: center;"></i>
+                    <span>Location: Singapore</span>
+                </li>
+            </ul>
+            <button class="order-btn" style="width: 100%; padding: 0.75rem; background-color: #4361ee; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease;">
+                Pesan Sekarang
+            </button>
+        </div>
     </div>
-  </footer>
-  
-</body>
+</div>
+
+    <footer>           
+    <div class="copyright">
+    <p>&copy; 2025 PX STORE. All rights reserved.</p>
+              <div class="legal-links">
+                    <a href="#"></a>
+                    <span></span>
+                    <a href="#"></a>
+                    <span></span>
+                    <a href="#"></a>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </footer>
+
+<style>
+    .vps-plan:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    }
+    
+    .order-btn:hover {
+        background-color: #3a56d4 !important;
+        transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+        .vps-plans {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+   function toggleMenu() {
+    const nav = document.getElementById('navLinks');
+    nav.classList.toggle('active');
+    }
+    // Add click event for order buttons
+    document.querySelectorAll('.order-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const planName = this.closest('.vps-plan').querySelector('h3').textContent;
+            Swal.fire({
+                title: `Pesan ${planName}`,
+                text: 'Anda akan diarahkan ke halaman pemesanan',
+                icon: 'info',
+                confirmButtonText: 'Lanjutkan',
+                confirmButtonColor: '#4361ee',
+                showCancelButton: true,
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to order page
+                    window.location.href = 'https://wa.me/6287781625000?text=.ordervps';
+                }
+            });
+        });
+    });
+   </script>
+  </body>
 </html>
+<!-- Include SweetAlert2 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
