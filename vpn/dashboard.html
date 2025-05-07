@@ -1,686 +1,1506 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
-  <title>PX STORE - Layanan tunneling | Kuota | Topup game</title>
-  <style>
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
-    }
-
-    header {
-      background: #1f1f1f;
-      padding: 1rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #00ffcc;
-      box-shadow: 0 0 10px #00ffcc44;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .real-time-clock {
-      font-size: 1rem;
-      background: rgba(0,255,204,0.1);
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      border: 1px solid rgba(0,255,204,0.3);
-    }
-
-    .brand {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #00ffcc;
-    }
-
-    .burger {
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #00ffcc;
-      margin-left: auto;
-      padding: 0 1rem;
-    }
-
-    nav {
-      display: flex;
-      gap: 1rem;
-    }
-
-    nav a {
-      color: #00ffcc;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 0.5rem;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-    
-    .tentang {
-      background: #1a1a1a;
-      padding: 2rem 1rem;
-      margin: 2rem auto;
-      margin-top: 30px;
-      box-shadow: 0 0 10px #00ffcc44;
-      border-radius: 15px;
-      max-width: 800px;
-    }
-
-    .tentang h2 {
-      color: #00ffcc;
-      margin-bottom: 1rem;
-    }
-
-    .tentang p {
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 1rem;
-    }
-
-    .dashboard-card {
-      background: #1a1a1a;
-      border-radius: 15px;
-      padding: 1.5rem;
-      box-shadow: 0 0 10px #00ffcc55;
-      margin-bottom: 1.5rem;
-    }
-
-    .admin-logo {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .admin-logo img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #00ffcc;
-    }
-
-    .admin-panel {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .stats-panel {
-      flex: 2;
-    }
-
-    .tech-graph {
-      flex: 1;
-      background: #222;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 0 8px #00ffcc33;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tech-graph::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        linear-gradient(90deg, #222 1px, transparent 1px) 0 0 / 20px 20px,
-        linear-gradient(#222 1px, transparent 1px) 0 0 / 20px 20px;
-      opacity: 0.3;
-    }
-
-    .graph-container {
-      width: 100%;
-      height: 150px;
-      position: relative;
-    }
-
-    .graph-line {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: rgba(255,255,255,0.1);
-    }
-
-    .graph-path {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      width: 100%;
-      height: 120px;
-      stroke: #00ffcc;
-      stroke-width: 2;
-      fill: none;
-      filter: drop-shadow(0 0 5px #00ffcc);
-    }
-
-    .graph-points {
-      position: absolute;
-      bottom: 30px;
-      left: 0;
-      width: 100%;
-      height: 120px;
-    }
-
-    .graph-point {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      background: #00ffcc;
-      border-radius: 50%;
-      transform: translate(-4px, -4px);
-      box-shadow: 0 0 5px #00ffcc;
-    }
-
-    .graph-labels {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.7);
-    }
-
-    .graph-info {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-    }
-
-    .info-box {
-      background: rgba(0,255,204,0.1);
-      padding: 0.5rem;
-      border-radius: 5px;
-      text-align: center;
-      flex: 1;
-      margin: 0 5px;
-      border: 1px solid rgba(0,255,204,0.3);
-    }
-
-    .info-box h4 {
-      margin: 0;
-      color: #00ffcc;
-      font-size: 0.8rem;
-    }
-
-    .info-box p {
-      margin: 5px 0 0;
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
-
-    .ping-indicator {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 5px;
-    }
-
-    .ping-good {
-      background: #00ff00;
-      box-shadow: 0 0 5px #00ff00;
-    }
-
-    .ping-medium {
-      background: #ffff00;
-      box-shadow: 0 0 5px #ffff00;
-    }
-
-    .ping-bad {
-      background: #ff0000;
-      box-shadow: 0 0 5px #ff0000;
-    }
-
-    .product-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .product-box {
-      flex: 1 1 calc(33% - 1rem);
-      background: #222;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 0 5px #00ffcc33;
-      display: flex;
-      flex-direction: column;
-      border: 1px solid rgba(0,255,204,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .product-box:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px #00ffcc55;
-    }
-
-    .product-box h3 {
-      margin: 0 0 0.5rem;
-      color: #00ffcc;
-    }
-
-    .product-box p {
-      margin: 0.25rem 0;
-      font-size: 0.9rem;
-    }
-
-    .product-box button {
-      margin-top: auto;
-      padding: 0.6rem;
-      font-size: 0.9rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: linear-gradient(to right, #00ccff, #00ffcc);
-      color: #000;
-      font-weight: bold;
-      box-shadow: 0 0 8px #00ffcc88;
-      transition: all 0.3s ease;
-    }
-
-    .product-box button:hover {
-      background: linear-gradient(to right, #00ffcc, #00ccff);
-      transform: scale(1.05);
-    }
-    
-    .detail-button {
-  display: inline-block;
-  margin-top: auto;
-  padding: 0.6rem;
-  font-size: 0.9rem;
-  text-align: center;
-  border-radius: 8px;
-  cursor: pointer;
-  background: linear-gradient(to right, #00ccff, #00ffcc);
-  color: #000;
-  font-weight: bold;
-  box-shadow: 0 0 8px #00ffcc88;
-  transition: all 0.3s ease;
-  text-decoration: none;
+    <meta charset="UTF-8">
+    <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan Premium VPN - Topup & Kuota</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --dark: #212529;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --border-radius: 8px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7ff;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .logo2 {
+            font-size: 2.0rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        .tagline {
+            color: #6c757d;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .pricing-section {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+        
+        .server-option {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+        
+        .server-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .server-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .server-header p {
+            opacity: 0.9;
+        }
+        
+        .server-flag {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 2px solid white;
+        }
+        
+        .protocol-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6c757d;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .pricing-table th {
+            background-color: #f1f3ff;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .pricing-table td {
+            padding: 1.2rem;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .duration {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .price {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .btn-pay {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-pay:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 400px;
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            text-align: center;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+            background: none;
+            border: none;
+        }
+        
+        .modal-title {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .modal-subtitle {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+        
+        .qris-code {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .qris-code img {
+            max-width: 120%;
+            max-height: 120%;
+        }
+        
+        .timer {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--danger);
+            margin: 1rem 0;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-download {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-download:hover {
+            background-color: #3ab7d8;
+        }
+        
+        .btn-cancel {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #e5177e;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 280px;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-desc {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .wa-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #25d366;
+  border-radius: 50%;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: pulse 2s infinite;
+  transition: transform 0.3s ease;
 }
 
-.detail-button:hover {
-  background: linear-gradient(to right, #00ffcc, #00ccff);
-  transform: scale(1.05);
+.wa-float:hover {
+  transform: scale(1.15);
 }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 1rem;
-    }
+.wa-icon {
+  width: 32px;
+  height: 32px;
+}
 
-    .stat-card {
-      background: #222;
-      padding: 1rem;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 0 5px #00ffcc33;
-      border: 1px solid rgba(0,255,204,0.1);
-      transition: transform 0.3s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-3px);
-    }
-
-    .stat-card h4 {
-      margin: 0 0 0.5rem;
-      color: #00ffcc;
-      font-size: 0.9rem;
-    }
-
-    .stat-card p {
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    .stat-card .stat-trend {
-      font-size: 0.8rem;
-      margin-top: 5px;
-    }
-
-    .trend-up {
-      color: #00ff00;
-    }
-
-    .trend-down {
-      color: #ff0000;
-    }
-
-    @media (max-width: 768px) {
-      .admin-panel {
-        flex-direction: column;
-      }
-
-      .product-box {
-        flex: 1 1 100%;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      nav {
-        display: none;
-        position: absolute;
-        top: 70px;
-        right: 10px;
-        background: #1f1f1f;
-        flex-direction: column;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 0 10px #000;
-        z-index: 100;
-      }
-
-      nav.show {
-        display: flex;
-      }
-
-      .header-left {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-
-      .real-time-clock {
-        font-size: 0.8rem;
-        padding: 0.3rem 0.8rem;
-      }
-    }
-
-    /* Animation for high-tech elements */
-    @keyframes pulse {
-      0% { opacity: 0.5; }
-      50% { opacity: 1; }
-      100% { opacity: 0.5; }
-    }
-
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-5px); }
-      100% { transform: translateY(0px); }
-    }
-
-    .float {
-      animation: float 3s ease-in-out infinite;
-    }
-    
-     footer {
-      background: #1f1f1f;
-      padding: 1rem;
-      text-align: center;
-      font-size: 1rem;
-      color: white;
-      box-shadow: 0 0 10px #00ffcc44;
-    }
+/* Animasi berdenyut */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
   }
-  </style>
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+        @media (max-width: 768px) {
+            .pricing-table th, .pricing-table td {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .btn-pay {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Reset */
+
+/* Navbar styling */
+.navbar {
+  background-color: #0f4cbe; /* Biru profesional */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  position: relative;
+  z-index: 999;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff; /* Ganti warna di sini */
+}
+
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.4s ease-in-out;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ffd700; /* Kuning emas saat hover */
+}
+
+/* Burger menu */
+.burger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.burger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background-color: #0056b3;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .burger {
+    display: flex;
+  }
+}
+
+/* Footer Styles */
+    .footer {
+        background-color: #2b2d42;
+        color: #ffffff;
+        padding: 4rem 0 0;
+        margin-top: 4rem;
+        font-size: 0.95rem;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .footer-top {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    .footer-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .footer-brand .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .footer-description {
+        color: #adb5bd;
+        line-height: 1.6;
+    }
+
+    .social-links {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .social-links a {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+    }
+
+    .social-links a:hover {
+        background-color: var(--primary);
+        transform: translateY(-3px);
+    }
+
+    .footer-links {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 2rem;
+    }
+
+    .links-column h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+    .links-column h3::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 40px;
+        height: 2px;
+        background-color: var(--primary);
+    }
+
+    .links-column ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .links-column a {
+        color: #adb5bd;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .links-column a:hover {
+        color: white;
+        padding-left: 5px;
+    }
+
+    .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 2rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .copyright {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        color: #adb5bd;
+    }
+
+    .legal-links {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .legal-links a {
+        color: #adb5bd;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .legal-links a:hover {
+        color: white;
+    }
+
+    .legal-links span {
+        color: rgba(255, 255, 255, 0.3);
+    }
+
+    @media (min-width: 768px) {
+        .footer-bottom {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+        }
+    }
+    
+        /* Trial Section Styles */
+    .trial-section {
+        padding: 3rem 2rem;
+        background-color: #f8f9fa;
+        text-align: center;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        color: #2b2d42;
+        margin-bottom: 0.5rem;
+    }
+    
+    .section-subtitle {
+        color: #6c757d;
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+    }
+    
+    .trial-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .trial-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+    
+    .trial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .protocol-icon {
+        font-size: 2.5rem;
+        color: #4361ee;
+        margin-bottom: 1rem;
+    }
+    
+    /* Add these styles to your existing CSS */
+    .header-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .header-btn.primary:hover {
+        background-color: #22c55e !important;
+    }
+    
+    /* Ensure the header container has flex display */
+    .header-container {
+        display: flex;
+        align-items: center;
+    }
+
+    </style>
 </head>
 <body>
-  <header>
-    <div class="header-left">
-      <div class="brand">PX STORE</div>
-      <div class="real-time-clock" id="realTimeClock"></div>
-    </div>
-    <div class="burger" onclick="toggleMenu()">☰</div>
-    <nav id="navbar">
-      <a href="index.html">Dashboard</a>
-      <a href="payment.html">Pembayaran</a>
-      <a href="https://t.me/frel01">Admin</a>
-      <a href="https://whatsapp.com/channel/0029Vafk1D38F2pLQYx5Vu2B">Testimoni</a>
-    </nav>
-  </header>
+   <a href="https://admin.pxstore.biz.id" class="wa-float" title="Hubungi Admin">
+  <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp">
+</a>
 
-  <div class="container">
-    <div class="dashboard-card">
-      <div class="admin-logo">
-        <img src="/assets/images/px.png" alt="Admin Logo" class="float">
-        <h2>DASHBOARD PANEL <span class="pulse">⚡</span></h2>
-      </div>
-      
-      <div class="admin-panel">
-        <div class="stats-panel">
-          <h3>Server Statistics</h3>
-          <div class="stats-grid">
-            <div class="stat-card">
-              <h4>Online Users</h4>
-              <p id="online-users">142</p>
-              <p class="stat-trend trend-up">↑ 8.2%</p>
-            </div>
-            <div class="stat-card">
-              <h4>User Multilogin</h4>
-              <p id="today-buyers">28</p>
-              <p class="stat-trend trend-up">↑ 12.7%</p>
-            </div>
-            <div class="stat-card">
-              <h4>Conversion Rate</h4>
-              <p id="conversion-rate">3.8%</p>
-              <p class="stat-trend trend-down">↓ 1.3%</p>
-            </div>
-          </div>
-        </div>
-        
-        <div class="tech-graph">
-          <h3>Traffic Monitor</h3>
-          <div class="graph-container">
-            <div class="graph-line"></div>
-            <svg class="graph-path" viewBox="0 0 500 120" preserveAspectRatio="none">
-              <path id="graph-path" d=""></path>
-            </svg>
-            <div class="graph-points" id="graph-points"></div>
-            <div class="graph-labels">
-              <span>00:00</span>
-              <span>06:00</span>
-              <span>12:00</span>
-              <span>18:00</span>
-              <span>24:00</span>
-            </div>
-          </div>
-          <div class="graph-info">
-            <div class="info-box">
-              <h4>Ping</h4>
-              <p><span id="ping-indicator" class="ping-indicator ping-good"></span> <span id="ping-value">18ms</span></p>
-            </div>
-            <div class="info-box">
-              <h4>Visits</h4>
-              <p id="visits-value">428</p>
-            </div>
-            <div class="info-box">
-              <h4>Bounce Rate</h4>
-              <p id="bounce-rate">42%</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="dashboard-card">
-      <h2>Layanan Kami</h2>
-      <div class="product-list">
-        <div class="product-box">
-          <h3>Menu Store</h3>
-          <p>• Order VPN</p>
-          <p>• TopUp Game</p>
-          <p>• Paket Internet (chat admin)</p>
-          <p>• Token Listrik(chat admin)</p>
-     <a href="store.html?order_id=1002" class="detail-button">Menu</a>
-        </div>
-        <div class="product-box">
-          <h3>Other Menu</h3>
-          <p>• Manage Repo Github</p>
-          <p>• Record DNS Cloudflare</p>
-          <p>• Convert XRAY To yaml</p>
-          <p>• Convert XRAY To Json</p>
-          <p>• Config premium free</p>
-          <p>• Bug,Payload</p>
-          <a href="login.html?order_id=1002" class="detail-button">Other Menu</a>
-        </div>
-      </div>
-    </div>
+<header class="navbar">
+  <div class="logo">Hi, Selamat Datang</div>
+  <nav class="nav-links" id="navLinks">
+    <a href="dashboard.html">Dashboard</a>
+    <a href="server.html">Server Status</a>
+    <a href="https://wa.me/628778162500?text=.topupdiamond">Topup Game</a>
+    <a href="vps.html">VPS Tunneling</a>  
+    <a href="tools.html">Tools Menu</a>  
+    <a href="https://grupwa.pxstore.biz.id">Grup WhatsApp</a>
+  </nav>
+  <div class="burger" onclick="toggleMenu()">
+    <div class="line1"></div>
+    <div class="line2"></div>
+    <div class="line3"></div>
   </div>
-  
-    <!-- Tentang Website -->
-  <section class="tentang">
+</header>
+
     <div class="container">
-      <h2>Tentang Kami</h2>
-      <p>PX STORE adalah platform terpercaya untuk pembelian layanan VPN, paket kuota internet, dan top up game. Kami menyediakan berbagai pilihan produk dengan harga kompetitif dan proses instan.</p>
-      <p>Dengan sistem yang aman dan transparan, kami berkomitmen untuk memberikan pelayanan terbaik kepada pelanggan. Produk kami langsung diproses secara otomatis setelah pembayaran berhasil.</p>
+        <header>
+            <div class="logo2">
+                <i class="fas fa-shield-alt"></i>
+                <span>PX STORE VPN</span>
+            </div>
+            <p class="tagline">Server VPN berkecepatan tinggi di Indonesia dan Singapura dengan enkripsi tingkat tinggi dan uptime 99.9%</p>
+           <p class="tagline">Order sekarang juga pembayaran otomatis via Qris, Proses setelah kirim bukti transaksi, klik logo WhatsApp untuk kirim bukti transaksi, Proses cepat Config dan akun akan dikirim oleh admin langsung. Bisa buat akun sendiri via Bot setelah kirim bukti transfer tinggal create dan minta izin dulu jadi Owner kepada admin.</p>
+        </header>
+        
+<div class="action-buttons" style="display: flex; justify-content: center; gap: 1.5rem; margin: 2rem 0;">
+    <!-- Create Account Button -->
+    <button onclick="smoothScroll('create-section')" class="action-btn" style="padding: 0.75rem 1.5rem; border-radius: 8px; background: linear-gradient(135deg, #4361ee, #3f37c9); color: white; border: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+        <i class="fas fa-user-plus"></i> Create Akun
+    </button>
+    
+    
+   <!-- VPS Tunneling Button -->
+    <a href="/vpn/vps.html" class="action-btn" style="padding: 0.75rem 1.5rem; border-radius: 8px; background: linear-gradient(135deg, #4cc9f0, #3a86ff); color: white; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease;">
+        <i class="fas fa-network-wired"></i> VPS Tunneling
+    </a>
+    
+    <!-- Trial Account Button -->
+        <button onclick="smoothScroll('trial-section')" class="action-btn" style="padding: 0.75rem 1.5rem; border-radius: 8px; background: linear-gradient(135deg, #f72585, #b5179e); color: white; border: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+        <i class="fas fa-clock"></i> Trial Akun
+    </button>
+</div>
+    
+        <div class="pricing-section">
+            <!-- Indonesia Server -->
+            <div class="server-option">
+                <div class="server-header">
+                    <img src="https://flagcdn.com/w80/id.png" alt="Indonesia" class="server-flag">
+                    <h2>Server Indonesia</h2>
+                    <p>Latensi rendah untuk koneksi lokal</p>
+                </div>
+                
+                <div class="protocol-tabs">
+                    <button class="tab-btn active" data-tab="ssh-id">SSH</button>
+                    <button class="tab-btn" data-tab="v2ray-id">V2Ray</button>
+                </div>
+                
+                <!-- SSH Indonesia -->
+                <div id="ssh-id" class="tab-content active">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Durasi</th>
+                                <th>Harga</th>
+                                <th>Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="duration">15 Hari</td>
+                                <td class="price">Rp 5.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-id15')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">30 Hari</td>
+                                <td class="price">Rp 10.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-id30')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">60 Hari</td>
+                                <td class="price">Rp 20.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-id60')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- V2Ray Indonesia -->
+                <div id="v2ray-id" class="tab-content">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Durasi</th>
+                                <th>Harga</th>
+                                <th>Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="duration">15 Hari</td>
+                                <td class="price">Rp 8.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-id15')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">30 Hari</td>
+                                <td class="price">Rp 15.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-id30')"><i class="fas fa-qrcode"></i> Bayar</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">60 Hari</td>
+                                <td class="price">Rp 28.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-id60')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Singapore Server -->
+            <div class="server-option">
+                <div class="server-header">
+                    <img src="https://flagcdn.com/w80/sg.png" alt="Singapore" class="server-flag">
+                    <h2>Server Singapura</h2>
+                    <p>Dioptimalkan untuk koneksi internasional</p>
+                </div>
+                
+                <div class="protocol-tabs">
+                    <button class="tab-btn active" data-tab="ssh-sg">SSH</button>
+                    <button class="tab-btn" data-tab="v2ray-sg">V2Ray</button>
+                </div>
+                
+                <!-- SSH Singapura -->
+                <div id="ssh-sg" class="tab-content active">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Durasi</th>
+                                <th>Harga</th>
+                                <th>Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="duration">15 Hari</td>
+                                <td class="price">Rp 5.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-sg15')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">30 Hari</td>
+                                <td class="price">Rp 10.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-sg30')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">60 Hari</td>
+                                <td class="price">Rp 18.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('ssh-sg60')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- V2Ray Singapura -->
+                <div id="v2ray-sg" class="tab-content">
+                    <table class="pricing-table">
+                        <thead>
+                            <tr>
+                                <th>Durasi</th>
+                                <th>Harga</th>
+                                <th>Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="duration">15 Hari</td>
+                                <td class="price">Rp 7.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-sg15')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">30 Hari</td>
+                                <td class="price">Rp 13.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-sg30')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                            <tr>
+                                <td class="duration">60 Hari</td>
+                                <td class="price">Rp 25.000</td>
+                                <td><button class="btn-pay" onclick="showPaymentModal('v2ray-sg60')"><i class="fas fa-qrcode"></i> Beli</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+     </div>
+        
+        <div id="create-section" style="margin-top: 100px;">
+        <div class="create-section" style="background-color: #f5f7ff; padding: 3rem 2rem; text-align: center;">
+    <h2 class="section-title" style="font-size: 2rem; color: #2b2d42; margin-bottom: 0.5rem;">Create Akun</h2>
+    <p class="section-subtitle" style="color: #6c757d; margin-bottom: 2rem; font-size: 1.1rem;">Dengan kecepatan dan stabilitas server, kami menyediakan pelayanan terbaik untuk anda.</p>
+    
+    <div class="trial-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
+        <!-- SSH Create -->
+        <div class="trial-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <div class="protocol-icon" style="font-size: 2.5rem; color: #4361ee; margin-bottom: 1rem;">
+                <i class="fas fa-terminal"></i>
+            </div>
+            <h3 style="color: #2b2d42; margin-bottom: 1rem;">Create SSH</h3>
+            <ul class="trial-features" style="list-style: none; text-align: left; margin: 1.5rem 0; padding: 0;">
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Durasi 15hari, 30hari, 60hari
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> TLS/WS Support
+                </li>
+                  <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Max Login 2 Devices
+                </li>
+              <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Bisa tambah device
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Unlimited Bandwidth
+                </li>
+            </ul>
+          <button onclick="window.location.href='create.html'" style="width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: #0f4cbe; color: white;">CREATE AKUN
+         </button>
+        </div>
+        
+        <!-- Vmess Create -->
+        <div class="trial-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <div class="protocol-icon" style="font-size: 2.5rem; color: #4361ee; margin-bottom: 1rem;">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h3 style="color: #2b2d42; margin-bottom: 1rem;">Create VMESS</h3>
+            <ul class="trial-features" style="list-style: none; text-align: left; margin: 1.5rem 0; padding: 0;">
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Durasi 15hari, 30hari, 60hari
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> TLS/WS Support
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Max Login 2 Devices
+                </li>
+              <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Bisa tambah device
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Unlimited Bandwidth
+                </li>
+            </ul>          
+            <button onclick="window.location.href='create.html'" style="width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: #0f4cbe; color: white;">CREATE AKUN
+         </button>
+        </div>
+        
+        <!-- Vless Create -->
+        <div class="trial-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <div class="protocol-icon" style="font-size: 2.5rem; color: #4361ee; margin-bottom: 1rem;">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 style="color: #2b2d42; margin-bottom: 1rem;">Create VLESS</h3>
+            <ul class="trial-features" style="list-style: none; text-align: left; margin: 1.5rem 0; padding: 0;">
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Durasi 15hari, 30hari, 60hari
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> TLS/XTLS Support
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Max Login 2 Devices
+                </li>
+              <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Bisa tambah device
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Unlimited Bandwidth
+                </li>
+            </ul>         
+            <button onclick="window.location.href='create.html'" style="width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: #0f4cbe; color: white;">CREATE AKUN
+         </button>
+        </div>
+        
+        <!-- Trojan Create -->
+        <div class="trial-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <div class="protocol-icon" style="font-size: 2.5rem; color: #4361ee; margin-bottom: 1rem;">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h3 style="color: #2b2d42; margin-bottom: 1rem;">Create TROJAN</h3>
+            <ul class="trial-features" style="list-style: none; text-align: left; margin: 1.5rem 0; padding: 0;">
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Durasi 15hari, 30hari, 60hari
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> TLS Support
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Max Login 2 Devices
+                </li>
+              <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Bisa tambah device
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Unlimited Bandwidth
+                </li>
+            </ul>         
+            <button onclick="window.location.href='create.html'" style="width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: #0f4cbe; color: white;">CREATE AKUN
+         </button>
+        </div>
     </div>
-  </section>
+   </div>
+        
+ <div id="trial-section" style="margin-top: 100px;">
+ <div class="trial-section" style="background-color: #f5f7ff; padding: 3rem 2rem; text-align: center;">
+    <h2 class="section-title" style="font-size: 2rem; color: #2b2d42; margin-bottom: 0.5rem;">Coba Layanan Kami Gratis!</h2>
+    <p class="section-subtitle" style="color: #6c757d; margin-bottom: 2rem; font-size: 1.1rem;">Uji kecepatan dan stabilitas server kami, Create Akun Trial di Bot WhatsApp.</p>
+    
+    <div class="trial-cards" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
+        <!-- SSH Trial -->
+        <div class="trial-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <div class="protocol-icon" style="font-size: 2.5rem; color: #4361ee; margin-bottom: 1rem;">
+                <i class="fas fa-terminal"></i>
+            </div>
+            <h3 style="color: #2b2d42; margin-bottom: 1rem;">SSH Trial</h3>
+            <ul class="trial-features" style="list-style: none; text-align: left; margin: 1.5rem 0; padding: 0;">
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Durasi 1 jam
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> TLS/WS Support
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Unlimited Bandwidth
+                </li>
+            </ul>
+            <button class="trial-btn whatsapp-btn" onclick="sshWhatsApp('SSH Trial')" style="width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: #25D366; color: white;">
+                <i class="fab fa-whatsapp"></i> TRIAL VIA BOT
+            </button>
+        </div>
+        
+        <!-- Vmess Trial -->
+        <div class="trial-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <div class="protocol-icon" style="font-size: 2.5rem; color: #4361ee; margin-bottom: 1rem;">
+                <i class="fas fa-bolt"></i>
+            </div>
+            <h3 style="color: #2b2d42; margin-bottom: 1rem;">Vmess Trial</h3>
+            <ul class="trial-features" style="list-style: none; text-align: left; margin: 1.5rem 0; padding: 0;">
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Durasi 1 jam
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> TLS/WS Support
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Unlimited Bandwidth
+                </li>
+            </ul>
+            <button class="trial-btn whatsapp-btn" onclick="vmessWhatsApp('Vmess Trial')" style="width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: #25D366; color: white;">
+                <i class="fab fa-whatsapp"></i> TRIAL VIA BOT
+            </button>
+        </div>
+        
+        <!-- Vless Trial -->
+        <div class="trial-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <div class="protocol-icon" style="font-size: 2.5rem; color: #4361ee; margin-bottom: 1rem;">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 style="color: #2b2d42; margin-bottom: 1rem;">Vless Trial</h3>
+            <ul class="trial-features" style="list-style: none; text-align: left; margin: 1.5rem 0; padding: 0;">
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Durasi 1 jam
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> XTLS Reality Support
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Unlimited Bandwidth
+                </li>
+            </ul>
+            <button class="trial-btn whatsapp-btn" onclick="vlessWhatsApp('Vless Trial')" style="width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: #25D366; color: white;">
+                <i class="fab fa-whatsapp"></i> TRIAL VIA BOT
+            </button>
+        </div>
+        
+        <!-- Trojan Trial -->
+        <div class="trial-card" style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;">
+            <div class="protocol-icon" style="font-size: 2.5rem; color: #4361ee; margin-bottom: 1rem;">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h3 style="color: #2b2d42; margin-bottom: 1rem;">Trojan Trial</h3>
+            <ul class="trial-features" style="list-style: none; text-align: left; margin: 1.5rem 0; padding: 0;">
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Durasi 1 jam
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> TLS Support
+                </li>
+                <li style="margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.5rem; color: #495057;">
+                    <i class="fas fa-check-circle" style="color: #4cc9f0;"></i> Unlimited Bandwidth
+                </li>
+            </ul>
+            <button class="trial-btn whatsapp-btn" onclick="trojanWhatsApp('Trojan Trial')" style="width: 100%; padding: 0.8rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; background-color: #25D366; color: white;">
+                <i class="fab fa-whatsapp"></i> TRIAL VIA BOT
+            </button>
+        </div>
+    </div>
+</div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Kecepatan Tinggi</h3>
+                <p class="feature-desc">Server 1Gbps dengan bandwidth tidak terbatas untuk browsing dan streaming lancar</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="feature-title">Enkripsi Aman</h3>
+                <p class="feature-desc">Enkripsi AES-256 tingkat militer untuk melindungi aktivitas online Anda</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-server"></i>
+                </div>
+                <h3 class="feature-title">Uptime 99.9%</h3>
+                <p class="feature-desc">Server andal dengan downtime minimal dan pemantauan 24/7</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="hidePaymentModal()">&times;</button>
+            <h2 class="modal-title" id="modalProductName">Paket VPN</h2>
+            <p class="modal-subtitle" id="modalProductPrice">Rp 0</p>
+            
+            <div class="qris-code">
+                <img id="qrisImage" src="" alt="Kode QRIS">
+            </div>
+            
+            <div class="timer" id="paymentTimer">05:00</div>
+            
+            <p>Scan kode QR ini menggunakan aplikasi mobile banking Anda untuk menyelesaikan pembayaran. Halaman Qris akan otomatis tertutup setelah transaksi</p>
+            
+            <div class="modal-actions">
+                <button class="btn btn-download" onclick="downloadQRIS()">
+                    <i class="fas fa-download"></i> Download QRIS
+                </button>
+                <button class="btn btn-cancel" onclick="hidePaymentModal()">
+                    <i class="fas fa-times"></i> Batalkan
+                </button>
+            </div>
+            
+            <div class="instructions">
+                <p><strong>Instruksi Pembayaran:</strong></p>
+                <ol style="text-align: left; padding-left: 1.5rem; margin-top: 0.5rem;">
+                    <li>Buka aplikasi mobile banking/Ewallet Anda</li>
+                    <li>Pilih pembayaran QRIS</li>
+                    <li>Scan QR di atas</li>
+                    <li>Selesaikan Transaksi</li>
+                    <li>Kirim Bukti Transaksi via WhatsApp</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <footer class="footer">
+    <div class="footer-container">
+        <!-- Bagian Atas Footer -->
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>PX STORE</span>
+                </div>
+                <p class="footer-description">
+                    Layanan VPN premium dengan kecepatan tinggi dan keamanan maksimal untuk pengalaman internet tanpa batas.
+                </p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-links">
+                <div class="links-column">
+                    <h3 class="links-title">Layanan</h3>
+                    <ul>
+                        <li><a href="#">Tunneling</a></li>
+                        <li><a href="#">PPOB</a></li>
+                        <li><a href="#">Topup Game</a></li>
+                    </ul>
+                </div>
+
+                <div class="links-column">
+                    <h3 class="links-title">Dukungan</h3>
+                    <ul>
+                        <li><a href="#">Pusat Bantuan</a></li>
+                        <li><a href="#">Tutorial</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Kebijakan Privasi</a></li>
+                        <li><a href="#">Syarat & Ketentuan</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 PX STORE. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#"></a>
+                    <span></span>
+                    <a href="#"></a>
+                    <span></span>
+                    <a href="#"></a>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    </footer>
+    
+    <script>
+        // Tab functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Payment modal functionality
+        let countdownInterval;
+        const totalTime = 5 * 60; // 5 minutes in seconds
+        
+        function showPaymentModal(packageId) {
+            const modal = document.getElementById('paymentModal');
+            const productName = document.getElementById('modalProductName');
+            const productPrice = document.getElementById('modalProductPrice');
+            const qrisImage = document.getElementById('qrisImage');
+            const timerElement = document.getElementById('paymentTimer');
+            
+            // Set product details based on packageId
+            let name, price, imageSrc;
+            
+            switch(packageId) {
+                // Indonesia SSH
+                case 'ssh-id15':
+                    name = 'SSH Indonesia - 15 Hari';
+                    price = 'Rp 5.290';
+                    imageSrc = '/assets/images/sshid15.png';
+                    break;
+                case 'ssh-id30':
+                    name = 'SSH Indonesia - 30 Hari';
+                    price = 'Rp 10.290';
+                    imageSrc = '/assets/images/sshid30.png';
+                    break;
+                case 'ssh-id60':
+                    name = 'SSH Indonesia - 60 Hari';
+                    price = 'Rp 20.290';
+                    imageSrc = '/assets/images/sshid60.png';
+                    break;
+                
+                // Indonesia V2Ray
+                case 'v2ray-id15':
+                    name = 'V2Ray Indonesia - 15 Hari';
+                    price = 'Rp 8.290';
+                    imageSrc = '/assets/images/vmessid15.png';
+                    break;
+                case 'v2ray-id30':
+                    name = 'V2Ray Indonesia - 30 Hari';
+                    price = 'Rp 15.290';
+                    imageSrc = '/assets/images/vmessid30.png';
+                    break;
+                case 'v2ray-id60':
+                    name = 'V2Ray Indonesia - 60 Hari';
+                    price = 'Rp 28.290';
+                    imageSrc = '/assets/images/vmessid60.png';
+                    break;
+                
+                // Singapore SSH
+                case 'ssh-sg15':
+                    name = 'SSH Singapura - 15 Hari';
+                    price = 'Rp 5.290';
+                    imageSrc = '/assets/images/sshsg15.png';
+                    break;
+                case 'ssh-sg30':
+                    name = 'SSH Singapura - 30 Hari';
+                    price = 'Rp 10.290';
+                    imageSrc = '/assets/images/sshsg30.png';
+                    break;
+                case 'ssh-sg60':
+                    name = 'SSH Singapura - 60 Hari';
+                    price = 'Rp 18.290';
+                    imageSrc = '/assets/images/sshsg60.png';
+                    break;
+                
+                // Singapore V2Ray
+                case 'v2ray-sg15':
+                    name = 'V2Ray Singapura - 15 Hari';
+                    price = 'Rp 7.290';
+                    imageSrc = '/assets/images/vmesssg15.png';
+                    break;
+                case 'v2ray-sg30':
+                    name = 'V2Ray Singapura - 30 Hari';
+                    price = 'Rp 13.290';
+                    imageSrc = '/assets/images/vmesssg30.png';
+                    break;
+                case 'v2ray-sg60':
+                    name = 'V2Ray Singapura - 60 Hari';
+                    price = 'Rp 25.290';
+                    imageSrc = '/assets/images/vmesssg60.png';
+                    break;
+            }
+            
+            productName.textContent = name;
+            productPrice.textContent = price;
+            qrisImage.src = imageSrc;
+            qrisImage.alt = `Pembayaran QRIS untuk ${name}`;
+            
+            // Start countdown timer
+            startCountdown(timerElement, totalTime);
+            
+            modal.classList.add('show');
+        }
+        
+        function startCountdown(timerElement, seconds) {
+            // Clear any existing interval
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            let remaining = seconds;
+            
+            function updateTimer() {
+                const minutes = Math.floor(remaining / 60);
+                const secs = remaining % 60;
+                timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                
+                if (remaining <= 0) {
+                    clearInterval(countdownInterval);
+                    hidePaymentModal();
+                } else {
+                    remaining--;
+                }
+            }
+            
+            updateTimer(); // Initial call
+            countdownInterval = setInterval(updateTimer, 1000);
+        }
+        
+        function hidePaymentModal() {
+            // Clear the countdown interval when modal is closed
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            document.getElementById('paymentModal').classList.remove('show');
+        }
+        
+        function downloadQRIS() {
+            const qrisImage = document.getElementById('qrisImage');
+            const productName = document.getElementById('modalProductName').textContent;
+            
+            // Create a temporary link element
+            const link = document.createElement('a');
+            link.href = qrisImage.src;
+            link.download = `QRIS_${productName.replace(/ /g, '_')}.png`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target === modal) {
+                hidePaymentModal();
+            }
+        });
+        
+  function toggleMenu() {
+    const nav = document.getElementById('navLinks');
+    nav.classList.toggle('active');
+  }
   
-    <footer>
-    <p>&copy; 2025 PeyxDev. All rights reserved.</p>
-  </footer>
-
-  <script>
-    // Update real-time clock
-    function updateClock() {
-      const now = new Date();
-      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-      const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
-      
-      const dateString = now.toLocaleDateString('id-ID', dateOptions);
-      const timeString = now.toLocaleTimeString('id-ID', timeOptions);
-      
-      document.getElementById('realTimeClock').innerHTML = 
-        `${dateString} <br> ${timeString}`;
-      
-      setTimeout(updateClock, 1000);
+  function sshWhatsApp(service) {
+        const phoneNumber = "6287781625000"; // Ganti dengan nomor WhatsApp Anda
+        const message = `.trialssh 60`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
     }
-
-    // Generate tech graph data
-    function generateTechGraph() {
-      const path = document.getElementById('graph-path');
-      const pointsContainer = document.getElementById('graph-points');
-      pointsContainer.innerHTML = '';
-      
-      let d = "M0,60 ";
-      const segments = 15;
-      const baseY = 60;
-      let lastX = 0;
-      let lastY = baseY;
-      
-      for (let i = 1; i <= segments; i++) {
-        const x = i * (500 / segments);
-        let y;
-        
-        // Create tech-looking pattern
-        if (i % 4 === 0) {
-          // Spike up
-          y = baseY - 40 - Math.random() * 20;
-        } else if (i % 3 === 0) {
-          // Spike down
-          y = baseY + 20 + Math.random() * 10;
-        } else {
-          // Random fluctuation
-          y = baseY + (Math.random() * 30 - 15);
+    
+    function vmessWhatsApp(service) {
+        const phoneNumber = "6287781625000"; // Ganti dengan nomor WhatsApp Anda
+        const message = `.trialvmess`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+    }
+    
+    function vlessWhatsApp(service) {
+        const phoneNumber = "6287781625000"; // Ganti dengan nomor WhatsApp Anda
+        const message = `.trialvless 60`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+    }
+    
+    function trojanWhatsApp(service) {
+        const phoneNumber = "6287781625000"; // Ganti dengan nomor WhatsApp Anda
+        const message = `.trialtrojan 60`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+    }
+    
+    function sshcWhatsApp(service) {
+        const phoneNumber = "6287781625000"; // Ganti dengan nomor WhatsApp Anda
+        const message = `.addssh`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+    }
+    
+    function vmesscWhatsApp(service) {
+        const phoneNumber = "6287781625000"; // Ganti dengan nomor WhatsApp Anda
+        const message = `.addvmess`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+    }
+    
+    function vlesscWhatsApp(service) {
+        const phoneNumber = "6287781625000"; // Ganti dengan nomor WhatsApp Anda
+        const message = `.addvless`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+    }
+    
+    function trojancWhatsApp(service) {
+        const phoneNumber = "6287781625000"; // Ganti dengan nomor WhatsApp Anda
+        const message = `.addtrojan`;
+        const encodedMessage = encodeURIComponent(message);
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+    }
+    
+    function smoothScroll(targetId) {
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+            window.scrollTo({
+                top: targetElement.offsetTop - 20, // Adjust offset as needed
+                behavior: 'smooth'
+            });
+            
+            // Add visual feedback (optional)
+            targetElement.style.animation = 'highlight 2s';
         }
-        
-        // Smooth transitions
-        const controlX1 = lastX + (x - lastX) * 0.3;
-        const controlY1 = lastY;
-        const controlX2 = lastX + (x - lastX) * 0.7;
-        const controlY2 = y;
-        
-        d += `C${controlX1},${controlY1} ${controlX2},${controlY2} ${x},${y} `;
-        
-        // Add data points
-        if (i % 2 === 0) {
-          const point = document.createElement('div');
-          point.className = 'graph-point';
-          point.style.left = `${(x/500)*100}%`;
-          point.style.top = `${((120-y)/120)*100}%`;
-          pointsContainer.appendChild(point);
+    }
+    
+    // Optional highlight animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes highlight {
+            0% { background-color: rgba(67, 97, 238, 0.1); }
+            100% { background-color: transparent; }
         }
-        
-        lastX = x;
-        lastY = y;
-      }
-      
-      path.setAttribute('d', d);
-      
-      // Update network stats
-      updateStats();
-      
-      // Repeat every 2 seconds
-      setTimeout(generateTechGraph, 2000);
-    }
-    
-    function updateStats() {
-      // Random but realistic values
-      const ping = Math.floor(Math.random() * 25) + 5;
-      const visits = Math.floor(Math.random() * 300) + 200;
-      const bounceRate = Math.floor(Math.random() * 30) + 30;
-      
-      document.getElementById('ping-value').textContent = `${ping}ms`;
-      document.getElementById('visits-value').textContent = visits;
-      document.getElementById('bounce-rate').textContent = `${bounceRate}%`;
-      
-      // Update ping indicator color
-      const pingIndicator = document.getElementById('ping-indicator');
-      pingIndicator.className = 'ping-indicator ';
-      
-      if (ping < 15) {
-        pingIndicator.classList.add('ping-good');
-      } else if (ping < 30) {
-        pingIndicator.classList.add('ping-medium');
-      } else {
-        pingIndicator.classList.add('ping-bad');
-      }
-      
-      // Update other stats randomly
-      document.getElementById('online-users').textContent = Math.floor(Math.random() * 100) + 100;
-      document.getElementById('today-buyers').textContent = Math.floor(Math.random() * 15) + 20;
-      document.getElementById('conversion-rate').textContent = (Math.random() * 2 + 3).toFixed(1) + '%';
-    }
-    
-    function toggleMenu() {
-      const nav = document.getElementById("navbar");
-      nav.classList.toggle("show");
-    }
-    
-    // Initialize when page loads
-    window.onload = function() {
-      updateClock();
-      generateTechGraph();
-      
-      // Update stats every 3 seconds
-      setInterval(updateStats, 3000);
-    };
-  </script>
+    `;
+    document.head.appendChild(style);
+   </script>
 </body>
 </html>
