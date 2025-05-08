@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
     <title>Download Center - HTTP Custom Files</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
             --primary-color: #2563eb;
@@ -15,6 +18,7 @@
             --dark-color: #1e293b;
             --text-color: #334155;
             --success-color: #10b981;
+            --active-color: #22c55e;
             --border-color: #e2e8f0;
             --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -47,6 +51,7 @@
             color: white;
             border-radius: 12px;
             box-shadow: var(--card-shadow);
+            animation: fadeInDown 0.8s;
         }
         
         h1 {
@@ -78,12 +83,31 @@
             border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
+            position: relative;
+            animation: fadeIn 0.8s;
         }
         
         .file-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--hover-shadow);
             border-color: var(--primary-light);
+        }
+        
+        .status-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--active-color);
+            box-shadow: 0 0 10px var(--active-color);
+            animation: blink 1.5s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
         
         .file-header {
@@ -151,6 +175,7 @@
         
         .download-btn:hover {
             background: var(--secondary-color);
+            transform: translateY(-2px);
         }
         
         .download-btn i {
@@ -164,6 +189,7 @@
             color: var(--text-color);
             margin-top: 40px;
             border-top: 1px solid var(--border-color);
+            animation: fadeIn 0.8s;
         }
 
         .footer-content {
@@ -188,6 +214,19 @@
             font-weight: 600;
         }
 
+        /* File type colors */
+        .ehi { color: #3b82f6; }
+        .hc { color: #10b981; }
+        .ktr { color: #f59e0b; }
+        .ovpn { color: #8b5cf6; }
+        .json { color: #ec4899; }
+        .conf { color: #ef4444; }
+
+        /* Animasi delay untuk card */
+        .animate-delay-1 { animation-delay: 0.2s; }
+        .animate-delay-2 { animation-delay: 0.4s; }
+        .animate-delay-3 { animation-delay: 0.6s; }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.8rem;
@@ -201,20 +240,12 @@
                 padding: 20px;
             }
         }
-
-        /* File type colors */
-        .ehi { color: #3b82f6; }
-        .hc { color: #10b981; }
-        .ktr { color: #f59e0b; }
-        .ovpn { color: #8b5cf6; }
-        .json { color: #ec4899; }
-        .conf { color: #ef4444; }
     </style>
 </head>
 <body>
 
     <div class="main-container">
-        <header>
+        <header class="animate__animated animate__fadeInDown">
             <h1><i class="fas fa-cloud-download-alt"></i> HTTP Custom Files</h1>
             <p class="subtitle">Download berbagai konfigurasi HTTP Custom, SSH, VPN, dan file lainnya</p>
         </header>
@@ -228,7 +259,7 @@
         </div>
     </div>
 
-    <footer>
+    <footer class="animate__animated animate__fadeIn">
         <div class="footer-content">
             <h3><i class="fas fa-store"></i> Download Center</h3>
             <p class="copyright">Halaman download universal untuk berbagai jenis file</p>
@@ -240,56 +271,62 @@
         // Daftar file yang tersedia
         const fileList = [
             {
-                name: "XL UNLIMITED VIDIO",
-                filename: "VIDIO-PX.hc",
+                name: "XL UNLIMITED VIDIO VIP",
+                filename: "config/VIDIO-PX.hc",
                 size: "Http Custom",
                 type: "hc",
-                updated: "8 Mei 2025",
-                icon: "rocket"
+                updated: "Indonesia",
+                icon: "rocket",
+                status: "active"
             },
             {
-                name: "XL UNLIMITED SUPER",
-                filename: "XUTS-PX.hc",
+                name: "XL UNLIMITED SUPER VIP",
+                filename: "config/XUTS-PX.hc",
                 size: "Http Custom",
                 type: "hc",
-                updated: "8 Mei 2025",
-                icon: "rocket"
+                updated: "Indonesia",
+                icon: "rocket",
+                status: "active"
             },
             {
-                name: "TELKOMSEL ILMUPEDIA",
-                filename: "ILPED-PX.hc",
+                name: "TSEL ILMUPEDIA VIP",
+                filename: "ILMUPEDIA-PX.hc",
                 size: "Http Custom",
                 type: "hc",
-                updated: "28 Mar 2023",
-                icon: "rocket"
+                updated: "Indonesia",
+                icon: "rocket",
+                status: "active"
             },
             {
-                name: "SSH Configuration Full",
-                filename: "ssh_config.conf",
-                size: "0.3 MB",
-                type: "conf",
-                updated: "10 Apr 2023",
-                icon: "key"
+                name: "AXIS XL EDUKASI VIP",
+                filename: "config/XEDUKASI-PX.hc",
+                size: "Http Custom",
+                type: "hc",
+                updated: "Indonesia",
+                icon: "rocket",
+                status: "active"
             },
             {
-                name: "VPN Config Ultra Fast",
-                filename: "vpn_config.ovpn",
-                size: "1.5 MB",
-                type: "ovpn",
-                updated: "22 Mei 2023",
-                icon: "shield-alt"
+                name: "AXIS GAME TESTED JATENG",
+                filename: "config/GAME-PX.hc",
+                size: "Http Custom",
+                type: "hc",
+                updated: "Indonesia",
+                icon: "rocket",
+                status: "active"
             },
             {
-                name: "Proxy Settings Pro",
-                filename: "proxy_settings.json",
-                size: "0.5 MB",
-                type: "json",
-                updated: "3 Jun 2023",
-                icon: "cogs"
+                name: "ISAT APP FUN VIP",
+                filename: "config/FUN-PX.hc",
+                size: "Http Custom",
+                type: "hc",
+                updated: "Indonesia",
+                icon: "rocket",
+                status: "active"
             }
         ];
 
-        // Fungsi untuk menentukan ikon berdasarkan tipe file
+        // Fungsi untuk menentukan ikon berdasarkan Format file
         function getFileIcon(type) {
             const icons = {
                 ehi: "bolt",
@@ -304,9 +341,12 @@
         }
 
         // Fungsi untuk membuat card file
-        function createFileCard(file) {
+        function createFileCard(file, index) {
+            const animationClass = `animate__animated animate__fadeIn animate-delay-${index % 3}`;
+            
             return `
-                <div class="file-card">
+                <div class="file-card ${animationClass}">
+                    ${file.status === 'active' ? '<div class="status-indicator"></div>' : ''}
                     <div class="file-header">
                         <div class="file-icon">
                             <i class="fas fa-${file.icon} ${file.type}"></i>
@@ -315,15 +355,15 @@
                     </div>
                     <div class="file-details">
                         <div class="file-detail">
-                            <span class="detail-label">Aplikasi:</span>
+                            <span class="detail-label">• Aplikasi:</span>
                             <span class="detail-value">${file.size}</span>
                         </div>
                         <div class="file-detail">
-                            <span class="detail-label">Tipe:</span>
+                            <span class="detail-label">• Format:</span>
                             <span class="detail-value">.${file.type}</span>
                         </div>
                         <div class="file-detail">
-                            <span class="detail-label">Update:</span>
+                            <span class="detail-label">• Server:</span>
                             <span class="detail-value">${file.updated}</span>
                         </div>
                     </div>
@@ -340,7 +380,7 @@
             
             if (fileList.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; grid-column: 1 / -1;">
+                    <div class="animate__animated animate__fadeIn" style="text-align: center; grid-column: 1 / -1;">
                         <i class="fas fa-folder-open" style="font-size: 2rem; color: var(--primary-color);"></i>
                         <p>Tidak ada file yang tersedia</p>
                     </div>
@@ -349,8 +389,8 @@
             }
             
             container.innerHTML = '';
-            fileList.forEach(file => {
-                container.innerHTML += createFileCard(file);
+            fileList.forEach((file, index) => {
+                container.innerHTML += createFileCard(file, index);
             });
         }
 
@@ -359,8 +399,8 @@
             // Set tahun di footer
             document.getElementById('currentYear').textContent = new Date().getFullYear();
             
-            // Render daftar file
-            setTimeout(renderFileList, 1000); // Simulasi loading
+            // Render daftar file dengan delay untuk animasi
+            setTimeout(renderFileList, 800);
         });
     </script>
 </body>
