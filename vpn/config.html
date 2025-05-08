@@ -1,373 +1,367 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Download HTTP Custom Config</title>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root {
-      --primary-color: #2563eb;
-      --primary-light: #3b82f6;
-      --secondary-color: #1e40af;
-      --light-color: #f8fafc;
-      --dark-color: #1e293b;
-      --text-color: #334155;
-      --success-color: #10b981;
-      --border-color: #e2e8f0;
-      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    
-    body {
-      background-color: #f8fafc;
-      color: var(--text-color);
-      line-height: 1.6;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Center - HTTP Custom Files</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary-color: #1e40af;
+            --light-color: #f8fafc;
+            --dark-color: #1e293b;
+            --text-color: #334155;
+            --success-color: #10b981;
+            --border-color: #e2e8f0;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
 
-    .main-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-      padding: 30px 0;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: white;
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-    }
-    
-    h1 {
-      font-size: 2.2rem;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
 
-    .subtitle {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .download-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-      margin-bottom: 40px;
-    }
-    
-    .file-card {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      transition: all 0.3s ease;
-      border: 1px solid var(--border-color);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-    
-    .file-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--hover-shadow);
-      border-color: var(--primary-light);
-    }
-    
-    .file-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    
-    .file-icon {
-      width: 40px;
-      height: 40px;
-      background-color: #e0e7ff;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-right: 15px;
-      color: var(--primary-color);
-      font-size: 18px;
-    }
-    
-    .file-title {
-      font-size: 1.1rem;
-      color: var(--primary-color);
-      font-weight: 600;
-    }
-    
-    .file-details {
-      margin-bottom: 20px;
-      flex-grow: 1;
-    }
-    
-    .file-detail {
-      display: flex;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-    }
-    
-    .detail-label {
-      font-weight: 600;
-      color: var(--dark-color);
-      min-width: 80px;
-    }
-    
-    .detail-value {
-      color: var(--text-color);
-    }
-    
-    .download-btn {
-      padding: 12px;
-      background: var(--primary-color);
-      color: white;
-      text-decoration: none;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    
-    .download-btn:hover {
-      background: var(--secondary-color);
-    }
-    
-    .download-btn i {
-      font-size: 14px;
-    }
-    
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      background: white;
-      color: var(--text-color);
-      margin-top: 40px;
-      border-top: 1px solid var(--border-color);
-    }
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .download-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .file-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--primary-light);
+        }
+        
+        .file-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #e0e7ff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .file-title {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .file-details {
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .file-detail {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--dark-color);
+            min-width: 80px;
+        }
+        
+        .detail-value {
+            color: var(--text-color);
+        }
+        
+        .download-btn {
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .download-btn:hover {
+            background: var(--secondary-color);
+        }
+        
+        .download-btn i {
+            font-size: 14px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            color: var(--text-color);
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
 
-    .footer-content {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-    .footer-content h3 {
-      margin-bottom: 15px;
-      color: var(--primary-color);
-      font-size: 1.2rem;
-    }
+        .footer-content h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
 
-    .copyright {
-      margin-top: 20px;
-      color: #64748b;
-      font-size: 0.9rem;
-    }
+        .copyright {
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
 
-    .copyright strong {
-      color: var(--primary-color);
-      font-weight: 600;
-    }
+        .copyright strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
 
-    /* Active Status Styles */
-    .status-active {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      display: flex;
-      align-items: center;
-      font-size: 0.8rem;
-      color: var(--success-color);
-      font-weight: 600;
-    }
-    
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      background-color: var(--success-color);
-      border-radius: 50%;
-      margin-right: 6px;
-      animation: blink 1.5s infinite;
-    }
-    
-    @keyframes blink {
-      0% { opacity: 1; }
-      50% { opacity: 0.3; }
-      100% { opacity: 1; }
-    }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .download-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .file-card {
+                padding: 20px;
+            }
+        }
 
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 1.8rem;
-      }
-      
-      .download-list {
-        grid-template-columns: 1fr;
-      }
-      
-      .file-card {
-        padding: 20px;
-      }
-    }
-  </style>
+        /* File type colors */
+        .ehi { color: #3b82f6; }
+        .hc { color: #10b981; }
+        .ktr { color: #f59e0b; }
+        .ovpn { color: #8b5cf6; }
+        .json { color: #ec4899; }
+        .conf { color: #ef4444; }
+    </style>
 </head>
 <body>
 
-  <div class="main-container">
-    <header>
-      <h1><i class="fas fa-cloud-download-alt"></i> HTTP Custom Config</h1>
-      <p class="subtitle">Download berbagai konfigurasi HTTP Custom untuk provider berbeda</p>
-    </header>
+    <div class="main-container">
+        <header>
+            <h1><i class="fas fa-cloud-download-alt"></i> HTTP Custom Files</h1>
+            <p class="subtitle">Download berbagai konfigurasi HTTP Custom, SSH, VPN, dan file lainnya</p>
+        </header>
 
-    <div class="download-list">
-      <!-- File 1 -->
-      <div class="file-card">
-        <div class="status-active">
-          <span class="status-dot"></span>
-          <span>AKTIF</span>
+        <div class="download-list" id="fileList">
+            <!-- File cards will be generated by JavaScript -->
+            <div class="animate__animated animate__fadeIn" style="text-align: center; grid-column: 1 / -1;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 2rem; color: var(--primary-color);"></i>
+                <p>Memuat daftar file...</p>
+            </div>
         </div>
-        <div class="file-header">
-          <div class="file-icon">
-            <i class="fas fa-bolt"></i>
-          </div>
-          <div class="file-title">XL UNLIMITED TURBO</div>
-        </div>
-        <div class="file-details">
-          <div class="file-detail">
-            <span class="detail-label">Aplikasi:</span>            
-         <span class="detail-value">Https Custom</span></div>
-          <div class="file-detail">
-            <span class="detail-label">Format:</span>
-            <span class="detail-value">.hc</span>
-          </div>
-          <div class="file-detail">
-            <span class="detail-label">Update:</span>
-            <span class="detail-value">8 Mei 2025</span>
-          </div>
-        </div>
-        <a class="download-btn" href="/config/XUTS-PX.hc" download>
-          <i class="fas fa-download"></i> Download
-        </a>
-      </div>
-      
-      <!-- File 2 -->
-      <div class="file-card">
-        <div class="status-active">
-          <span class="status-dot"></span>
-          <span>AKTIF</span>
-        </div>
-        <div class="file-header">
-          <div class="file-icon">
-            <i class="fas fa-rocket"></i>
-          </div>
-          <div class="file-title">XL UNLIMITED VIDIO</div>
-        </div>
-        <div class="file-details">
-          <div class="file-detail">
-            <span class="detail-label">Aplikasi:</span>            
-         <span class="detail-value">Https Custom</span></div>
-          <div class="file-detail">
-            <span class="detail-label">Format:</span>
-            <span class="detail-value">.hc</span>
-          </div>
-          <div class="file-detail">
-            <span class="detail-label">Update:</span>
-            <span class="detail-value">8 Mei 2025</span>
-          </div>
-        </div>
-        <a class="download-btn" href="/config/XUTS-PX.hc" download="XUTS-PX.hc">
-        <i class="fas fa-download"></i> Download
-      </a>
-
-      <!-- File 3 -->
-      <div class="file-card">
-        <div class="status-active">
-          <span class="status-dot"></span>
-          <span>AKTIF</span>
-        </div>
-        <div class="file-header">
-          <div class="file-icon">
-            <i class="fas fa-graduation-cap"></i>
-          </div>
-          <div class="file-title">TELKOMSEL ILMUPEDIA</div>
-        </div>
-        <div class="file-details">
-          <div class="file-detail">
-            <span class="detail-label">Aplikasi:</span>            
-         <span class="detail-value">Https Custom</span></div>
-          <div class="file-detail">
-            <span class="detail-label">Format:</span>
-            <span class="detail-value">.hc</span>
-          </div>
-          <div class="file-detail">
-            <span class="detail-label">Update:</span>
-            <span class="detail-value">8 Mei 2025</span>
-          </div>
-        </div>
-        <a class="download-btn" href="/config/ILMUPEDIA%20PX.hc" download>
-          <i class="fas fa-download"></i> Download
-        </a>
-      </div>
-
-      <!-- File 4 -->
-      <div class="file-card">
-        <div class="status-active">
-          <span class="status-dot"></span>
-          <span>AKTIF</span>
-        </div>
-        <div class="file-header">
-          <div class="file-icon">
-            <i class="fas fa-database"></i>
-          </div>
-          <div class="file-title">INDOSAT APPS FUN</div>
-        </div>
-        <div class="file-details">
-          <div class="file-detail">
-            <span class="detail-label">Aplikasi:</span>            
-         <span class="detail-value">Https Custom</span></div>
-          <div class="file-detail">
-            <span class="detail-label">Format:</span>
-            <span class="detail-value">.hc</span>
-          </div>
-          <div class="file-detail">
-            <span class="detail-label">Update:</span>
-            <span class="detail-value">8 Mei 2025</span>
-          </div>
-        </div>
-        <a class="download-btn" href="/config/ISAT%20FUN%20PX.hc" download>
-          <i class="fas fa-download"></i> Download
-        </a>
-      </div>
     </div>
-  </div>
 
-  <footer>
-    <div class="footer-content">
-      <h3><i class="fas fa-store"></i> PXSTORE - Layanan Tunneling & PPOB</h3>
-      <p class="copyright">Powered by <strong>PeyxDev</strong></p>
-      <p class="copyright">&copy; 2025 PXSTORE. All rights reserved.</p>
-    </div>
-  </footer>
+    <footer>
+        <div class="footer-content">
+            <h3><i class="fas fa-store"></i> Download Center</h3>
+            <p class="copyright">Halaman download universal untuk berbagai jenis file</p>
+            <p class="copyright">&copy; <span id="currentYear"></span> All rights reserved.</p>
+        </div>
+    </footer>
 
+    <script>
+        // Daftar file yang tersedia
+        const fileList = [
+            {
+                name: "XL UNLIMITED VIDIO",
+                filename: "VIDIO-PX.hc",
+                size: "Http Custom",
+                type: "hc",
+                updated: "8 Mei 2025",
+                icon: "rocket"
+            },
+            {
+                name: "XL UNLIMITED SUPER",
+                filename: "XUTS-PX.hc",
+                size: "Http Custom",
+                type: "hc",
+                updated: "8 Mei 2025",
+                icon: "rocket"
+            },
+            {
+                name: "TELKOMSEL ILMUPEDIA",
+                filename: "ILPED-PX.hc",
+                size: "Http Custom",
+                type: "hc",
+                updated: "28 Mar 2023",
+                icon: "rocket"
+            },
+            {
+                name: "SSH Configuration Full",
+                filename: "ssh_config.conf",
+                size: "0.3 MB",
+                type: "conf",
+                updated: "10 Apr 2023",
+                icon: "key"
+            },
+            {
+                name: "VPN Config Ultra Fast",
+                filename: "vpn_config.ovpn",
+                size: "1.5 MB",
+                type: "ovpn",
+                updated: "22 Mei 2023",
+                icon: "shield-alt"
+            },
+            {
+                name: "Proxy Settings Pro",
+                filename: "proxy_settings.json",
+                size: "0.5 MB",
+                type: "json",
+                updated: "3 Jun 2023",
+                icon: "cogs"
+            }
+        ];
+
+        // Fungsi untuk menentukan ikon berdasarkan tipe file
+        function getFileIcon(type) {
+            const icons = {
+                ehi: "bolt",
+                hc: "rocket",
+                ktr: "project-diagram",
+                ovpn: "shield-alt",
+                json: "cogs",
+                conf: "key",
+                default: "file"
+            };
+            return icons[type] || icons.default;
+        }
+
+        // Fungsi untuk membuat card file
+        function createFileCard(file) {
+            return `
+                <div class="file-card">
+                    <div class="file-header">
+                        <div class="file-icon">
+                            <i class="fas fa-${file.icon} ${file.type}"></i>
+                        </div>
+                        <div class="file-title">${file.name}</div>
+                    </div>
+                    <div class="file-details">
+                        <div class="file-detail">
+                            <span class="detail-label">Aplikasi:</span>
+                            <span class="detail-value">${file.size}</span>
+                        </div>
+                        <div class="file-detail">
+                            <span class="detail-label">Tipe:</span>
+                            <span class="detail-value">.${file.type}</span>
+                        </div>
+                        <div class="file-detail">
+                            <span class="detail-label">Update:</span>
+                            <span class="detail-value">${file.updated}</span>
+                        </div>
+                    </div>
+                    <a class="download-btn" href="${file.filename}" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                </div>
+            `;
+        }
+
+        // Render daftar file
+        function renderFileList() {
+            const container = document.getElementById('fileList');
+            
+            if (fileList.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; grid-column: 1 / -1;">
+                        <i class="fas fa-folder-open" style="font-size: 2rem; color: var(--primary-color);"></i>
+                        <p>Tidak ada file yang tersedia</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            fileList.forEach(file => {
+                container.innerHTML += createFileCard(file);
+            });
+        }
+
+        // Inisialisasi halaman
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set tahun di footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Render daftar file
+            setTimeout(renderFileList, 1000); // Simulasi loading
+        });
+    </script>
 </body>
 </html>
