@@ -266,6 +266,10 @@
             <p class="copyright">&copy; <span id="currentYear"></span> PeyxDev | All rights reserved.</p>
         </div>
     </footer>
+    
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3TGN4TD4GV"></script>
+
 
     <script>
         // Daftar file yang tersedia
@@ -402,6 +406,12 @@
             // Render daftar file dengan delay untuk animasi
             setTimeout(renderFileList, 800);
         });
+        
+     window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3TGN4TD4GV');
     </script>
 </body>
 </html>
