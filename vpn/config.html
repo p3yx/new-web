@@ -1,224 +1,374 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
-  <title>Bagi-bagi Config HTTP Custom</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download HTTP Custom Config</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
-      background-color: #121212;
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
+    :root {
+      --primary-color: #2563eb;
+      --primary-light: #3b82f6;
+      --secondary-color: #1e40af;
+      --light-color: #f8fafc;
+      --dark-color: #1e293b;
+      --text-color: #334155;
+      --success-color: #10b981;
+      --border-color: #e2e8f0;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    
+    body {
+      background-color: #f8fafc;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 0 auto;
       padding: 20px;
     }
-
-    h1 {
+    
+    header {
       text-align: center;
-      margin-bottom: 30px;
-      color: #00ffc4;
+      margin-bottom: 40px;
+      padding: 30px 0;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+    }
+    
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      font-weight: 700;
     }
 
-    .container {
+    .subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .download-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
+      gap: 25px;
+      margin-bottom: 40px;
     }
-
-    .box {
-      background: #1e1e1e;
-      padding: 30px;
+    
+    .file-card {
+      background: white;
+      padding: 25px;
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,255,196,0.1);
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
       position: relative;
-      transition: transform 0.3s;
     }
-
-    .box:hover {
-      transform: scale(1.02);
+    
+    .file-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--hover-shadow);
+      border-color: var(--primary-light);
     }
-
-    .box h2 {
-      font-size: 20px;
+    
+    .file-header {
+      display: flex;
+      align-items: center;
       margin-bottom: 15px;
-      color: #00ffc4;
     }
-
-    .status-dot {
-      width: 12px;
-      height: 12px;
-      background-color: #00ff00;
-      border-radius: 50%;
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      animation: blink 1s infinite;
-      box-shadow: 0 0 8px #00ff00;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    .config-link {
-      word-break: break-all;
-      background: #2a2a2a;
-      padding: 20px;
-      border-radius: 6px;
-      font-size: 16px;
-      margin: 15px 0;
-      min-height: 60px; /* Membuat box lebih besar */
+    
+    .file-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #e0e7ff;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .copy-success {
-      display: none;
-      color: #00ffc4;
-      font-size: 16px;
-      margin-top: 10px;
-      font-weight: bold;
-      animation: pop 0.5s ease-out;
+      margin-right: 15px;
+      color: var(--primary-color);
+      font-size: 18px;
     }
     
-    .button-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .file-title {
+      font-size: 1.1rem;
+      color: var(--primary-color);
+      font-weight: 600;
     }
-
-    .btn {
-      padding: 10px 20px;
-      background: #00ffc4;
-      color: #000;
+    
+    .file-details {
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    
+    .file-detail {
+      display: flex;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+    
+    .detail-label {
+      font-weight: 600;
+      color: var(--dark-color);
+      min-width: 80px;
+    }
+    
+    .detail-value {
+      color: var(--text-color);
+    }
+    
+    .download-btn {
+      padding: 12px;
+      background: var(--primary-color);
+      color: white;
       text-decoration: none;
       border: none;
-      border-radius: 6px;
-      font-weight: bold;
+      border-radius: 8px;
+      font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-
-    .btn:hover {
-      background: #00d6a5;
+    
+    .download-btn:hover {
+      background: var(--secondary-color);
+    }
+    
+    .download-btn i {
+      font-size: 14px;
     }
     
     footer {
       text-align: center;
-      padding: 20px;
-      background: #1a1a1a;
-      color: #aaa;
+      padding: 30px 20px;
+      background: white;
+      color: var(--text-color);
       margin-top: 40px;
-      font-size: 14px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .footer-content h3 {
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      font-size: 1.2rem;
+    }
+
+    .copyright {
+      margin-top: 20px;
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    .copyright strong {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    /* Active Status Styles */
+    .status-active {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--success-color);
+      font-weight: 600;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--success-color);
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: blink 1.5s infinite;
+    }
+    
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .download-list {
+        grid-template-columns: 1fr;
+      }
+      
+      .file-card {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Bagikan Config HTTP Custom & Link V2RAY</h1>
-  <p>Gunakan dengan bijak, Server menggunakan server premium max login 1 devices, Tidak untuk diperjual belikan. Config tidak semua tkp support Semua Config sudah di tes dan Connect.</p>
+  <div class="main-container">
+    <header>
+      <h1><i class="fas fa-cloud-download-alt"></i> HTTP Custom Config</h1>
+      <p class="subtitle">Download berbagai konfigurasi HTTP Custom untuk provider berbeda</p>
+    </header>
 
-  <div class="container">
-
-    <!-- Config Box Template -->
-    <div class="box">
-      <div class="status-dot"></div>
-      <h2>XL UNLIMITED TURBO VIDIO</h2>
-      <div class="config-link" id="link2">vmess://eyAidiI6ICIyIiwgInBzIjogIlByZW1pdW0iLCAiYWRkIjogIm5ldmF4LnB4c3RvcmUuYml6LmlkIiwgInBvcnQiOiAiODAiLCAiaWQiOiAiYmQ5Yzk1NGMtZjA1Mi00MTUwLTk3ZGItNjdhNjViZWM2M2EwIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi92bWVzcyIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICJuZXZheC5weHN0b3JlLmJpei5pZCIsICJ0bHMiOiAibm9uZSIgfQo=</div>
-      <div class="button-group">
-      <button class="btn" onclick="copyToClipboard('link2')">Salin Link</button>
-     <a class="btn" id="downloadLink" href="https://simfile.co/ywfyv7f0ei" download>Download</a>
-     <div id="success-msg2" class="copy-success">Link berhasil disalin!</div>
+    <div class="download-list">
+      <!-- File 1 -->
+      <div class="file-card">
+        <div class="status-active">
+          <span class="status-dot"></span>
+          <span>AKTIF</span>
+        </div>
+        <div class="file-header">
+          <div class="file-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <div class="file-title">XL UNLIMITED TURBO</div>
+        </div>
+        <div class="file-details">
+          <div class="file-detail">
+            <span class="detail-label">Aplikasi:</span>            
+         <span class="detail-value">Https Custom</span></div>
+          <div class="file-detail">
+            <span class="detail-label">Format:</span>
+            <span class="detail-value">.hc</span>
+          </div>
+          <div class="file-detail">
+            <span class="detail-label">Update:</span>
+            <span class="detail-value">8 Mei 2025</span>
+          </div>
+        </div>
+        <a class="download-btn" href="/config/http_custom.hc" download>
+          <i class="fas fa-download"></i> Download
+        </a>
       </div>
-    </div>
-    
-      <div class="box">
-      <div class="status-dot"></div>
-      <h2>XL UNLIMITED TURBO SUPER</h2>
-      <div class="config-link" id="link2">vmess://eyAidiI6ICIyIiwgInBzIjogIlByZW1pdW0iLCAiYWRkIjogIm5ldmF4LnB4c3RvcmUuYml6LmlkIiwgInBvcnQiOiAiODAiLCAiaWQiOiAiYmQ5Yzk1NGMtZjA1Mi00MTUwLTk3ZGItNjdhNjViZWM2M2EwIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi92bWVzcyIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICJuZXZheC5weHN0b3JlLmJpei5pZCIsICJ0bHMiOiAibm9uZSIgfQo=</div>
-      <div class="button-group">
-      <button class="btn" onclick="copyToClipboard('link2')">Salin Link</button>
-     <a class="btn" id="downloadLink" href="https://simfile.co/k7rcdwuyjm" download>Download</a>
-      <div id="success-msg2" class="copy-success">Link berhasil disalin!</div>
-  </div>
-</div>
-
-    <div class="box">
-      <div class="status-dot"></div>
-      <h2>TELKOMSEL ILMUPEDIA</h2>
-      <div class="config-link" id="link2">vmess://eyAidiI6ICIyIiwgInBzIjogIlByZW1pdW0iLCAiYWRkIjogIm5ldmF4LnB4c3RvcmUuYml6LmlkIiwgInBvcnQiOiAiODAiLCAiaWQiOiAiYmQ5Yzk1NGMtZjA1Mi00MTUwLTk3ZGItNjdhNjViZWM2M2EwIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi92bWVzcyIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICJuZXZheC5weHN0b3JlLmJpei5pZCIsICJ0bHMiOiAibm9uZSIgfQo=</div>
-      <div class="button-group">
-      <button class="btn" onclick="copyToClipboard('link2')">Salin Link</button>
-     <a class="btn" id="downloadLink" href="https://simfile.co/jdnw0husvv" download>Download</a>
-      <div id="success-msg2" class="copy-success">Link berhasil disalin!</div>
-      </div>
-    </div>
-
-    <div class="box">
-      <div class="status-dot"></div>
-      <h2>AXIS XL EDUKASI</h2>
-      <div class="config-link" id="link2">vmess://eyAidiI6ICIyIiwgInBzIjogIlByZW1pdW0iLCAiYWRkIjogIm5ldmF4LnB4c3RvcmUuYml6LmlkIiwgInBvcnQiOiAiODAiLCAiaWQiOiAiYmQ5Yzk1NGMtZjA1Mi00MTUwLTk3ZGItNjdhNjViZWM2M2EwIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi92bWVzcyIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICJuZXZheC5weHN0b3JlLmJpei5pZCIsICJ0bHMiOiAibm9uZSIgfQo=</div>
-      <div class="button-group">
-      <button class="btn" onclick="copyToClipboard('link2')">Salin Link</button>
-     <a class="btn" id="downloadLink" href="https://simfile.co/fbxwtetkd8" download>Download</a>
-      <div id="success-msg2" class="copy-success">Link berhasil disalin!</div>
-      </div>
-    </div>
-
-    <div class="box">
-      <div class="status-dot"></div>
-      <h2>INDOSAT EDUKASI 12GB</h2>
-      <div class="config-link" id="link2">vmess://eyAidiI6ICIyIiwgInBzIjogIlByZW1pdW0iLCAiYWRkIjogIm5ldmF4LnB4c3RvcmUuYml6LmlkIiwgInBvcnQiOiAiODAiLCAiaWQiOiAiYmQ5Yzk1NGMtZjA1Mi00MTUwLTk3ZGItNjdhNjViZWM2M2EwIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi92bWVzcyIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICJuZXZheC5weHN0b3JlLmJpei5pZCIsICJ0bHMiOiAibm9uZSIgfQo=</div>
-      <div class="button-group">
-      <button class="btn" onclick="copyToClipboard('link2')">Salin Link</button>
-     <a class="btn" id="downloadLink" href="https://simfile.co/ylmsmzkxsy" download>Download</a>
-      <div id="success-msg2" class="copy-success">Link berhasil disalin!</div>
-      </div>
-    </div>
-
-    <div class="box">
-      <div class="status-dot"></div>
-      <h2>INDOSAT APPS FUN</h2>
-      <div class="config-link" id="link2">vmess://eyAidiI6ICIyIiwgInBzIjogIlByZW1pdW0iLCAiYWRkIjogIm5ldmF4LnB4c3RvcmUuYml6LmlkIiwgInBvcnQiOiAiODAiLCAiaWQiOiAiYmQ5Yzk1NGMtZjA1Mi00MTUwLTk3ZGItNjdhNjViZWM2M2EwIiwgImFpZCI6ICIwIiwgIm5ldCI6ICJ3cyIsICJwYXRoIjogIi92bWVzcyIsICJ0eXBlIjogIm5vbmUiLCAiaG9zdCI6ICJuZXZheC5weHN0b3JlLmJpei5pZCIsICJ0bHMiOiAibm9uZSIgfQo=</div>
-      <div class="button-group">
-      <button class="btn" onclick="copyToClipboard('link2')">Salin Link</button>
-     <a class="btn" id="downloadLink" href="https://simfile.co/w3rfnnoty2" download>Download</a>
-      <div id="success-msg2" class="copy-success">Link berhasil disalin!</div>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    function copyToClipboard(id) {
-      const text = document.getElementById(id).textContent;
-      navigator.clipboard.writeText(text).then(() => {
-        const successMsg = document.getElementById('success-msg2');
-        successMsg.style.display = 'block';
-        setTimeout(() => {
-          successMsg.style.display = 'none';
-        }, 2000); // Pesan akan hilang setelah 2 detik
-      });
-    }
-  </script>
-  
-   <footer>
-    <div style="padding: 20px; background-color: #111; color: #ccc;">
-      <h3 style="margin-bottom: 10px;">PXStore - Layanan Digital</h3>
-      <p>Layanan Top Up Game, Paket Internet, Akun VPN & Config Gratis</p>
-      <p>Traktir Kopi: <a href="payment.html" style="color: #00ffc8;">KLIK DISINI</a></p>
       
-
+      <!-- File 2 -->
+      <div class="file-card">
+        <div class="status-active">
+          <span class="status-dot"></span>
+          <span>AKTIF</span>
+        </div>
+        <div class="file-header">
+          <div class="file-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div class="file-title">TELKOMSEL ILMUPEDIA</div>
+        </div>
+        <div class="file-details">
+          <div class="file-detail">
+            <span class="detail-label">Aplikasi:</span>            
+         <span class="detail-value">Https Custom</span></div>
+          <div class="file-detail">
+            <span class="detail-label">Format:</span>
+            <span class="detail-value">.hc</span>
+          </div>
+          <div class="file-detail">
+            <span class="detail-label">Update:</span>
+            <span class="detail-value">8 Mei 2025</span>
+          </div>
+        </div>
+        <a class="download-btn" href="https://simfile.co/jdnw0husvv" download>
+          <i class="fas fa-download"></i> Download
+        </a>
       </div>
 
-      <p>Design by <strong>Peyx</strong> | Powered by <strong>PX STORE</strong></p>
-      <p>&copy; 2025 PXStore. All rights reserved.</p>
+      <!-- File 3 -->
+      <div class="file-card">
+        <div class="status-active">
+          <span class="status-dot"></span>
+          <span>AKTIF</span>
+        </div>
+        <div class="file-header">
+          <div class="file-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <div class="file-title">AXIS XL EDUKASI</div>
+        </div>
+        <div class="file-details">
+          <div class="file-detail">
+            <span class="detail-label">Aplikasi:</span>            
+         <span class="detail-value">Https Custom</span></div>
+          <div class="file-detail">
+            <span class="detail-label">Format:</span>
+            <span class="detail-value">.hc</span>
+          </div>
+          <div class="file-detail">
+            <span class="detail-label">Update:</span>
+            <span class="detail-value">8 Mei 2025</span>
+          </div>
+        </div>
+        <a class="download-btn" href="https://simfile.co/fbxwtetkd8" download>
+          <i class="fas fa-download"></i> Download
+        </a>
+      </div>
+
+      <!-- File 4 -->
+      <div class="file-card">
+        <div class="status-active">
+          <span class="status-dot"></span>
+          <span>AKTIF</span>
+        </div>
+        <div class="file-header">
+          <div class="file-icon">
+            <i class="fas fa-database"></i>
+          </div>
+          <div class="file-title">INDOSAT EDUKASI 12GB</div>
+        </div>
+        <div class="file-details">
+          <div class="file-detail">
+            <span class="detail-label">Aplikasi:</span>            
+         <span class="detail-value">Https Custom</span></div>
+          <div class="file-detail">
+            <span class="detail-label">Format:</span>
+            <span class="detail-value">.hc</span>
+          </div>
+          <div class="file-detail">
+            <span class="detail-label">Update:</span>
+            <span class="detail-value">8 Mei 2025</span>
+          </div>
+        </div>
+        <a class="download-btn" href="https://simfile.co/ylmsmzkxsy" download>
+          <i class="fas fa-download"></i> Download
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <h3><i class="fas fa-store"></i> PXSTORE - Layanan Tunneling & PPOB</h3>
+      <p class="copyright">Powered by <strong>PeyxDev</strong></p>
+      <p class="copyright">&copy; 2025 PXSTORE. All rights reserved.</p>
     </div>
   </footer>
-
-
 
 </body>
 </html>
