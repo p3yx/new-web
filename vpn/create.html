@@ -66,27 +66,6 @@
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .balance-box {
-            background: linear-gradient(135deg, var(--success), #4895ef);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .balance-box:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(72, 149, 239, 0.4);
-        }
-
-        .balance-box i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-
         .server-options {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -459,12 +438,6 @@
                 align-items: flex-start;
             }
             
-            .balance-box {
-                margin-top: 10px;
-                width: 100%;
-                justify-content: center;
-            }
-            
             .footer-content {
                 flex-direction: column;
                 align-items: center;
@@ -483,39 +456,29 @@
 
         <div class="user-info">
             <div>
-                <p>Selamat datang, <strong>Pengguna Premium</strong></p>
+                <p>Selamat datang, <strong>Pengguna VPN</strong></p>
                 <p class="text-muted">Login terakhir: <span id="last-login">Baru saja</span></p>
-                <p class="text-muted">Konfirmasi topup: <span id="last-login">klik dashboard saldo</span></p>
-            </div>
-            <div class="balance-box" id="top-up-btn">
-                <i class="fas fa-wallet"></i>
-                <div>
-                    <p style="font-size: 0.8rem; margin-bottom: 2px;">Saldo Anda</p>
-                    <h3 style="margin: 0;">Rp <span id="user-balance">0</span></h3>
-                </div>
             </div>
         </div>
 
         <div class="server-options">
-            <div class="server-card active" data-server="indonesia" data-price="75000">
+            <div class="server-card active" data-server="indonesia">
                 <div class="ping-indicator" style="color: #4cc9f0;">
                     <div class="ping-animation"></div>
                 </div>
                 <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/id.svg" alt="Indonesia">
                 <h3>Server Indonesia</h3>
                 <p>Premium Jakarta</p>
-                <p class="ping"><i class="fas fa-bolt"></i> <span class="ping-value">12</span>ms</p>
-                <span class="price-tag">Rp 10.000/bulan</span>
+                <p class="ping"><i class="fas fa-bolt"></i> <span class="ping-value">15</span>ms</p>
             </div>
-            <div class="server-card" data-server="singapore" data-price="125000">
+            <div class="server-card" data-server="singapore">
                 <div class="ping-indicator" style="color: #4cc9f0;">
                     <div class="ping-animation"></div>
                 </div>
                 <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icons/flags/4x3/sg.svg" alt="Singapore">
                 <h3>Server Singapore</h3>
                 <p>Premium SG</p>
-                <p class="ping"><i class="fas fa-bolt"></i> <span class="ping-value">19</span>ms</p>
-                <span class="price-tag">Rp 10.000/bulan</span>
+                <p class="ping"><i class="fas fa-bolt"></i> <span class="ping-value">25</span>ms</p>
             </div>
         </div>
 
@@ -550,14 +513,10 @@
             <div class="form-group">
                 <label for="duration">Durasi</label>
                 <select id="duration" class="form-control">
-                    <option value="7">SSH 7 Hari - <span class="duration-price">Rp 3.000</span></option>
-                    <option value="15">SSH 15 Hari - <span class="duration-price">Rp 5.000</span></option>
-                    <option value="30" selected>SSH 30 Hari - <span class="duration-price">Rp 10.000</span></option>
-                    <option value="60">SSH 60 Hari - <span class="duration-price">Rp 18.000</span></option>
-                   <option value="70">V2RAY 7 Hari - <span class="duration-pricev">Rp 3.000</span></option>
-                    <option value="80">V2RAY 15 Hari - <span class="duration-pricev">Rp 5.000</span></option>
-                    <option value="90" selected>V2RAY 30 Hari - <span class="duration-pricev">Rp 10.000</span></option>
-                    <option value="95">V2RAY 60 Hari - <span class="duration-pricev">Rp 18.000</span></option>
+                    <option value="7">7 Hari</option>
+                    <option value="15">15 Hari</option>
+                    <option value="30" selected>30 Hari</option>
+                    <option value="60">60 Hari</option>
                 </select>
             </div>
             <button class="btn btn-block" id="create-account">
@@ -626,10 +585,6 @@
                     <span class="detail-label">Kadaluarsa:</span>
                     <span class="detail-value" id="detail-expires">30 hari dari sekarang</span>
                 </div>
-                <div class="detail-item">
-                    <span class="detail-label">Harga:</span>
-                    <span class="detail-value" id="detail-price">Rp 75.000</span>
-                </div>
             </div>
             <div class="qr-code" id="qr-code-container" style="display: none;">
                 <h3>QR Code Konfigurasi</h3>
@@ -662,9 +617,6 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>Tentang Kami</h3>
-                <p>Layanan VPN premium dengan kecepatan tinggi dan stabilitas terbaik untuk kebutuhan browsing aman dan tanpa batas.</p>
-        </div>
         <div class="copyright">
             <p>&copy; 2025 PX STORE. Semua hak dilindungi.</p>
         </div>
@@ -680,7 +632,6 @@
                 card.addEventListener('click', function() {
                     serverCards.forEach(c => c.classList.remove('active'));
                     this.classList.add('active');
-                    updatePrices();
                 });
             });
 
@@ -730,157 +681,40 @@
 
             // Real-time ping simulation
             function simulatePing() {
-    const pingElements = document.querySelectorAll('.ping-value');
-    
-    // Base ping values - INI YANG DIUBAH
-    const basePings = {
-        indonesia: 15,  // Diubah dari 28 menjadi 15 (lebih kecil)
-        singapore: 13   // Diubah dari 45 menjadi 25 (lebih kecil)
-    };
-    
-    // Update ping values every 3 seconds
-    setInterval(() => {
-        pingElements.forEach(el => {
-            const server = el.closest('.server-card').dataset.server;
-            // Random variation ±5ms (diubah dari ±10ms)
-            const variation = Math.floor(Math.random() * 10) - 5;
-            const newPing = Math.max(5, basePings[server] + variation); // Minimal ping 5ms
-            el.textContent = newPing;
-            
-            // Update ping indicator color
-            const indicator = el.closest('.server-card').querySelector('.ping-indicator');
-            if (newPing < 20) {  // Threshold warna diadjust
-                indicator.style.color = '#4cc9f0'; // Excellent (blue)
-            } else if (newPing < 40) {
-                indicator.style.color = '#4ad66d'; // Good (green)
-            } else if (newPing < 70) {
-                indicator.style.color = '#f8961e'; // Fair (orange)
-            } else {
-                indicator.style.color = '#f72585'; // Poor (red)
+                const pingElements = document.querySelectorAll('.ping-value');
+                
+                // Base ping values
+                const basePings = {
+                    indonesia: 15,
+                    singapore: 13
+                };
+                
+                // Update ping values every 3 seconds
+                setInterval(() => {
+                    pingElements.forEach(el => {
+                        const server = el.closest('.server-card').dataset.server;
+                        // Random variation ±5ms
+                        const variation = Math.floor(Math.random() * 10) - 5;
+                        const newPing = Math.max(5, basePings[server] + variation);
+                        el.textContent = newPing;
+                        
+                        // Update ping indicator color
+                        const indicator = el.closest('.server-card').querySelector('.ping-indicator');
+                        if (newPing < 20) {
+                            indicator.style.color = '#4cc9f0'; // Excellent (blue)
+                        } else if (newPing < 40) {
+                            indicator.style.color = '#4ad66d'; // Good (green)
+                        } else if (newPing < 70) {
+                            indicator.style.color = '#f8961e'; // Fair (orange)
+                        } else {
+                            indicator.style.color = '#f72585'; // Poor (red)
+                        }
+                    });
+                }, 3000);
             }
-        });
-    }, 3000);
-}
             
             // Start ping simulation
             simulatePing();
-
-            // Format Rupiah
-            function formatRupiah(angka) {
-                return angka.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            }
-
-            // Update price based on selected server
-            function updatePrices() {
-                const selectedServer = document.querySelector('.server-card.active');
-                const serverPrice = parseInt(selectedServer.dataset.price);
-                const durationOptions = document.querySelectorAll('#duration option');
-                
-                // Fixed prices for each duration
-                const fixedPrices = {
-                    '7': 3000,
-                    '15': 5000,
-                    '30': 10000,
-                    '60': 18000,
-                    '70': 4000,
-                    '80': 7000,
-                    '90': 13000,
-                    '95': 25000
-                };
-                
-                // Adjust prices based on server (Singapore is 1.5x Indonesia)
-                const priceMultiplier = selectedServer.dataset.server === 'singapore' ? 1.5 : 1;
-                
-                durationOptions.forEach(option => {
-                    const duration = option.value;
-                    const price = Math.round(fixedPrices[duration] * priceMultiplier);
-                    const priceElement = option.querySelector('.duration-price');
-                    
-                    if (priceElement) {
-                        priceElement.textContent = 'Rp ' + formatRupiah(price.toString());
-                    } else {
-                        const span = document.createElement('span');
-                        span.className = 'duration-price';
-                        span.textContent = 'Rp ' + formatRupiah(price.toString());
-                        option.innerHTML = option.textContent.split(' - ')[0] + ' - ';
-                        option.appendChild(span);
-                    }
-                });
-            }
-            
-            // Update prices when duration changes
-            document.getElementById('duration').addEventListener('change', updatePrices);
-            
-            // Initialize prices
-            updatePrices();
-
-            // Top up button
-            document.getElementById('top-up-btn').addEventListener('click', function() {
-                Swal.fire({
-                    title: 'Isi Saldo',
-                    html: `
-                        <div style="text-align: left; margin-top: 20px;">
-                            <div class="form-group">
-                                <label for="topup-amount" style="display: block; margin-bottom: 8px;">Jumlah (Rp)</label>
-                                <input type="number" id="topup-amount" class="form-control" placeholder="5000" min="5000" step="10000" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                            </div>
-                            <div class="form-group" style="margin-top: 15px;">
-                                <label style="display: block; margin-bottom: 8px;">Metode Pembayaran</label>
-                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-                                    <label style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                        <input type="radio" name="payment-method" value="dana" checked style="margin-right: 5px;">
-                                        <img src="dana.png" alt="DANA" style="height: 30px; margin-top: 5px;">
-                                    </label>
-                                    <label style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                        <input type="radio" name="payment-method" value="gopay" style="margin-right: 5px;">
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GoPay" style="height: 30px; margin-top: 5px;">
-                                    </label>
-                                    <label style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                        <input type="radio" name="payment-method" value="qris" style="margin-right: 5px;">
-                                        <img src="qriss.png" alt="QRIS" style="height: 30px; margin-top: 5px;">
-                                    </label>
-                                    <label style="text-align: center; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                        <input type="radio" name="payment-method" value="bank" style="margin-right: 5px;">
-                                        <i class="fas fa-university" style="font-size: 30px; color: #4361ee;"></i>
-                                        <div style="margin-top: 5px;">Transfer Bank</div>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    `,
-                    showCancelButton: true,
-                    confirmButtonText: 'Lanjutkan Pembayaran',
-                    cancelButtonText: 'Batal',
-                    showLoaderOnConfirm: true,
-                    preConfirm: () => {
-                        const amount = document.getElementById('topup-amount').value;
-                        if (!amount || parseInt(amount) < 5000) {
-                            Swal.showValidationMessage('Minimal isi saldo Rp 5.000');
-                            return false;
-                        }
-                        return new Promise((resolve) => {
-                            setTimeout(() => {
-                                resolve({ amount: amount });
-                            }, 2000);
-                        });
-                    },
-                    allowOutsideClick: () => !Swal.isLoading()
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Simulate successful top up
-                        const currentBalance = parseInt(document.getElementById('user-balance').textContent.replace(/\./g, ''));
-                        const newBalance = currentBalance + parseInt(result.value.amount);
-                        document.getElementById('user-balance').textContent = formatRupiah(newBalance.toString());
-                        
-                        Swal.fire({
-                            title: 'Pembayaran Berhasil!',
-                            text: `Saldo Anda telah bertambah sebesar Rp ${formatRupiah(result.value.amount)}`,
-                            icon: 'success',
-                            confirmButtonText: 'Baik'
-                        });
-                    }
-                });
-            });
 
             // Create account
             document.getElementById('create-account').addEventListener('click', function() {
@@ -895,28 +729,6 @@
                         text: 'Silakan masukkan username untuk akun Anda',
                         icon: 'warning',
                         confirmButtonText: 'Baik'
-                    });
-                    return;
-                }
-                
-                // Get price from selected option
-                const selectedOption = document.querySelector(`#duration option[value="${duration}"]`);
-                const priceText = selectedOption.querySelector('.duration-price').textContent;
-                const cost = parseInt(priceText.replace(/[^\d]/g, ''));
-                
-                // Check balance
-                const balance = parseInt(document.getElementById('user-balance').textContent.replace(/\./g, ''));
-                
-                if (balance < cost) {
-                    Swal.fire({
-                        title: 'Saldo Tidak Cukup',
-                        text: `Anda membutuhkan ${priceText} untuk membuat akun ini. Silakan isi saldo Anda.`,
-                        icon: 'error',
-                        confirmButtonText: 'Isi Saldo Sekarang'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            document.getElementById('top-up-btn').click();
-                        }
                     });
                     return;
                 }
@@ -951,8 +763,7 @@
                     document.getElementById('detail-protocol').textContent = protocol.toUpperCase();
                     document.getElementById('detail-host').textContent = serverDetails[server].host;
                     document.getElementById('detail-created').textContent = 'Baru saja';
-                    document.getElementById('detail-expires').textContent = `${expiryDate.toLocaleDateString('id-ID')}`;
-                    document.getElementById('detail-price').textContent = priceText;
+                    document.getElementById('detail-expires').textContent = `${duration} hari dari sekarang (${expiryDate.toLocaleDateString('id-ID')})`;
                     
                     if (protocol === 'ssh') {
                         const password = document.getElementById('password').value || generatePassword();
@@ -969,7 +780,7 @@
                     } else {
                         const uuid = generateUUID();
                         document.getElementById('detail-uuid').textContent = uuid;
-                        document.getElementById('detail-port').textContent = '443';
+                        document.getElementById('detail-port').textContent = '80.443';
                         
                         if (protocol === 'trojan') {
                             document.getElementById('detail-password').textContent = uuid;
@@ -1010,10 +821,6 @@
                         document.getElementById('ssh-instructions').style.display = 'none';
                         document.getElementById('xray-instructions').style.display = 'block';
                     }
-                    
-                    // Deduct balance
-                    const newBalance = balance - cost;
-                    document.getElementById('user-balance').textContent = formatRupiah(newBalance.toString());
                     
                     // Show result
                     document.getElementById('result-container').classList.add('active');
