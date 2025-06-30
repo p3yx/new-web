@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PeyxDev Proxy Converter | V2Ray & Trojan to YAML</title>
+    <title>Modern Proxy Converter | V2Ray & Trojan to YAML</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -220,6 +220,33 @@
             line-height: 1.7;
         }
 
+        /* Filename Input */
+        .filename-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .filename-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .filename-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius-sm);
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+        }
+
+        .filename-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
         /* Button Styles */
         .btn-group {
             display: flex;
@@ -301,6 +328,47 @@
         .copy-btn:hover {
             background: white;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px 3px 0 0;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         /* Features Section */
@@ -492,47 +560,6 @@
                 align-items: center;
             }
         }
-
-        /* Tab Navigation */
-        .tab-nav {
-            display: flex;
-            border-bottom: 1px solid var(--light-gray);
-            margin-bottom: 1.5rem;
-        }
-
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            color: var(--gray);
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .tab-btn.active {
-            color: var(--primary);
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            border-radius: 3px 3px 0 0;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -544,10 +571,10 @@
                     <div class="logo-icon">
                         <i class="fas fa-random"></i>
                     </div>
-                    <div class="logo-text">PeyxDev Converter</div>
+                    <div class="logo-text">Proxy Converter</div>
                 </div>
                 <p class="tagline">Konversi konfigurasi V2Ray dan Trojan ke format YAML dengan mudah dan presisi tinggi</p>
-                <div class="version-badge">v2.0.0</div>
+                <div class="version-badge">v2.1.0</div>
             </div>
         </div>
     </header>
@@ -565,6 +592,12 @@
                         <h3 class="card-title">Konfigurasi Input</h3>
                         <p class="card-subtitle">Paste konfigurasi V2Ray atau Trojan Anda</p>
                     </div>
+                </div>
+                
+                <!-- Filename Input -->
+                <div class="filename-group">
+                    <label for="configFilename" class="filename-label">Nama File Konfigurasi</label>
+                    <input type="text" id="configFilename" class="filename-input" placeholder="Misal: config-vidio" value="nama-config">
                 </div>
                 
                 <div class="tab-nav">
@@ -706,12 +739,60 @@
 
     <!-- Footer -->
     <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Proxy Converter</h3>
+                    <p style="color: var(--light-gray); margin-bottom: 1.5rem;">Alat profesional untuk konversi konfigurasi proxy ke format YAML.</p>
+                    <div style="display: flex; gap: 1rem;">
+                        <a href="#" class="btn" style="padding: 0.5rem; background: rgba(255,255,255,0.1);">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="btn" style="padding: 0.5rem; background: rgba(255,255,255,0.1);">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Navigasi</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link"><i class="fas fa-home"></i> Beranda</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-tools"></i> Alat Lainnya</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-book"></i> Dokumentasi</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-question-circle"></i> Bantuan</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Dukungan</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link"><i class="fas fa-envelope"></i> Kontak Kami</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-bug"></i> Laporkan Bug</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-lightbulb"></i> Sarankan Fitur</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-heart"></i> Donasi</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link"><i class="fas fa-shield-alt"></i> Kebijakan Privasi</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-file-contract"></i> Syarat Layanan</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-cookie"></i> Kebijakan Cookie</a></li>
+                        <li><a href="#" class="footer-link"><i class="fas fa-balance-scale"></i> Lisensi</a></li>
+                    </ul>
+                </div>
+            </div>
+            
             <div class="footer-bottom">
                 <div class="social-links">
                     <a href="#" class="social-link"><i class="fab fa-github"></i></a>
                     <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
                 </div>
-                <p class="copyright">© 2025 PX STORE. All rights reserved.</p>
+                <p class="copyright">© 2023 Proxy Converter. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -742,6 +823,7 @@
             const copyBtn = document.getElementById('copyBtn');
             const downloadBtn = document.getElementById('downloadBtn');
             const outputConfig = document.getElementById('outputConfig');
+            const configFilenameInput = document.getElementById('configFilename');
             
             // Conversion Functions
             function convertToYaml() {
@@ -814,6 +896,7 @@
             }
             
             function parseTrojanLink(link) {
+                // Enhanced Trojan link parser with path support
                 const url = new URL(link);
                 const config = {
                     password: url.username,
@@ -823,7 +906,7 @@
                     allowInsecure: url.searchParams.get('allowInsecure') === '1' || true,
                     name: url.hash ? decodeURIComponent(url.hash.substring(1)) : 'trojan-proxy',
                     type: 'trojan',
-                    network: url.searchParams.get('type') === 'ws' ? 'ws' : 'tcp',
+                    network: 'ws',
                     path: url.searchParams.get('path') || '%2Ftrojan-ws',
                     host: url.searchParams.get('host') || url.hostname
                 };
@@ -873,22 +956,7 @@
             }
             
             function generateTrojanYaml(trojanConfig) {
-                // Generate Trojan YAML configuration
-                let yaml = "proxies:\n";
-                yaml += `  - name: ${trojanConfig.remarks || 'trojan-proxy'}\n`;
-                yaml += `    server: ${trojanConfig.server}\n`;
-                yaml += `    port: ${trojanConfig.port}\n`;
-                yaml += `    type: trojan\n`;
-                yaml += `    password: ${trojanConfig.password}\n`;
-                yaml += `    skip-cert-verify: ${trojanConfig.allowInsecure || false}\n`;
-                yaml += `    sni: ${trojanConfig.sni}\n`;
-                yaml += `    udp: true\n`;
-                
-                return yaml;
-            }
-
-            function generateTrojanYaml(trojanConfig) {
-                // Generate the exact YAML format requested
+                // Generate the exact Trojan YAML format requested
                 let yaml = "proxies:\n";
                 yaml += `  - name: ${trojanConfig.name}\n`;
                 yaml += `    server: ${trojanConfig.server}\n`;
@@ -897,20 +965,16 @@
                 yaml += `    password: ${trojanConfig.password}\n`;
                 yaml += `    skip-cert-verify: ${trojanConfig.allowInsecure}\n`;
                 yaml += `    sni: ${trojanConfig.sni}\n`;
-                
-                if (trojanConfig.network === 'ws') {
-                    yaml += `    network: ws\n`;
-                    yaml += `    ws-opts:\n`;
-                    yaml += `      path: "${trojanConfig.path}"\n`;
-                    yaml += `      headers:\n`;
-                    yaml += `        Host: ${trojanConfig.host}\n`;
-                }
-                
+                yaml += `    network: ws\n`;
+                yaml += `    ws-opts:\n`;
+                yaml += `      path: "${trojanConfig.path}"\n`;
+                yaml += `      headers:\n`;
+                yaml += `        Host: ${trojanConfig.host}\n`;
                 yaml += `    udp: true\n`;
                 
                 return yaml;
             }
-            
+
             // Event Listeners
             convertBtn.addEventListener('click', function() {
                 outputConfig.value = convertToYaml();
@@ -948,11 +1012,12 @@
                     return;
                 }
                 
+                const filename = configFilenameInput.value.trim() || 'config-proxy';
                 const blob = new Blob([outputConfig.value], { type: 'text/yaml' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'proxy-config.yaml';
+                a.download = `${filename}.yaml`;
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
@@ -961,8 +1026,11 @@
             
             // Sample data for testing (uncomment to use)
             /*
+            // Sample V2Ray VMess link
             document.getElementById('inputConfig').value = "vmess://eyJhZGQiOiJhdmEuZ2FtZS5uYXZlci5jb20iLCJhaWQiOiIwIiwiaG9zdCI6ImF2YS5nYW1lLm5hdmVyLmNvbS5zbmF5ZGVycy54LXZ2aXAuY2xvdWQiLCJpZCI6IjY2Y2UzMGUzLTRjMTQtNDJmNi1iNzA4LTJmNGRkNjBhMTYxZiIsIm5ldCI6IndzIiwicGF0aCI6Ii9udXNhLnB4c3RvcmUuYml6LmlkL3ZtZXNzIiwicG9ydCI6IjQ0MyIsInBzIjoidHJpYWwgeHV0cyIsInNjeSI6ImF1dG8iLCJzbiI6ImF2YS5nYW1lLm5hdmVyLmNvbS5zbmF5ZGVycy54LXZ2aXAuY2xvdWQiLCJ0bHMiOiJ0bHMiLCJ0eXBlIjoibm9uZSIsInVybF9ncm91cCI6InZtZXNzIiwidXNlciI6IiJ9";
-            document.getElementById('trojanInputConfig').value = "trojan://password123@server.example.com:443?allowInsecure=1&sni=example.com#MyTrojan";
+            
+            // Sample Trojan link with path
+            document.getElementById('trojanInputConfig').value = "trojan://password123@server.example.com:443?allowInsecure=1&sni=example.com&type=ws&path=%2Ftrojan-ws&host=example.com#MyTrojanWS";
             */
         });
     </script>
