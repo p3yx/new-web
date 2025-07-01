@@ -2,8 +2,9 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PeyxDev Proxy Converter | V2Ray & Trojan to YAML</title>
+    <title>Modern Proxy Converter | V2Ray & Trojan to YAML</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -593,7 +594,13 @@
                         <p class="card-subtitle">Paste konfigurasi V2Ray atau Trojan Anda</p>
                     </div>
                 </div>
-      
+                
+                <!-- Filename Input -->
+                <div class="filename-group">
+                    <label for="configFilename" class="filename-label">Nama File Konfigurasi</label>
+                    <input type="text" id="configFilename" class="filename-input" placeholder="Misal: config-vidio">
+                </div>
+                
                 <div class="tab-nav">
                     <button class="tab-btn active" data-tab="v2ray-tab">
                         <i class="fas fa-shield-alt"></i> V2Ray
@@ -665,12 +672,6 @@
                         </button>
                     </div>
                 </div>
-                                <!-- Filename Input -->
-                <div class="filename-group">
-                    <label for="configFilename" class="filename-label">Nama File Konfigurasi</label>
-                    <input type="text" id="configFilename" class="filename-input" placeholder="Misal: config-vidio">
-                </div>
-                
                 
                 <button class="btn btn-success" id="downloadBtn">
                     <i class="fas fa-download"></i> Unduh File YAML
