@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,17 +11,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <style>
         :root {
-            --primary-color: #2563eb;
-            --primary-light: #3b82f6;
-            --secondary-color: #1e40af;
-            --light-color: #f8fafc;
-            --dark-color: #1e293b;
-            --text-color: #334155;
+            --primary-color: #0044b1;
+            --primary-light: #60a5fa;
+            --secondary-color: #2563eb;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --card-hover: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
             --success-color: #10b981;
             --active-color: #22c55e;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease;
+        }
+        
+        [data-theme="light"] {
+            --dark-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --card-hover: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
             --border-color: #e2e8f0;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
         
         * {
@@ -29,18 +41,86 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            transition: var(--transition);
         }
         
         body {
-            background-color: #f8fafc;
-            color: var(--text-color);
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
             line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .theme-switch-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            height: 34px;
+            position: relative;
+            width: 60px;
+        }
+
+        .theme-switch input {
+            display: none;
+        }
+
+        .slider {
+            background-color: var(--card-bg);
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border: 1px solid var(--border-color);
+        }
+
+        .slider:before {
+            background-color: var(--text-primary);
+            bottom: 4px;
+            content: "";
+            height: 26px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 26px;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .theme-text {
+            margin-left: 10px;
+            font-size: 14px;
+            color: var(--text-secondary);
         }
 
         .main-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 70px 20px 20px;
         }
         
         header {
@@ -49,15 +129,29 @@
             padding: 30px 0;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            border-radius: 12px;
+            border-radius: 16px;
             box-shadow: var(--card-shadow);
             animation: fadeInDown 0.8s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
         }
         
         h1 {
             font-size: 2.2rem;
             margin-bottom: 10px;
             font-weight: 700;
+            position: relative;
         }
 
         .subtitle {
@@ -65,6 +159,7 @@
             opacity: 0.9;
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
         }
         
         .download-list {
@@ -75,22 +170,40 @@
         }
         
         .file-card {
-            background: white;
+            background: var(--card-bg);
             padding: 25px;
-            border-radius: 12px;
+            border-radius: 16px;
             box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
+            transition: var(--transition);
             border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             position: relative;
             animation: fadeIn 0.8s;
+            overflow: hidden;
+        }
+        
+        .file-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
         }
         
         .file-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--hover-shadow);
             border-color: var(--primary-light);
+        }
+        
+        .file-card:hover::before {
+            transform: scaleX(1);
         }
         
         .status-indicator {
@@ -119,19 +232,19 @@
         .file-icon {
             width: 40px;
             height: 40px;
-            background-color: #e0e7ff;
-            border-radius: 8px;
+            background-color: rgba(59, 130, 246, 0.2);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-right: 15px;
-            color: var(--primary-color);
+            color: var(--primary-light);
             font-size: 18px;
         }
         
         .file-title {
             font-size: 1.1rem;
-            color: var(--primary-color);
+            color: var(--text-primary);
             font-weight: 600;
         }
         
@@ -148,12 +261,12 @@
         
         .detail-label {
             font-weight: 600;
-            color: var(--dark-color);
+            color: var(--text-secondary);
             min-width: 80px;
         }
         
         .detail-value {
-            color: var(--text-color);
+            color: var(--text-primary);
         }
         
         .download-btn {
@@ -165,7 +278,7 @@
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             text-align: center;
             display: flex;
             align-items: center;
@@ -176,6 +289,7 @@
         .download-btn:hover {
             background: var(--secondary-color);
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
         
         .download-btn i {
@@ -185,11 +299,12 @@
         footer {
             text-align: center;
             padding: 30px 20px;
-            background: white;
-            color: var(--text-color);
+            background: var(--card-bg);
+            color: var(--text-primary);
             margin-top: 40px;
             border-top: 1px solid var(--border-color);
             animation: fadeIn 0.8s;
+            border-radius: 16px 16px 0 0;
         }
 
         .footer-content {
@@ -199,18 +314,18 @@
 
         .footer-content h3 {
             margin-bottom: 15px;
-            color: var(--primary-color);
+            color: var(--primary-light);
             font-size: 1.2rem;
         }
 
         .copyright {
             margin-top: 20px;
-            color: #64748b;
+            color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
         .copyright strong {
-            color: var(--primary-color);
+            color: var(--primary-light);
             font-weight: 600;
         }
 
@@ -239,10 +354,23 @@
             .file-card {
                 padding: 20px;
             }
+            
+            .theme-switch-wrapper {
+                top: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
 <body>
+
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round"></div>
+        </label>
+        <div class="theme-text">Dark Mode</div>
+    </div>
 
     <div class="main-container">
         <header class="animate__animated animate__fadeInDown">
@@ -393,6 +521,36 @@
                 container.innerHTML += createFileCard(file, index);
             });
         }
+
+        // Toggle theme
+        const toggleSwitch = document.querySelector('#checkbox');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        const themeText = document.querySelector('.theme-text');
+
+        if (currentTheme) {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            
+            if (currentTheme === 'light') {
+                toggleSwitch.checked = true;
+                themeText.textContent = 'Light Mode';
+            } else {
+                themeText.textContent = 'Dark Mode';
+            }
+        }
+
+        function switchTheme(e) {
+            if (e.target.checked) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeText.textContent = 'Light Mode';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeText.textContent = 'Dark Mode';
+            }    
+        }
+
+        toggleSwitch.addEventListener('change', switchTheme, false);
 
         // Inisialisasi halaman
         document.addEventListener('DOMContentLoaded', function() {
