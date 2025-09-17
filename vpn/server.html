@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Status Monitor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #60a5fa;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --online: #22c55e;
+            --offline: #ef4444;
+            --slow: #f59e0b;
+            --unknown: #64748b;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(90deg, var(--bg-secondary), var(--bg-card));
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-left h1 {
+            margin-bottom: 5px;
+            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 800;
+        }
+        
+        .header-left p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+        
+        .last-update {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.5);
+        }
+        
+        .refresh-btn:active {
+            transform: translateY(0);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-card i {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: var(--accent-secondary);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 5px 0;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .server-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .server-item {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .server-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .server-info {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .server-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .status-online {
+            background-color: var(--online);
+            box-shadow: 0 0 10px var(--online);
+        }
+        
+        .status-offline {
+            background-color: var(--offline);
+            box-shadow: 0 0 10px var(--offline);
+        }
+        
+        .status-slow {
+            background-color: var(--slow);
+            box-shadow: 0 0 10px var(--slow);
+        }
+        
+        .status-unknown {
+            background-color: var(--unknown);
+        }
+        
+        .server-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            text-align: center;
+        }
+        
+        .stat {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+        
+        .stat-value-sm {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label-sm {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .server-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .details-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .details-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-card {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        
+        .chart-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .chart-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .server-selector {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+        
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+        
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            transform: translateX(-100%);
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 992px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .server-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .server-actions {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .server-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .server-name {
+                justify-content: center;
+            }
+            
+            .chart-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .server-selector {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-left">
+                <h1>Server Status Monitor</h1>
+                <p>Pantau status server Anda secara real-time</p>
+            </div>
+            <div class="last-update">
+                <i class="fas fa-clock"></i>
+                <span>Terakhir update: <span id="last-update-time">-</span></span>
+                <button class="refresh-btn" id="refresh-btn">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            </div>
+        </header>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-server"></i>
+                <span class="stat-value" id="total-servers">0</span>
+                <span class="stat-label">Total Server</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-check-circle"></i>
+                <span class="stat-value" id="online-servers">0</span>
+                <span class="stat-label">Server Online</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-network-wired"></i>
+                <span class="stat-value" id="avg-ping">0 ms</span>
+                <span class="stat-label">Rata-rata Ping</span>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-arrow-up"></i>
+                <span class="stat-value" id="uptime-percentage">0%</span>
+                <span class="stat-label">Uptime (24 jam)</span>
+            </div>
+        </div>
+        
+        <div class="server-list" id="server-list">
+            <!-- Server items will be generated here -->
+        </div>
+        
+        <div class="charts-container">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Ping Response Time (ms)</div>
+                    <select class="server-selector" id="ping-server-selector">
+                        <option value="all">Semua Server</option>
+                        <!-- Server options will be generated here -->
+                    </select>
+                </div>
+                <div class="chart-container">
+                    <canvas id="ping-chart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Bandwidth Usage</div>
+                    <select class="server-selector" id="bandwidth-server-selector">
+                        <option value="all">Semua Server</option>
+                        <!-- Server options will be generated here -->
+                    </select>
+                </div>
+                <div class="chart-container">
+                    <canvas id="bandwidth-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Server Monitoring System &copy; 2025 | PX STORE</p>
+        </footer>
+    </div>
+
+    <script>
+        // Daftar server hardcoded (tidak disimpan di localStorage)
+        const servers = [
+            {
+                id: 1,
+                name: "ID NUSA",
+                ip: "43.229.254.84",
+                port: 22,
+                location: "Medan",
+                basePing: 25,
+                baseDownload: 350,
+                baseUpload: 150
+            },
+            {
+                id: 2,
+                name: "ID NEVACLOUD",
+                ip: "160.19.166.212",
+                port: 22,
+                location: "Jakarta",
+                basePing: 29,
+                baseDownload: 450,
+                baseUpload: 200
+            },
+            {
+                id: 3,
+                name: "SGDO V1",
+                ip: "167.99.77.40",
+                port: 22,
+                location: "Singapore",
+                basePing: 20,
+                baseDownload: 500,
+                baseUpload: 250
+            },
+            {
+                id: 4,
+                name: "SGDO V2",
+                ip: "165.232.174.134",
+                port: 22,
+                location: "Singapore",
+                basePing: 23,
+                baseDownload: 480,
+                baseUpload: 220
+            }
+        ];
+        
+        // Status cache untuk server
+        const serversStatus = {};
+        let pingChart, bandwidthChart;
+        let checkIntervalId = null;
+
+        // Fungsi untuk mengupdate waktu pembaruan terakhir
+        function updateLastUpdateTime() {
+            const now = new Date();
+            document.getElementById('last-update-time').textContent = 
+                `${now.toLocaleTimeString()} ${now.toLocaleDateString()}`;
+        }
+
+        // Fungsi untuk memperbarui statistik dashboard
+        function updateDashboardStats() {
+            const totalServers = servers.length;
+            const onlineServers = servers.length; // Semua server online
+            let totalPing = 0;
+            
+            servers.forEach((server, index) => {
+                const status = serversStatus[index];
+                if (status && status.ping) {
+                    totalPing += status.ping;
+                }
+            });
+            
+            const avgPing = totalServers > 0 ? Math.round(totalPing / totalServers) : 0;
+            const uptimePercentage = 100; // Semua server online, jadi uptime 100%
+            
+            document.getElementById('total-servers').textContent = totalServers;
+            document.getElementById('online-servers').textContent = onlineServers;
+            document.getElementById('avg-ping').textContent = `${avgPing} ms`;
+            document.getElementById('uptime-percentage').textContent = `${uptimePercentage}%`;
+        }
+
+        // Fungsi untuk memeriksa status server
+        async function checkServerStatus() {
+            updateLastUpdateTime();
+            
+            for (let i = 0; i < servers.length; i++) {
+                const server = servers[i];
+                
+                try {
+                    // Simulasi koneksi ke server
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                    
+                    // Semua server selalu online dengan nilai yang bervariasi sedikit
+                    const ping = Math.floor(server.basePing + (Math.random() * 10 - 5)); // Variasi ±5ms
+                    const download = (server.baseDownload + (Math.random() * 50 - 25)).toFixed(1); // Variasi ±25 Mbps
+                    const upload = (server.baseUpload + (Math.random() * 30 - 15)).toFixed(1); // Variasi ±15 Mbps
+                    
+                    serversStatus[i] = {
+                        status: 'online',
+                        ping: ping,
+                        download: download,
+                        upload: upload,
+                        lastChecked: new Date().toISOString()
+                    };
+                    
+                } catch (error) {
+                    console.error('Error checking server status:', error);
+                    serversStatus[i] = {
+                        status: 'offline',
+                        ping: null,
+                        download: null,
+                        upload: null,
+                        lastChecked: new Date().toISOString()
+                    };
+                }
+            }
+            
+            updateServersDisplay();
+            updateDashboardStats();
+            updateCharts();
+        }
+
+        // Fungsi untuk memperbarui tampilan status server
+        function updateServersDisplay() {
+            const serverListElement = document.getElementById('server-list');
+            serverListElement.innerHTML = '';
+            
+            servers.forEach((server, index) => {
+                const statusData = serversStatus[index] || {
+                    status: 'online',
+                    ping: server.basePing,
+                    download: server.baseDownload,
+                    upload: server.baseUpload,
+                    lastChecked: new Date().toISOString()
+                };
+                
+                const serverElement = document.createElement('div');
+                serverElement.className = 'server-item';
+                
+                let statusText = '';
+                switch(statusData.status) {
+                    case 'online':
+                        statusText = 'Online';
+                        break;
+                    case 'offline':
+                        statusText = 'Offline';
+                        break;
+                    case 'slow':
+                        statusText = 'Slow Response';
+                        break;
+                    default:
+                        statusText = 'Unknown';
+                }
+                
+                serverElement.innerHTML = `
+                    <div class="server-info">
+                        <div class="server-name">
+                            <span class="status-indicator status-${statusData.status}"></span>
+                            ${server.name}
+                        </div>
+                        <div class="server-meta">
+                            ${server.ip}:${server.port} | ${server.location}
+                        </div>
+                        <div class="server-meta">
+                            Status: <span class="status-text">${statusText}</span>
+                        </div>
+                        <div class="server-meta">
+                            Terakhir dicek: <span class="last-checked">${statusData.lastChecked ? new Date(statusData.lastChecked).toLocaleTimeString() : '-'}</span>
+                        </div>
+                    </div>
+                    <div class="server-stats">
+                        <div class="stat">
+                            <div class="stat-value-sm ping-value">${statusData.ping ? statusData.ping + ' ms' : 'N/A'}</div>
+                            <div class="stat-label-sm">Ping</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value-sm download-value">${statusData.download ? statusData.download + ' Mbps' : 'N/A'}</div>
+                            <div class="stat-label-sm">Download</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value-sm upload-value">${statusData.upload ? statusData.upload + ' Mbps' : 'N/A'}</div>
+                            <div class="stat-label-sm">Upload</div>
+                        </div>
+                    </div>
+                    <div class="server-actions">
+                        <button class="details-btn">
+                            <i class="fas fa-chart-line"></i>
+                            Detail
+                        </button>
+                    </div>
+                `;
+                
+                serverListElement.appendChild(serverElement);
+            });
+        }
+
+        // Fungsi untuk mengisi dropdown pemilih server
+        function populateServerSelectors() {
+            const pingSelector = document.getElementById('ping-server-selector');
+            const bandwidthSelector = document.getElementById('bandwidth-server-selector');
+            
+            // Hapus opsi yang sudah ada (kecuali opsi "Semua Server")
+            while (pingSelector.children.length > 1) {
+                pingSelector.removeChild(pingSelector.lastChild);
+            }
+            while (bandwidthSelector.children.length > 1) {
+                bandwidthSelector.removeChild(bandwidthSelector.lastChild);
+            }
+            
+            // Tambahkan opsi untuk setiap server
+            servers.forEach(server => {
+                const option = document.createElement('option');
+                option.value = server.id;
+                option.textContent = server.name;
+                
+                pingSelector.appendChild(option.cloneNode(true));
+                bandwidthSelector.appendChild(option);
+            });
+        }
+
+        // Fungsi untuk memperbarui grafik
+        function updateCharts() {
+            const timeLabels = Array.from({length: 24}, (_, i) => `${i}:00`);
+            
+            // Data untuk grafik ping
+            const pingData = Array.from({length: 24}, () => 
+                Math.floor(Math.random() * 30) + 20 // Data antara 20-50ms
+            );
+            
+            // Data untuk grafik bandwidth
+            const downloadData = Array.from({length: 24}, () => 
+                Math.floor(Math.random() * 200) + 300 // Data antara 300-500 Mbps
+            );
+            
+            const uploadData = Array.from({length: 24}, () => 
+                Math.floor(Math.random() * 100) + 150 // Data antara 150-250 Mbps
+            );
+            
+            // Perbarui grafik ping
+            if (pingChart) {
+                pingChart.data.datasets[0].data = pingData;
+                pingChart.update();
+            }
+            
+            // Perbarui grafik bandwidth
+            if (bandwidthChart) {
+                bandwidthChart.data.datasets[0].data = downloadData;
+                bandwidthChart.data.datasets[1].data = uploadData;
+                bandwidthChart.update();
+            }
+        }
+
+        // Inisialisasi grafik
+        function initializeCharts() {
+            const pingCtx = document.getElementById('ping-chart').getContext('2d');
+            const bandwidthCtx = document.getElementById('bandwidth-chart').getContext('2d');
+            
+            // Data contoh untuk grafik
+            const timeLabels = Array.from({length: 24}, (_, i) => `${i}:00`);
+            
+            pingChart = new Chart(pingCtx, {
+                type: 'line',
+                data: {
+                    labels: timeLabels,
+                    datasets: [{
+                        label: 'Ping Time (ms)',
+                        data: Array.from({length: 24}, () => Math.floor(Math.random() * 30) + 20),
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#3b82f6',
+                        pointBorderColor: '#fff',
+                        pointRadius: 3,
+                        pointHoverRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 0,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#cbd5e1'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#cbd5e1'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            bandwidthChart = new Chart(bandwidthCtx, {
+                type: 'line',
+                data: {
+                    labels: timeLabels,
+                    datasets: [
+                        {
+                            label: 'Download (Mbps)',
+                            data: Array.from({length: 24}, () => Math.floor(Math.random() * 200) + 300),
+                            borderColor: '#22c55e',
+                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                            tension: 0.4,
+                            fill: true,
+                            pointBackgroundColor: '#22c55e',
+                            pointBorderColor: '#fff',
+                            pointRadius: 3,
+                            pointHoverRadius: 5
+                        },
+                        {
+                            label: 'Upload (Mbps)',
+                            data: Array.from({length: 24}, () => Math.floor(Math.random() * 100) + 150),
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            tension: 0.4,
+                            fill: false,
+                            pointBackgroundColor: '#8b5cf6',
+                            pointBorderColor: '#fff',
+                            pointRadius: 3,
+                            pointHoverRadius: 5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            },
+                            ticks: {
+                                color: '#cbd5e1'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                color: '#cbd5e1'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Inisialisasi dashboard
+        function initializeDashboard() {
+            // Inisialisasi grafik
+            initializeCharts();
+            
+            // Isi dropdown pemilih server
+            populateServerSelectors();
+            
+            // Setup event listeners
+            document.getElementById('refresh-btn').addEventListener('click', checkServerStatus);
+            
+            // Lakukan pengecekan pertama
+            checkServerStatus();
+            
+            // Set interval untuk pengecekan berkala (30 detik)
+            checkIntervalId = setInterval(checkServerStatus, 30000);
+        }
+
+        // Jalankan ketika dokumen sudah dimuat
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+    </script>
+</body>
+</html>
