@@ -342,6 +342,188 @@
             display: none;
         }
         
+        /* Toast Notification Styles */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .toast {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            padding: 16px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast.hide {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        
+        .toast-icon {
+            font-size: 1.5rem;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .toast-success .toast-icon {
+            background-color: var(--online);
+        }
+        
+        .toast-error .toast-icon {
+            background-color: var(--offline);
+        }
+        
+        .toast-warning .toast-icon {
+            background-color: var(--slow);
+        }
+        
+        .toast-info .toast-icon {
+            background-color: var(--accent-primary);
+        }
+        
+        .toast-content {
+            flex: 1;
+        }
+        
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .toast-message {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+        
+        .toast-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+        
+        /* Download/Upload Animation Styles */
+        .download-upload-animation {
+            position: relative;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .download-bar, .upload-bar {
+            position: absolute;
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        
+        .download-bar {
+            background: linear-gradient(90deg, var(--online), #4ade80);
+            top: 0;
+            left: 0;
+        }
+        
+        .upload-bar {
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            top: 0;
+            left: 0;
+        }
+        
+        /* Different colors for each server */
+        .server-1 .download-bar {
+            background: linear-gradient(90deg, #22c55e, #4ade80);
+        }
+        
+        .server-1 .upload-bar {
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        }
+        
+        .server-2 .download-bar {
+            background: linear-gradient(90deg, #10b981, #34d399);
+        }
+        
+        .server-2 .upload-bar {
+            background: linear-gradient(90deg, #6366f1, #818cf8);
+        }
+        
+        .server-3 .download-bar {
+            background: linear-gradient(90deg, #14b8a6, #2dd4bf);
+        }
+        
+        .server-3 .upload-bar {
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+        }
+        
+        .server-4 .download-bar {
+            background: linear-gradient(90deg, #f97316, #fb923c);
+        }
+        
+        .server-4 .upload-bar {
+            background: linear-gradient(90deg, #ec4899, #f472b6);
+        }
+        
+        /* Animation for download/upload bars */
+        @keyframes downloadAnimation {
+            0% { width: 0%; }
+            50% { width: 85%; }
+            100% { width: 100%; }
+        }
+        
+        @keyframes uploadAnimation {
+            0% { width: 0%; }
+            70% { width: 60%; }
+            100% { width: 70%; }
+        }
+        
+        .downloading .download-bar {
+            animation: downloadAnimation 1.5s ease-out forwards;
+        }
+        
+        .uploading .upload-bar {
+            animation: uploadAnimation 1.5s ease-out forwards;
+            animation-delay: 0.3s;
+        }
+        
         @media (max-width: 992px) {
             .charts-container {
                 grid-template-columns: 1fr;
@@ -380,6 +562,10 @@
             
             .server-selector {
                 width: 100%;
+            }
+            
+            .toast {
+                min-width: 250px;
             }
         }
     </style>
@@ -460,399 +646,422 @@
         </footer>
     </div>
 
-    <script>
-        // Daftar server hardcoded (tidak disimpan di localStorage)
-        const servers = [
-            {
-                id: 1,
-                name: "ID NUSA",
-                ip: "43.229.254.84",
-                port: 22,
-                location: "Medan",
-                basePing: 25,
-                baseDownload: 350,
-                baseUpload: 150
-            },
-            {
-                id: 2,
-                name: "ID NEVACLOUD",
-                ip: "160.19.166.212",
-                port: 22,
-                location: "Jakarta",
-                basePing: 29,
-                baseDownload: 450,
-                baseUpload: 200
-            },
-            {
-                id: 3,
-                name: "SGDO V1",
-                ip: "167.99.77.40",
-                port: 22,
-                location: "Singapore",
-                basePing: 20,
-                baseDownload: 500,
-                baseUpload: 250
-            },
-            {
-                id: 4,
-                name: "SGDO V2",
-                ip: "165.232.174.134",
-                port: 22,
-                location: "Singapore",
-                basePing: 23,
-                baseDownload: 480,
-                baseUpload: 220
-            }
-        ];
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+<script>
+    // Data simulasi server
+    const servers = [
+        { id: 1, name: "ID NUSA", ip: "Lokasi: Medan", status: "online", ping: 11, uptime: "99.8%", download: 225, upload: 150 },
+        { id: 2, name: "ID NEVA", ip: "Lokasi: Jakarta", status: "online", ping: 13, uptime: "97.9%", download: 351, upload: 130 },
+        { id: 3, name: "ID BIZNET", ip: "Lokasi: Jakarta", status: "offline", ping: 0, uptime: "0%", download: 0, upload: 0 },
+        { id: 4, name: "SGDO V1", ip: "Lokasi: Singapore", status: "online", ping: 14, uptime: "98.5%", download: 254, upload: 192 },
+        { id: 5, name: "SGDO V2", ip: "Lokasi: Singapore", status: "online", ping: 15, uptime: "97%", download: 301, upload: 180 }
+    ];
+
+    // Variabel global untuk chart
+    let pingChart = null;
+    let bandwidthChart = null;
+    let lastUpdateTime = null;
+
+    // Fungsi untuk menginisialisasi aplikasi
+    function initApp() {
+        updateLastUpdateTime();
+        renderServerList();
+        updateStats();
+        initCharts();
+        setupEventListeners();
         
-        // Status cache untuk server
-        const serversStatus = {};
-        let pingChart, bandwidthChart;
-        let checkIntervalId = null;
+        // Simulasi pembaruan data secara berkala
+        setInterval(updateData, 10000);
+    }
 
-        // Fungsi untuk mengupdate waktu pembaruan terakhir
-        function updateLastUpdateTime() {
-            const now = new Date();
-            document.getElementById('last-update-time').textContent = 
-                `${now.toLocaleTimeString()} ${now.toLocaleDateString()}`;
-        }
+    // Fungsi untuk memperbarui waktu terakhir update
+    function updateLastUpdateTime() {
+        lastUpdateTime = new Date();
+        document.getElementById('last-update-time').textContent = lastUpdateTime.toLocaleTimeString();
+    }
 
-        // Fungsi untuk memperbarui statistik dashboard
-        function updateDashboardStats() {
-            const totalServers = servers.length;
-            const onlineServers = servers.length; // Semua server online
-            let totalPing = 0;
+    // Fungsi untuk merender daftar server
+    function renderServerList() {
+        const serverList = document.getElementById('server-list');
+        serverList.innerHTML = '';
+        
+        servers.forEach(server => {
+            const statusClass = `status-${server.status}`;
+            const statusText = server.status.charAt(0).toUpperCase() + server.status.slice(1);
             
-            servers.forEach((server, index) => {
-                const status = serversStatus[index];
-                if (status && status.ping) {
-                    totalPing += status.ping;
-                }
-            });
-            
-            const avgPing = totalServers > 0 ? Math.round(totalPing / totalServers) : 0;
-            const uptimePercentage = 100; // Semua server online, jadi uptime 100%
-            
-            document.getElementById('total-servers').textContent = totalServers;
-            document.getElementById('online-servers').textContent = onlineServers;
-            document.getElementById('avg-ping').textContent = `${avgPing} ms`;
-            document.getElementById('uptime-percentage').textContent = `${uptimePercentage}%`;
-        }
-
-        // Fungsi untuk memeriksa status server
-        async function checkServerStatus() {
-            updateLastUpdateTime();
-            
-            for (let i = 0; i < servers.length; i++) {
-                const server = servers[i];
-                
-                try {
-                    // Simulasi koneksi ke server
-                    await new Promise(resolve => setTimeout(resolve, 200));
-                    
-                    // Semua server selalu online dengan nilai yang bervariasi sedikit
-                    const ping = Math.floor(server.basePing + (Math.random() * 10 - 5)); // Variasi ±5ms
-                    const download = (server.baseDownload + (Math.random() * 50 - 25)).toFixed(1); // Variasi ±25 Mbps
-                    const upload = (server.baseUpload + (Math.random() * 30 - 15)).toFixed(1); // Variasi ±15 Mbps
-                    
-                    serversStatus[i] = {
-                        status: 'online',
-                        ping: ping,
-                        download: download,
-                        upload: upload,
-                        lastChecked: new Date().toISOString()
-                    };
-                    
-                } catch (error) {
-                    console.error('Error checking server status:', error);
-                    serversStatus[i] = {
-                        status: 'offline',
-                        ping: null,
-                        download: null,
-                        upload: null,
-                        lastChecked: new Date().toISOString()
-                    };
-                }
-            }
-            
-            updateServersDisplay();
-            updateDashboardStats();
-            updateCharts();
-        }
-
-        // Fungsi untuk memperbarui tampilan status server
-        function updateServersDisplay() {
-            const serverListElement = document.getElementById('server-list');
-            serverListElement.innerHTML = '';
-            
-            servers.forEach((server, index) => {
-                const statusData = serversStatus[index] || {
-                    status: 'online',
-                    ping: server.basePing,
-                    download: server.baseDownload,
-                    upload: server.baseUpload,
-                    lastChecked: new Date().toISOString()
-                };
-                
-                const serverElement = document.createElement('div');
-                serverElement.className = 'server-item';
-                
-                let statusText = '';
-                switch(statusData.status) {
-                    case 'online':
-                        statusText = 'Online';
-                        break;
-                    case 'offline':
-                        statusText = 'Offline';
-                        break;
-                    case 'slow':
-                        statusText = 'Slow Response';
-                        break;
-                    default:
-                        statusText = 'Unknown';
-                }
-                
-                serverElement.innerHTML = `
-                    <div class="server-info">
-                        <div class="server-name">
-                            <span class="status-indicator status-${statusData.status}"></span>
-                            ${server.name}
-                        </div>
-                        <div class="server-meta">
-                           Lokasi: ${server.location}
-                        </div>
-                        <div class="server-meta">
-                            Status: <span class="status-text">${statusText}</span>
-                        </div>
-                        <div class="server-meta">
-                            Terakhir dicek: <span class="last-checked">${statusData.lastChecked ? new Date(statusData.lastChecked).toLocaleTimeString() : '-'}</span>
-                        </div>
+            const serverItem = document.createElement('div');
+            serverItem.className = `server-item server-${server.id}`;
+            serverItem.innerHTML = `
+                <div class="server-info">
+                    <div class="server-name">
+                        <span class="status-indicator ${statusClass}"></span>
+                        ${server.name}
                     </div>
-                    <div class="server-stats">
-                        <div class="stat">
-                            <div class="stat-value-sm ping-value">${statusData.ping ? statusData.ping + ' ms' : 'N/A'}</div>
-                            <div class="stat-label-sm">Ping</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value-sm download-value">${statusData.download ? statusData.download + ' Mbps' : 'N/A'}</div>
-                            <div class="stat-label-sm">Download</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value-sm upload-value">${statusData.upload ? statusData.upload + ' Mbps' : 'N/A'}</div>
-                            <div class="stat-label-sm">Upload</div>
-                        </div>
+                    <div class="server-ip">${server.ip}</div>
+                    <div class="download-upload-animation">
+                        <div class="download-bar" style="width: ${server.download}%"></div>
+                        <div class="upload-bar" style="width: ${server.upload}%"></div>
                     </div>
-                    <div class="server-actions">
-                        <button class="details-btn">
-                            <i class="fas fa-chart-line"></i>
-                            Detail
-                        </button>
+                </div>
+                <div class="server-stats">
+                    <div class="stat">
+                        <div class="stat-value-sm">${server.ping} ms</div>
+                        <div class="stat-label-sm">Ping</div>
                     </div>
-                `;
-                
-                serverListElement.appendChild(serverElement);
-            });
-        }
+                    <div class="stat">
+                        <div class="stat-value-sm">${server.uptime}</div>
+                        <div class="stat-label-sm">Uptime</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value-sm">${server.download} Mbps</div>
+                        <div class="stat-label-sm">Download</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value-sm">${server.upload} Mbps</div>
+                        <div class="stat-label-sm">Upload</div>
+                    </div>
+                </div>
+                <div class="server-actions">
+                    <button class="details-btn" data-server-id="${server.id}">
+                        <i class="fas fa-info-circle"></i>
+                        Details
+                    </button>
+                </div>
+            `;
+            
+            serverList.appendChild(serverItem);
+        });
+        
+        // Update selector options
+        updateServerSelectors();
+    }
 
-        // Fungsi untuk mengisi dropdown pemilih server
-        function populateServerSelectors() {
-            const pingSelector = document.getElementById('ping-server-selector');
-            const bandwidthSelector = document.getElementById('bandwidth-server-selector');
-            
-            // Hapus opsi yang sudah ada (kecuali opsi "Semua Server")
-            while (pingSelector.children.length > 1) {
-                pingSelector.removeChild(pingSelector.lastChild);
-            }
-            while (bandwidthSelector.children.length > 1) {
-                bandwidthSelector.removeChild(bandwidthSelector.lastChild);
-            }
-            
-            // Tambahkan opsi untuk setiap server
-            servers.forEach(server => {
-                const option = document.createElement('option');
-                option.value = server.id;
-                option.textContent = server.name;
-                
-                pingSelector.appendChild(option.cloneNode(true));
-                bandwidthSelector.appendChild(option);
-            });
-        }
+    // Fungsi untuk memperbarui statistik ringkasan
+    function updateStats() {
+        const totalServers = servers.length;
+        const onlineServers = servers.filter(server => server.status === 'online').length;
+        const avgPing = Math.round(servers.reduce((sum, server) => sum + server.ping, 0) / servers.filter(server => server.status !== 'offline').length) || 0;
+        const uptimePercentage = Math.round(servers.reduce((sum, server) => {
+            const uptime = parseFloat(server.uptime) || 0;
+            return sum + uptime;
+        }, 0) / servers.length);
+        
+        document.getElementById('total-servers').textContent = totalServers;
+        document.getElementById('online-servers').textContent = onlineServers;
+        document.getElementById('avg-ping').textContent = `${avgPing} ms`;
+        document.getElementById('uptime-percentage').textContent = `${uptimePercentage}%`;
+    }
 
-        // Fungsi untuk memperbarui grafik
-        function updateCharts() {
-            const timeLabels = Array.from({length: 24}, (_, i) => `${i}:00`);
+    // Fungsi untuk mengupdate selector server di chart
+    function updateServerSelectors() {
+        const pingSelector = document.getElementById('ping-server-selector');
+        const bandwidthSelector = document.getElementById('bandwidth-server-selector');
+        
+        // Hapus opsi yang sudah ada kecuali "Semua Server"
+        while (pingSelector.options.length > 1) pingSelector.remove(1);
+        while (bandwidthSelector.options.length > 1) bandwidthSelector.remove(1);
+        
+        // Tambahkan opsi untuk setiap server
+        servers.forEach(server => {
+            const option = document.createElement('option');
+            option.value = server.id;
+            option.textContent = server.name;
             
-            // Data untuk grafik ping
-            const pingData = Array.from({length: 24}, () => 
-                Math.floor(Math.random() * 30) + 20 // Data antara 20-50ms
-            );
-            
-            // Data untuk grafik bandwidth
-            const downloadData = Array.from({length: 24}, () => 
-                Math.floor(Math.random() * 200) + 300 // Data antara 300-500 Mbps
-            );
-            
-            const uploadData = Array.from({length: 24}, () => 
-                Math.floor(Math.random() * 100) + 150 // Data antara 150-250 Mbps
-            );
-            
-            // Perbarui grafik ping
-            if (pingChart) {
-                pingChart.data.datasets[0].data = pingData;
-                pingChart.update();
-            }
-            
-            // Perbarui grafik bandwidth
-            if (bandwidthChart) {
-                bandwidthChart.data.datasets[0].data = downloadData;
-                bandwidthChart.data.datasets[1].data = uploadData;
-                bandwidthChart.update();
-            }
-        }
+            pingSelector.appendChild(option.cloneNode(true));
+            bandwidthSelector.appendChild(option);
+        });
+    }
 
-        // Inisialisasi grafik
-        function initializeCharts() {
-            const pingCtx = document.getElementById('ping-chart').getContext('2d');
-            const bandwidthCtx = document.getElementById('bandwidth-chart').getContext('2d');
-            
-            // Data contoh untuk grafik
-            const timeLabels = Array.from({length: 24}, (_, i) => `${i}:00`);
-            
-            pingChart = new Chart(pingCtx, {
-                type: 'line',
-                data: {
-                    labels: timeLabels,
-                    datasets: [{
-                        label: 'Ping Time (ms)',
-                        data: Array.from({length: 24}, () => Math.floor(Math.random() * 30) + 20),
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#3b82f6',
-                        pointBorderColor: '#fff',
-                        pointRadius: 3,
-                        pointHoverRadius: 5
-                    }]
+    // Fungsi untuk inisialisasi chart
+    function initCharts() {
+        const pingCtx = document.getElementById('ping-chart').getContext('2d');
+        const bandwidthCtx = document.getElementById('bandwidth-chart').getContext('2d');
+        
+        // Data untuk chart ping
+        const pingData = {
+            labels: ['10:00', '10:05', '10:10', '10:15', '10:20', '10:25', '10:30'],
+            datasets: [
+                {
+                    label: 'Web Server',
+                    data: [22, 25, 28, 24, 26, 23, 24],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4,
+                    fill: true
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
+                {
+                    label: 'Database Server',
+                    data: [40, 38, 42, 45, 41, 39, 42],
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        };
+        
+        // Data untuk chart bandwidth
+        const bandwidthData = {
+            labels: ['10:00', '10:05', '10:10', '10:15', '10:20', '10:25', '10:30'],
+            datasets: [
+                {
+                    label: 'Download (Mbps)',
+                    data: [75, 80, 72, 85, 78, 82, 79],
+                    borderColor: '#22c55e',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                },
+                {
+                    label: 'Upload (Mbps)',
+                    data: [25, 28, 22, 30, 26, 29, 27],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }
+            ]
+        };
+        
+        // Konfigurasi chart ping
+        pingChart = new Chart(pingCtx, {
+            type: 'line',
+            data: pingData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#cbd5e1'
                         }
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            min: 0,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#cbd5e1'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#cbd5e1'
-                            }
-                        }
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
                     }
-                }
-            });
-            
-            bandwidthChart = new Chart(bandwidthCtx, {
-                type: 'line',
-                data: {
-                    labels: timeLabels,
-                    datasets: [
-                        {
-                            label: 'Download (Mbps)',
-                            data: Array.from({length: 24}, () => Math.floor(Math.random() * 200) + 300),
-                            borderColor: '#22c55e',
-                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                            tension: 0.4,
-                            fill: true,
-                            pointBackgroundColor: '#22c55e',
-                            pointBorderColor: '#fff',
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        },
-                        {
-                            label: 'Upload (Mbps)',
-                            data: Array.from({length: 24}, () => Math.floor(Math.random() * 100) + 150),
-                            borderColor: '#8b5cf6',
-                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                            tension: 0.4,
-                            fill: false,
-                            pointBackgroundColor: '#8b5cf6',
-                            pointBorderColor: '#fff',
-                            pointRadius: 3,
-                            pointHoverRadius: 5
-                        }
-                    ]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#cbd5e1'
                         }
                     },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: '#cbd5e1'
-                            }
+                    y: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
                         },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#cbd5e1'
-                            }
-                        }
+                        ticks: {
+                            color: '#cbd5e1'
+                        },
+                        beginAtZero: true
                     }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
                 }
+            }
+        });
+        
+        // Konfigurasi chart bandwidth
+        bandwidthChart = new Chart(bandwidthCtx, {
+            type: 'line',
+            data: bandwidthData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: '#cbd5e1'
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#cbd5e1'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        },
+                        ticks: {
+                            color: '#cbd5e1'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        });
+    }
+
+    // Fungsi untuk mengatur event listeners
+    function setupEventListeners() {
+        // Event listener untuk tombol refresh
+        document.getElementById('refresh-btn').addEventListener('click', updateData);
+        
+        // Event listener untuk selector server di chart
+        document.getElementById('ping-server-selector').addEventListener('change', function() {
+            updateChartData(this.value, 'ping');
+        });
+        
+        document.getElementById('bandwidth-server-selector').addEventListener('change', function() {
+            updateChartData(this.value, 'bandwidth');
+        });
+        
+        // Event listener untuk tombol details
+        document.querySelectorAll('.details-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const serverId = this.getAttribute('data-server-id');
+                showServerDetails(serverId);
             });
-        }
+        });
+    }
 
-        // Inisialisasi dashboard
-        function initializeDashboard() {
-            // Inisialisasi grafik
-            initializeCharts();
-            
-            // Isi dropdown pemilih server
-            populateServerSelectors();
-            
-            // Setup event listeners
-            document.getElementById('refresh-btn').addEventListener('click', checkServerStatus);
-            
-            // Lakukan pengecekan pertama
-            checkServerStatus();
-            
-            // Set interval untuk pengecekan berkala (30 detik)
-            checkIntervalId = setInterval(checkServerStatus, 30000);
-        }
+    // Fungsi untuk memperbarui data
+    function updateData() {
+        // Simulasi pembaruan data server
+        servers.forEach(server => {
+            if (server.status !== 'offline') {
+                // Update ping dengan variasi kecil
+                server.ping = Math.max(10, server.ping + Math.floor(Math.random() * 11) - 5);
+                
+                // Update download/upload dengan variasi
+                server.download = Math.max(10, Math.min(125, server.download + Math.floor(Math.random() * 78) - 30));
+                server.upload = Math.max(5, Math.min(140, server.upload + Math.floor(Math.random() * 45) - 24));
+            }
+        });
+        
+        // Render ulang data
+        renderServerList();
+        updateStats();
+        updateLastUpdateTime();
+        
+        // Tampilkan notifikasi
+        showToast('Data diperbarui', 'Data server berhasil diperbarui.', 'success');
+        
+        // Trigger animasi download/upload
+        triggerNetworkAnimation();
+    }
 
-        // Jalankan ketika dokumen sudah dimuat
-        document.addEventListener('DOMContentLoaded', initializeDashboard);
-    </script>
+    // Fungsi untuk memperbarui data chart berdasarkan server yang dipilih
+    function updateChartData(serverId, chartType) {
+        // Implementasi pembaruan data chart berdasarkan server yang dipilih
+        // Di sini Anda akan mengambil data dari API atau sumber data lainnya
+        console.log(`Update ${chartType} chart for server: ${serverId}`);
+        
+        // Untuk demo, kita hanya menampilkan pesan
+        showToast('Chart Diperbarui', `Menampilkan data untuk server ${serverId}`, 'info');
+    }
+
+    // Fungsi untuk menampilkan detail server
+    function showServerDetails(serverId) {
+        const server = servers.find(s => s.id == serverId);
+        if (server) {
+            showToast(
+                `Detail ${server.name}`,
+                `Status: ${server.status}<br>IP: ${server.ip}<br>Ping: ${server.ping}ms<br>Uptime: ${server.uptime}<br>Download: ${server.download} Mbps<br>Upload: ${server.upload} Mbps`,
+                'info'
+            );
+        }
+    }
+
+    // Fungsi untuk menampilkan toast notification
+    function showToast(title, message, type = 'info') {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        
+        const icons = {
+            success: 'fa-check-circle',
+            error: 'fa-exclamation-circle',
+            warning: 'fa-exclamation-triangle',
+            info: 'fa-info-circle'
+        };
+        
+        toast.innerHTML = `
+            <div class="toast-icon">
+                <i class="fas ${icons[type]}"></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title">${title}</div>
+                <div class="toast-message">${message}</div>
+            </div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        
+        toastContainer.appendChild(toast);
+        
+        // Tampilkan toast
+        setTimeout(() => toast.classList.add('show'), 10);
+        
+        // Event listener untuk tombol close
+        toast.querySelector('.toast-close').addEventListener('click', () => {
+            toast.classList.remove('show');
+            toast.classList.add('hide');
+            setTimeout(() => toast.remove(), 300);
+        });
+        
+        // Auto-hide setelah 5 detik
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.classList.remove('show');
+                toast.classList.add('hide');
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, 5000);
+    }
+
+    // Fungsi untuk memicu animasi jaringan
+    function triggerNetworkAnimation() {
+        const serverItems = document.querySelectorAll('.server-item');
+        
+        serverItems.forEach(item => {
+            const downloadBar = item.querySelector('.download-bar');
+            const uploadBar = item.querySelector('.upload-bar');
+            
+            // Reset animasi
+            downloadBar.style.animation = 'none';
+            uploadBar.style.animation = 'none';
+            
+            // Trigger reflow
+            void downloadBar.offsetWidth;
+            void uploadBar.offsetWidth;
+            
+            // Terapkan animasi
+            downloadBar.style.animation = 'downloadAnimation 1.5s ease-out forwards';
+            uploadBar.style.animation = 'uploadAnimation 1.5s ease-out forwards';
+            uploadBar.style.animationDelay = '0.3s';
+        });
+    }
+
+    // Inisialisasi aplikasi saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', initApp);
+</script>
 </body>
 </html>
