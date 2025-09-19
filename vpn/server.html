@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Server Status Monitor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -115,6 +114,8 @@
             display: flex;
             flex-direction: column;
             transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
         }
         
         .stat-card:hover {
@@ -159,6 +160,8 @@
             grid-template-columns: 1fr 2fr 1fr;
             gap: 20px;
             align-items: center;
+            position: relative;
+            overflow: hidden;
         }
         
         .server-item:hover {
@@ -185,25 +188,36 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
+            position: relative;
         }
         
+        /* Status indicator dengan animasi berkedip */
         .status-online {
             background-color: var(--online);
             box-shadow: 0 0 10px var(--online);
+            animation: blink 2s infinite;
         }
         
         .status-offline {
             background-color: var(--offline);
             box-shadow: 0 0 10px var(--offline);
+            animation: blink 1.5s infinite;
         }
         
         .status-slow {
             background-color: var(--slow);
             box-shadow: 0 0 10px var(--slow);
+            animation: blink 1s infinite;
         }
         
         .status-unknown {
             background-color: var(--unknown);
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
         }
         
         .server-stats {
@@ -217,6 +231,7 @@
             padding: 15px;
             background: rgba(0, 0, 0, 0.2);
             border-radius: 12px;
+            position: relative;
         }
         
         .stat-value-sm {
@@ -411,10 +426,11 @@
         .toast-title {
             font-weight: 600;
             margin-bottom: 4px;
+            font-size: 1rem;
         }
         
         .toast-message {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
         }
         
@@ -524,6 +540,152 @@
             animation-delay: 0.3s;
         }
         
+        /* Ping Animation Styles */
+        .ping-animation {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .ping-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: currentColor;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .ping-ring {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+        }
+        
+        .ping-animation.pinging .ping-ring {
+            animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+        
+        @keyframes ping {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.8;
+            }
+            80%, 100% {
+                transform: translate(-50%, -50%) scale(2.4);
+                opacity: 0;
+            }
+        }
+        
+        /* Animasi untuk nilai ping, download, upload */
+        .value-changing {
+            animation: valueChange 0.8s ease;
+        }
+        
+        @keyframes valueChange {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2); color: #60a5fa; }
+            50% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Animasi untuk angka yang berubah */
+        .counting {
+            display: inline-block;
+        }
+        
+        /* Info status dan lokasi */
+        .server-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        
+        .server-status, .server-location, .server-update {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        
+        .server-status i, .server-location i, .server-update i {
+            font-size: 0.9rem;
+            width: 16px;
+        }
+        
+        .status-online-text {
+            color: var(--online);
+        }
+        
+        .status-offline-text {
+            color: var(--offline);
+        }
+        
+        .status-slow-text {
+            color: var(--slow);
+        }
+        
+        /* Background animasi untuk card */
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(255,255,255,0.03) 0%, 
+                rgba(255,255,255,0.05) 25%, 
+                rgba(255,255,255,0.03) 50%, 
+                rgba(255,255,255,0.05) 75%, 
+                rgba(255,255,255,0.03) 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Indikator pembaruan real-time */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--online);
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--online);
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
         @media (max-width: 992px) {
             .charts-container {
                 grid-template-columns: 1fr;
@@ -575,7 +737,7 @@
         <header>
             <div class="header-left">
                 <h1>Server Status Monitor</h1>
-                <p>Pantau status server secara real-time</p>
+                <p>Pantau status server secara real-time <span class="live-indicator"><span class="live-dot"></span>LIVE</span></p>
             </div>
             <div class="last-update">
                 <i class="fas fa-clock"></i>
@@ -589,21 +751,25 @@
         
         <div class="stats-grid">
             <div class="stat-card">
+                <div class="animated-bg"></div>
                 <i class="fas fa-server"></i>
                 <span class="stat-value" id="total-servers">0</span>
                 <span class="stat-label">Total Server</span>
             </div>
             <div class="stat-card">
+                <div class="animated-bg"></div>
                 <i class="fas fa-check-circle"></i>
                 <span class="stat-value" id="online-servers">0</span>
                 <span class="stat-label">Server Online</span>
             </div>
             <div class="stat-card">
+                <div class="animated-bg"></div>
                 <i class="fas fa-network-wired"></i>
                 <span class="stat-value" id="avg-ping">0 ms</span>
                 <span class="stat-label">Rata-rata Ping</span>
             </div>
             <div class="stat-card">
+                <div class="animated-bg"></div>
                 <i class="fas fa-arrow-up"></i>
                 <span class="stat-value" id="uptime-percentage">0%</span>
                 <span class="stat-label">Uptime (24 jam)</span>
@@ -652,17 +818,73 @@
 <script>
     // Data simulasi server
     const servers = [
-        { id: 1, name: "ID NUSA", ip: "Lokasi: Medan", status: "online", ping: 11, uptime: "99.8%", download: 225, upload: 150 },
-        { id: 2, name: "ID NEVA", ip: "Lokasi: Jakarta", status: "online", ping: 13, uptime: "97.9%", download: 351, upload: 130 },
-        { id: 3, name: "ID BIZNET", ip: "Lokasi: Jakarta", status: "offline", ping: 0, uptime: "0%", download: 0, upload: 0 },
-        { id: 4, name: "SGDO V1", ip: "Lokasi: Singapore", status: "online", ping: 14, uptime: "98.5%", download: 254, upload: 192 },
-        { id: 5, name: "SGDO V2", ip: "Lokasi: Singapore", status: "online", ping: 15, uptime: "97%", download: 301, upload: 180 }
+        { 
+            id: 1, 
+            name: "ID NUSA", 
+            ip: "192.168.1.101", 
+            location: "Medan, Indonesia",
+            status: "online", 
+            ping: 11, 
+            uptime: "99.8%", 
+            download: 225, 
+            upload: 150,
+            lastUpdate: new Date(Date.now() - 2*60000) // 2 menit yang lalu
+        },
+        { 
+            id: 2, 
+            name: "ID NEVA", 
+            ip: "192.168.1.102", 
+            location: "Jakarta, Indonesia",
+            status: "online", 
+            ping: 13, 
+            uptime: "97.9%", 
+            download: 351, 
+            upload: 130,
+            lastUpdate: new Date(Date.now() - 5*60000) // 5 menit yang lalu
+        },
+        { 
+            id: 3, 
+            name: "ID BIZNET", 
+            ip: "192.168.1.103", 
+            location: "Jakarta, Indonesia",
+            status: "offline", 
+            ping: 0, 
+            uptime: "0%", 
+            download: 0, 
+            upload: 0,
+            lastUpdate: new Date(Date.now() - 30*60000) // 30 menit yang lalu
+        },
+        { 
+            id: 4, 
+            name: "SGDO V1", 
+            ip: "192.168.1.104", 
+            location: "Singapore",
+            status: "online", 
+            ping: 14, 
+            uptime: "98.5%", 
+            download: 254, 
+            upload: 192,
+            lastUpdate: new Date(Date.now() - 1*60000) // 1 menit yang lalu
+        },
+        { 
+            id: 5, 
+            name: "SGDO V2", 
+            ip: "192.168.1.105", 
+            location: "Singapore",
+            status: "online", 
+            ping: 15, 
+            uptime: "97%", 
+            download: 301, 
+            upload: 180,
+            lastUpdate: new Date(Date.now() - 3*60000) // 3 menit yang lalu
+        }
     ];
 
     // Variabel global untuk chart
     let pingChart = null;
     let bandwidthChart = null;
     let lastUpdateTime = null;
+    let autoUpdateInterval = null;
 
     // Fungsi untuk menginisialisasi aplikasi
     function initApp() {
@@ -672,6 +894,141 @@
         initCharts();
         setupEventListeners();
         
+        // Mulai animasi untuk semua server
+        startAllAnimations();
+        
+        // Mulai pembaruan otomatis
+        startAutoUpdate();
+    }
+
+    // Fungsi untuk memulai pembaruan otomatis
+    function startAutoUpdate() {
+        // Hentikan interval sebelumnya jika ada
+        if (autoUpdateInterval) {
+            clearInterval(autoUpdateInterval);
+        }
+        
+        // Atur interval pembaruan setiap 3 detik
+        autoUpdateInterval = setInterval(() => {
+            updateNetworkDataOnly();
+        }, 3000);
+    }
+
+    // Fungsi untuk memperbarui data jaringan saja (tanpa refresh penuh)
+    function updateNetworkDataOnly() {
+        servers.forEach(server => {
+            if (server.status !== 'offline') {
+                // Simulasikan perubahan data yang lebih realistis
+                const oldDownload = server.download;
+                const oldUpload = server.upload;
+                const oldPing = server.ping;
+                
+                // Generate perubahan acak yang lebih halus dan realistis
+                const downloadChange = Math.floor(Math.random() * 21) - 10; // -10 to +10
+                const uploadChange = Math.floor(Math.random() * 15) - 7;   // -7 to +7
+                const pingChange = Math.floor(Math.random() * 7) - 3;      // -3 to +3
+                
+                // Terapkan perubahan dengan batasan minimal dan maksimal
+                server.download = Math.max(10, Math.min(500, server.download + downloadChange));
+                server.upload = Math.max(5, Math.min(200, server.upload + uploadChange));
+                server.ping = Math.max(5, Math.min(100, server.ping + pingChange));
+                
+                // Update waktu terakhir update
+                server.lastUpdate = new Date();
+                
+                // Update UI untuk server ini
+                updateServerUI(server.id, oldDownload, oldUpload, oldPing);
+            }
+        });
+        
+        // Update statistik ringkasan
+        updateStats();
+        updateLastUpdateTime();
+        
+        // Trigger animasi download/upload
+        triggerNetworkAnimation();
+    }
+
+    // Fungsi untuk memperbarui UI server tertentu
+    function updateServerUI(serverId, oldDownload, oldUpload, oldPing) {
+        const server = servers.find(s => s.id === serverId);
+        if (!server) return;
+        
+        // Update nilai di UI
+        const downloadElement = document.querySelector(`.server-${serverId} .download-value`);
+        const uploadElement = document.querySelector(`.server-${serverId} .upload-value`);
+        const pingElement = document.querySelector(`.server-${serverId} .ping-value`);
+        const updateElement = document.querySelector(`.server-${serverId} .server-update span`);
+        
+        if (downloadElement) {
+            animateValueChangeElement(downloadElement, oldDownload, server.download, ' Mbps');
+        }
+        
+        if (uploadElement) {
+            animateValueChangeElement(uploadElement, oldUpload, server.upload, ' Mbps');
+        }
+        
+        if (pingElement) {
+            animateValueChangeElement(pingElement, oldPing, server.ping, ' ms');
+        }
+        
+        if (updateElement) {
+            updateElement.textContent = `Update: ${formatTimeDifference(server.lastUpdate)}`;
+        }
+        
+        // Update progress bars
+        const downloadBar = document.querySelector(`.server-${serverId} .download-bar`);
+        const uploadBar = document.querySelector(`.server-${serverId} .upload-bar`);
+        
+        if (downloadBar) {
+            downloadBar.style.width = `${server.download / 5}%`; // Scaling untuk visualisasi
+        }
+        
+        if (uploadBar) {
+            uploadBar.style.width = `${server.upload / 2.5}%`; // Scaling untuk visualisasi
+        }
+    }
+
+    // Fungsi untuk animasi perubahan nilai pada elemen
+    function animateValueChangeElement(element, oldValue, newValue, suffix) {
+        if (parseInt(element.textContent) === newValue) return;
+        
+        element.classList.add('value-changing');
+        
+        // Gunakan animasi counting jika perubahannya signifikan
+        if (Math.abs(newValue - oldValue) > 5) {
+            animateCount(element, oldValue, newValue, suffix);
+        } else {
+            // Perubahan kecil, langsung update
+            setTimeout(() => {
+                element.textContent = newValue + suffix;
+                setTimeout(() => {
+                    element.classList.remove('value-changing');
+                }, 800);
+            }, 400);
+        }
+    }
+
+    // Fungsi untuk animasi counting
+    function animateCount(element, start, end, suffix) {
+        let startTimestamp = null;
+        const duration = 800;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const value = Math.floor(progress * (end - start) + start);
+            element.textContent = value + suffix;
+            
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                element.textContent = end + suffix;
+                setTimeout(() => {
+                    element.classList.remove('value-changing');
+                }, 300);
+            }
+        };
+        requestAnimationFrame(step);
     }
 
     // Fungsi untuk memperbarui waktu terakhir update
@@ -688,24 +1045,46 @@
         servers.forEach(server => {
             const statusClass = `status-${server.status}`;
             const statusText = server.status.charAt(0).toUpperCase() + server.status.slice(1);
+            const statusTextClass = `status-${server.status}-text`;
+            
+            // Format waktu terakhir update
+            const lastUpdate = formatTimeDifference(server.lastUpdate);
             
             const serverItem = document.createElement('div');
             serverItem.className = `server-item server-${server.id}`;
             serverItem.innerHTML = `
+                <div class="animated-bg"></div>
                 <div class="server-info">
                     <div class="server-name">
                         <span class="status-indicator ${statusClass}"></span>
                         ${server.name}
                     </div>
-                    <div class="server-ip">${server.ip}</div>
+                    <div class="server-meta">
+                        <div class="server-status">
+                            <i class="fas fa-circle"></i>
+                            <span class="${statusTextClass}">Status: ${statusText}</span>
+                        </div>
+                        <div class="server-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>${server.location}</span>
+                        </div>
+                        <div class="server-update">
+                            <i class="fas fa-clock"></i>
+                            <span>Update: ${lastUpdate}</span>
+                        </div>
+                    </div>
                     <div class="download-upload-animation">
-                        <div class="download-bar" style="width: ${server.download}%"></div>
-                        <div class="upload-bar" style="width: ${server.upload}%"></div>
+                        <div class="download-bar" style="width: ${server.status === 'offline' ? 0 : server.download / 5}%"></div>
+                        <div class="upload-bar" style="width: ${server.status === 'offline' ? 0 : server.upload / 2.5}%"></div>
                     </div>
                 </div>
                 <div class="server-stats">
                     <div class="stat">
-                        <div class="stat-value-sm">${server.ping} ms</div>
+                        <div class="ping-animation ${server.status !== 'offline' ? 'pinging' : ''}">
+                            <div class="ping-dot"></div>
+                            <div class="ping-ring"></div>
+                        </div>
+                        <div class="stat-value-sm ping-value">${server.ping} ms</div>
                         <div class="stat-label-sm">Ping</div>
                     </div>
                     <div class="stat">
@@ -713,11 +1092,11 @@
                         <div class="stat-label-sm">Uptime</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value-sm">${server.download} Mbps</div>
+                        <div class="stat-value-sm download-value">${server.download} Mbps</div>
                         <div class="stat-label-sm">Download</div>
                     </div>
                     <div class="stat">
-                        <div class="stat-value-sm">${server.upload} Mbps</div>
+                        <div class="stat-value-sm upload-value">${server.upload} Mbps</div>
                         <div class="stat-label-sm">Upload</div>
                     </div>
                 </div>
@@ -734,22 +1113,82 @@
         
         // Update selector options
         updateServerSelectors();
+        
+        // Setup event listeners untuk tombol details
+        document.querySelectorAll('.details-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const serverId = this.getAttribute('data-server-id');
+                showServerDetails(serverId);
+            });
+        });
+    }
+
+    // Fungsi untuk memformat perbedaan waktu
+    function formatTimeDifference(date) {
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        
+        if (diffMins < 1) return 'Baru saja';
+        if (diffMins === 1) return '1 menit lalu';
+        if (diffMins < 60) return `${diffMins} menit lalu`;
+        
+        const diffHours = Math.floor(diffMins / 60);
+        if (diffHours === 1) return '1 jam lalu';
+        if (diffHours < 24) return `${diffHours} jam lalu`;
+        
+        const diffDays = Math.floor(diffHours / 24);
+        if (diffDays === 1) return '1 hari lalu';
+        return `${diffDays} hari lalu`;
     }
 
     // Fungsi untuk memperbarui statistik ringkasan
     function updateStats() {
         const totalServers = servers.length;
         const onlineServers = servers.filter(server => server.status === 'online').length;
-        const avgPing = Math.round(servers.reduce((sum, server) => sum + server.ping, 0) / servers.filter(server => server.status !== 'offline').length) || 0;
+        
+        const onlineServersForPing = servers.filter(server => server.status !== 'offline');
+        const avgPing = onlineServersForPing.length > 0 
+            ? Math.round(onlineServersForPing.reduce((sum, server) => sum + server.ping, 0) / onlineServersForPing.length) 
+            : 0;
+            
         const uptimePercentage = Math.round(servers.reduce((sum, server) => {
             const uptime = parseFloat(server.uptime) || 0;
             return sum + uptime;
         }, 0) / servers.length);
         
-        document.getElementById('total-servers').textContent = totalServers;
-        document.getElementById('online-servers').textContent = onlineServers;
-        document.getElementById('avg-ping').textContent = `${avgPing} ms`;
-        document.getElementById('uptime-percentage').textContent = `${uptimePercentage}%`;
+        // Animasi perubahan angka
+        animateValue('total-servers', totalServers, '');
+        animateValue('online-servers', onlineServers, '');
+        animateValue('avg-ping', avgPing, ' ms');
+        animateValue('uptime-percentage', uptimePercentage, '%');
+    }
+
+    // Fungsi untuk animasi perubahan angka
+    function animateValue(elementId, targetValue, suffix = '') {
+        const element = document.getElementById(elementId);
+        const currentText = element.textContent;
+        const currentValue = parseInt(currentText.replace(/\D/g, '')) || 0;
+        
+        if (currentValue === targetValue) return;
+        
+        let startTimestamp = null;
+        const duration = 1000; // 1 detik
+        
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const value = Math.floor(progress * (targetValue - currentValue) + currentValue);
+            element.textContent = value + suffix;
+            
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                element.textContent = targetValue + suffix;
+            }
+        };
+        
+        window.requestAnimationFrame(step);
     }
 
     // Fungsi untuk mengupdate selector server di chart
@@ -816,7 +1255,7 @@
                     label: 'Upload (Mbps)',
                     data: [25, 28, 22, 30, 26, 29, 27],
                     borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    backgroundColor: 'rgda(59, 130, 246, 0.1)',
                     tension: 0.4,
                     fill: true
                 }
@@ -929,14 +1368,6 @@
         document.getElementById('bandwidth-server-selector').addEventListener('change', function() {
             updateChartData(this.value, 'bandwidth');
         });
-        
-        // Event listener untuk tombol details
-        document.querySelectorAll('.details-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const serverId = this.getAttribute('data-server-id');
-                showServerDetails(serverId);
-            });
-        });
     }
 
     // Fungsi untuk memperbarui data
@@ -945,11 +1376,23 @@
         servers.forEach(server => {
             if (server.status !== 'offline') {
                 // Update ping dengan variasi kecil
+                const oldPing = server.ping;
                 server.ping = Math.max(10, server.ping + Math.floor(Math.random() * 11) - 5);
                 
                 // Update download/upload dengan variasi
-                server.download = Math.max(10, Math.min(125, server.download + Math.floor(Math.random() * 78) - 30));
-                server.upload = Math.max(5, Math.min(140, server.upload + Math.floor(Math.random() * 45) - 24));
+                const oldDownload = server.download;
+                const oldUpload = server.upload;
+                
+                server.download = Math.max(10, Math.min(500, server.download + Math.floor(Math.random() * 41) - 20));
+                server.upload = Math.max(5, Math.min(200, server.upload + Math.floor(Math.random() * 31) - 15));
+                
+                // Update waktu terakhir update
+                server.lastUpdate = new Date();
+                
+                // Animasi perubahan nilai
+                animateValueChange(server.id, 'ping', oldPing, server.ping);
+                animateValueChange(server.id, 'download', oldDownload, server.download);
+                animateValueChange(server.id, 'upload', oldUpload, server.upload);
             }
         });
         
@@ -963,6 +1406,26 @@
         
         // Trigger animasi download/upload
         triggerNetworkAnimation();
+        
+        // Mulai animasi untuk semua server
+        startAllAnimations();
+        
+        // Restart auto update
+        startAutoUpdate();
+    }
+
+    // Fungsi untuk animasi perubahan nilai
+    function animateValueChange(serverId, type, oldValue, newValue) {
+        const element = document.querySelector(`.server-${serverId} .${type}-value`);
+        if (element) {
+            element.classList.add('value-changing');
+            setTimeout(() => {
+                element.textContent = type === 'ping' ? `${newValue} ms` : `${newValue} Mbps`;
+                setTimeout(() => {
+                    element.classList.remove('value-changing');
+                }, 800);
+            }, 400);
+        }
     }
 
     // Fungsi untuk memperbarui data chart berdasarkan server yang dipilih
@@ -981,7 +1444,7 @@
         if (server) {
             showToast(
                 `Detail ${server.name}`,
-                `Status: ${server.status}<br>IP: ${server.ip}<br>Ping: ${server.ping}ms<br>Uptime: ${server.uptime}<br>Download: ${server.download} Mbps<br>Upload: ${server.upload} Mbps`,
+                `Status: ${server.status}<br>Lokasi: ${server.location}<br>Ping: ${server.ping}ms<br>Uptime: ${server.uptime}<br>Download: ${server.download} Mbps<br>Upload: ${server.upload} Mbps<br>Update: ${formatTimeDifference(server.lastUpdate)}`,
                 'info'
             );
         }
@@ -1056,6 +1519,22 @@
             uploadBar.style.animation = 'uploadAnimation 1.5s ease-out forwards';
             uploadBar.style.animationDelay = '0.3s';
         });
+    }
+
+    // Fungsi untuk memulai semua animasi
+    function startAllAnimations() {
+        // Mulai animasi ping untuk semua server yang online/slow
+        const pingAnimations = document.querySelectorAll('.ping-animation');
+        pingAnimations.forEach(animation => {
+            if (animation.classList.contains('pinging')) {
+                animation.classList.remove('pinging');
+                void animation.offsetWidth; // Trigger reflow
+                animation.classList.add('pinging');
+            }
+        });
+        
+        // Trigger animasi download/upload
+        triggerNetworkAnimation();
     }
 
     // Inisialisasi aplikasi saat halaman dimuat
