@@ -1,0 +1,6947 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PX STORE | Topup Pulsa & Kuota</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #3f37c9;
+            --accent: #7209b7;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f7ff;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --card-bg: #1e1e1e;
+            --card-hover: #2a2a2a;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #ff9e00;
+            --telegram: #0088cc;
+            --whatsapp: #25D366;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Header Styles */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .brand-logo {
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .brand-tagline {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .welcome-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .tagline {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Navbar styling */
+        .navbar {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 25px;
+            position: relative;
+            z-index: 999;
+            box-shadow: var(--box-shadow);
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        /* Burger menu */
+        .burger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .burger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        /* Topup Section Styles */
+        .topup-section {
+            padding: 3rem 2rem;
+            background-color: var(--darker);
+            border-radius: var(--border-radius);
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .section-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .filter-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .search-box {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        
+        .search-input {
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .topup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .topup-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .topup-card:hover {
+            transform: translateY(-5px);
+            background-color: var(--card-hover);
+        }
+        
+        .topup-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .topup-provider {
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        
+        .topup-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-available {
+            background-color: rgba(76, 201, 240, 0.2);
+            color: var(--success);
+        }
+        
+        .status-unavailable {
+            background-color: rgba(247, 37, 133, 0.2);
+            color: var(--danger);
+        }
+        
+        .topup-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+        
+        .topup-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        .topup-price {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: right;
+        }
+        
+        .topup-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+        
+        .topup-code {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+        }
+        
+        .btn-buy {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-buy:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .btn-buy:disabled {
+            background-color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+        
+        .topup-note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid var(--primary);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error-message {
+            background-color: rgba(247, 37, 133, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: var(--danger);
+            text-align: left;
+            grid-column: 1 / -1;
+        }
+        
+        .retry-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: var(--transition);
+        }
+        
+        .retry-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            background: none;
+            border: none;
+        }
+        
+        .modal-title {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .modal-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: var(--darker);
+            color: var(--text-primary);
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-confirm {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .btn-confirm:hover {
+            background-color: #3ab7d8;
+        }
+        
+        .btn-cancel {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #e5177e;
+        }
+        
+        /* Product info in modal */
+        .product-info {
+            background-color: var(--darker);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+        }
+        
+        .product-info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-info-label {
+            color: var(--text-secondary);
+        }
+        
+        .product-info-value {
+            font-weight: 600;
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background-color: var(--darker);
+            color: var(--text-primary);
+            padding: 4rem 0 0;
+            margin-top: 4rem;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .footer-brand .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+        }
+
+        .links-column h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .links-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .links-column ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .links-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .links-column a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .copyright {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .legal-links {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legal-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .legal-links a:hover {
+            color: var(--primary);
+        }
+
+        .legal-links span {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Floating buttons */
+        .tg-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--telegram);
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .tg-float:hover {
+            transform: scale(1.15);
+        }
+
+        .tg-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .wa-float {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--whatsapp);
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: pulse-wa 2s infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.15);
+        }
+
+        .wa-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Animasi berdenyut */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(0, 136, 204, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0);
+            }
+        }
+
+        @keyframes pulse-wa {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .filter-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .topup-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                position: absolute;
+                top: 60px;
+                right: 0;
+                background-color: var(--card-bg);
+                width: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 20px;
+                transform: translateY(-100%);
+                opacity: 0;
+                pointer-events: none;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                border-radius: 0 0 var(--border-radius) var(--border-radius);
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            .burger {
+                display: flex;
+            }
+            
+            .modal-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .main-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .welcome-text {
+                order: -1;
+            }
+            
+            .wa-float {
+                bottom: 90px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .footer-bottom {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .copyright {
+                flex-direction: row;
+                align-items: center;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header class="navbar">
+        <nav class="nav-links" id="navLinks">
+            <a href="index.html">Dashboard</a>
+            <a href="server.html">Server Status</a>
+            <a href="convert.html">Convert Xray</a>  
+            <a href="https://grupwa.pxstore.biz.id">Grup WhatsApp</a>
+        </nav>
+        <div class="burger" onclick="toggleMenu()">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </header>
+
+    <!-- Main Header -->
+    <div class="container">
+        <div class="main-header">
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="brand-text">
+                    <div class="brand-name">PX STORE</div>
+                    <div class="brand-tagline">Topup Games</div>
+                </div>
+            </div>
+            <div class="welcome-text">Hi, Selamat Datang</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 class="section-title">Topup Diamond Harga terjangkau</h1>
+            <p class="section-subtitle">Layanan topup, voucher game dengan proses cepat dan harga terjangkau</p>
+        </header>
+        
+        <div class="topup-section">
+            <div class="filter-controls">
+                <button class="filter-btn active" data-category="all">Semua Produk</button>
+            </div>
+            
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Cari produk...">
+            </div>
+            
+            <div class="topup-grid" id="productsGrid">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Memuat produk...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pembelian -->
+    <div class="modal" id="purchaseModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2 class="modal-title">Beli Produk</h2>
+            
+            <div class="product-info" id="modalProductInfo">
+                <!-- Product info will be inserted here -->
+            </div>
+            
+            <div class="form-group" id="phoneInputGroup">
+                <label for="phoneNumber" class="form-label">Nomor Handphone</label>
+                <input type="text" id="phoneNumber" class="form-input" placeholder="Contoh: 081234567890" required>
+            </div>
+            
+            <div class="form-group" id="gameIdInputGroup" style="display: none;">
+                <label for="gameId" class="form-label">ID Game</label>
+                <input type="text" id="gameId" class="form-input" placeholder="Masukkan ID Game" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Metode Pembayaran</label>
+                <select id="paymentMethod" class="form-input">
+                    <option value="dana">DANA</option>
+                    <option value="gopay">GoPay</option>
+                    <option value="ovo">OVO</option>
+                    <option value="transfer">Transfer Bank</option>
+                </select>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-cancel" id="cancelPurchase">Batal</button>
+                <button class="btn btn-confirm" id="confirmPurchase">
+                    <i class="fab fa-whatsapp"></i> Order via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Bagian Atas Footer -->
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>PX STORE</span>
+                    </div>
+                    <p class="footer-description">
+                        Layanan VPN premium dengan kecepatan tinggi dan keamanan maksimal untuk pengalaman internet tanpa batas.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <div class="links-column">
+                        <h3 class="links-title">Layanan</h3>
+                        <ul>
+                            <li><a href="#">Tunneling</a></li>
+                            <li><a href="#">PPOB</a></li>
+                            <li><a href="#">Topup Game</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="links-column">
+                        <h3 class="links-title">Dukungan</h3>
+                        <ul>
+                            <li><a href="#">Pusat Bantuan</a></li>
+                            <li><a href="#">Tutorial</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">Kebijakan Privasi</a></li>
+                            <li><a href="#">Syarat & Ketentuan</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>&copy; 2025 PX STORE. All rights reserved.</p>
+                    <div class="legal-links">
+                        <a href="#"></a>
+                        <span></span>
+                        <a href="#"></a>
+                        <span></span>
+                        <a href="#"></a>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Data produk
+        let products = [];
+        let filteredProducts = [];
+        let selectedProduct = null;
+        
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
+        }
+        
+        // Fungsi untuk memuat data produk
+        async function loadProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            
+            try {
+                // Data produk dari JSON yang disediakan
+                const rawProducts = [
+                    
+  {
+    "kode": "INDOPLY10",
+    "keterangan": "10000 Gold Indo Play",
+    "produk": "TPG Indo Play Gold",
+    "kategori": "DIGITAL",
+    "harga": "9950",
+    "status": "0"
+  },
+  {
+    "kode": "INDOPLY20",
+    "keterangan": "20000 Gold Indo Play",
+    "produk": "TPG Indo Play Gold",
+    "kategori": "DIGITAL",
+    "harga": "19700",
+    "status": "0"
+  },
+  {
+    "kode": "INDOPLY100",
+    "keterangan": "100000 Gold Indo Play",
+    "produk": "TPG Indo Play Gold",
+    "kategori": "DIGITAL",
+    "harga": "97700",
+    "status": "0"
+  },
+  {
+    "kode": "INDOPLY50",
+    "keterangan": "50000 Gold Indo Play",
+    "produk": "TPG Indo Play Gold",
+    "kategori": "DIGITAL",
+    "harga": "48950",
+    "status": "0"
+  },
+  {
+    "kode": "VGC10",
+    "keterangan": "Gemscool 1000 G-Cash",
+    "produk": "TPG Game Vcr Gemschool",
+    "kategori": "DIGITAL",
+    "harga": "10500",
+    "status": "1"
+  },
+  {
+    "kode": "VGC20",
+    "keterangan": "Gemscool 2000 G-Cash",
+    "produk": "TPG Game Vcr Gemschool",
+    "kategori": "DIGITAL",
+    "harga": "19900",
+    "status": "1"
+  },
+  {
+    "kode": "VGC30",
+    "keterangan": "Gemscool 3000 G-Cash",
+    "produk": "TPG Game Vcr Gemschool",
+    "kategori": "DIGITAL",
+    "harga": "29200",
+    "status": "1"
+  },
+  {
+    "kode": "VGC50",
+    "keterangan": "Gemscool 5000 G-Cash",
+    "produk": "TPG Game Vcr Gemschool",
+    "kategori": "DIGITAL",
+    "harga": "48700",
+    "status": "1"
+  },
+  {
+    "kode": "VGC100",
+    "keterangan": "Gemscool 10000 G-Cash",
+    "produk": "TPG Game Vcr Gemschool",
+    "kategori": "DIGITAL",
+    "harga": "95700",
+    "status": "1"
+  },
+  {
+    "kode": "MARVEL275",
+    "keterangan": "275 Star Credit",
+    "produk": "TPG Marvel Superwar Credit",
+    "kategori": "DIGITAL",
+    "harga": "73325",
+    "status": "1"
+  },
+  {
+    "kode": "MARVEL565",
+    "keterangan": "565 Star Credit",
+    "produk": "TPG Marvel Superwar Credit",
+    "kategori": "DIGITAL",
+    "harga": "145475",
+    "status": "1"
+  },
+  {
+    "kode": "MARVEL55",
+    "keterangan": "55 Star Credit",
+    "produk": "TPG Marvel Superwar Credit",
+    "kategori": "DIGITAL",
+    "harga": "14825",
+    "status": "1"
+  },
+  {
+    "kode": "LIFEAF1108",
+    "keterangan": "1108 Credit Life After",
+    "produk": "TPG Life After Credit",
+    "kategori": "DIGITAL",
+    "harga": "206700",
+    "status": "1"
+  },
+  {
+    "kode": "LIFEAF330",
+    "keterangan": "330 Credit Life After",
+    "produk": "TPG Life After Credit",
+    "kategori": "DIGITAL",
+    "harga": "67200",
+    "status": "1"
+  },
+  {
+    "kode": "LIFEAF558",
+    "keterangan": "558 Credit Life After",
+    "produk": "TPG Life After Credit",
+    "kategori": "DIGITAL",
+    "harga": "109700",
+    "status": "1"
+  },
+  {
+    "kode": "LIFEAF65",
+    "keterangan": "65 Credit Life After",
+    "produk": "TPG Life After Credit",
+    "kategori": "DIGITAL",
+    "harga": "13700",
+    "status": "1"
+  },
+  {
+    "kode": "LIFEAF25",
+    "keterangan": "25 Credit Life After",
+    "produk": "TPG Life After Credit",
+    "kategori": "DIGITAL",
+    "harga": "5400",
+    "status": "0"
+  },
+  {
+    "kode": "LIFEAF81",
+    "keterangan": "81 Credit Life After",
+    "produk": "TPG Life After Credit",
+    "kategori": "DIGITAL",
+    "harga": "14200",
+    "status": "0"
+  },
+  {
+    "kode": "LIFEAF242",
+    "keterangan": "242 Credit Life After",
+    "produk": "TPG Life After Credit",
+    "kategori": "DIGITAL",
+    "harga": "35700",
+    "status": "0"
+  },
+  {
+    "kode": "LIFEAF413",
+    "keterangan": "413 Credit Life After",
+    "produk": "TPG Life After Credit",
+    "kategori": "DIGITAL",
+    "harga": "72700",
+    "status": "0"
+  },
+  {
+    "kode": "LIFEAF913",
+    "keterangan": "913 Credit Life After",
+    "produk": "TPG Life After Credit",
+    "kategori": "DIGITAL",
+    "harga": "140500",
+    "status": "0"
+  },
+  {
+    "kode": "GR10",
+    "keterangan": "Voucher 33 Shell",
+    "produk": "TPG Game Vcr Garena",
+    "kategori": "DIGITAL",
+    "harga": "8900",
+    "status": "1"
+  },
+  {
+    "kode": "GR100",
+    "keterangan": "Voucher 330 Shell",
+    "produk": "TPG Game Vcr Garena",
+    "kategori": "DIGITAL",
+    "harga": "91400",
+    "status": "1"
+  },
+  {
+    "kode": "GR20",
+    "keterangan": "Voucher 66 Shell",
+    "produk": "TPG Game Vcr Garena",
+    "kategori": "DIGITAL",
+    "harga": "18520",
+    "status": "1"
+  },
+  {
+    "kode": "GR50",
+    "keterangan": "Voucher 165 Shell",
+    "produk": "TPG Game Vcr Garena",
+    "kategori": "DIGITAL",
+    "harga": "46000",
+    "status": "1"
+  },
+  {
+    "kode": "CHAOS450",
+    "keterangan": "450 Diamond Chaos Crisis",
+    "produk": "TPG Chaos Crisis",
+    "kategori": "DIGITAL",
+    "harga": "72700",
+    "status": "1"
+  },
+  {
+    "kode": "CHAOS90",
+    "keterangan": "90 Diamond Chaos Crisis",
+    "produk": "TPG Chaos Crisis",
+    "kategori": "DIGITAL",
+    "harga": "14700",
+    "status": "1"
+  },
+  {
+    "kode": "CHAOS900",
+    "keterangan": "900 Diamond Chaos Crisis",
+    "produk": "TPG Chaos Crisis",
+    "kategori": "DIGITAL",
+    "harga": "145200",
+    "status": "1"
+  },
+  {
+    "kode": "GVSM08",
+    "keterangan": "Steam Rp8.000",
+    "produk": "TPG Game Vcr Steam",
+    "kategori": "DIGITAL",
+    "harga": "9135",
+    "status": "1"
+  },
+  {
+    "kode": "GVSM012",
+    "keterangan": "Steam Rp12.000",
+    "produk": "TPG Game Vcr Steam",
+    "kategori": "DIGITAL",
+    "harga": "12200",
+    "status": "1"
+  },
+  {
+    "kode": "GVSM12",
+    "keterangan": "Steam Rp45.000",
+    "produk": "TPG Game Vcr Steam",
+    "kategori": "DIGITAL",
+    "harga": "43900",
+    "status": "1"
+  },
+  {
+    "kode": "GVSM90",
+    "keterangan": "Steam Rp90.000",
+    "produk": "TPG Game Vcr Steam",
+    "kategori": "DIGITAL",
+    "harga": "104100",
+    "status": "1"
+  },
+  {
+    "kode": "GVSM250",
+    "keterangan": "Steam Rp250.000",
+    "produk": "TPG Game Vcr Steam",
+    "kategori": "DIGITAL",
+    "harga": "286600",
+    "status": "1"
+  },
+  {
+    "kode": "GVSM120",
+    "keterangan": "Steam Rp120.000",
+    "produk": "TPG Game Vcr Steam",
+    "kategori": "DIGITAL",
+    "harga": "118700",
+    "status": "1"
+  },
+  {
+    "kode": "DML12",
+    "keterangan": "12 (11+1) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "3362",
+    "status": "1"
+  },
+  {
+    "kode": "DML172",
+    "keterangan": "172 (156+16) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "44065",
+    "status": "1"
+  },
+  {
+    "kode": "DML36",
+    "keterangan": "36 (33+3) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "9520",
+    "status": "1"
+  },
+  {
+    "kode": "DML429",
+    "keterangan": "429 (390+39) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "108875",
+    "status": "1"
+  },
+  {
+    "kode": "DML86",
+    "keterangan": "86 (78+8) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "22169",
+    "status": "1"
+  },
+  {
+    "kode": "DML600",
+    "keterangan": "600 (568+32) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "152528",
+    "status": "1"
+  },
+  {
+    "kode": "MLSC",
+    "keterangan": "Starlight Member Plus",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "290280",
+    "status": "0"
+  },
+  {
+    "kode": "MLSA",
+    "keterangan": "Starlight Membership",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "115806",
+    "status": "0"
+  },
+  {
+    "kode": "MLSB",
+    "keterangan": "Mobile Legend Twilight Pass",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "142156",
+    "status": "1"
+  },
+  {
+    "kode": "DML185",
+    "keterangan": "185 (167+18) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "47550",
+    "status": "1"
+  },
+  {
+    "kode": "DML257",
+    "keterangan": "257 (234+23) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "65515",
+    "status": "1"
+  },
+  {
+    "kode": "DML344",
+    "keterangan": "344 (312+32) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "87820",
+    "status": "1"
+  },
+  {
+    "kode": "DML875",
+    "keterangan": "875 (774+101) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "214875",
+    "status": "1"
+  },
+  {
+    "kode": "DML706",
+    "keterangan": "706 (625+81) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "179486",
+    "status": "1"
+  },
+  {
+    "kode": "DML1050",
+    "keterangan": "1050 (937+113) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "262849",
+    "status": "1"
+  },
+  {
+    "kode": "DML1220",
+    "keterangan": "1220 (1159+61) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "306300",
+    "status": "1"
+  },
+  {
+    "kode": "DML1412",
+    "keterangan": "1412 (1250+162) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "355118",
+    "status": "1"
+  },
+  {
+    "kode": "DML2195",
+    "keterangan": "2195 (1860+335) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "526130",
+    "status": "1"
+  },
+  {
+    "kode": "DML514",
+    "keterangan": "514 (468+46) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "130450",
+    "status": "1"
+  },
+  {
+    "kode": "DML963",
+    "keterangan": "963 (859+104) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "243400",
+    "status": "1"
+  },
+  {
+    "kode": "DML2",
+    "keterangan": "5 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1478",
+    "status": "1"
+  },
+  {
+    "kode": "DML19",
+    "keterangan": "19 (17+2) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "5271",
+    "status": "1"
+  },
+  {
+    "kode": "DML28",
+    "keterangan": "28 (25+3) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "7559",
+    "status": "1"
+  },
+  {
+    "kode": "DML44",
+    "keterangan": "44 (40+4) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "11264",
+    "status": "1"
+  },
+  {
+    "kode": "DML112",
+    "keterangan": "112 (102+10) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "29119",
+    "status": "1"
+  },
+  {
+    "kode": "DML284",
+    "keterangan": "284 (254+30) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "72369",
+    "status": "1"
+  },
+  {
+    "kode": "DML59",
+    "keterangan": "59 (53+6) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "15024",
+    "status": "1"
+  },
+  {
+    "kode": "DML56",
+    "keterangan": "56 (51+5) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "14589",
+    "status": "1"
+  },
+  {
+    "kode": "DMLWP",
+    "keterangan": "1X Weekly Diamond Pass 220 (80+20/Hari)",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "27449",
+    "status": "1"
+  },
+  {
+    "kode": "DML74",
+    "keterangan": "74 (69+5) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "18955",
+    "status": "1"
+  },
+  {
+    "kode": "GMLP100",
+    "keterangan": "100 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "25715",
+    "status": "1"
+  },
+  {
+    "kode": "MLW2",
+    "keterangan": "2X Weekly Diamond Pass 440 (80+20/Hari)",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "55025",
+    "status": "1"
+  },
+  {
+    "kode": "MLW3",
+    "keterangan": "3X Weekly Diamond Pass 660 (80+20/Hari)",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "82442",
+    "status": "1"
+  },
+  {
+    "kode": "MLW4",
+    "keterangan": "4X Weekly Diamond Pass 880 (80+20/Hari)",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "110135",
+    "status": "1"
+  },
+  {
+    "kode": "MLW5",
+    "keterangan": "5X Weekly Diamond Pass 1100 (80+20/Hari)",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "137270",
+    "status": "1"
+  },
+  {
+    "kode": "DML222A",
+    "keterangan": "222 (200+22) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "56625",
+    "status": "1"
+  },
+  {
+    "kode": "DML264",
+    "keterangan": "264 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "73300",
+    "status": "1"
+  },
+  {
+    "kode": "DML296",
+    "keterangan": "296 (256+40) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "75297",
+    "status": "1"
+  },
+  {
+    "kode": "GMLCP",
+    "keterangan": "Mobile Legend Coupon Pass",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "71070",
+    "status": "0"
+  },
+  {
+    "kode": "DML355",
+    "keterangan": "355 (309+46) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "91075",
+    "status": "1"
+  },
+  {
+    "kode": "GMLP370",
+    "keterangan": "370 (333+37) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "97282",
+    "status": "1"
+  },
+  {
+    "kode": "DML384",
+    "keterangan": "384 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "102697",
+    "status": "1"
+  },
+  {
+    "kode": "DML448",
+    "keterangan": "448 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "127457",
+    "status": "1"
+  },
+  {
+    "kode": "DML460",
+    "keterangan": "460 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "127964",
+    "status": "1"
+  },
+  {
+    "kode": "DML500",
+    "keterangan": "500 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "135395",
+    "status": "1"
+  },
+  {
+    "kode": "DML518",
+    "keterangan": "518 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "136988",
+    "status": "1"
+  },
+  {
+    "kode": "GMLP568",
+    "keterangan": "568 (503+65) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "142200",
+    "status": "1"
+  },
+  {
+    "kode": "DML642",
+    "keterangan": "642 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "171119",
+    "status": "1"
+  },
+  {
+    "kode": "DML408",
+    "keterangan": "408 (367+41) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "104310",
+    "status": "1"
+  },
+  {
+    "kode": "DML1136",
+    "keterangan": "1136 (1006+130) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "284010",
+    "status": "1"
+  },
+  {
+    "kode": "DML277",
+    "keterangan": "277 (250+27) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "73112",
+    "status": "0"
+  },
+  {
+    "kode": "DML977",
+    "keterangan": "977 (867+110) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "246221",
+    "status": "1"
+  },
+  {
+    "kode": "DML965",
+    "keterangan": "965 (856+109) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "242901",
+    "status": "1"
+  },
+  {
+    "kode": "DML85",
+    "keterangan": "85 (77+8) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "22014",
+    "status": "1"
+  },
+  {
+    "kode": "DML750",
+    "keterangan": "750 (675+75) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "197578",
+    "status": "0"
+  },
+  {
+    "kode": "DML717",
+    "keterangan": "717 (638+79) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "180917",
+    "status": "1"
+  },
+  {
+    "kode": "DML8303",
+    "keterangan": "8303 (7005+1297) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1975587",
+    "status": "1"
+  },
+  {
+    "kode": "DML8040",
+    "keterangan": "8040 (6832+1208) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1894710",
+    "status": "1"
+  },
+  {
+    "kode": "DML7723",
+    "keterangan": "7723 (6487+1236) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1833624",
+    "status": "1"
+  },
+  {
+    "kode": "DML7660",
+    "keterangan": "7660 (6442+1218) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1817545",
+    "status": "1"
+  },
+  {
+    "kode": "DML712",
+    "keterangan": "712 (633+79) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "179494",
+    "status": "1"
+  },
+  {
+    "kode": "DML7195",
+    "keterangan": "7195 (6020+1175) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1701577",
+    "status": "1"
+  },
+  {
+    "kode": "DML6840",
+    "keterangan": "6840 (5711+1129) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1610701",
+    "status": "1"
+  },
+  {
+    "kode": "DML601",
+    "keterangan": "601 (533+68) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "151516",
+    "status": "1"
+  },
+  {
+    "kode": "DML1134",
+    "keterangan": "1134 (1008+126) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "284899",
+    "status": "1"
+  },
+  {
+    "kode": "DML1139",
+    "keterangan": "1139 (1013+126) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "286323",
+    "status": "1"
+  },
+  {
+    "kode": "DML1159",
+    "keterangan": "1159 (1031+128) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "291064",
+    "status": "1"
+  },
+  {
+    "kode": "DML1164",
+    "keterangan": "1164 (1036+128) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "292487",
+    "status": "1"
+  },
+  {
+    "kode": "DML1183",
+    "keterangan": "1183 (1041+142) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "297186",
+    "status": "1"
+  },
+  {
+    "kode": "DML144",
+    "keterangan": "144 (130+14) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "37189",
+    "status": "1"
+  },
+  {
+    "kode": "DML1230",
+    "keterangan": "1230 (1083+147) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "309040",
+    "status": "1"
+  },
+  {
+    "kode": "DML1368",
+    "keterangan": "1368 (1218+150) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "344089",
+    "status": "1"
+  },
+  {
+    "kode": "DML1443",
+    "keterangan": "1443 (1277+166) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "360669",
+    "status": "1"
+  },
+  {
+    "kode": "DML1507",
+    "keterangan": "1507 (1335+172) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "377267",
+    "status": "1"
+  },
+  {
+    "kode": "DML1453",
+    "keterangan": "1453 (1295+158) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "366403",
+    "status": "1"
+  },
+  {
+    "kode": "DML1672",
+    "keterangan": "1672 (1484+188) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "419471",
+    "status": "1"
+  },
+  {
+    "kode": "DML170",
+    "keterangan": "170 (154+16) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "43927",
+    "status": "1"
+  },
+  {
+    "kode": "DML2010",
+    "keterangan": "2010 (1708+302) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "473477",
+    "status": "1"
+  },
+  {
+    "kode": "DML1704",
+    "keterangan": "1704 (1509+195) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "427015",
+    "status": "1"
+  },
+  {
+    "kode": "DML229",
+    "keterangan": "229 (207+22) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "59102",
+    "status": "1"
+  },
+  {
+    "kode": "DML2380",
+    "keterangan": "2380 (2041+339) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "569151",
+    "status": "0"
+  },
+  {
+    "kode": "DML2382",
+    "keterangan": "2382 (2033+349) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "569797",
+    "status": "1"
+  },
+  {
+    "kode": "DML2350",
+    "keterangan": "2350 (2017+333) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "561780",
+    "status": "1"
+  },
+  {
+    "kode": "DML2180",
+    "keterangan": "2180 (1862+318) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "517805",
+    "status": "1"
+  },
+  {
+    "kode": "DML345",
+    "keterangan": "345 (301+44) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "88706",
+    "status": "1"
+  },
+  {
+    "kode": "DML240",
+    "keterangan": "240 (217+23) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "61719",
+    "status": "1"
+  },
+  {
+    "kode": "DML278",
+    "keterangan": "278 (251+27) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "72252",
+    "status": "1"
+  },
+  {
+    "kode": "DML374",
+    "keterangan": "374 (326+48) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "96393",
+    "status": "1"
+  },
+  {
+    "kode": "DML381",
+    "keterangan": "381 (333+48) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "97815",
+    "status": "1"
+  },
+  {
+    "kode": "DML425",
+    "keterangan": "425 (373+52) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "109397",
+    "status": "1"
+  },
+  {
+    "kode": "DML512",
+    "keterangan": "512 (461+51) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "131642",
+    "status": "1"
+  },
+  {
+    "kode": "DML522",
+    "keterangan": "522 (471+51) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "134489",
+    "status": "1"
+  },
+  {
+    "kode": "DML6257",
+    "keterangan": "6257 (5274+983) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1497288",
+    "status": "1"
+  },
+  {
+    "kode": "DML6030",
+    "keterangan": "6030 (5124+906) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1422532",
+    "status": "1"
+  },
+  {
+    "kode": "DML4020",
+    "keterangan": "4020 (3416+604) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "948355",
+    "status": "1"
+  },
+  {
+    "kode": "DML3693",
+    "keterangan": "3693 (3202+491) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "896365",
+    "status": "1"
+  },
+  {
+    "kode": "DML3481",
+    "keterangan": "3481 (3010+471) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "842434",
+    "status": "1"
+  },
+  {
+    "kode": "DML3453",
+    "keterangan": "3453 (2985+468) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "833046",
+    "status": "1"
+  },
+  {
+    "kode": "DML2885",
+    "keterangan": "2885 (2482+403) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "691841",
+    "status": "1"
+  },
+  {
+    "kode": "DML2536",
+    "keterangan": "2536 (2182+354) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "609113",
+    "status": "1"
+  },
+  {
+    "kode": "DML2578",
+    "keterangan": "2578 (2211+367) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "617183",
+    "status": "1"
+  },
+  {
+    "kode": "DML1750",
+    "keterangan": "1750 (1548+202) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "435328",
+    "status": "1"
+  },
+  {
+    "kode": "DML2199",
+    "keterangan": "2199 (1879+320) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "522022",
+    "status": "1"
+  },
+  {
+    "kode": "DML2904",
+    "keterangan": "2904 (2499+405) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "696058",
+    "status": "1"
+  },
+  {
+    "kode": "DML301",
+    "keterangan": "301 (261+40) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "77125",
+    "status": "1"
+  },
+  {
+    "kode": "DML4404",
+    "keterangan": "4404 (3763+641) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1046862",
+    "status": "1"
+  },
+  {
+    "kode": "DML4678",
+    "keterangan": "4678 (4001+677) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1113597",
+    "status": "1"
+  },
+  {
+    "kode": "DML4830",
+    "keterangan": "4830 (4003+827) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1137523",
+    "status": "1"
+  },
+  {
+    "kode": "DML4804",
+    "keterangan": "4804 (4323+481) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1103078",
+    "status": "0"
+  },
+  {
+    "kode": "DML5398",
+    "keterangan": "5398 (4506+892) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1279529",
+    "status": "1"
+  },
+  {
+    "kode": "DML5372",
+    "keterangan": "5372 (4826+546) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1279529",
+    "status": "1"
+  },
+  {
+    "kode": "DML6001",
+    "keterangan": "6001 (5033+968) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1430889",
+    "status": "1"
+  },
+  {
+    "kode": "DML5940",
+    "keterangan": "5940 (5118+822) Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1427310",
+    "status": "1"
+  },
+  {
+    "kode": "DML3",
+    "keterangan": "3 Diamond Mobile Legend",
+    "produk": "TPG Diamond Mobile Legends",
+    "kategori": "DIGITAL",
+    "harga": "1146",
+    "status": "1"
+  },
+  {
+    "kode": "VGPI10",
+    "keterangan": "Google Play ID 10 Ribu",
+    "produk": "TPG Google Play ID",
+    "kategori": "DIGITAL",
+    "harga": "9950",
+    "status": "1"
+  },
+  {
+    "kode": "VGPI20",
+    "keterangan": "Google Play ID 20 Ribu",
+    "produk": "TPG Google Play ID",
+    "kategori": "DIGITAL",
+    "harga": "20050",
+    "status": "1"
+  },
+  {
+    "kode": "VGPI100",
+    "keterangan": "Google Play ID 100 Ribu",
+    "produk": "TPG Google Play ID",
+    "kategori": "DIGITAL",
+    "harga": "91950",
+    "status": "1"
+  },
+  {
+    "kode": "VGPI150",
+    "keterangan": "Google Play ID 150 Ribu",
+    "produk": "TPG Google Play ID",
+    "kategori": "DIGITAL",
+    "harga": "140150",
+    "status": "1"
+  },
+  {
+    "kode": "VGPI50",
+    "keterangan": "Google Play ID 50 Ribu",
+    "produk": "TPG Google Play ID",
+    "kategori": "DIGITAL",
+    "harga": "49150",
+    "status": "1"
+  },
+  {
+    "kode": "VGPI300",
+    "keterangan": "Google Play ID 300 Ribu",
+    "produk": "TPG Google Play ID",
+    "kategori": "DIGITAL",
+    "harga": "294150",
+    "status": "1"
+  },
+  {
+    "kode": "VGPI5",
+    "keterangan": "Google Play ID 5 Ribu",
+    "produk": "TPG Google Play ID",
+    "kategori": "DIGITAL",
+    "harga": "5000",
+    "status": "1"
+  },
+  {
+    "kode": "GP10US",
+    "keterangan": "US $10",
+    "produk": "TPG Google Play US",
+    "kategori": "DIGITAL",
+    "harga": "150700",
+    "status": "0"
+  },
+  {
+    "kode": "GPUS10",
+    "keterangan": "US $10",
+    "produk": "TPG Google Play US",
+    "kategori": "DIGITAL",
+    "harga": "152200",
+    "status": "0"
+  },
+  {
+    "kode": "GP15US",
+    "keterangan": "US $15",
+    "produk": "TPG Google Play US",
+    "kategori": "DIGITAL",
+    "harga": "226700",
+    "status": "0"
+  },
+  {
+    "kode": "GPUS15",
+    "keterangan": "US $15",
+    "produk": "TPG Google Play US",
+    "kategori": "DIGITAL",
+    "harga": "226200",
+    "status": "0"
+  },
+  {
+    "kode": "GP25US",
+    "keterangan": "US $25",
+    "produk": "TPG Google Play US",
+    "kategori": "DIGITAL",
+    "harga": "356700",
+    "status": "0"
+  },
+  {
+    "kode": "GPUS25",
+    "keterangan": "US $25",
+    "produk": "TPG Google Play US",
+    "kategori": "DIGITAL",
+    "harga": "369200",
+    "status": "0"
+  },
+  {
+    "kode": "WIFI5",
+    "keterangan": "Voucher Wifi ID 1 Hari",
+    "produk": "Berlangganan Vcr Wifi ID",
+    "kategori": "DIGITAL",
+    "harga": "3710",
+    "status": "1"
+  },
+  {
+    "kode": "WIFI20",
+    "keterangan": "Voucher Wifi ID 7 Hari",
+    "produk": "Berlangganan Vcr Wifi ID",
+    "kategori": "DIGITAL",
+    "harga": "14450",
+    "status": "1"
+  },
+  {
+    "kode": "WIFI50",
+    "keterangan": "Voucher Wifi ID 30 Hari",
+    "produk": "Berlangganan Vcr Wifi ID",
+    "kategori": "DIGITAL",
+    "harga": "35600",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG1250",
+    "keterangan": "PUBG Mobile 1250 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "281700",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG150",
+    "keterangan": "PUBG Mobile 150 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "42050",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG250",
+    "keterangan": "PUBG Mobile 250 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "70890",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG50",
+    "keterangan": "PUBG Mobile 50 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "14300",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG500",
+    "keterangan": "PUBG Mobile 500 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "110650",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG70",
+    "keterangan": "PUBG Mobile 70 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "23169",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG210",
+    "keterangan": "PUBG Mobile 210 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "49795",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG700",
+    "keterangan": "PUBG Mobile 700 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "154600",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGEPASS",
+    "keterangan": "Elite Pass Plus + Kupon Peti Klasik",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "428200",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG100",
+    "keterangan": "PUBG Mobile 100 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "28485",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG1000",
+    "keterangan": "PUBG Mobile 1000 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "227200",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG125",
+    "keterangan": "PUBG Mobile 125 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "42085",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG1750",
+    "keterangan": "PUBG Mobile 1750 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "353150",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG2500",
+    "keterangan": "PUBG Mobile 2500 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "515450",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG35",
+    "keterangan": "PUBG Mobile 35 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "14320",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG750",
+    "keterangan": "PUBG Mobile 750 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "169291",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG15",
+    "keterangan": "PUBG Mobile 15 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "7300",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG1500",
+    "keterangan": "PUBG Mobile 1500 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "321020",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG300",
+    "keterangan": "PUBG Mobile 300 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "71230",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG25",
+    "keterangan": "PUBG Mobile 25 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "8100",
+    "status": "0"
+  },
+  {
+    "kode": "PUBG200",
+    "keterangan": "PUBG Mobile 200 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "55899",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG375",
+    "keterangan": "PUBG Mobile 375 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "86300",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG350",
+    "keterangan": "PUBG Mobile 350 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "84987",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG1100",
+    "keterangan": "PUBG Mobile 1100 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "237690",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG13",
+    "keterangan": "PUBG Mobile 60 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "14081",
+    "status": "1"
+  },
+  {
+    "kode": "PUBG525",
+    "keterangan": "PUBG Mobile 525 UC",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "127500",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGW1",
+    "keterangan": "PUBG Mobile  Weekly Deal Pack 1",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "10700",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGW2",
+    "keterangan": "PUBG Mobile Weekly Deal Pack 2",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "36800",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMYTHC",
+    "keterangan": "PUBG Mobile Weekly Mythic Emblem Value Pack",
+    "produk": "TPG Game Mobile PUBG",
+    "kategori": "DIGITAL",
+    "harga": "36925",
+    "status": "1"
+  },
+  {
+    "kode": "VUNI10",
+    "keterangan": "Voucher Unipin 10 Ribu",
+    "produk": "TPG Game Vcr Unipin",
+    "kategori": "DIGITAL",
+    "harga": "9700",
+    "status": "1"
+  },
+  {
+    "kode": "VUNI20",
+    "keterangan": "Voucher Unipin 20 Ribu",
+    "produk": "TPG Game Vcr Unipin",
+    "kategori": "DIGITAL",
+    "harga": "19350",
+    "status": "1"
+  },
+  {
+    "kode": "VUNI50",
+    "keterangan": "Voucher Unipin 50 Ribu",
+    "produk": "TPG Game Vcr Unipin",
+    "kategori": "DIGITAL",
+    "harga": "48150",
+    "status": "1"
+  },
+  {
+    "kode": "VUNI100",
+    "keterangan": "Voucher Unipin 100 Ribu",
+    "produk": "TPG Game Vcr Unipin",
+    "kategori": "DIGITAL",
+    "harga": "96150",
+    "status": "1"
+  },
+  {
+    "kode": "VUNI300",
+    "keterangan": "Voucher Unipin 300 Ribu",
+    "produk": "TPG Game Vcr Unipin",
+    "kategori": "DIGITAL",
+    "harga": "288150",
+    "status": "1"
+  },
+  {
+    "kode": "RZRG20",
+    "keterangan": "Razer Gold 20.000",
+    "produk": "TPG Game Vcr Razer Gold",
+    "kategori": "DIGITAL",
+    "harga": "19400",
+    "status": "1"
+  },
+  {
+    "kode": "RZRG50",
+    "keterangan": "Razer Gold 50.000",
+    "produk": "TPG Game Vcr Razer Gold",
+    "kategori": "DIGITAL",
+    "harga": "47900",
+    "status": "1"
+  },
+  {
+    "kode": "RZRG100",
+    "keterangan": "Razer Gold 100.000",
+    "produk": "TPG Game Vcr Razer Gold",
+    "kategori": "DIGITAL",
+    "harga": "95500",
+    "status": "1"
+  },
+  {
+    "kode": "RZRG200",
+    "keterangan": "Razer Gold 200.000",
+    "produk": "TPG Game Vcr Razer Gold",
+    "kategori": "DIGITAL",
+    "harga": "190700",
+    "status": "1"
+  },
+  {
+    "kode": "RZRG10",
+    "keterangan": "Razer Gold 10.000",
+    "produk": "TPG Game Vcr Razer Gold",
+    "kategori": "DIGITAL",
+    "harga": "9800",
+    "status": "1"
+  },
+  {
+    "kode": "RZRG500",
+    "keterangan": "Razer Gold 500.000",
+    "produk": "TPG Game Vcr Razer Gold",
+    "kategori": "DIGITAL",
+    "harga": "475700",
+    "status": "1"
+  },
+  {
+    "kode": "RZRG1000",
+    "keterangan": "Razer Gold 1.000.000",
+    "produk": "TPG Game Vcr Razer Gold",
+    "kategori": "DIGITAL",
+    "harga": "950900",
+    "status": "1"
+  },
+  {
+    "kode": "PB10",
+    "keterangan": "1200 PB Cash",
+    "produk": "TPG Point Blank Zepetto",
+    "kategori": "DIGITAL",
+    "harga": "9075",
+    "status": "1"
+  },
+  {
+    "kode": "PB100",
+    "keterangan": "12000 PB Cash",
+    "produk": "TPG Point Blank Zepetto",
+    "kategori": "DIGITAL",
+    "harga": "87800",
+    "status": "1"
+  },
+  {
+    "kode": "PB20",
+    "keterangan": "2400 PB Cash",
+    "produk": "TPG Point Blank Zepetto",
+    "kategori": "DIGITAL",
+    "harga": "17625",
+    "status": "1"
+  },
+  {
+    "kode": "PB50",
+    "keterangan": "6000 PB Cash",
+    "produk": "TPG Point Blank Zepetto",
+    "kategori": "DIGITAL",
+    "harga": "44750",
+    "status": "1"
+  },
+  {
+    "kode": "PB300",
+    "keterangan": "36000 PB Cash",
+    "produk": "TPG Point Blank Zepetto",
+    "kategori": "DIGITAL",
+    "harga": "265400",
+    "status": "1"
+  },
+  {
+    "kode": "FF50",
+    "keterangan": "50 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "6229",
+    "status": "1"
+  },
+  {
+    "kode": "FF70",
+    "keterangan": "70 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "8525",
+    "status": "1"
+  },
+  {
+    "kode": "FF140",
+    "keterangan": "140 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "16942",
+    "status": "1"
+  },
+  {
+    "kode": "FF355",
+    "keterangan": "355 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "42223",
+    "status": "1"
+  },
+  {
+    "kode": "FF12",
+    "keterangan": "12 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "1810",
+    "status": "1"
+  },
+  {
+    "kode": "FF1450",
+    "keterangan": "1450 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "169748",
+    "status": "1"
+  },
+  {
+    "kode": "FF2180",
+    "keterangan": "2180 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "255994",
+    "status": "1"
+  },
+  {
+    "kode": "FFM1",
+    "keterangan": "Membership Mingguan 50 Diamond",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "25674",
+    "status": "1"
+  },
+  {
+    "kode": "FFM2",
+    "keterangan": "Membership Bulanan 50 Diamond",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "76624",
+    "status": "1"
+  },
+  {
+    "kode": "FF5",
+    "keterangan": "5 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "818",
+    "status": "1"
+  },
+  {
+    "kode": "FF3640",
+    "keterangan": "3640 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "428845",
+    "status": "1"
+  },
+  {
+    "kode": "FF500",
+    "keterangan": "500 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "59824",
+    "status": "1"
+  },
+  {
+    "kode": "FF1000",
+    "keterangan": "1000 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "118149",
+    "status": "1"
+  },
+  {
+    "kode": "FF100",
+    "keterangan": "100 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "12359",
+    "status": "1"
+  },
+  {
+    "kode": "FF210",
+    "keterangan": "210 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "25374",
+    "status": "1"
+  },
+  {
+    "kode": "FF720",
+    "keterangan": "720 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "84398",
+    "status": "1"
+  },
+  {
+    "kode": "FFLUP",
+    "keterangan": "Membership Level Up Pass",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "14014",
+    "status": "1"
+  },
+  {
+    "kode": "KFFBP",
+    "keterangan": "Booyah Pass (BP CARD)",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "38709",
+    "status": "1"
+  },
+  {
+    "kode": "FF4000",
+    "keterangan": "4000 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "472895",
+    "status": "1"
+  },
+  {
+    "kode": "FF7290",
+    "keterangan": "7290 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "848000",
+    "status": "1"
+  },
+  {
+    "kode": "FF300",
+    "keterangan": "300 Diamond Free Fire",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "37073",
+    "status": "1"
+  },
+  {
+    "kode": "FFLUP6",
+    "keterangan": "Membership Level Up Pass - Level 6",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "4658",
+    "status": "1"
+  },
+  {
+    "kode": "FFLUP30",
+    "keterangan": "Membership Level Up Pass - Level 30",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "12422",
+    "status": "1"
+  },
+  {
+    "kode": "FFLUP25",
+    "keterangan": "Membership Level Up Pass - Level 25",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "7764",
+    "status": "1"
+  },
+  {
+    "kode": "FFLUP20",
+    "keterangan": "Membership Level Up Pass - Level 20",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "7764",
+    "status": "1"
+  },
+  {
+    "kode": "FFLUP15",
+    "keterangan": "Membership Level Up Pass - Level 15",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "7764",
+    "status": "1"
+  },
+  {
+    "kode": "FFLUP10",
+    "keterangan": "Membership Level Up Pass - Level 10",
+    "produk": "TPG Diamond Free Fire",
+    "kategori": "DIGITAL",
+    "harga": "7764",
+    "status": "1"
+  },
+  {
+    "kode": "EGP10",
+    "keterangan": "Eggy Party 10 Coins",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "1865",
+    "status": "1"
+  },
+  {
+    "kode": "EGP120",
+    "keterangan": "Eggy Party 120 + 6 Coins",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "21250",
+    "status": "1"
+  },
+  {
+    "kode": "EGP1380",
+    "keterangan": "Eggy Party 1.380 + 144 Coins",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "221927",
+    "status": "1"
+  },
+  {
+    "kode": "EGP2080",
+    "keterangan": "Eggy Party 2.080 + 216 Coins",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "335225",
+    "status": "1"
+  },
+  {
+    "kode": "EGP300",
+    "keterangan": "Eggy Party 300 + 24 Coins",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "53150",
+    "status": "1"
+  },
+  {
+    "kode": "EGP3450",
+    "keterangan": "Eggy Party 3.450 + 423 Coins",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "568325",
+    "status": "1"
+  },
+  {
+    "kode": "EGP60",
+    "keterangan": "Eggy Party 60 + 3 Coins",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "11021",
+    "status": "1"
+  },
+  {
+    "kode": "EGP700",
+    "keterangan": "Eggy Party 700 + 57 Coins",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "115795",
+    "status": "1"
+  },
+  {
+    "kode": "EGPSC",
+    "keterangan": "Eggy Party Shiny Coin Jar",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "33479",
+    "status": "1"
+  },
+  {
+    "kode": "EGPWECP",
+    "keterangan": "Eggy Party Weekly Egg Coin Pack",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "11600",
+    "status": "1"
+  },
+  {
+    "kode": "EGPYM",
+    "keterangan": "Eggy Party Yoyo Membership",
+    "produk": "TPG Eggy Party Coin",
+    "kategori": "DIGITAL",
+    "harga": "21885",
+    "status": "1"
+  },
+  {
+    "kode": "RGZ400",
+    "keterangan": "Ragnarok Zeny 400k",
+    "produk": "TPG Big Zeny Ragnarok",
+    "kategori": "DIGITAL",
+    "harga": "96100",
+    "status": "0"
+  },
+  {
+    "kode": "RGZ200",
+    "keterangan": "Ragnarok Zeny 200k",
+    "produk": "TPG Big Zeny Ragnarok",
+    "kategori": "DIGITAL",
+    "harga": "48400",
+    "status": "0"
+  },
+  {
+    "kode": "RGZ80",
+    "keterangan": "Ragnarok Zeny 80k",
+    "produk": "TPG Big Zeny Ragnarok",
+    "kategori": "DIGITAL",
+    "harga": "19600",
+    "status": "0"
+  },
+  {
+    "kode": "RGZ40",
+    "keterangan": "Ragnarok Zeny 40k",
+    "produk": "TPG Big Zeny Ragnarok",
+    "kategori": "DIGITAL",
+    "harga": "9900",
+    "status": "0"
+  },
+  {
+    "kode": "CODM1056",
+    "keterangan": "COD Mobile 1056 + 317 CP",
+    "produk": "TPG Call Of Duty",
+    "kategori": "DIGITAL",
+    "harga": "177200",
+    "status": "1"
+  },
+  {
+    "kode": "CODM106",
+    "keterangan": "COD Mobile 106 + 21 CP",
+    "produk": "TPG Call Of Duty",
+    "kategori": "DIGITAL",
+    "harga": "18500",
+    "status": "1"
+  },
+  {
+    "kode": "CODM26",
+    "keterangan": "COD Mobile 26 + 5 CP",
+    "produk": "TPG Call Of Duty",
+    "kategori": "DIGITAL",
+    "harga": "4800",
+    "status": "1"
+  },
+  {
+    "kode": "CODM264",
+    "keterangan": "COD Mobile 264 + 53 CP",
+    "produk": "TPG Call Of Duty",
+    "kategori": "DIGITAL",
+    "harga": "43950",
+    "status": "1"
+  },
+  {
+    "kode": "CODM528",
+    "keterangan": "COD Mobile 528 + 106 CP",
+    "produk": "TPG Call Of Duty",
+    "kategori": "DIGITAL",
+    "harga": "91700",
+    "status": "1"
+  },
+  {
+    "kode": "CODM53",
+    "keterangan": "COD Mobile 53 + 9 CP",
+    "produk": "TPG Call Of Duty",
+    "kategori": "DIGITAL",
+    "harga": "9200",
+    "status": "1"
+  },
+  {
+    "kode": "COD1584",
+    "keterangan": "COD Mobile 1584 + 475 CP",
+    "produk": "TPG Call Of Duty",
+    "kategori": "DIGITAL",
+    "harga": "260700",
+    "status": "1"
+  },
+  {
+    "kode": "AOV40",
+    "keterangan": "40 AOV Game",
+    "produk": "TPG Arena of Valor",
+    "kategori": "DIGITAL",
+    "harga": "9395",
+    "status": "1"
+  },
+  {
+    "kode": "AOV90",
+    "keterangan": "90 AOV Game",
+    "produk": "TPG Arena of Valor",
+    "kategori": "DIGITAL",
+    "harga": "18590",
+    "status": "1"
+  },
+  {
+    "kode": "AOV230",
+    "keterangan": "230 AOV Game",
+    "produk": "TPG Arena of Valor",
+    "kategori": "DIGITAL",
+    "harga": "45990",
+    "status": "1"
+  },
+  {
+    "kode": "AOV470",
+    "keterangan": "470 AOV Game",
+    "produk": "TPG Arena of Valor",
+    "kategori": "DIGITAL",
+    "harga": "92290",
+    "status": "1"
+  },
+  {
+    "kode": "AOV1430",
+    "keterangan": "1430 AOV Game",
+    "produk": "TPG Arena of Valor",
+    "kategori": "DIGITAL",
+    "harga": "281190",
+    "status": "1"
+  },
+  {
+    "kode": "AOV950",
+    "keterangan": "950 AOV Game",
+    "produk": "TPG Arena of Valor",
+    "kategori": "DIGITAL",
+    "harga": "185600",
+    "status": "1"
+  },
+  {
+    "kode": "AOV2390",
+    "keterangan": "2390 AOV Game",
+    "produk": "TPG Arena of Valor",
+    "kategori": "DIGITAL",
+    "harga": "469700",
+    "status": "1"
+  },
+  {
+    "kode": "SPOTIFY55",
+    "keterangan": "Spotify Premium 1 Bulan",
+    "produk": "Berlangganan Spotify Premium",
+    "kategori": "DIGITAL",
+    "harga": "56050",
+    "status": "1"
+  },
+  {
+    "kode": "SPOTIFY165",
+    "keterangan": "Spotify Premium 3 Bulan",
+    "produk": "Berlangganan Spotify Premium",
+    "kategori": "DIGITAL",
+    "harga": "166700",
+    "status": "1"
+  },
+  {
+    "kode": "SPOTIFY300",
+    "keterangan": "Spotify Premium 6 Bulan",
+    "produk": "Berlangganan Spotify Premium",
+    "kategori": "DIGITAL",
+    "harga": "305175",
+    "status": "1"
+  },
+  {
+    "kode": "GX3H",
+    "keterangan": "Genflix Berlangganan 3 hari",
+    "produk": "Berlangganan Genflix",
+    "kategori": "DIGITAL",
+    "harga": "5585",
+    "status": "1"
+  },
+  {
+    "kode": "GX1M",
+    "keterangan": "Genflix Berlangganan 7 hari",
+    "produk": "Berlangganan Genflix",
+    "kategori": "DIGITAL",
+    "harga": "10885",
+    "status": "1"
+  },
+  {
+    "kode": "GX1B",
+    "keterangan": "Genflix Berlangganan 30 hari",
+    "produk": "Berlangganan Genflix",
+    "kategori": "DIGITAL",
+    "harga": "26725",
+    "status": "1"
+  },
+  {
+    "kode": "GX3B",
+    "keterangan": "Genflix Berlangganan 3 Bulan",
+    "produk": "Berlangganan Genflix",
+    "kategori": "DIGITAL",
+    "harga": "69740",
+    "status": "1"
+  },
+  {
+    "kode": "GX2M",
+    "keterangan": "Genflix Berlangganan 14 hari",
+    "produk": "Berlangganan Genflix",
+    "kategori": "DIGITAL",
+    "harga": "15135",
+    "status": "1"
+  },
+  {
+    "kode": "GX6B",
+    "keterangan": "Genflix Berlangganan 6 Bulan",
+    "produk": "Berlangganan Genflix",
+    "kategori": "DIGITAL",
+    "harga": "114530",
+    "status": "1"
+  },
+  {
+    "kode": "GX12B",
+    "keterangan": "Genflix Berlangganan 12 Bulan",
+    "produk": "Berlangganan Genflix",
+    "kategori": "DIGITAL",
+    "harga": "202120",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGV1800",
+    "keterangan": "Voucher PUBG 1800UC",
+    "produk": "TPG Game Vcr PUBG",
+    "kategori": "DIGITAL",
+    "harga": "402750",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGV325",
+    "keterangan": "Voucher PUBG 325UC",
+    "produk": "TPG Game Vcr PUBG",
+    "kategori": "DIGITAL",
+    "harga": "80800",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGV60",
+    "keterangan": "Voucher PUBG 60UC",
+    "produk": "TPG Game Vcr PUBG",
+    "kategori": "DIGITAL",
+    "harga": "16350",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGV660",
+    "keterangan": "Voucher PUBG 660UC",
+    "produk": "TPG Game Vcr PUBG",
+    "kategori": "DIGITAL",
+    "harga": "161175",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGV3850",
+    "keterangan": "Voucher PUBG 3850UC",
+    "produk": "TPG Game Vcr PUBG",
+    "kategori": "DIGITAL",
+    "harga": "804625",
+    "status": "1"
+  },
+  {
+    "kode": "HLMD10",
+    "keterangan": "Lord Mobile 67 Diamonds",
+    "produk": "TPG Lord Mobile Diamonds",
+    "kategori": "DIGITAL",
+    "harga": "10255",
+    "status": "0"
+  },
+  {
+    "kode": "HLMD100",
+    "keterangan": "Lord Mobile 670 Diamonds",
+    "produk": "TPG Lord Mobile Diamonds",
+    "kategori": "DIGITAL",
+    "harga": "97875",
+    "status": "0"
+  },
+  {
+    "kode": "HLMD20",
+    "keterangan": "Lord Mobile 134 Diamonds",
+    "produk": "TPG Lord Mobile Diamonds",
+    "kategori": "DIGITAL",
+    "harga": "20160",
+    "status": "0"
+  },
+  {
+    "kode": "HLMD300",
+    "keterangan": "Lord Mobile 2011 Diamonds",
+    "produk": "TPG Lord Mobile Diamonds",
+    "kategori": "DIGITAL",
+    "harga": "289875",
+    "status": "0"
+  },
+  {
+    "kode": "HLMD50",
+    "keterangan": "Lord Mobile 335 Diamonds",
+    "produk": "TPG Lord Mobile Diamonds",
+    "kategori": "DIGITAL",
+    "harga": "48875",
+    "status": "0"
+  },
+  {
+    "kode": "HLMD500",
+    "keterangan": "Lord Mobile 3352 Diamonds",
+    "produk": "TPG Lord Mobile Diamonds",
+    "kategori": "DIGITAL",
+    "harga": "480425",
+    "status": "0"
+  },
+  {
+    "kode": "SPEED10",
+    "keterangan": "56 Diamond Speed Drifter",
+    "produk": "TPG Diamond Speed Drifter",
+    "kategori": "DIGITAL",
+    "harga": "10050",
+    "status": "1"
+  },
+  {
+    "kode": "SPEED100",
+    "keterangan": "579 Diamond Speed Drifter",
+    "produk": "TPG Diamond Speed Drifter",
+    "kategori": "DIGITAL",
+    "harga": "85240",
+    "status": "1"
+  },
+  {
+    "kode": "SPEED2",
+    "keterangan": "10 Diamond Speed Drifter",
+    "produk": "TPG Diamond Speed Drifter",
+    "kategori": "DIGITAL",
+    "harga": "2250",
+    "status": "1"
+  },
+  {
+    "kode": "SPEED20",
+    "keterangan": "112 Diamond Speed Drifter",
+    "produk": "TPG Diamond Speed Drifter",
+    "kategori": "DIGITAL",
+    "harga": "17750",
+    "status": "1"
+  },
+  {
+    "kode": "SPEED200",
+    "keterangan": "1230 Diamond Speed Drifter",
+    "produk": "TPG Diamond Speed Drifter",
+    "kategori": "DIGITAL",
+    "harga": "191100",
+    "status": "1"
+  },
+  {
+    "kode": "SPEED5",
+    "keterangan": "25 Diamond Speed Drifter",
+    "produk": "TPG Diamond Speed Drifter",
+    "kategori": "DIGITAL",
+    "harga": "5025",
+    "status": "1"
+  },
+  {
+    "kode": "SPEED50",
+    "keterangan": "282 Diamond Speed Drifter",
+    "produk": "TPG Diamond Speed Drifter",
+    "kategori": "DIGITAL",
+    "harga": "48250",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU10",
+    "keterangan": "Doku 10.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "10800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU100",
+    "keterangan": "Doku 100.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "100800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU1000",
+    "keterangan": "Doku H2H 1.000.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "1000800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU125",
+    "keterangan": "Doku 125.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "125800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU15",
+    "keterangan": "Doku 15.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "15800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU150",
+    "keterangan": "Doku 150.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "150800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU20",
+    "keterangan": "Doku 20.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "20800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU200",
+    "keterangan": "Doku 200.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "200800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU25",
+    "keterangan": "Doku 25.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "25800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU250",
+    "keterangan": "Doku H2H 250.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "250800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU30",
+    "keterangan": "Doku 30.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "30800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU300",
+    "keterangan": "Doku H2H 300.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "300800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU35",
+    "keterangan": "Doku 35.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "35800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU40",
+    "keterangan": "Doku 40.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "40800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU400",
+    "keterangan": "Doku H2H 400.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "400800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU45",
+    "keterangan": "Doku 45.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "45800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU50",
+    "keterangan": "Doku 50.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "50800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU500",
+    "keterangan": "Doku H2H 500.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "500800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU55",
+    "keterangan": "Doku 55.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "55800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU60",
+    "keterangan": "Doku 60.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "60800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU600",
+    "keterangan": "Doku H2H 600.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "600800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU65",
+    "keterangan": "Doku 65.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "65800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU70",
+    "keterangan": "Doku 70.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "70800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU700",
+    "keterangan": "Doku H2H 700.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "700800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU75",
+    "keterangan": "Doku 75.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "75800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU80",
+    "keterangan": "Doku 80.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "80800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU800",
+    "keterangan": "Doku H2H 800.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "800800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU85",
+    "keterangan": "Doku 85.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "85800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU90",
+    "keterangan": "Doku 90.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "90800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU900",
+    "keterangan": "Doku H2H 900.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "900800",
+    "status": "1"
+  },
+  {
+    "kode": "DOKU95",
+    "keterangan": "Doku 95.000",
+    "produk": "Top Up Saldo Doku",
+    "kategori": "DIGITAL",
+    "harga": "95800",
+    "status": "1"
+  },
+  {
+    "kode": "SSGM1280",
+    "keterangan": "1280 + 88 Candy",
+    "produk": "TPG Candy Sausage Man",
+    "kategori": "DIGITAL",
+    "harga": "250160",
+    "status": "1"
+  },
+  {
+    "kode": "SSGM180",
+    "keterangan": "180 Candy",
+    "produk": "TPG Candy Sausage Man",
+    "kategori": "DIGITAL",
+    "harga": "37110",
+    "status": "1"
+  },
+  {
+    "kode": "SSGM1980",
+    "keterangan": "1980 + 138 Candy",
+    "produk": "TPG Candy Sausage Man",
+    "kategori": "DIGITAL",
+    "harga": "380160",
+    "status": "1"
+  },
+  {
+    "kode": "SSGM300",
+    "keterangan": "300 + 16 Candy",
+    "produk": "TPG Candy Sausage Man",
+    "kategori": "DIGITAL",
+    "harga": "70110",
+    "status": "1"
+  },
+  {
+    "kode": "SSGM60",
+    "keterangan": "60 Candy",
+    "produk": "TPG Candy Sausage Man",
+    "kategori": "DIGITAL",
+    "harga": "11920",
+    "status": "1"
+  },
+  {
+    "kode": "SSGM680",
+    "keterangan": "680 + 38 Candy",
+    "produk": "TPG Candy Sausage Man",
+    "kategori": "DIGITAL",
+    "harga": "125160",
+    "status": "1"
+  },
+  {
+    "kode": "FFU30",
+    "keterangan": "30 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "4699",
+    "status": "1"
+  },
+  {
+    "kode": "FFU40",
+    "keterangan": "40 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "6225",
+    "status": "1"
+  },
+  {
+    "kode": "FFU75",
+    "keterangan": "75 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "9280",
+    "status": "1"
+  },
+  {
+    "kode": "FFU80",
+    "keterangan": "80 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "10045",
+    "status": "1"
+  },
+  {
+    "kode": "FFU90",
+    "keterangan": "90 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "11591",
+    "status": "1"
+  },
+  {
+    "kode": "FFU160",
+    "keterangan": "160 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "20008",
+    "status": "1"
+  },
+  {
+    "kode": "FFU190",
+    "keterangan": "190 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "23053",
+    "status": "1"
+  },
+  {
+    "kode": "FFU200",
+    "keterangan": "200 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "24604",
+    "status": "1"
+  },
+  {
+    "kode": "FFU375",
+    "keterangan": "375 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "45236",
+    "status": "1"
+  },
+  {
+    "kode": "FFU405",
+    "keterangan": "405 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "48294",
+    "status": "1"
+  },
+  {
+    "kode": "FFU475",
+    "keterangan": "475 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "56709",
+    "status": "1"
+  },
+  {
+    "kode": "FFU510",
+    "keterangan": "510 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "61555",
+    "status": "1"
+  },
+  {
+    "kode": "FFU635",
+    "keterangan": "635 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "75894",
+    "status": "1"
+  },
+  {
+    "kode": "FFU770",
+    "keterangan": "770 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "90399",
+    "status": "1"
+  },
+  {
+    "kode": "FFU790",
+    "keterangan": "790 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "92749",
+    "status": "1"
+  },
+  {
+    "kode": "FFU930",
+    "keterangan": "930 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "109584",
+    "status": "1"
+  },
+  {
+    "kode": "FFU280",
+    "keterangan": "280 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "33789",
+    "status": "1"
+  },
+  {
+    "kode": "FFU150",
+    "keterangan": "150 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "18479",
+    "status": "1"
+  },
+  {
+    "kode": "FFU1075",
+    "keterangan": "1075 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "126549",
+    "status": "1"
+  },
+  {
+    "kode": "FF10",
+    "keterangan": "10 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "1736",
+    "status": "1"
+  },
+  {
+    "kode": "FF20",
+    "keterangan": "20 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "3063",
+    "status": "1"
+  },
+  {
+    "kode": "FF25",
+    "keterangan": "25 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "3841",
+    "status": "1"
+  },
+  {
+    "kode": "FF120",
+    "keterangan": "120 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "14895",
+    "status": "1"
+  },
+  {
+    "kode": "FF425",
+    "keterangan": "425 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "51000",
+    "status": "1"
+  },
+  {
+    "kode": "FF545",
+    "keterangan": "545 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "65295",
+    "status": "1"
+  },
+  {
+    "kode": "FF860",
+    "keterangan": "860 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "101800",
+    "status": "1"
+  },
+  {
+    "kode": "FFU2350",
+    "keterangan": "2350 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "276545",
+    "status": "1"
+  },
+  {
+    "kode": "FFU2720",
+    "keterangan": "2720 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "321100",
+    "status": "1"
+  },
+  {
+    "kode": "FFU1050",
+    "keterangan": "1050 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "125445",
+    "status": "1"
+  },
+  {
+    "kode": "FFU1080",
+    "keterangan": "1080 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "129876",
+    "status": "1"
+  },
+  {
+    "kode": "FFU130",
+    "keterangan": "130 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "16332",
+    "status": "1"
+  },
+  {
+    "kode": "FFU145",
+    "keterangan": "145 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "17868",
+    "status": "1"
+  },
+  {
+    "kode": "FFU2200",
+    "keterangan": "2200 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "262711",
+    "status": "1"
+  },
+  {
+    "kode": "FFU420",
+    "keterangan": "420 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "51540",
+    "status": "1"
+  },
+  {
+    "kode": "FFU55",
+    "keterangan": "55 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "7014",
+    "status": "1"
+  },
+  {
+    "kode": "FFU565",
+    "keterangan": "565 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "67950",
+    "status": "1"
+  },
+  {
+    "kode": "FFU800",
+    "keterangan": "800 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "94836",
+    "status": "1"
+  },
+  {
+    "kode": "FFU15",
+    "keterangan": "15 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "2405",
+    "status": "1"
+  },
+  {
+    "kode": "FFU250",
+    "keterangan": "250 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "31505",
+    "status": "1"
+  },
+  {
+    "kode": "FFU260",
+    "keterangan": "260 Diamond Free Fire",
+    "produk": "TPG Free Fire Denom Unik",
+    "kategori": "DIGITAL",
+    "harga": "31695",
+    "status": "1"
+  },
+  {
+    "kode": "CEKOVO",
+    "keterangan": "Cek Nama Pengguna OVO",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKD",
+    "keterangan": "Cek Nama Pengguna Dana",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKGJD",
+    "keterangan": "Cek Nama Pengguna Gopay Driver",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKGJK",
+    "keterangan": "Cek Nama Pengguna Gopay Customer",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKGRB",
+    "keterangan": "Cek Nama Pengguna Grab Penumpang",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKGRD",
+    "keterangan": "Cek Nama Pengguna Grab Driver",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKISAKU",
+    "keterangan": "Cek Nama Pengguna iSaku",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKSHP",
+    "keterangan": "Cek Nama Pengguna Shopee Pay",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKLINK",
+    "keterangan": "Cek Nama Pengguna Link Aja",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKAOV",
+    "keterangan": "Cek Game Pengguna AOV",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKCODM",
+    "keterangan": "Cek Game Pengguna Call of Duty",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKFF",
+    "keterangan": "Cek Game Pengguna Free Fire",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKML",
+    "keterangan": "Cek Game Pengguna Mobile Legend",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKPLN",
+    "keterangan": "Cek Nama Pemilik Token PLN",
+    "produk": "Cek Produk Digital H2H",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "CEKOMNI",
+    "keterangan": "Cek Pesanan Combo Sakti Omni",
+    "produk": "Telkomsel Combo Sakti Omni",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "BYROMNI",
+    "keterangan": "Bayar Paket Combo Sakti Omni",
+    "produk": "Telkomsel Combo Sakti Omni",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "SHOPDR100",
+    "keterangan": "Shopee Driver 100.000",
+    "produk": "Top Up Saldo Shopee Driver",
+    "kategori": "DIGITAL",
+    "harga": "100600",
+    "status": "0"
+  },
+  {
+    "kode": "SHOPDR150",
+    "keterangan": "Shopee Driver 150.000",
+    "produk": "Top Up Saldo Shopee Driver",
+    "kategori": "DIGITAL",
+    "harga": "150600",
+    "status": "0"
+  },
+  {
+    "kode": "SHOPDR200",
+    "keterangan": "Shopee Driver 200.000",
+    "produk": "Top Up Saldo Shopee Driver",
+    "kategori": "DIGITAL",
+    "harga": "200600",
+    "status": "0"
+  },
+  {
+    "kode": "SHOPDR25",
+    "keterangan": "Shopee Driver 25.000",
+    "produk": "Top Up Saldo Shopee Driver",
+    "kategori": "DIGITAL",
+    "harga": "25950",
+    "status": "0"
+  },
+  {
+    "kode": "SHOPDR250",
+    "keterangan": "Shopee Driver 250.000",
+    "produk": "Top Up Saldo Shopee Driver",
+    "kategori": "DIGITAL",
+    "harga": "250600",
+    "status": "0"
+  },
+  {
+    "kode": "SHOPDR50",
+    "keterangan": "Shopee Driver 50.000",
+    "produk": "Top Up Saldo Shopee Driver",
+    "kategori": "DIGITAL",
+    "harga": "50600",
+    "status": "0"
+  },
+  {
+    "kode": "MAXIM10",
+    "keterangan": "Saldo Maxim Driver 10.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "12045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM100",
+    "keterangan": "Saldo Maxim Driver 100.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "102595",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM15",
+    "keterangan": "Saldo Maxim Driver 15.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "17045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM20",
+    "keterangan": "Saldo Maxim Driver 20.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "22045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM30",
+    "keterangan": "Saldo Maxim Driver 30.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "32045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM40",
+    "keterangan": "Saldo Maxim Driver 40.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "42045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM50",
+    "keterangan": "Saldo Maxim Driver 50.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "52045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM97",
+    "keterangan": "Saldo Maxim Driver 97.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "99595",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM25",
+    "keterangan": "Saldo Maxim Driver 25.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "27045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM35",
+    "keterangan": "Saldo Maxim Driver 35.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "37045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM70",
+    "keterangan": "Saldo Maxim Driver 70.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "72045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM17",
+    "keterangan": "Saldo Maxim Driver 17.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "19045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM27",
+    "keterangan": "Saldo Maxim Driver 27.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "29045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM42",
+    "keterangan": "Saldo Maxim Driver 42.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "44045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM47",
+    "keterangan": "Saldo Maxim Driver 47.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "49045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM5",
+    "keterangan": "Saldo Maxim Driver 5.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "7045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM7",
+    "keterangan": "Saldo Maxim Driver 7.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "9045",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM67",
+    "keterangan": "Saldo Maxim Driver 67.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "69180",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM125",
+    "keterangan": "Saldo Maxim Driver 125.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "127580",
+    "status": "0"
+  },
+  {
+    "kode": "MAXIM147",
+    "keterangan": "Saldo Maxim Driver 147.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "149620",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM197",
+    "keterangan": "Saldo Maxim Driver 197.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "199630",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM247",
+    "keterangan": "Saldo Maxim Driver 247.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "249675",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM300",
+    "keterangan": "Saldo Maxim Driver 300.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "302675",
+    "status": "1"
+  },
+  {
+    "kode": "MAXIM45",
+    "keterangan": "Saldo Maxim Driver 45.000",
+    "produk": "Top Up Saldo Maxim Driver",
+    "kategori": "DIGITAL",
+    "harga": "47187",
+    "status": "0"
+  },
+  {
+    "kode": "MAXC10",
+    "keterangan": "Maxim Customer 10.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "11984",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC100",
+    "keterangan": "Maxim Customer 100.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "102534",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC15",
+    "keterangan": "Maxim Customer 15.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "16984",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC20",
+    "keterangan": "Maxim Customer 20.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "21984",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC30",
+    "keterangan": "Maxim Customer 30.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "31984",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC40",
+    "keterangan": "Maxim Customer 40.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "41984",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC50",
+    "keterangan": "Maxim Customer 50.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "51984",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC97",
+    "keterangan": "Maxim Customer 97.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "99534",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC25",
+    "keterangan": "Maxim Customer 25.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "26984",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC70",
+    "keterangan": "Maxim Customer 70.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "72035",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC35",
+    "keterangan": "Maxim Customer 35.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "37035",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC5",
+    "keterangan": "Maxim Customer 5.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "6984",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC42",
+    "keterangan": "Maxim Customer 42.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "43984",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC300",
+    "keterangan": "Maxim Customer 300.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "302585",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC247",
+    "keterangan": "Maxim Customer 247.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "249585",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC197",
+    "keterangan": "Maxim Customer 197.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "199585",
+    "status": "1"
+  },
+  {
+    "kode": "MAXC147",
+    "keterangan": "Maxim Customer 147.000",
+    "produk": "Top Up Maxim Customer",
+    "kategori": "DIGITAL",
+    "harga": "149534",
+    "status": "1"
+  },
+  {
+    "kode": "HIBLT10",
+    "keterangan": "1000 Coin Lita",
+    "produk": "TPG Digital Lita Coin",
+    "kategori": "DIGITAL",
+    "harga": "119277",
+    "status": "1"
+  },
+  {
+    "kode": "HIBLT3",
+    "keterangan": "300 Coin Lita",
+    "produk": "TPG Digital Lita Coin",
+    "kategori": "DIGITAL",
+    "harga": "37077",
+    "status": "1"
+  },
+  {
+    "kode": "HIBLT6",
+    "keterangan": "600 Coin Lita",
+    "produk": "TPG Digital Lita Coin",
+    "kategori": "DIGITAL",
+    "harga": "75852",
+    "status": "0"
+  },
+  {
+    "kode": "HIBLT20",
+    "keterangan": "2000 Coin Lita",
+    "produk": "TPG Digital Lita Coin",
+    "kategori": "DIGITAL",
+    "harga": "263034",
+    "status": "1"
+  },
+  {
+    "kode": "HIBLT50",
+    "keterangan": "5000 Lita Coin",
+    "produk": "TPG Digital Lita Coin",
+    "kategori": "DIGITAL",
+    "harga": "621923",
+    "status": "1"
+  },
+  {
+    "kode": "HIBLT100",
+    "keterangan": "10000 Coin Lita",
+    "produk": "TPG Digital Lita Coin",
+    "kategori": "DIGITAL",
+    "harga": "1240085",
+    "status": "1"
+  },
+  {
+    "kode": "SUS100",
+    "keterangan": "100 GOLDSTAR",
+    "produk": "TPG Goldstar Super Sus",
+    "kategori": "DIGITAL",
+    "harga": "14425",
+    "status": "1"
+  },
+  {
+    "kode": "SUS310",
+    "keterangan": "310 GOLDSTAR",
+    "produk": "TPG Goldstar Super Sus",
+    "kategori": "DIGITAL",
+    "harga": "38175",
+    "status": "1"
+  },
+  {
+    "kode": "SUS520",
+    "keterangan": "520 GOLDSTAR",
+    "produk": "TPG Goldstar Super Sus",
+    "kategori": "DIGITAL",
+    "harga": "66675",
+    "status": "1"
+  },
+  {
+    "kode": "AVL1125",
+    "keterangan": "1125 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "124850",
+    "status": "1"
+  },
+  {
+    "kode": "AVL1375",
+    "keterangan": "1375 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "136575",
+    "status": "1"
+  },
+  {
+    "kode": "AVL1650",
+    "keterangan": "1650 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "142610",
+    "status": "0"
+  },
+  {
+    "kode": "AVL1950",
+    "keterangan": "1950 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "171113",
+    "status": "0"
+  },
+  {
+    "kode": "AVL2850",
+    "keterangan": "2850 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "271921",
+    "status": "0"
+  },
+  {
+    "kode": "AVL300",
+    "keterangan": "300 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "40875",
+    "status": "1"
+  },
+  {
+    "kode": "AVL700",
+    "keterangan": "700 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "73050",
+    "status": "1"
+  },
+  {
+    "kode": "AVL420",
+    "keterangan": "420 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "45370",
+    "status": "1"
+  },
+  {
+    "kode": "AVL2400",
+    "keterangan": "2400 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "226651",
+    "status": "1"
+  },
+  {
+    "kode": "AVL625",
+    "keterangan": "625 Valorant Points",
+    "produk": "TPG Valorant Points",
+    "kategori": "DIGITAL",
+    "harga": "73700",
+    "status": "1"
+  },
+  {
+    "kode": "GIASIA1980",
+    "keterangan": "1980+260 Crystals",
+    "produk": "TPG Genshin Impact Crystals",
+    "kategori": "DIGITAL",
+    "harga": "383750",
+    "status": "1"
+  },
+  {
+    "kode": "GIASIA300",
+    "keterangan": "300+30 Crystals",
+    "produk": "TPG Genshin Impact Crystals",
+    "kategori": "DIGITAL",
+    "harga": "58700",
+    "status": "1"
+  },
+  {
+    "kode": "GIASIA3280",
+    "keterangan": "3280+600 Crystals",
+    "produk": "TPG Genshin Impact Crystals",
+    "kategori": "DIGITAL",
+    "harga": "610700",
+    "status": "1"
+  },
+  {
+    "kode": "GIASIA60",
+    "keterangan": "60 Crystals",
+    "produk": "TPG Genshin Impact Crystals",
+    "kategori": "DIGITAL",
+    "harga": "11600",
+    "status": "1"
+  },
+  {
+    "kode": "GIASIA980",
+    "keterangan": "980+110 Crystals",
+    "produk": "TPG Genshin Impact Crystals",
+    "kategori": "DIGITAL",
+    "harga": "176925",
+    "status": "1"
+  },
+  {
+    "kode": "GIASIABWM",
+    "keterangan": "Blessing Welkin moon",
+    "produk": "TPG Genshin Impact Crystals",
+    "kategori": "DIGITAL",
+    "harga": "58690",
+    "status": "1"
+  },
+  {
+    "kode": "UW80",
+    "keterangan": "80 RC Undawn",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "14200",
+    "status": "1"
+  },
+  {
+    "kode": "UW160",
+    "keterangan": "160 RC Undawn",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "28625",
+    "status": "1"
+  },
+  {
+    "kode": "UW250",
+    "keterangan": "250 RC Undawn",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "42625",
+    "status": "1"
+  },
+  {
+    "kode": "UW330",
+    "keterangan": "330 RC Undawn",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "56625",
+    "status": "1"
+  },
+  {
+    "kode": "UW450",
+    "keterangan": "450 RC Undawn",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "70625",
+    "status": "1"
+  },
+  {
+    "kode": "UW920",
+    "keterangan": "920 RC Undawn",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "139225",
+    "status": "1"
+  },
+  {
+    "kode": "UW1850",
+    "keterangan": "1850 RC Undawn",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "277825",
+    "status": "1"
+  },
+  {
+    "kode": "UW2800",
+    "keterangan": "2800 RC Undawn",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "416425",
+    "status": "1"
+  },
+  {
+    "kode": "UW4750",
+    "keterangan": "4750 RC Undawn",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "693625",
+    "status": "1"
+  },
+  {
+    "kode": "UWMM",
+    "keterangan": "Membership Mingguan",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "26460",
+    "status": "1"
+  },
+  {
+    "kode": "UWMB",
+    "keterangan": "Membership Bulanan",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "45145",
+    "status": "1"
+  },
+  {
+    "kode": "UWGF",
+    "keterangan": "Undawn Growth Fund",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "89945",
+    "status": "1"
+  },
+  {
+    "kode": "UWGPP",
+    "keterangan": "Undawn Glory Pass Premium",
+    "produk": "TPG Undawn",
+    "kategori": "DIGITAL",
+    "harga": "134745",
+    "status": "1"
+  },
+  {
+    "kode": "STGY250",
+    "keterangan": "Stumble Guys 250 Gems",
+    "produk": "TPG Stumble Guys",
+    "kategori": "DIGITAL",
+    "harga": "13600",
+    "status": "1"
+  },
+  {
+    "kode": "STGY800",
+    "keterangan": "Stumble Guys 800 Gems",
+    "produk": "TPG Stumble Guys",
+    "kategori": "DIGITAL",
+    "harga": "35200",
+    "status": "1"
+  },
+  {
+    "kode": "STGYT120",
+    "keterangan": "Stumble Guys 120 Tokens",
+    "produk": "TPG Stumble Guys",
+    "kategori": "DIGITAL",
+    "harga": "41900",
+    "status": "1"
+  },
+  {
+    "kode": "STGYT1300",
+    "keterangan": "Stumble Guys 1.300 Tokens",
+    "produk": "TPG Stumble Guys",
+    "kategori": "DIGITAL",
+    "harga": "348100",
+    "status": "1"
+  },
+  {
+    "kode": "STGYGT1",
+    "keterangan": "Stumble Guys 1.600 Gems dan 75 Tokens",
+    "produk": "TPG Stumble Guys",
+    "kategori": "DIGITAL",
+    "harga": "61350",
+    "status": "1"
+  },
+  {
+    "kode": "SGYGT2",
+    "keterangan": "Stumble Guys 5.000 Gems dan 275 Tokens",
+    "produk": "TPG Stumble Guys",
+    "kategori": "DIGITAL",
+    "harga": "138475",
+    "status": "1"
+  },
+  {
+    "kode": "HG10",
+    "keterangan": "10 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "2920",
+    "status": "1"
+  },
+  {
+    "kode": "HG15",
+    "keterangan": "15 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "4489",
+    "status": "1"
+  },
+  {
+    "kode": "HG20",
+    "keterangan": "20 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "5850",
+    "status": "1"
+  },
+  {
+    "kode": "HG25",
+    "keterangan": "25 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "7299",
+    "status": "1"
+  },
+  {
+    "kode": "HG30",
+    "keterangan": "30 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "8799",
+    "status": "1"
+  },
+  {
+    "kode": "HG35",
+    "keterangan": "35 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "10099",
+    "status": "1"
+  },
+  {
+    "kode": "HG40",
+    "keterangan": "40 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "11694",
+    "status": "1"
+  },
+  {
+    "kode": "HG50",
+    "keterangan": "50 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "14499",
+    "status": "1"
+  },
+  {
+    "kode": "HG60",
+    "keterangan": "60 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "17899",
+    "status": "1"
+  },
+  {
+    "kode": "HG70",
+    "keterangan": "70 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "20599",
+    "status": "1"
+  },
+  {
+    "kode": "HG80",
+    "keterangan": "80 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "23499",
+    "status": "1"
+  },
+  {
+    "kode": "HG90",
+    "keterangan": "90 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "26399",
+    "status": "1"
+  },
+  {
+    "kode": "HG100",
+    "keterangan": "100 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "29190",
+    "status": "1"
+  },
+  {
+    "kode": "HG500",
+    "keterangan": "500 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "143999",
+    "status": "1"
+  },
+  {
+    "kode": "HG125",
+    "keterangan": "125 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "36399",
+    "status": "1"
+  },
+  {
+    "kode": "HG400",
+    "keterangan": "400 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "115099",
+    "status": "1"
+  },
+  {
+    "kode": "HG150",
+    "keterangan": "150 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "43470",
+    "status": "1"
+  },
+  {
+    "kode": "HG300",
+    "keterangan": "300 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "86699",
+    "status": "1"
+  },
+  {
+    "kode": "HG200",
+    "keterangan": "200 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "57993",
+    "status": "1"
+  },
+  {
+    "kode": "HG250",
+    "keterangan": "250 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "72090",
+    "status": "1"
+  },
+  {
+    "kode": "HG5",
+    "keterangan": "5 Diamond Hago ",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "1860",
+    "status": "1"
+  },
+  {
+    "kode": "HG45",
+    "keterangan": "45 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "13399",
+    "status": "1"
+  },
+  {
+    "kode": "HG65",
+    "keterangan": "65 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "19199",
+    "status": "1"
+  },
+  {
+    "kode": "HG55",
+    "keterangan": "55 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "16299",
+    "status": "1"
+  },
+  {
+    "kode": "HG75",
+    "keterangan": "75 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "22099",
+    "status": "1"
+  },
+  {
+    "kode": "HG85",
+    "keterangan": "85 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "24899",
+    "status": "1"
+  },
+  {
+    "kode": "HG95",
+    "keterangan": "95 Diamond Hago",
+    "produk": "TPG Diamonds Hago",
+    "kategori": "DIGITAL",
+    "harga": "28099",
+    "status": "1"
+  },
+  {
+    "kode": "VPB10",
+    "keterangan": "Voucher PB 1.200 Cash",
+    "produk": "TPG Game Vcr Point Blank",
+    "kategori": "DIGITAL",
+    "harga": "9335",
+    "status": "1"
+  },
+  {
+    "kode": "VPB20",
+    "keterangan": "Voucher PB 2.400 Cash",
+    "produk": "TPG Game Vcr Point Blank",
+    "kategori": "DIGITAL",
+    "harga": "18355",
+    "status": "1"
+  },
+  {
+    "kode": "VPB50",
+    "keterangan": "Voucher PB 6.000 Cash",
+    "produk": "TPG Game Vcr Point Blank",
+    "kategori": "DIGITAL",
+    "harga": "45345",
+    "status": "1"
+  },
+  {
+    "kode": "VPB100",
+    "keterangan": "Voucher PB 12.000 Cash",
+    "produk": "TPG Game Vcr Point Blank",
+    "kategori": "DIGITAL",
+    "harga": "90600",
+    "status": "1"
+  },
+  {
+    "kode": "VPB240",
+    "keterangan": "Voucher PB 24.000 Cash",
+    "produk": "TPG Game Vcr Point Blank",
+    "kategori": "DIGITAL",
+    "harga": "180300",
+    "status": "1"
+  },
+  {
+    "kode": "VPB360",
+    "keterangan": "Voucher PB 36.000 Cash",
+    "produk": "TPG Game Vcr Point Blank",
+    "kategori": "DIGITAL",
+    "harga": "269050",
+    "status": "1"
+  },
+  {
+    "kode": "VPB600",
+    "keterangan": "Voucher PB 60.000 Cash",
+    "produk": "TPG Game Vcr Point Blank",
+    "kategori": "DIGITAL",
+    "harga": "447400",
+    "status": "1"
+  },
+  {
+    "kode": "RBX10",
+    "keterangan": "Roblox Gift Card (US) $10",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "144850",
+    "status": "1"
+  },
+  {
+    "kode": "RBX15",
+    "keterangan": "Roblox Gift Card (US) $15",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "230500",
+    "status": "1"
+  },
+  {
+    "kode": "RBX20",
+    "keterangan": "Roblox Gift Card (US) $20",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "310500",
+    "status": "1"
+  },
+  {
+    "kode": "RBX25",
+    "keterangan": "Roblox Gift Card (US) $25",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "361500",
+    "status": "1"
+  },
+  {
+    "kode": "RBX50",
+    "keterangan": "Roblox Gift Card (IDR) 50.000",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "48800",
+    "status": "1"
+  },
+  {
+    "kode": "RBX300",
+    "keterangan": "Roblox Gift Card (IDR) 300.000",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "286000",
+    "status": "1"
+  },
+  {
+    "kode": "RBX65",
+    "keterangan": "Roblox Gift Card (IDR) 65.000",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "64500",
+    "status": "1"
+  },
+  {
+    "kode": "RBUX2000",
+    "keterangan": "Vcr Robux 2.000",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "374000",
+    "status": "1"
+  },
+  {
+    "kode": "RBX30",
+    "keterangan": "Roblox Gift Card (US) $30",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "481000",
+    "status": "1"
+  },
+  {
+    "kode": "RBUX100",
+    "keterangan": "Vcr Robux 100",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "82800",
+    "status": "1"
+  },
+  {
+    "kode": "RBX500",
+    "keterangan": "Roblox Gift Card (IDR) 500.000",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "476500",
+    "status": "1"
+  },
+  {
+    "kode": "RBX40",
+    "keterangan": "Roblox Gift Card (US) $40",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "641500",
+    "status": "1"
+  },
+  {
+    "kode": "RBX50",
+    "keterangan": "Roblox Gift Card (US) $50",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "723000",
+    "status": "1"
+  },
+  {
+    "kode": "RBX100",
+    "keterangan": "Roblox Gift Card (IDR) 100.000",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "96000",
+    "status": "1"
+  },
+  {
+    "kode": "RBUX4500",
+    "keterangan": "Vcr Robux 4.500",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "756500",
+    "status": "1"
+  },
+  {
+    "kode": "RBUX10000",
+    "keterangan": "Vcr Robux 10.000",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "1559000",
+    "status": "1"
+  },
+  {
+    "kode": "RBUX400",
+    "keterangan": "Vcr Robux 400",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "110600",
+    "status": "1"
+  },
+  {
+    "kode": "RBUX800",
+    "keterangan": "Vcr Robux 800",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "153500",
+    "status": "1"
+  },
+  {
+    "kode": "RBX200",
+    "keterangan": "Roblox Gift Card (IDR) 200.000",
+    "produk": "TPG Game Vcr Roblox",
+    "kategori": "DIGITAL",
+    "harga": "199500",
+    "status": "1"
+  },
+  {
+    "kode": "GPUBGM60",
+    "keterangan": "PUBG Mobile Global 60 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "14460",
+    "status": "1"
+  },
+  {
+    "kode": "GPUBGM120",
+    "keterangan": "PUBG Mobile Global 120 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "29100",
+    "status": "1"
+  },
+  {
+    "kode": "GPUBGM180",
+    "keterangan": "PUBG Mobile Global 180 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "43020",
+    "status": "1"
+  },
+  {
+    "kode": "GPUBGM240",
+    "keterangan": "PUBG Mobile Global 240 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "57900",
+    "status": "1"
+  },
+  {
+    "kode": "GPUBGM325",
+    "keterangan": "PUBG Mobile Global 325 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "70450",
+    "status": "1"
+  },
+  {
+    "kode": "GPUBGM660",
+    "keterangan": "PUBG Mobile Global 660 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "143900",
+    "status": "1"
+  },
+  {
+    "kode": "GPUBGM1800",
+    "keterangan": "PUBG Mobile Global 1800 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "353400",
+    "status": "1"
+  },
+  {
+    "kode": "GPUBGM3850",
+    "keterangan": "PUBG Mobile Global 3850 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "704400",
+    "status": "1"
+  },
+  {
+    "kode": "GPUBGM8100",
+    "keterangan": "PUBG Mobile Global 8100 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "1405400",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG10",
+    "keterangan": "PUBG Mobile Global 385 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "83500",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG11",
+    "keterangan": "PUBG Mobile Global 445 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "100500",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG12",
+    "keterangan": "PUBG Mobile Global 720 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "155266",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG13",
+    "keterangan": "PUBG Mobile Global 985 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "210830",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG15",
+    "keterangan": "PUBG Mobile Global 1080 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "242500",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG16",
+    "keterangan": "PUBG Mobile Global 1645 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "356081",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG14",
+    "keterangan": "PUBG Mobile Global 1045 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "230000",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG23",
+    "keterangan": "PUBG Mobile Global 4510 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "850000",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG17",
+    "keterangan": "PUBG Mobile Global 2125 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "424000",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG18",
+    "keterangan": "PUBG Mobile Global 2460 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "495411",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG19",
+    "keterangan": "PUBG Mobile Global 2785 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "572000",
+    "status": "1"
+  },
+  {
+    "kode": "PUBGMG20",
+    "keterangan": "PUBG Mobile Global 3120 UC",
+    "produk": "TPG Game Mobile PUBG Global",
+    "kategori": "DIGITAL",
+    "harga": "640000",
+    "status": "1"
+  },
+  {
+    "kode": "AB6BB",
+    "keterangan": "Arena Breakout 60 Bonds",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "10472",
+    "status": "1"
+  },
+  {
+    "kode": "AB31BB",
+    "keterangan": "Arena Breakout 310 Bonds",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "53114",
+    "status": "1"
+  },
+  {
+    "kode": "AB63BB",
+    "keterangan": "Arena Breakout 630 Bonds",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "106203",
+    "status": "1"
+  },
+  {
+    "kode": "AB32BB",
+    "keterangan": "Arena Breakout 3.200 Bonds",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "534131",
+    "status": "1"
+  },
+  {
+    "kode": "AB15BB",
+    "keterangan": "Arena Breakout 1.580 Bonds",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "268053",
+    "status": "1"
+  },
+  {
+    "kode": "ABABB",
+    "keterangan": "Arena Breakout Kotak Anti Peluru 30 Hari",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "41575",
+    "status": "1"
+  },
+  {
+    "kode": "ABEBB",
+    "keterangan": "Arena Breakout Percobaan Elite 30 Hari",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "68950",
+    "status": "1"
+  },
+  {
+    "kode": "ABKBB",
+    "keterangan": "Arena Breakout Kotak Komposit 30 Hari",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "109055",
+    "status": "0"
+  },
+  {
+    "kode": "ABPRBB",
+    "keterangan": "Arena Breakout Battle Pass Premium",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "166600",
+    "status": "0"
+  },
+  {
+    "kode": "ABPBB",
+    "keterangan": "Arena Breakout Pilihan Pemula",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "10791",
+    "status": "1"
+  },
+  {
+    "kode": "ABPLBB",
+    "keterangan": "Arena Breakout Battle Pass Lanjutan",
+    "produk": "TPG Arena Breakout",
+    "kategori": "DIGITAL",
+    "harga": "55450",
+    "status": "1"
+  },
+  {
+    "kode": "C8BB",
+    "keterangan": "Clash of Clans 80 Gems",
+    "produk": "TPG Clash of Clans",
+    "kategori": "DIGITAL",
+    "harga": "13542",
+    "status": "0"
+  },
+  {
+    "kode": "C5BB",
+    "keterangan": "Clash of Clans 500 Gems",
+    "produk": "TPG Clash of Clans",
+    "kategori": "DIGITAL",
+    "harga": "65697",
+    "status": "0"
+  },
+  {
+    "kode": "CPSBB",
+    "keterangan": "Clash of Clans Gold Pass",
+    "produk": "TPG Clash of Clans",
+    "kategori": "DIGITAL",
+    "harga": "91255",
+    "status": "0"
+  },
+  {
+    "kode": "C12BB",
+    "keterangan": "Clash of Clans 1.200 Gems",
+    "produk": "TPG Clash of Clans",
+    "kategori": "DIGITAL",
+    "harga": "131910",
+    "status": "0"
+  },
+  {
+    "kode": "C25BB",
+    "keterangan": "Clash of Clans 2.500 Gems",
+    "produk": "TPG Clash of Clans",
+    "kategori": "DIGITAL",
+    "harga": "268700",
+    "status": "0"
+  },
+  {
+    "kode": "C65BB",
+    "keterangan": "Clash of Clans 6.500 Gems",
+    "produk": "TPG Clash of Clans",
+    "kategori": "DIGITAL",
+    "harga": "675447",
+    "status": "0"
+  },
+  {
+    "kode": "C140BB",
+    "keterangan": "Clash of Clans 14.000 Gems",
+    "produk": "TPG Clash of Clans",
+    "kategori": "DIGITAL",
+    "harga": "1350727",
+    "status": "0"
+  },
+  {
+    "kode": "OPMAF109",
+    "keterangan": "One Punch Man 109 Kupon",
+    "produk": "TPG One Punch Man",
+    "kategori": "DIGITAL",
+    "harga": "195000",
+    "status": "1"
+  },
+  {
+    "kode": "OPMAF13",
+    "keterangan": "One Punch Man 13 Kupon",
+    "produk": "TPG One Punch Man",
+    "kategori": "DIGITAL",
+    "harga": "19976",
+    "status": "1"
+  },
+  {
+    "kode": "OPMAF22",
+    "keterangan": "One Punch Man 22 Kupon",
+    "produk": "TPG One Punch Man",
+    "kategori": "DIGITAL",
+    "harga": "33366",
+    "status": "1"
+  },
+  {
+    "kode": "OPMAF5",
+    "keterangan": "One Punch Man 5 Kupon",
+    "produk": "TPG One Punch Man",
+    "kategori": "DIGITAL",
+    "harga": "7493",
+    "status": "1"
+  },
+  {
+    "kode": "OPMAF54",
+    "keterangan": "One Punch Man 54 Kupon",
+    "produk": "TPG One Punch Man",
+    "kategori": "DIGITAL",
+    "harga": "91025",
+    "status": "1"
+  },
+  {
+    "kode": "OPMAF91",
+    "keterangan": "One Punch Man 91 Kupon",
+    "produk": "TPG One Punch Man",
+    "kategori": "DIGITAL",
+    "harga": "139851",
+    "status": "1"
+  },
+  {
+    "kode": "ZPAF125",
+    "keterangan": "Zepeto 125 Zems",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "133291",
+    "status": "1"
+  },
+  {
+    "kode": "ZPAF14",
+    "keterangan": "Zepeto 14 Zems",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "13362",
+    "status": "1"
+  },
+  {
+    "kode": "ZPAF196",
+    "keterangan": "Zepeto 196 Zems",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "201524",
+    "status": "1"
+  },
+  {
+    "kode": "ZPAF29",
+    "keterangan": "Zepeto 29 Zems",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "33089",
+    "status": "1"
+  },
+  {
+    "kode": "ZPAF60",
+    "keterangan": "Zepeto 60 Zems",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "67273",
+    "status": "1"
+  },
+  {
+    "kode": "ZPAF7",
+    "keterangan": "Zepeto 7 Zems",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "8270",
+    "status": "0"
+  },
+  {
+    "kode": "ZPCAF1",
+    "keterangan": "Zepeto 4.680 Coins",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "13837",
+    "status": "1"
+  },
+  {
+    "kode": "ZPCAF2",
+    "keterangan": "Zepeto 10.200 Coins",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "33085",
+    "status": "0"
+  },
+  {
+    "kode": "ZPCAF3",
+    "keterangan": "Zepeto 21.000 Coins",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "67173",
+    "status": "0"
+  },
+  {
+    "kode": "ZPCAF4",
+    "keterangan": "Zepeto 38.900 Coins",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "117805",
+    "status": "0"
+  },
+  {
+    "kode": "ZPCAF5",
+    "keterangan": "Zepeto 62.800 Coins",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "185985",
+    "status": "0"
+  },
+  {
+    "kode": "ZPCPAF",
+    "keterangan": "Zepeto Premium",
+    "produk": "TPG Zepeto",
+    "kategori": "DIGITAL",
+    "harga": "56408",
+    "status": "0"
+  },
+  {
+    "kode": "BSAF1",
+    "keterangan": "Blood Strike 100 Gold",
+    "produk": "TPG Blood Strike",
+    "kategori": "DIGITAL",
+    "harga": "10343",
+    "status": "1"
+  },
+  {
+    "kode": "BSAF2",
+    "keterangan": "Blood Strike 300 Gold",
+    "produk": "TPG Blood Strike",
+    "kategori": "DIGITAL",
+    "harga": "31029",
+    "status": "1"
+  },
+  {
+    "kode": "BSAF3",
+    "keterangan": "Blood Strike 500 Gold",
+    "produk": "TPG Blood Strike",
+    "kategori": "DIGITAL",
+    "harga": "51715",
+    "status": "1"
+  },
+  {
+    "kode": "BSAF4",
+    "keterangan": "Blood Strike 1.000 Gold",
+    "produk": "TPG Blood Strike",
+    "kategori": "DIGITAL",
+    "harga": "103431",
+    "status": "1"
+  },
+  {
+    "kode": "BSAF5",
+    "keterangan": "Blood Strike 2.000 Gold",
+    "produk": "TPG Blood Strike",
+    "kategori": "DIGITAL",
+    "harga": "206861",
+    "status": "1"
+  },
+  {
+    "kode": "BSAF6",
+    "keterangan": "Blood Strike 5.000 Gold",
+    "produk": "TPG Blood Strike",
+    "kategori": "DIGITAL",
+    "harga": "517150",
+    "status": "1"
+  },
+  {
+    "kode": "NSAF1",
+    "keterangan": "PUBG New State Mobile 300 NC",
+    "produk": "TPG PUBG New State",
+    "kategori": "DIGITAL",
+    "harga": "13741",
+    "status": "1"
+  },
+  {
+    "kode": "NSAF2",
+    "keterangan": "PUBG New State Mobile 1.500 + 80 NC",
+    "produk": "TPG PUBG New State",
+    "kategori": "DIGITAL",
+    "harga": "70628",
+    "status": "1"
+  },
+  {
+    "kode": "NSAF3",
+    "keterangan": "PUBG New State Mobile 3.600 + 250 NC",
+    "produk": "TPG PUBG New State",
+    "kategori": "DIGITAL",
+    "harga": "167640",
+    "status": "1"
+  },
+  {
+    "kode": "NSAF4",
+    "keterangan": "PUBG New State Mobile 9.300 + 930 NC",
+    "produk": "TPG PUBG New State",
+    "kategori": "DIGITAL",
+    "harga": "417626",
+    "status": "1"
+  },
+  {
+    "kode": "FMAF1",
+    "keterangan": "FC Mobile 40 FC Points",
+    "produk": "TPG FC Mobile",
+    "kategori": "DIGITAL",
+    "harga": "6085",
+    "status": "0"
+  },
+  {
+    "kode": "FMAF2",
+    "keterangan": "FC Mobile 100 FC Points",
+    "produk": "TPG FC Mobile",
+    "kategori": "DIGITAL",
+    "harga": "14990",
+    "status": "0"
+  },
+  {
+    "kode": "FMAF3",
+    "keterangan": "FC Mobile 520 FC Points",
+    "produk": "TPG FC Mobile",
+    "kategori": "DIGITAL",
+    "harga": "73860",
+    "status": "0"
+  },
+  {
+    "kode": "FMAF4",
+    "keterangan": "FC Mobile 1.070 FC Points",
+    "produk": "TPG FC Mobile",
+    "kategori": "DIGITAL",
+    "harga": "148625",
+    "status": "0"
+  },
+  {
+    "kode": "FMAF5",
+    "keterangan": "FC Mobile 2.200 FC Points",
+    "produk": "TPG FC Mobile",
+    "kategori": "DIGITAL",
+    "harga": "307500",
+    "status": "0"
+  },
+  {
+    "kode": "FMAF6",
+    "keterangan": "FC Mobile 5.750 FC Points",
+    "produk": "TPG FC Mobile",
+    "kategori": "DIGITAL",
+    "harga": "746785",
+    "status": "0"
+  },
+  {
+    "kode": "VIDIOP30",
+    "keterangan": "Vcr Vidio Premier Platinum 30 Hari",
+    "produk": "Belangganan Vcr Vidio",
+    "kategori": "DIGITAL",
+    "harga": "50800",
+    "status": "1"
+  },
+  {
+    "kode": "VIDIOP360",
+    "keterangan": "Vcr Vidio Premier Platinum 1 Tahun",
+    "produk": "Belangganan Vcr Vidio",
+    "kategori": "DIGITAL",
+    "harga": "337150",
+    "status": "1"
+  },
+  {
+    "kode": "VIDIO1P",
+    "keterangan": "Vcr Vidio Platinum 30 Hari",
+    "produk": "Belangganan Vcr Vidio",
+    "kategori": "DIGITAL",
+    "harga": "70300",
+    "status": "1"
+  },
+  {
+    "kode": "VIDIO1D",
+    "keterangan": "Vcr Vidio Diamond 30 Hari",
+    "produk": "Belangganan Vcr Vidio",
+    "kategori": "DIGITAL",
+    "harga": "58750",
+    "status": "0"
+  },
+  {
+    "kode": "VIDIO12P",
+    "keterangan": "Vcr Vidio Platinum 1 Tahun",
+    "produk": "Belangganan Vcr Vidio",
+    "kategori": "DIGITAL",
+    "harga": "344050",
+    "status": "1"
+  },
+  {
+    "kode": "VIDIO12D",
+    "keterangan": "Vcr Vidio Diamond 1 Tahun",
+    "produk": "Belangganan Vcr Vidio",
+    "kategori": "DIGITAL",
+    "harga": "427750",
+    "status": "0"
+  },
+  {
+    "kode": "VIDIOU30",
+    "keterangan": "Vcr Vidio Ultimate Mobile 30 Hari",
+    "produk": "Belangganan Vcr Vidio",
+    "kategori": "DIGITAL",
+    "harga": "117200",
+    "status": "1"
+  },
+  {
+    "kode": "VIDIOPE30",
+    "keterangan": "Vcr Vidio Platinum Extra 30 Hari",
+    "produk": "Belangganan Vcr Vidio",
+    "kategori": "DIGITAL",
+    "harga": "70450",
+    "status": "1"
+  },
+  {
+    "kode": "INWW6",
+    "keterangan": "Werewolf 6 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "2500",
+    "status": "1"
+  },
+  {
+    "kode": "INWW10",
+    "keterangan": "Werewolf 10 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "3500",
+    "status": "1"
+  },
+  {
+    "kode": "INWW15",
+    "keterangan": "Werewolf 15 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "5100",
+    "status": "1"
+  },
+  {
+    "kode": "INWW16",
+    "keterangan": "Werewolf 16 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "5600",
+    "status": "1"
+  },
+  {
+    "kode": "INWW30",
+    "keterangan": "Werewolf 30 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "9900",
+    "status": "1"
+  },
+  {
+    "kode": "INWW33",
+    "keterangan": "Werewolf 33 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "10900",
+    "status": "1"
+  },
+  {
+    "kode": "INWW45",
+    "keterangan": "Werewolf 45 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "14700",
+    "status": "1"
+  },
+  {
+    "kode": "INWW60",
+    "keterangan": "Werewolf 60 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "19500",
+    "status": "1"
+  },
+  {
+    "kode": "INWW66",
+    "keterangan": "Werewolf 66 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "21500",
+    "status": "1"
+  },
+  {
+    "kode": "INWW75",
+    "keterangan": "Werewolf 75 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "24300",
+    "status": "1"
+  },
+  {
+    "kode": "INWW99",
+    "keterangan": "Werewolf 99 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "32000",
+    "status": "1"
+  },
+  {
+    "kode": "INWW135",
+    "keterangan": "Werewolf 135 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "43500",
+    "status": "1"
+  },
+  {
+    "kode": "INWW150",
+    "keterangan": "Werewolf 150 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "48300",
+    "status": "1"
+  },
+  {
+    "kode": "INWW165",
+    "keterangan": "Werewolf 165 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "53100",
+    "status": "1"
+  },
+  {
+    "kode": "INWW198",
+    "keterangan": "Werewolf 198 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "63700",
+    "status": "1"
+  },
+  {
+    "kode": "INWW225",
+    "keterangan": "Werewolf 225 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "72300",
+    "status": "1"
+  },
+  {
+    "kode": "INWW300",
+    "keterangan": "Werewolf 300 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "96300",
+    "status": "1"
+  },
+  {
+    "kode": "INWW330",
+    "keterangan": "Werewolf 330 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "106100",
+    "status": "1"
+  },
+  {
+    "kode": "INWW495",
+    "keterangan": "Werewolf 495 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "158900",
+    "status": "1"
+  },
+  {
+    "kode": "INWW900",
+    "keterangan": "Werewolf 900 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "288400",
+    "status": "1"
+  },
+  {
+    "kode": "INWW990",
+    "keterangan": "Werewolf 990 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "317200",
+    "status": "1"
+  },
+  {
+    "kode": "INWW1500",
+    "keterangan": "Werewolf 1500 Diamonds",
+    "produk": "TPG Werewolf",
+    "kategori": "DIGITAL",
+    "harga": "480300",
+    "status": "1"
+  },
+  {
+    "kode": "WETV1",
+    "keterangan": "Voucher WeTV Premium 1 Bulan",
+    "produk": "Berlangganan Vcr WeTV",
+    "kategori": "DIGITAL",
+    "harga": "47195",
+    "status": "1"
+  },
+  {
+    "kode": "WETV3",
+    "keterangan": "Voucher WeTV Premium 3 Bulan",
+    "produk": "Berlangganan Vcr WeTV",
+    "kategori": "DIGITAL",
+    "harga": "109450",
+    "status": "1"
+  },
+  {
+    "kode": "WETV12",
+    "keterangan": "Voucher WeTV Premium 12 Bulan",
+    "produk": "Berlangganan Vcr WeTV",
+    "kategori": "DIGITAL",
+    "harga": "316500",
+    "status": "1"
+  },
+  {
+    "kode": "INDR100",
+    "keterangan": "InDriver 100.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "100800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR125",
+    "keterangan": "InDriver 125.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "125800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR150",
+    "keterangan": "InDriver 150.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "150800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR200",
+    "keterangan": "InDriver 200.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "200800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR250",
+    "keterangan": "InDriver H2H 250.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "250800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR300",
+    "keterangan": "InDriver H2H 300.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "300800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR35",
+    "keterangan": "InDriver 35.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "35800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR40",
+    "keterangan": "InDriver 40.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "40800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR400",
+    "keterangan": "InDriver H2H 400.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "400800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR45",
+    "keterangan": "InDriver 45.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "45800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR50",
+    "keterangan": "InDriver 50.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "50800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR500",
+    "keterangan": "InDriver H2H 500.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "500800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR55",
+    "keterangan": "InDriver 55.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "55800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR60",
+    "keterangan": "InDriver 60.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "60800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR600",
+    "keterangan": "InDriver H2H 600.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "600800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR65",
+    "keterangan": "InDriver 65.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "65800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR70",
+    "keterangan": "InDriver 70.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "70800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR700",
+    "keterangan": "InDriver H2H 700.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "700800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR75",
+    "keterangan": "InDriver 75.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "75800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR80",
+    "keterangan": "InDriver 80.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "80800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR800",
+    "keterangan": "InDriver H2H 800.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "800800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR85",
+    "keterangan": "InDriver 85.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "85800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR90",
+    "keterangan": "InDriver 90.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "90800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR900",
+    "keterangan": "InDriver H2H 900.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "900800",
+    "status": "1"
+  },
+  {
+    "kode": "INDR95",
+    "keterangan": "InDriver 95.000",
+    "produk": "Top Up Saldo InDriver",
+    "kategori": "DIGITAL",
+    "harga": "95800",
+    "status": "1"
+  },
+  {
+    "kode": "CR1",
+    "keterangan": "Clash Royale 88 (80 + 8) Gems",
+    "produk": "TPG Clash Royale",
+    "kategori": "DIGITAL",
+    "harga": "13147",
+    "status": "1"
+  },
+  {
+    "kode": "CR2",
+    "keterangan": "Clash Royale 1320 (1200 + 120) Gems",
+    "produk": "TPG Clash Royale",
+    "kategori": "DIGITAL",
+    "harga": "67850",
+    "status": "1"
+  },
+  {
+    "kode": "CR3",
+    "keterangan": "Clash Royale 550 (500 + 50) Gems",
+    "produk": "TPG Clash Royale",
+    "kategori": "DIGITAL",
+    "harga": "130162",
+    "status": "1"
+  },
+  {
+    "kode": "CR4",
+    "keterangan": "Clash Royale 2750 (2500 + 250) Gems",
+    "produk": "TPG Clash Royale",
+    "kategori": "DIGITAL",
+    "harga": "273520",
+    "status": "1"
+  },
+  {
+    "kode": "CRDPASS",
+    "keterangan": "Clash Royale Diamond Pass",
+    "produk": "TPG Clash Royale",
+    "kategori": "DIGITAL",
+    "harga": "162960",
+    "status": "1"
+  },
+  {
+    "kode": "CRGPASS",
+    "keterangan": "Clash Royale Gold Pass",
+    "produk": "TPG Clash Royale",
+    "kategori": "DIGITAL",
+    "harga": "81884",
+    "status": "0"
+  },
+  {
+    "kode": "CR5",
+    "keterangan": "Clash Royale 7150 (6500 + 650) Gems",
+    "produk": "TPG Clash Royale",
+    "kategori": "DIGITAL",
+    "harga": "667802",
+    "status": "1"
+  },
+  {
+    "kode": "HOK16",
+    "keterangan": "Honor of Kings 16 + 1Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "2750",
+    "status": "1"
+  },
+  {
+    "kode": "HOK80",
+    "keterangan": "Honor of Kings 80 + 8 Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "15250",
+    "status": "1"
+  },
+  {
+    "kode": "HOK240",
+    "keterangan": "Honor of Kings 240 + 17 Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "40750",
+    "status": "1"
+  },
+  {
+    "kode": "HOK400",
+    "keterangan": "Honor of Kings 400 + 32 Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "69700",
+    "status": "1"
+  },
+  {
+    "kode": "HOK560",
+    "keterangan": "Honor of Kings 560 + 45 Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "97500",
+    "status": "1"
+  },
+  {
+    "kode": "HOK800",
+    "keterangan": "Honor of Kings 800 + 95 Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "138000",
+    "status": "1"
+  },
+  {
+    "kode": "HOK1200",
+    "keterangan": "Honor of Kings 1200 + 153 Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "213000",
+    "status": "1"
+  },
+  {
+    "kode": "HOK2400",
+    "keterangan": "Honor of Kings 2400 + 324 Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "430000",
+    "status": "1"
+  },
+  {
+    "kode": "HOKW",
+    "keterangan": "Honor of King Weekly Card",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "13650",
+    "status": "0"
+  },
+  {
+    "kode": "HOK8",
+    "keterangan": "Honor of Kings 8 Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "1550",
+    "status": "0"
+  },
+  {
+    "kode": "HOK23",
+    "keterangan": "Honor of Kings 23 Tokens",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "4100",
+    "status": "0"
+  },
+  {
+    "kode": "HOKWP",
+    "keterangan": "Honor of King Weekly Card Plus",
+    "produk": "TPG Honor of Kings",
+    "kategori": "DIGITAL",
+    "harga": "40950",
+    "status": "0"
+  },
+  {
+    "kode": "INLP11",
+    "keterangan": "Lokapala 11 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "3500",
+    "status": "1"
+  },
+  {
+    "kode": "INLP15",
+    "keterangan": "Lokapala 15 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "4400",
+    "status": "1"
+  },
+  {
+    "kode": "INLP187",
+    "keterangan": "Lokapala 187 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "52725",
+    "status": "1"
+  },
+  {
+    "kode": "INLP24",
+    "keterangan": "Lokapala 24 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "6900",
+    "status": "1"
+  },
+  {
+    "kode": "INLP259",
+    "keterangan": "Lokapala 259 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "72150",
+    "status": "1"
+  },
+  {
+    "kode": "INLP38",
+    "keterangan": "Lokapala 38 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "10700",
+    "status": "1"
+  },
+  {
+    "kode": "INLP380",
+    "keterangan": "Lokapala 380 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "105800",
+    "status": "1"
+  },
+  {
+    "kode": "INLP518",
+    "keterangan": "Lokapala 518 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "144200",
+    "status": "1"
+  },
+  {
+    "kode": "INLP52",
+    "keterangan": "Lokapala 52 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "14500",
+    "status": "1"
+  },
+  {
+    "kode": "INLP8",
+    "keterangan": "Lokapala 8 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "2500",
+    "status": "1"
+  },
+  {
+    "kode": "INLP94",
+    "keterangan": "Lokapala 94 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "26800",
+    "status": "1"
+  },
+  {
+    "kode": "INLP950",
+    "keterangan": "Lokapala 950 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "265100",
+    "status": "1"
+  },
+  {
+    "kode": "INLP1900",
+    "keterangan": "Lokapala 1900 Citrine",
+    "produk": "TPG Lokapala",
+    "kategori": "DIGITAL",
+    "harga": "530000",
+    "status": "1"
+  },
+  {
+    "kode": "OKEGAME",
+    "keterangan": "Topup",
+    "produk": "TPG Game Okegaming",
+    "kategori": "DIGITAL",
+    "harga": "100",
+    "status": "0"
+  },
+  {
+    "kode": "EDCT1",
+    "keterangan": "Pembelian EDC T1 Plus",
+    "produk": "Pembelian EDC Mini ATM",
+    "kategori": "DIGITAL",
+    "harga": "3200000",
+    "status": "1"
+  },
+  {
+    "kode": "EDCT3",
+    "keterangan": "Pembelian EDC T3",
+    "produk": "Pembelian EDC Mini ATM",
+    "kategori": "DIGITAL",
+    "harga": "3200000",
+    "status": "1"
+  },
+  {
+    "kode": "EDCM3",
+    "keterangan": "EDC Saku Mini ATM M3",
+    "produk": "Pembelian EDC Mini ATM",
+    "kategori": "DIGITAL",
+    "harga": "700000",
+    "status": "1"
+  },
+  {
+    "kode": "GGDF1280",
+    "keterangan": "Top Up 1280 Delta Coins",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "276150",
+    "status": "1"
+  },
+  {
+    "kode": "GGDF18",
+    "keterangan": "Top Up 18 Delta Coins",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "5100",
+    "status": "1"
+  },
+  {
+    "kode": "GGDF30",
+    "keterangan": "Top Up 30 Delta Coins",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "7525",
+    "status": "1"
+  },
+  {
+    "kode": "GGDF300",
+    "keterangan": "Top Up 300 Delta Coins",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "71700",
+    "status": "1"
+  },
+  {
+    "kode": "GGDF420",
+    "keterangan": "Top Up 420 Delta Coins",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "98450",
+    "status": "1"
+  },
+  {
+    "kode": "GGDF60",
+    "keterangan": "Top Up 60 Delta Coins",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "14380",
+    "status": "1"
+  },
+  {
+    "kode": "GGDF680",
+    "keterangan": "Top Up 680 Delta Coins",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "139300",
+    "status": "1"
+  },
+  {
+    "kode": "GGDFBHG",
+    "keterangan": "Top Up Black Hawk Down Genesis",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "41750",
+    "status": "1"
+  },
+  {
+    "kode": "GGDFBHR",
+    "keterangan": "Top Up Black Hawk Down Reshape",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "84500",
+    "status": "1"
+  },
+  {
+    "kode": "GGDFSS",
+    "keterangan": "Top Up Starfall Supplies",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "14650",
+    "status": "1"
+  },
+  {
+    "kode": "GGDFSSA",
+    "keterangan": "Top Up Starfall Supplies Advance",
+    "produk": "TPG Delta Force",
+    "kategori": "DIGITAL",
+    "harga": "41650",
+    "status": "1"
+  },
+  {
+    "kode": "INQOMNITSEL",
+    "keterangan": "Cek Tagihan Omni Telkomsel",
+    "produk": "Paket Telkomsel Omni",
+    "kategori": "DIGITAL",
+    "harga": "0",
+    "status": "1"
+  },
+  {
+    "kode": "PAYOMNITSEL",
+    "keterangan": "Bayar Tagihan Omni Telkomsel",
+    "produk": "Paket Telkomsel Omni",
+    "kategori": "DIGITAL",
+    "harga": "300",
+    "status": "1"
+  }
+                ];
+                
+                // Tambahkan 1000 ke setiap harga produk
+                products = rawProducts.map(product => {
+                    return {
+                        ...product,
+                        harga: (parseInt(product.harga) + 1000).toString()
+                    };
+                });
+                
+                // Simpan data produk dan render
+                filteredProducts = [...products];
+                renderProducts();
+                
+            } catch (error) {
+                console.error('Error loading products:', error);
+                productsGrid.innerHTML = `
+                    <div class="error-message">
+                        <p>Gagal memuat produk. Silakan coba lagi.</p>
+                        <button class="retry-btn" onclick="loadProducts()">Coba Lagi</button>
+                    </div>
+                `;
+            }
+        }
+        
+        // Fungsi untuk merender produk
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = `
+                    <div class="error-message">
+                        <p>Tidak ada produk yang sesuai dengan pencarian.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            productsGrid.innerHTML = filteredProducts.map(product => {
+                const isAvailable = product.status === "1";
+                const formattedPrice = new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                }).format(product.harga);
+                
+                return `
+                    <div class="topup-card" data-category="${product.kategori}">
+                        <div class="topup-card-header">
+                            <span class="topup-provider">${product.produk}</span>
+                            <span class="topup-status ${isAvailable ? 'status-available' : 'status-unavailable'}">
+                                ${isAvailable ? 'Tersedia' : 'Habis'}
+                            </span>
+                        </div>
+                        <h3 class="topup-name">${product.keterangan}</h3>
+                        <p class="topup-desc">Kode: ${product.kode}</p>
+                        <div class="topup-price">${formattedPrice}</div>
+                        <div class="topup-action">
+                            <span class="topup-code">${product.kode}</span>
+                            <button class="btn-buy" ${!isAvailable ? 'disabled' : ''} onclick="openModal('${product.kode}')">
+                                <i class="fas fa-shopping-cart"></i> Beli
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Fungsi untuk membuka modal pembelian
+        function openModal(productCode) {
+            selectedProduct = products.find(p => p.kode === productCode);
+            
+            if (!selectedProduct) return;
+            
+            const modal = document.getElementById('purchaseModal');
+            const productInfo = document.getElementById('modalProductInfo');
+            const phoneInputGroup = document.getElementById('phoneInputGroup');
+            const gameIdInputGroup = document.getElementById('gameIdInputGroup');
+            
+            // Format harga
+            const formattedPrice = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(selectedProduct.harga);
+            
+            // Update info produk di modal
+            productInfo.innerHTML = `
+                <div class="product-info-item">
+                    <span class="product-info-label">Produk:</span>
+                    <span class="product-info-value">${selectedProduct.produk}</span>
+                </div>
+                <div class="product-info-item">
+                    <span class="product-info-label">Keterangan:</span>
+                    <span class="product-info-value">${selectedProduct.keterangan}</span>
+                </div>
+                <div class="product-info-item">
+                    <span class="product-info-label">Harga:</span>
+                    <span class="product-info-value">${formattedPrice}</span>
+                </div>
+            `;
+            
+            // Tampilkan input yang sesuai berdasarkan kategori produk
+            if (selectedProduct.kategori === 'DIGITAL') {
+                // Jika produk game, tampilkan input ID Game
+                phoneInputGroup.style.display = 'none';
+                gameIdInputGroup.style.display = 'block';
+            } else {
+                // Jika produk pulsa/kuota, tampilkan input nomor HP
+                phoneInputGroup.style.display = 'block';
+                gameIdInputGroup.style.display = 'none';
+            }
+            
+            // Reset input
+            document.getElementById('phoneNumber').value = '';
+            document.getElementById('gameId').value = '';
+            
+            // Tampilkan modal
+            modal.classList.add('show');
+        }
+        
+        // Fungsi untuk menutup modal
+        function closeModal() {
+            const modal = document.getElementById('purchaseModal');
+            modal.classList.remove('show');
+        }
+        
+        // Fungsi untuk mengonfirmasi pembelian
+        function confirmPurchase() {
+            if (!selectedProduct) return;
+            
+            let customerInput = '';
+            let inputType = '';
+            
+            if (selectedProduct.kategori === 'DIGITAL') {
+                // Untuk produk game, ambil ID Game
+                customerInput = document.getElementById('gameId').value.trim();
+                inputType = 'ID Game';
+            } else {
+                // Untuk produk pulsa/kuota, ambil nomor HP
+                customerInput = document.getElementById('phoneNumber').value.trim();
+                inputType = 'Nomor HP';
+            }
+            
+            // Validasi input
+            if (!customerInput) {
+                alert(`Harap masukkan ${inputType} Anda.`);
+                return;
+            }
+            
+            // Format pesan WhatsApp
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const formattedPrice = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(selectedProduct.harga);
+            
+            let message = `Halo, saya ingin memesan produk berikut:\n\n`;
+            message += `*Produk:* ${selectedProduct.produk}\n`;
+            message += `*Keterangan:* ${selectedProduct.keterangan}\n`;
+            message += `*Kode:* ${selectedProduct.kode}\n`;
+            message += `*Harga:* ${formattedPrice}\n\n`;
+            
+            if (selectedProduct.kategori === 'DIGITAL') {
+                message += `*ID Game:* ${customerInput}\n`;
+            } else {
+                message += `*Nomor HP:* ${customerInput}\n`;
+            }
+            
+            message += `*Metode Pembayaran:* ${paymentMethod.toUpperCase()}\n\n`;
+            message += `_Terima kasih._`;
+            
+            // Encode pesan untuk URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Redirect ke WhatsApp
+            window.open(`https://wa.me/6283151636921?text=${encodedMessage}`, '_blank');
+            
+            // Tutup modal
+            closeModal();
+        }
+        
+        // Fungsi untuk memfilter produk berdasarkan kategori
+        function filterProducts(category) {
+            const searchValue = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (category === 'all') {
+                filteredProducts = products;
+            } else {
+                filteredProducts = products.filter(product => {
+                    if (category === 'DIGITAL') {
+                        return product.kategori === 'DIGITAL';
+                    } else if (category === 'KUOTA') {
+                        return product.kategori.includes('KUOTA');
+                    } else if (category === 'PULSA') {
+                        return product.kategori === 'PULSA';
+                    }
+                    return false;
+                });
+            }
+            
+            // Terapkan pencarian
+            if (searchValue) {
+                filteredProducts = filteredProducts.filter(product => 
+                    product.produk.toLowerCase().includes(searchValue) ||
+                    product.keterangan.toLowerCase().includes(searchValue) ||
+                    product.kode.toLowerCase().includes(searchValue)
+                );
+            }
+            
+            renderProducts();
+        }
+        
+        /// Inisialisasi ketika halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load produk
+            loadProducts();
+            
+            // Setup event listener untuk tombol filter
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    filterProducts(this.dataset.category);
+                });
+            });
+            
+            // Setup event listener untuk pencarian
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+                filterProducts(activeCategory);
+            });
+            
+            // Setup event listener untuk modal
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('cancelPurchase').addEventListener('click', closeModal);
+            document.getElementById('confirmPurchase').addEventListener('click', confirmPurchase);
+            
+            // Tutup modal ketika klik di luar konten modal
+            document.getElementById('purchaseModal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+        });
+    </script>
+</body>
+</html>
