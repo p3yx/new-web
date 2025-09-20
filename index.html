@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PX STORE | Layanan Premium VPN - Topup & Kuota</title>
+    <title>PX STORE | Layanan Premium - Kuota, Pulsa, VPN & Top Up Game</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -23,6 +23,7 @@
             --danger: #f72585;
             --warning: #ff9e00;
             --telegram: #0088cc;
+            --whatsapp: #25D366;
             --border-radius: 12px;
             --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             --transition: all 0.3s ease;
@@ -116,331 +117,72 @@
             margin: 0 auto;
         }
         
-        .pricing-section {
-            display: flex;
-            flex-direction: column;
-            gap: 3rem;
+        /* Menu Grid Styles */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
         }
         
-        .server-option {
+        .menu-card {
             background: var(--card-bg);
             border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .server-option:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-        }
-        
-        .server-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .server-header h2 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .server-header p {
-            opacity: 0.9;
-        }
-        
-        .server-flag {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 1rem;
-            border: 2px solid white;
-        }
-        
-        .protocol-tabs {
-            display: flex;
-            border-bottom: 1px solid #333;
-        }
-        
-        .tab-btn {
-            flex: 1;
-            padding: 1rem;
-            text-align: center;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: var(--transition);
-            border-bottom: 3px solid transparent;
-        }
-        
-        .tab-btn.active {
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .pricing-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .pricing-table th {
-            background-color: rgba(67, 97, 238, 0.1);
-            padding: 1rem;
-            text-align: center;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .pricing-table td {
-            padding: 1.2rem;
-            text-align: center;
-            border-bottom: 1px solid #333;
-            color: var(--text-primary);
-        }
-        
-        .duration {
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .price {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--text-primary);
-        }
-        
-        .btn-pay {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-weight: 600;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-pay:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .modal.show {
-            display: flex;
-            opacity: 1;
-        }
-        
-        .modal-content {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 400px;
             padding: 2rem;
             box-shadow: var(--box-shadow);
-            position: relative;
-            text-align: center;
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-secondary);
-            background: none;
-            border: none;
-        }
-        
-        .modal-title {
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
-        .modal-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-        }
-        
-        .timer {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--danger);
-            margin: 1rem 0;
-        }
-        
-        .modal-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1.5rem;
-        }
-        
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .btn-download {
-            background-color: var(--success);
-            color: white;
-        }
-        
-        .btn-download:hover {
-            background-color: #3ab7d8;
-            transform: translateY(-2px);
-        }
-        
-        .btn-cancel {
-            background-color: var(--danger);
-            color: white;
-        }
-        
-        .btn-cancel:hover {
-            background-color: #e5177e;
-            transform: translateY(-2px);
-        }
-        
-        .instructions {
-            background-color: var(--darker);
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            margin-top: 1.5rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        .features {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 3rem;
-            flex-wrap: wrap;
-        }
-        
-        .feature-card {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            width: 280px;
-            text-align: center;
             transition: var(--transition);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
         }
         
-        .feature-card:hover {
+        .menu-card:hover {
             transform: translateY(-5px);
             background-color: var(--card-hover);
         }
         
-        .feature-icon {
-            font-size: 2.5rem;
+        .menu-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             color: var(--primary);
-            margin-bottom: 1rem;
         }
         
-        .feature-title {
+        .menu-title {
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             color: var(--text-primary);
         }
         
-        .feature-desc {
+        .menu-description {
             color: var(--text-secondary);
-            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
         }
         
-        footer {
-            text-align: center;
-            margin-top: 4rem;
-            padding: 2rem 0;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        .tg-float {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background-color: var(--telegram);
-            border-radius: 50%;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
-            display: flex;
+        .menu-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            animation: pulse 2s infinite;
-            transition: transform 0.3s ease;
+            gap: 0.5rem;
+            text-decoration: none;
         }
-
-        .tg-float:hover {
-            transform: scale(1.15);
+        
+        .menu-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
         }
-
-        .tg-icon {
-            width: 32px;
-            height: 32px;
-        }
-
-        /* Animasi berdenyut */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.7);
-            }
-            70% {
-                transform: scale(1.05);
-                box-shadow: 0 0 0 10px rgba(0, 136, 204, 0);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0);
-            }
-        }
-
+        
         /* Navbar styling */
         .navbar {
             background-color: var(--card-bg);
@@ -639,93 +381,91 @@
         .legal-links span {
             color: rgba(255, 255, 255, 0.3);
         }
-
-        /* Trial Section Styles */
-        .trial-section, .create-section {
-            padding: 3rem 2rem;
-            background-color: var(--darker);
-            text-align: center;
-            border-radius: var(--border-radius);
-            margin: 2rem 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
         
-        .section-title {
-            font-size: 2rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-        
-        .section-subtitle {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-        
-        .trial-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .trial-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            box-shadow: var(--box-shadow);
-            transition: var(--transition);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .trial-card:hover {
-            transform: translateY(-5px);
-            background-color: var(--card-hover);
-        }
-        
-        .protocol-icon {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-        
-        /* Action buttons */
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .action-btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius);
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            font-weight: 600;
+        /* Floating buttons */
+        .tg-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--telegram);
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            box-shadow: var(--box-shadow);
-            transition: var(--transition);
-            cursor: pointer;
-            text-decoration: none;
+            justify-content: center;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+            transition: transform 0.3s ease;
         }
-        
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+
+        .tg-float:hover {
+            transform: scale(1.15);
         }
-        
-        .action-btn.telegram {
-            background: linear-gradient(135deg, var(--telegram), #006da3);
+
+        .tg-icon {
+            width: 32px;
+            height: 32px;
         }
-        
+
+        .wa-float {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--whatsapp);
+            border-radius: 50%;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: pulse-wa 2s infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.15);
+        }
+
+        .wa-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Animasi berdenyut */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(0, 136, 204, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 136, 204, 0);
+            }
+        }
+
+        @keyframes pulse-wa {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
         /* Dark mode toggle */
         .theme-toggle {
             position: fixed;
@@ -748,31 +488,11 @@
             font-size: 1.2rem;
             color: var(--text-primary);
         }
-
+        
         /* Responsive */
         @media (max-width: 768px) {
-            .pricing-table th, .pricing-table td {
-                padding: 0.8rem 0.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .btn-pay {
-                padding: 0.5rem 0.8rem;
-                font-size: 0.8rem;
-            }
-            
-            .features {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-                justify-content: center;
+            .menu-grid {
+                grid-template-columns: 1fr;
             }
             
             .nav-links {
@@ -801,16 +521,6 @@
                 display: flex;
             }
             
-            .action-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .action-btn {
-                width: 100%;
-                justify-content: center;
-            }
-            
             .main-header {
                 flex-direction: column;
                 text-align: center;
@@ -820,6 +530,10 @@
             
             .welcome-text {
                 order: -1;
+            }
+            
+            .wa-float {
+                bottom: 90px;
             }
         }
 
@@ -836,76 +550,24 @@
                 gap: 1.5rem;
             }
         }
-        
-        /* Animasi highlight */
-        @keyframes highlight {
-            0% { background-color: rgba(67, 97, 238, 0.1); }
-            100% { background-color: transparent; }
-        }
-        
-        /* Scrollbar customization */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: var(--darker);
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
-        
-        /* Improved button styles */
-        .btn-telegram {
-            background: linear-gradient(135deg, var(--telegram), #006da3);
-            color: white;
-            margin-top: auto;
-        }
-        
-        .btn-telegram:hover {
-            background: linear-gradient(135deg, #006da3, var(--telegram));
-            transform: translateY(-2px);
-        }
-        
-        .trial-features {
-            list-style: none;
-            text-align: left;
-            margin: 1.5rem 0;
-            padding: 0;
-            flex-grow: 1;
-        }
-        
-        .trial-features li {
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-secondary);
-        }
-        
-        .trial-features i {
-            color: var(--success);
-        }
     </style>
 </head>
 <body>
     
-    <a href="https://wa.me/6283151636921" class="tg-float" title="Hubungi Admin via WhatsApp">
-        <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp" class="tg-icon">
+    <a href="https://t.me/frel01" class="tg-float" title="Hubungi Admin via Telegram">
+        <img src="https://img.icons8.com/color/48/000000/telegram-app.png" alt="Telegram" class="tg-icon">
+    </a>
+
+    <a href="https://wa.me/6283151636921" class="wa-float" title="Hubungi Admin via WhatsApp">
+        <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp" class="wa-icon">
     </a>
 
     <header class="navbar">
         <nav class="nav-links" id="navLinks">
-            <a href="vpn/dashboard.html">Dashboard</a>
-            <a href="vpn/server.html">Server Status</a>
-            <a href="https://wa.me/6283151636921?text=.topupdiamond">Topup Game</a> 
-            <a href="vpn/convert.html">Convert Xray</a>  
+            <a href="index.html">Dashboard</a>
+            <a href="server.html">Server Status</a>
+            <a href="topup.html">Game & Kuota</a>
+            <a href="convert.html">Convert Xray</a>  
             <a href="https://grupwa.pxstore.biz.id">Grup WhatsApp</a>
         </nav>
         <div class="burger" onclick="toggleMenu()">
@@ -924,7 +586,7 @@
                 </div>
                 <div class="brand-text">
                     <div class="brand-name">PX STORE</div>
-                    <div class="brand-tagline">Premium VPN Services</div>
+                    <div class="brand-tagline">Layanan Premium Terlengkap</div>
                 </div>
             </div>
             <div class="welcome-text">Hi, Selamat Datang</div>
@@ -935,198 +597,59 @@
         <header>
             <div class="logo2">
                 <i class="fas fa-shield-alt"></i>
-                <span>PX STORE VPN</span>
+                <span>PX STORE</span>
             </div>
-            <p class="tagline">Server VPN premium berkecepatan tinggi dan stabil memudahkan internet anda, tersedia server Indonesia dan Singapura dengan enkripsi tingkat tinggi dan uptime 99.9%</p>
-            <p class="tagline">Akun bergaransi sesuai masa aktif, Server On 24/7. Yuk buruan order sekarang juga kami melayani dengan fast respon.</p>
+            <p class="tagline">Layanan terpercaya untuk kebutuhan kuota, pulsa, akun VPN, dan top up game dengan harga terjangkau dan proses cepat.</p>
         </header>
         
-        <div class="action-buttons">
-            <!-- Create Account Button -->
-            <button onclick="smoothScroll('create-section')" class="action-btn">
-                <i class="fas fa-user-plus"></i> Create Akun
-            </button>
-            
-            <!-- VPS Tunneling Button -->
-            <a href="/vpn/config.html" class="action-btn">
-                <i class="fas fa-network-wired"></i> Config Premium
-            </a>
-            
-            <!-- Trial Account Button -->
-            <button onclick="smoothScroll('trial-section')" class="action-btn">
-                <i class="fas fa-clock"></i> Trial Akun
-            </button>
-        </div>
-      
-        <div id="create-section" style="margin-top: 100px;">
-            <div class="create-section">
-                <h2 class="section-title">Create Akun</h2>
-                <p class="section-subtitle">Dengan kecepatan dan stabilitas server, kami menyediakan pelayanan terbaik untuk anda.</p>
-                
-                <div class="trial-cards">
-                    <!-- SSH Create -->
-                    <div class="trial-card">
-                        <div class="protocol-icon">
-                            <i class="fas fa-terminal"></i>
-                        </div>
-                        <h3>Create SSH</h3>
-                        <ul class="trial-features">
-                            <li><i class="fas fa-check-circle"></i> Durasi bisa request</li>
-                            <li><i class="fas fa-check-circle"></i> TLS/WS Support</li>
-                            <li><i class="fas fa-check-circle"></i> Max Login 2 Devices</li>
-                            <li><i class="fas fa-check-circle"></i> Bisa tambah device</li>
-                        </ul>
-                        <button onclick="window.location.href='https://t.me/pxstore_bot'" class="action-btn btn-telegram">
-                            <i class="fab fa-telegram"></i> CREATE AKUN
-                        </button>
-                    </div>
-                    
-                    <!-- Vmess Create -->
-                    <div class="trial-card">
-                        <div class="protocol-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h3>Create VMESS</h3>
-                        <ul class="trial-features">
-                            <li><i class="fas fa-check-circle"></i> Durasi bisa request</li>
-                            <li><i class="fas fa-check-circle"></i> TLS/WS Support</li>
-                            <li><i class="fas fa-check-circle"></i> Max Login 2 Devices</li>
-                            <li><i class="fas fa-check-circle"></i> Bisa tambah device</li>
-                        </ul>
-                        <button onclick="window.location.href='https://t.me/pxstore_bot'" class="action-btn btn-telegram">
-                            <i class="fab fa-telegram"></i> CREATE AKUN
-                        </button>
-                    </div>
-                    
-                    <!-- Vless Create -->
-                    <div class="trial-card">
-                        <div class="protocol-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>Create VLESS</h3>
-                        <ul class="trial-features">
-                            <li><i class="fas fa-check-circle"></i> Durasi bisa request</li>
-                            <li><i class="fas fa-check-circle"></i> TLS/XTLS Support</li>
-                            <li><i class="fas fa-check-circle"></i> Max Login 2 Devices</li>
-                            <li><i class="fas fa-check-circle"></i> Bisa tambah device</li>
-                        </ul>
-                        <button onclick="window.location.href='https://t.me/pxstore_bot'" class="action-btn btn-telegram">
-                            <i class="fab fa-telegram"></i> CREATE AKUN
-                        </button>
-                    </div>
-                    
-                    <!-- Trojan Create -->
-                    <div class="trial-card">
-                        <div class="protocol-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h3>Create TROJAN</h3>
-                        <ul class="trial-features">
-                            <li><i class="fas fa-check-circle"></i> Durasi bisa request</li>
-                            <li><i class="fas fa-check-circle"></i> TLS Support</li>
-                            <li><i class="fas fa-check-circle"></i> Max Login 2 Devices</li>
-                            <li><i class="fas fa-check-circle"></i> Bisa tambah device</li>
-                        </ul>
-                        <button onclick="window.location.href='https://t.me/pxstore_bot'" class="action-btn btn-telegram">
-                            <i class="fab fa-telegram"></i> CREATE AKUN
-                        </button>
-                    </div>
+        <!-- Menu Grid -->
+        <div class="menu-grid">
+            <!-- Kuota Card -->
+            <div class="menu-card" onclick="navigateTo('kuota.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-wifi"></i>
                 </div>
-            </div>
-        </div>
-        
-        <div id="trial-section" style="margin-top: 100px;">
-            <div class="trial-section">
-                <h2 class="section-title">Coba Layanan Kami Gratis!</h2>
-                <p class="section-subtitle">Uji kecepatan dan stabilitas server kami, Create Akun Trial via Telegram.</p>
-                
-                <div class="trial-cards">
-                    <!-- SSH Trial -->
-                    <div class="trial-card">
-                        <div class="protocol-icon">
-                            <i class="fas fa-terminal"></i>
-                        </div>
-                        <h3>SSH Trial</h3>
-                        <ul class="trial-features">
-                            <li><i class="fas fa-check-circle"></i> Durasi 30 Menit</li>
-                            <li><i class="fas fa-check-circle"></i> TLS/WS Support</li>
-                        </ul>
-                        <button class="action-btn telegram" onclick="sshTelegram('SSH Trial')">
-                            <i class="fab fa-telegram"></i> TRIAL
-                        </button>
-                    </div>
-                    
-                    <!-- Vmess Trial -->
-                    <div class="trial-card">
-                        <div class="protocol-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h3>Vmess Trial</h3>
-                        <ul class="trial-features">
-                            <li><i class="fas fa-check-circle"></i> Durasi 30 Menit</li>
-                            <li><i class="fas fa-check-circle"></i> TLS/WS Support</li>
-                        </ul>
-                        <button class="action-btn telegram" onclick="vmessTelegram('Vmess Trial')">
-                            <i class="fab fa-telegram"></i> TRIAL
-                        </button>
-                    </div>
-                    
-                    <!-- Vless Trial -->
-                    <div class="trial-card">
-                        <div class="protocol-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>Vless Trial</h3>
-                        <ul class="trial-features">
-                            <li><i class="fas fa-check-circle"></i> Durasi 30 Menit</li>
-                            <li><i class="fas fa-check-circle"></i> XTLS Reality Support</li>
-                        </ul>
-                        <button class="action-btn telegram" onclick="vlessTelegram('Vless Trial')">
-                            <i class="fab fa-telegram"></i> TRIAL
-                        </button>
-                    </div>
-                    
-                    <!-- Trojan Trial -->
-                    <div class="trial-card">
-                        <div class="protocol-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h3>Trojan Trial</h3>
-                        <ul class="trial-features">
-                            <li><i class="fas fa-check-circle"></i> Durasi 30 Menit</li>
-                            <li><i class="fas fa-check-circle"></i> TLS Support</li>
-                        </ul>
-                        <button class="action-btn telegram" onclick="trojanTelegram('Trojan Trial')">
-                            <i class="fab fa-telegram"></i> TRIAL
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <h3 class="feature-title">Kecepatan Tinggi</h3>
-                <p class="feature-desc">Server 1Gbps dengan bandwidth tidak terbatas untuk browsing dan streaming lancar</p>
+                <h3 class="menu-title">Kuota Internet</h3>
+                <p class="menu-description">Beli paket kuota internet dengan harga terjangkau untuk semua operator. Proses instan dan garansi.</p>
+                <a href="topup.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-lock"></i>
+            <!-- Pulsa Card -->
+            <div class="menu-card" onclick="navigateTo('pulsa.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-mobile-alt"></i>
                 </div>
-                <h3 class="feature-title">Enkripsi Aman</h3>
-                <p class="feature-desc">Enkripsi AES-256 tingkat militer untuk melindungi aktivitas online Anda</p>
+                <h3 class="menu-title">Pulsa & Tagihan</h3>
+                <p class="menu-description">Isi ulang pulsa, bayar tagihan listrik, BPJS, PDAM, dan pembayaran lainnya dengan mudah.</p>
+                <a href="topup.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
             </div>
             
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-server"></i>
+            <!-- VPN Card -->
+            <div class="menu-card" onclick="navigateTo('vpn.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-shield-alt"></i>
                 </div>
-                <h3 class="feature-title">Uptime 99.9%</h3>
-                <p class="feature-desc">Server andal dengan downtime minimal dan pemantauan 24/7</p>
+                <h3 class="menu-title">Akun VPN</h3>
+                <p class="menu-description">Beli akun VPN premium dengan kecepatan tinggi dan server stabil untuk browsing tanpa batas.</p>
+                <a href="vpn.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Game Card -->
+            <div class="menu-card" onclick="navigateTo('game.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3 class="menu-title">Top Up Game</h3>
+                <p class="menu-description">Top up diamond, koin, dan item game untuk berbagai game populer dengan proses cepat.</p>
+                <a href="topup.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
             </div>
         </div>
     </div>
@@ -1141,7 +664,7 @@
                         <span>PX STORE</span>
                     </div>
                     <p class="footer-description">
-                        Layanan VPN premium dengan kecepatan tinggi dan keamanan maksimal untuk pengalaman internet tanpa batas.
+                        Layanan terpercaya untuk kebutuhan kuota, pulsa, akun VPN, dan top up game dengan harga terjangkau dan proses cepat.
                     </p>
                     <div class="social-links">
                         <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -1155,9 +678,10 @@
                     <div class="links-column">
                         <h3 class="links-title">Layanan</h3>
                         <ul>
-                            <li><a href="#">Tunneling</a></li>
-                            <li><a href="#">PPOB</a></li>
-                            <li><a href="#">Topup Game</a></li>
+                            <li><a href="kuota.html">Kuota Internet</a></li>
+                            <li><a href="pulsa.html">Pulsa & Tagihan</a></li>
+                            <li><a href="vpn.html">Akun VPN</a></li>
+                            <li><a href="game.html">Top Up Game</a></li>
                         </ul>
                     </div>
 
@@ -1191,89 +715,13 @@
     </footer>
     
     <script>
-        // Dark/Light mode toggle functionality
-        const themeToggle = document.getElementById('themeToggle');
-        const themeIcon = themeToggle.querySelector('i');
-        
-        // Check for saved theme preference or respect OS preference
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        if (savedTheme === 'light' || (!savedTheme && !prefersDark)) {
-            document.body.classList.add('light-mode');
-            themeIcon.classList.remove('fa-moon');
-            themeIcon.classList.add('fa-sun');
-        }
-        
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
-            
-            if (document.body.classList.contains('light-mode')) {
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-                localStorage.setItem('theme', 'light');
-            } else {
-                themeIcon.classList.remove('fa-sun');
-                themeIcon.classList.add('fa-moon');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-        
-        // Tab functionality
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tabId = btn.getAttribute('data-tab');
-                
-                // Remove active class from all buttons and contents
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                // Add active class to clicked button and corresponding content
-                btn.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-        
         function toggleMenu() {
             const nav = document.getElementById('navLinks');
             nav.classList.toggle('active');
         }
         
-        function sshTelegram(service) {
-            const username = "pxstore_bot";
-            window.open(`https://t.me/${username}`, '_blank');
-        }
-        
-        function vmessTelegram(service) {
-            const username = "pxstore_bot";
-            window.open(`https://t.me/${username}`, '_blank');
-        }
-        
-        function vlessTelegram(service) {
-            const username = "pxstore_bot";
-            window.open(`https://t.me/${username}`, '_blank');
-        }
-        
-        function trojanTelegram(service) {
-            const username = "pxstore_bot";
-            window.open(`https://t.me/${username}`, '_blank');
-        }
-        
-        function smoothScroll(targetId) {
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 20,
-                    behavior: 'smooth'
-                });
-                
-                // Add visual feedback
-                targetElement.style.animation = 'highlight 2s';
-                setTimeout(() => {
-                    targetElement.style.animation = '';
-                }, 2000);
-            }
+        function navigateTo(page) {
+            window.location.href = page;
         }
     </script>
 </body>
