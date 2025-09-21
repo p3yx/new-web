@@ -489,10 +489,72 @@
             color: var(--text-primary);
         }
         
+        /* Category Headers */
+        .category-header {
+            text-align: center;
+            margin: 4rem 0 2rem;
+            position: relative;
+        }
+        
+        .category-title {
+            display: inline-block;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 0 1.5rem;
+            position: relative;
+        }
+        
+        .category-title::before,
+        .category-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+        
+        .category-title::before {
+            right: 100%;
+        }
+        
+        .category-title::after {
+            left: 100%;
+            background: linear-gradient(90deg, transparent, var(--primary));
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .menu-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .menu-card {
+                padding: 1.2rem;
+            }
+            
+            .menu-icon {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .menu-title {
+                font-size: 1.2rem;
+            }
+            
+            .menu-description {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+            }
+            
+            .menu-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
             }
             
             .nav-links {
@@ -535,6 +597,21 @@
             .wa-float {
                 bottom: 90px;
             }
+            
+            .category-title::before,
+            .category-title::after {
+                width: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .menu-card {
+                padding: 1.5rem;
+            }
         }
 
         @media (min-width: 768px) {
@@ -553,15 +630,21 @@
     </style>
 </head>
 <body>
-    
-    <a href="https://t.me/frel01" class="tg-float" title="Hubungi Admin via Telegram">
+    <!-- Floating Action Buttons -->
+    <a href="https://t.me/frel01" class="tg-float" title="Hubungi Admin via Telegram" aria-label="Telegram">
         <img src="https://img.icons8.com/color/48/000000/telegram-app.png" alt="Telegram" class="tg-icon">
     </a>
 
-    <a href="https://wa.me/6283151636921" class="wa-float" title="Hubungi Admin via WhatsApp">
+    <a href="https://wa.me/6283151636921" class="wa-float" title="Hubungi Admin via WhatsApp" aria-label="WhatsApp">
         <img src="https://img.icons8.com/color/48/000000/whatsapp--v1.png" alt="WhatsApp" class="wa-icon">
     </a>
 
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle light/dark mode">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <!-- Navigation -->
     <header class="navbar">
         <nav class="nav-links" id="navLinks">
             <a href="index.html">Dashboard</a>
@@ -570,7 +653,7 @@
             <a href="convert.html">Convert Xray</a>  
             <a href="https://grupwa.pxstore.biz.id">Grup WhatsApp</a>
         </nav>
-        <div class="burger" onclick="toggleMenu()">
+        <div class="burger" onclick="toggleMenu()" aria-label="Toggle navigation menu">
             <div class="line1"></div>
             <div class="line2"></div>
             <div class="line3"></div>
@@ -602,58 +685,292 @@
             <p class="tagline">Layanan terpercaya untuk kebutuhan kuota, pulsa, akun VPN, dan top up game dengan harga terjangkau dan proses cepat.</p>
         </header>
         
-        <!-- Menu Grid -->
+        <!-- Kategori Game -->
+        <div class="category-header">
+            <h2 class="category-title">Top Up Game</h2>
+        </div>
+        
+        <!-- Menu Grid Game -->
         <div class="menu-grid">
+            <!-- Free Fire Card -->
+            <div class="menu-card" onclick="navigateTo('freefire.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3 class="menu-title">Free Fire</h3>
+                <p class="menu-description">Top up Diamond Free Fire dengan harga terjangkau. Proses instan dan garansi.</p>
+                <a href="game.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Mobile Legend Card -->
+            <div class="menu-card" onclick="navigateTo('ml.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-crosshairs"></i>
+                </div>
+                <h3 class="menu-title">Mobile Legend</h3>
+                <p class="menu-description">Top up Diamond Mobile Legend dengan proses cepat dan harga terbaik.</p>
+                <a href="game.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Call of Duty Card -->
+            <div class="menu-card" onclick="navigateTo('cod.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3 class="menu-title">Call of Duty</h3>
+                <p class="menu-description">Top up CP Call of Duty Mobile dengan proses instan dan garansi 100%.</p>
+                <a href="game.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- PUBG Mobile Card -->
+            <div class="menu-card" onclick="navigateTo('pubg.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-bomb"></i>
+                </div>
+                <h3 class="menu-title">PUBG Mobile</h3>
+                <p class="menu-description">Top up UC PUBG Mobile dengan harga terjangkau. Proses cepat dan aman.</p>
+                <a href="game.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Roblox Card -->
+            <div class="menu-card" onclick="navigateTo('roblox.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <h3 class="menu-title">Roblox</h3>
+                <p class="menu-description">Top up Robux Roblox dengan harga terjangkau. Proses instan dan aman.</p>
+                <a href="game.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Genshin Impact Card -->
+            <div class="menu-card" onclick="navigateTo('genshin.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-dragon"></i>
+                </div>
+                <h3 class="menu-title">Genshin Impact</h3>
+                <p class="menu-description">Top up Genesis Crystal Genshin Impact dengan proses cepat dan harga terbaik.</p>
+                <a href="game.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+        </div>
+        
+        <!-- Kategori Pulsa & Kuota -->
+        <div class="category-header">
+            <h2 class="category-title">Pulsa & Kuota</h2>
+        </div>
+        
+        <!-- Menu Grid Pulsa & Kuota -->
+        <div class="menu-grid">
+            <!-- Pulsa Card -->
+            <div class="menu-card" onclick="navigateTo('pulsa.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="menu-title">Pulsa All Operator</h3>
+                <p class="menu-description">Isi ulang pulsa semua operator dengan proses instan dan harga terjangkau.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
             <!-- Kuota Card -->
             <div class="menu-card" onclick="navigateTo('kuota.html')">
                 <div class="menu-icon">
                     <i class="fas fa-wifi"></i>
                 </div>
                 <h3 class="menu-title">Kuota Internet</h3>
-                <p class="menu-description">Beli paket kuota internet dengan harga terjangkau untuk semua operator. Proses instan dan garansi.</p>
-                <a href="topup.html" class="menu-btn">
+                <p class="menu-description">Beli paket kuota internet dengan harga terjangkau untuk semua operator.</p>
+                <a href="paket.html" class="menu-btn">
                     <i class="fas fa-shopping-cart"></i> Beli Sekarang
                 </a>
             </div>
-            
-            <!-- Pulsa Card -->
-            <div class="menu-card" onclick="navigateTo('pulsa.html')">
+        </div>
+        
+        <!-- Kategori Pulsa Provider -->
+        <div class="category-header">
+            <h2 class="category-title">Pulsa Provider</h2>
+        </div>
+        
+        <!-- Menu Grid Pulsa Provider -->
+        <div class="menu-grid">
+            <!-- Axis Pulsa Card -->
+            <div class="menu-card" onclick="navigateTo('pulsa-axis.html')">
                 <div class="menu-icon">
-                    <i class="fas fa-mobile-alt"></i>
+                    <i class="fas fa-sim-card"></i>
                 </div>
-                <h3 class="menu-title">Pulsa & Kuota</h3>
-                <p class="menu-description">Isi ulang pulsa & Kuota internet</p>
+                <h3 class="menu-title">Pulsa Axis</h3>
+                <p class="menu-description">Isi pulsa Axis dengan harga spesial. Proses cepat dan garansi.</p>
                 <a href="paket.html" class="menu-btn">
                     <i class="fas fa-shopping-cart"></i> Beli Sekarang
                 </a>
             </div>
             
-            <!-- VPN Card -->
-            <div class="menu-card" onclick="navigateTo('vpn.html')">
+            <!-- Indosat Pulsa Card -->
+            <div class="menu-card" onclick="navigateTo('pulsa-indosat.html')">
                 <div class="menu-icon">
-                    <i class="fas fa-shield-alt"></i>
+                    <i class="fas fa-sim-card"></i>
                 </div>
-                <h3 class="menu-title">Akun VPN</h3>
-                <p class="menu-description">Beli akun VPN premium dengan kecepatan tinggi dan server stabil untuk browsing tanpa batas.</p>
-                <a href="vpn.html" class="menu-btn">
+                <h3 class="menu-title">Pulsa Indosat</h3>
+                <p class="menu-description">Isi pulsa Indosat dengan harga terbaik. Proses instan.</p>
+                <a href="paket.html" class="menu-btn">
                     <i class="fas fa-shopping-cart"></i> Beli Sekarang
                 </a>
             </div>
             
-            <!-- Game Card -->
-            <div class="menu-card" onclick="navigateTo('game.html')">
+            <!-- Telkomsel Pulsa Card -->
+            <div class="menu-card" onclick="navigateTo('pulsa-telkomsel.html')">
                 <div class="menu-icon">
-                    <i class="fas fa-gamepad"></i>
+                    <i class="fas fa-sim-card"></i>
                 </div>
-                <h3 class="menu-title">Top Up Game</h3>
-                <p class="menu-description">Top up diamond, koin, dan item game untuk berbagai game populer dengan proses cepat.</p>
-                <a href="game.html" class="menu-btn">
+                <h3 class="menu-title">Pulsa Telkomsel</h3>
+                <p class="menu-description">Isi pulsa Telkomsel dengan harga terjangkau. Proses cepat.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Tri Pulsa Card -->
+            <div class="menu-card" onclick="navigateTo('pulsa-tri.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">Pulsa Tri</h3>
+                <p class="menu-description">Isi pulsa Tri (3) dengan harga hemat. Proses instan.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Smartfren Pulsa Card -->
+            <div class="menu-card" onclick="navigateTo('pulsa-smartfren.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">Pulsa Smartfren</h3>
+                <p class="menu-description">Isi pulsa Smartfren dengan harga spesial. Proses cepat.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- XL Pulsa Card -->
+            <div class="menu-card" onclick="navigateTo('pulsa-xl.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">Pulsa XL</h3>
+                <p class="menu-description">Isi pulsa XL dengan harga terjangkau. Proses instan.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+        </div>
+        
+        <!-- Kategori Kuota Provider -->
+        <div class="category-header">
+            <h2 class="category-title">Kuota Provider</h2>
+        </div>
+        
+        <!-- Menu Grid Provider -->
+        <div class="menu-grid">
+            <!-- Axis Card -->
+            <div class="menu-card" onclick="navigateTo('axis.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">Axis</h3>
+                <p class="menu-description">Paket kuota internet Axis dengan harga spesial dan masa aktif panjang.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Indosat Card -->
+            <div class="menu-card" onclick="navigateTo('indosat.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">Indosat</h3>
+                <p class="menu-description">Paket kuota internet Indosat dengan beragam pilihan dan harga terbaik.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- BYU Card -->
+            <div class="menu-card" onclick="navigateTo('byu.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">BYU</h3>
+                <p class="menu-description">Paket kuota internet BYU dengan harga ekonomis dan kuota besar.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Telkomsel Card -->
+            <div class="menu-card" onclick="navigateTo('telkomsel.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">Telkomsel</h3>
+                <p class="menu-description">Paket kuota internet Telkomsel dengan jaringan luas dan stabil.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Tri Card -->
+            <div class="menu-card" onclick="navigateTo('tri.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">Tri</h3>
+                <p class="menu-description">Paket kuota internet Tri (3) dengan harga hemat dan kuota melimpah.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- Smartfren Card -->
+            <div class="menu-card" onclick="navigateTo('smartfren.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">Smartfren</h3>
+                <p class="menu-description">Paket kuota internet Smartfren dengan jaringan 4G LTE dan harga spesial.</p>
+                <a href="paket.html" class="menu-btn">
+                    <i class="fas fa-shopping-cart"></i> Beli Sekarang
+                </a>
+            </div>
+            
+            <!-- XL Card -->
+            <div class="menu-card" onclick="navigateTo('xl.html')">
+                <div class="menu-icon">
+                    <i class="fas fa-sim-card"></i>
+                </div>
+                <h3 class="menu-title">XL</h3>
+                <p class="menu-description">Paket kuota internet XL dengan beragam pilihan sesuai kebutuhan Anda.</p>
+                <a href="paket.html" class="menu-btn">
                     <i class="fas fa-shopping-cart"></i> Beli Sekarang
                 </a>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
             <!-- Bagian Atas Footer -->
@@ -678,51 +995,92 @@
                     <div class="links-column">
                         <h3 class="links-title">Layanan</h3>
                         <ul>
+                            <li><a href="topup.html">Top Up Game</a></li>
+                            <li><a href="pulsa.html">Pulsa</a></li>
                             <li><a href="kuota.html">Kuota Internet</a></li>
-                            <li><a href="pulsa.html">Pulsa & Kuota</a></li>
                             <li><a href="vpn.html">Akun VPN</a></li>
-                            <li><a href="game.html">Top Up Game</a></li>
                         </ul>
                     </div>
 
                     <div class="links-column">
-                        <h3 class="links-title">Dukungan</h3>
+                        <h3 class="links-title">Bantuan</h3>
                         <ul>
-                            <li><a href="#">Pusat Bantuan</a></li>
-                            <li><a href="#">Tutorial</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Kebijakan Privasi</a></li>
-                            <li><a href="#">Syarat & Ketentuan</a></li>
+                            <li><a href="faq.html">FAQ</a></li>
+                            <li><a href="tutorial.html">Tutorial</a></li>
+                            <li><a href="syarat.html">Syarat & Ketentuan</a></li>
+                            <li><a href="privacy.html">Kebijakan Privasi</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="links-column">
+                        <h3 class="links-title">Kontak</h3>
+                        <ul>
+                            <li><a href="https://wa.me/6283151636921">WhatsApp</a></li>
+                            <li><a href="https://t.me/frel01">Telegram</a></li>
+                            <li><a href="mailto:admin@pxstore.biz.id">Email</a></li>
+                            <li><a href="contact.html">Form Kontak</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
 
+            <!-- Bagian Bawah Footer -->
             <div class="footer-bottom">
                 <div class="copyright">
-                    <p>&copy; 2025 PX STORE. All rights reserved.</p>
+                    <p>&copy; 2023 PX STORE. All rights reserved.</p>
                     <div class="legal-links">
-                        <a href="#"></a>
-                        <span></span>
-                        <a href="#"></a>
-                        <span></span>
-                        <a href="#"></a>
-                        <span></span>
+                        <a href="syarat.html">Syarat & Ketentuan</a>
+                        <span>|</span>
+                        <a href="privacy.html">Kebijakan Privasi</a>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-    
+
     <script>
+        // Fungsi untuk toggle menu pada tampilan mobile
         function toggleMenu() {
-            const nav = document.getElementById('navLinks');
-            nav.classList.toggle('active');
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
         }
-        
+
+        // Fungsi untuk navigasi
         function navigateTo(page) {
             window.location.href = page;
         }
+
+        // Fungsi untuk toggle tema gelap/terang
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const themeIcon = document.querySelector('.theme-toggle i');
+            
+            if (document.body.classList.contains('light-mode')) {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Cek tema yang disimpan di localStorage saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.querySelector('.theme-toggle i');
+            
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                document.body.classList.remove('light-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        });
     </script>
 </body>
 </html>
