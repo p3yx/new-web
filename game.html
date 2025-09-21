@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PX STORE | Topup Pulsa & Kuota</title>
+    <title>PX STORE | Topup Game Diamond</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* CSS tetap sama seperti sebelumnya */
         :root {
             --primary: #4361ee;
             --primary-dark: #3a56d4;
@@ -164,6 +165,95 @@
             transition: all 0.3s ease;
         }
         
+        /* New styles for payment info and timer */
+        .payment-info {
+            background-color: var(--darker);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .payment-info.show {
+            display: block;
+        }
+        
+        .payment-method-details {
+            margin-top: 1rem;
+        }
+        
+        .payment-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .payment-detail:last-child {
+            border-bottom: none;
+        }
+        
+        .payment-label {
+            color: var(--text-secondary);
+        }
+        
+        .payment-value {
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .qris-image {
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            display: block;
+            border-radius: var(--border-radius);
+        }
+        
+        .timer-container {
+            text-align: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: rgba(247, 37, 133, 0.1);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .timer-text {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timer {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--danger);
+        }
+        
+        .success-checkmark {
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .checkmark {
+            color: var(--success);
+            font-size: 3rem;
+        }
+        
+        .order-details {
+            margin-top: 1.5rem;
+        }
+        
+        .order-id {
+            background-color: var(--darker);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
         /* Topup Section Styles */
         .topup-section {
             padding: 3rem 2rem;
@@ -187,22 +277,40 @@
             text-align: center;
         }
         
-        .filter-controls {
+        /* IMPROVED FILTER CONTROLS */
+        .filter-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             gap: 1rem;
             margin-bottom: 2rem;
+        }
+        
+        .filter-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 0.5rem;
             flex-wrap: wrap;
         }
         
         .filter-btn {
-            padding: 0.5rem 1.5rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 20px;
             background-color: var(--card-bg);
             color: var(--text-primary);
             border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
         }
         
         .filter-btn.active, .filter-btn:hover {
@@ -210,10 +318,47 @@
             color: white;
         }
         
+        .filter-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .filter-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--card-bg);
+            min-width: 200px;
+            box-shadow: var(--box-shadow);
+            z-index: 1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 0.5rem;
+        }
+        
+        .filter-dropdown-content a {
+            color: var(--text-primary);
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .filter-dropdown-content a:hover {
+            background-color: var(--primary);
+        }
+        
+        .filter-dropdown:hover .filter-dropdown-content {
+            display: block;
+        }
+        
         .search-box {
             display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
+            justify-content: flex-end;
+            flex: 1;
+            max-width: 400px;
         }
         
         .search-input {
@@ -223,7 +368,11 @@
             background-color: var(--card-bg);
             color: var(--text-primary);
             width: 100%;
-            max-width: 400px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
         }
         
         .topup-grid {
@@ -420,10 +569,12 @@
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
             width: 90%;
-            max-width: 500px;
-            padding: 2rem;
+            max-width: 400px;
+            padding: 1.5rem;
             box-shadow: var(--box-shadow);
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .close-modal {
@@ -440,41 +591,45 @@
         .modal-title {
             margin-bottom: 1rem;
             color: var(--primary);
+            font-size: 1.3rem;
         }
         
         .modal-subtitle {
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            font-size: 0.9rem;
         }
         
         .form-input {
             width: 100%;
-            padding: 0.8rem 1rem;
+            padding: 0.7rem 1rem;
             border-radius: var(--border-radius);
             border: 1px solid rgba(255, 255, 255, 0.1);
             background-color: var(--darker);
             color: var(--text-primary);
+            font-size: 0.9rem;
         }
         
         .modal-actions {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
         
         .btn {
-            padding: 0.8rem 1.5rem;
+            padding: 0.7rem 1.2rem;
             border-radius: var(--border-radius);
             font-weight: 600;
             cursor: pointer;
@@ -483,6 +638,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.9rem;
         }
         
         .btn-confirm {
@@ -508,13 +664,14 @@
             background-color: var(--darker);
             padding: 1rem;
             border-radius: var(--border-radius);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .product-info-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
         
         .product-info-label {
@@ -645,12 +802,14 @@
             flex-direction: column;
             gap: 1rem;
             color: var(--text-secondary);
+            text-align: center;
         }
 
         .legal-links {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .legal-links a {
@@ -745,7 +904,7 @@
                 transform: scale(1.05);
                 box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
             }
-            100% {
+            to {
                 transform: scale(1);
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
             }
@@ -757,14 +916,33 @@
                 padding: 1rem;
             }
             
+            .filter-main-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
             .filter-controls {
                 flex-direction: column;
-                align-items: center;
+                align-items: stretch;
             }
             
             .filter-btn {
                 width: 100%;
-                max-width: 250px;
+                justify-content: center;
+            }
+            
+            .filter-dropdown {
+                width: 100%;
+            }
+            
+            .filter-dropdown-content {
+                width: 100%;
+                position: relative;
+                margin-top: 0;
+            }
+            
+            .search-box {
+                max-width: 100%;
             }
             
             .topup-grid {
@@ -835,6 +1013,60 @@
                 gap: 1.5rem;
             }
         }
+
+        /* New styles for improved modals */
+        .modal-content.small-modal {
+            max-width: 350px;
+            max-height: 500px;
+            overflow: hidden;
+        }
+        
+        .modal-content.small-modal .modal-body {
+            max-height: calc(500px - 120px);
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .modal-content.small-modal .modal-body::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .modal-content.small-modal .modal-body::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 10px;
+        }
+        
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+
+        .loading-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .loading-text {
+            margin-top: 1rem;
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body>
@@ -844,7 +1076,7 @@
             <a href="index.html">Dashboard</a>
             <a href="server.html">Server Status</a>
             <a href="convert.html">Convert Xray</a>  
-            <a href="https://grupwa.pxstore.biz.id">Grup WhatsApp</a>
+            <a href="https://t.me/pxstoree">Grup Telegram</a>
         </nav>
         <div class="burger" onclick="toggleMenu()">
             <div class="line1"></div>
@@ -853,16 +1085,24 @@
         </div>
     </header>
 
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text" id="loadingText">Mengirim pesanan ke admin...</p>
+        </div>
+    </div>
+
     <!-- Main Header -->
     <div class="container">
         <div class="main-header">
             <div class="brand">
                 <div class="brand-logo">
-                    <i class="fas fa-mobile-alt"></i>
+                    <i class="fas fa-gamepad"></i>
                 </div>
                 <div class="brand-text">
                     <div class="brand-name">PX STORE</div>
-                    <div class="brand-tagline">Topup Games</div>
+                    <div class="brand-tagline">Topup Game Diamond</div>
                 </div>
             </div>
             <div class="welcome-text">Hi, Selamat Datang</div>
@@ -871,23 +1111,29 @@
 
     <div class="container">
         <header>
-            <h1 class="section-title">Topup Diamond Harga terjangkau</h1>
-            <p class="section-subtitle">Layanan topup, voucher game dengan proses cepat dan harga terjangkau</p>
+            <h1 class="section-title">Diamond & Voucher Game</h1>
+            <p class="section-subtitle">Layanan topup diamond dan voucher game, proses cepat dan harga terjangkau</p>
         </header>
         
         <div class="topup-section">
-            <div class="filter-controls">
-                <button class="filter-btn active" data-category="all">Semua Produk</button>
-            </div>
-            
-            <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Cari produk...">
+            <!-- Improved Filter Controls -->
+            <div class="filter-container">
+                <div class="filter-main-row">
+                    <div class="filter-controls">
+                        <button class="filter-btn active" data-category="all">
+                            <i class="fas fa-th-large"></i> Semua Game
+                        </button>
+                    
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Cari produk game...">
+                    </div>
+                </div>
             </div>
             
             <div class="topup-grid" id="productsGrid">
                 <div class="loading">
                     <div class="loading-spinner"></div>
-                    <p>Memuat produk...</p>
+                    <p>Memuat produk game...</p>
                 </div>
             </div>
         </div>
@@ -897,119 +1143,125 @@
     <div class="modal" id="purchaseModal">
         <div class="modal-content">
             <button class="close-modal" id="closeModal">&times;</button>
-            <h2 class="modal-title">Beli Produk</h2>
+            <h2 class="modal-title">Beli Diamond Game</h2>
             
             <div class="product-info" id="modalProductInfo">
                 <!-- Product info will be inserted here -->
             </div>
             
             <div class="form-group" id="phoneInputGroup">
-                <label for="phoneNumber" class="form-label">Nomor Handphone</label>
+                <label for="phoneNumber" class="form-label">Nomor WhatsApp</label>
                 <input type="text" id="phoneNumber" class="form-input" placeholder="Contoh: 081234567890" required>
             </div>
             
-            <div class="form-group" id="gameIdInputGroup" style="display: none;">
+            <div class="form-group" id="gameIdInputGroup">
                 <label for="gameId" class="form-label">ID Game</label>
                 <input type="text" id="gameId" class="form-input" placeholder="Masukkan ID Game" required>
+            </div>
+
+            <div class="form-group" id="zoneIdInputGroup">
+                <label for="zoneId" class="form-label">Zone ID</label>
+                <input type="text" id="zoneId" class="form-input" placeholder="Masukkan Zone ID (jika ada)">
             </div>
             
             <div class="form-group">
                 <label class="form-label">Metode Pembayaran</label>
                 <select id="paymentMethod" class="form-input">
+                    <option value="">Pilih metode pembayaran</option>
                     <option value="dana">DANA</option>
-                    <option value="gopay">GoPay</option>
-                    <option value="ovo">OVO</option>
-                    <option value="transfer">Transfer Bank</option>
+                    <option value="qris">QRIS</option>
                 </select>
+            </div>
+            
+            <!-- Payment Information -->
+            <div class="payment-info" id="paymentInfo">
+                <h3 class="modal-subtitle">Informasi Pembayaran</h3>
+                <div class="payment-method-details" id="paymentMethodDetails">
+                    <!-- Payment details will be inserted here -->
+                </div>
+                
+                <div class="timer-container" id="timerContainer" style="display: none;">
+                    <p class="timer-text">Selesaikan pembayaran dalam:</p>
+                    <div class="timer" id="paymentTimer">05:00</div>
+                </div>
             </div>
             
             <div class="modal-actions">
                 <button class="btn btn-cancel" id="cancelPurchase">Batal</button>
-                <button class="btn btn-confirm" id="confirmPurchase">
-                    <i class="fab fa-whatsapp"></i> Order via WhatsApp
-                </button>
+                <button class="btn btn-confirm" id="confirmPurchase">Konfirmasi Pembelian</button>
             </div>
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <!-- Bagian Atas Footer -->
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>PX STORE</span>
-                    </div>
-                    <p class="footer-description">
-                        Layanan VPN premium dengan kecepatan tinggi dan keamanan maksimal untuk pengalaman internet tanpa batas.
-                    </p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-links">
-                    <div class="links-column">
-                        <h3 class="links-title">Layanan</h3>
-                        <ul>
-                            <li><a href="#">Tunneling</a></li>
-                            <li><a href="#">PPOB</a></li>
-                            <li><a href="#">Topup Game</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="links-column">
-                        <h3 class="links-title">Dukungan</h3>
-                        <ul>
-                            <li><a href="#">Pusat Bantuan</a></li>
-                            <li><a href="#">Tutorial</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Kebijakan Privasi</a></li>
-                            <li><a href="#">Syarat & Ketentuan</a></li>
-                        </ul>
-                    </div>
-                </div>
+    <!-- Modal Konfirmasi -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content small-modal">
+            <button class="close-modal" id="closeConfirmationModal">&times;</button>
+            <div class="success-checkmark">
+                <i class="fas fa-check-circle checkmark"></i>
             </div>
-
-            <div class="footer-bottom">
-                <div class="copyright">
-                    <p>&copy; 2025 PX STORE. All rights reserved.</p>
-                    <div class="legal-links">
-                        <a href="#"></a>
-                        <span></span>
-                        <a href="#"></a>
-                        <span></span>
-                        <a href="#"></a>
-                        <span></span>
+            <h2 class="modal-title" style="text-align: center;">Pembelian Berhasil!</h2>
+            
+            <div class="modal-body">
+                <div class="order-details">
+                    <div class="order-id">ID Pesanan: <span id="orderId">PX-123456</span></div>
+                    
+                    <div class="product-info">
+                        <div class="product-info-item">
+                            <span class="product-info-label">Produk:</span>
+                            <span class="product-info-value" id="confirmProductName">-</span>
+                        </div>
+                        <div class="product-info-item">
+                            <span class="product-info-label">Harga:</span>
+                            <span class="product-info-value" id="confirmProductPrice">-</span>
+                        </div>
+                        <div class="product-info-item">
+                            <span class="product-info-label">ID Game:</span>
+                            <span class="product-info-value" id="confirmGameId">-</span>
+                        </div>
+                        <div class="product-info-item" id="confirmZoneIdContainer">
+                            <span class="product-info-label">Zone ID:</span>
+                            <span class="product-info-value" id="confirmZoneId">-</span>
+                        </div>
+                        <div class="product-info-item">
+                            <span class="product-info-label">WhatsApp:</span>
+                            <span class="product-info-value" id="confirmPhoneNumber">-</span>
+                        </div>
+                        <div class="product-info-item">
+                            <span class="product-info-label">Metode Bayar:</span>
+                            <span class="product-info-value" id="confirmPaymentMethod">-</span>
+                        </div>
                     </div>
                 </div>
+                
+                <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">
+                    Silakan selesaikan pembayaran dan tunggu proses verifikasi oleh admin.
+                </p>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-confirm" id="finishPurchase">Selesai</button>
             </div>
         </div>
-    </footer>
-    
+    </div>
+
+    <!-- Floating Buttons -->
+    <a href="https://t.me/frel01" class="tg-float" target="_blank">
+        <svg class="tg-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.14.141-.259.259-.374.261l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+        </svg>
+    </a>
+
+    <a href="https://wa.me/6283151636921" class="wa-float" target="_blank">
+        <svg class="wa-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.864 3.49"/>
+        </svg>
+    </a>
+
     <script>
-        // Data produk
-        let products = [];
-        let filteredProducts = [];
-        let selectedProduct = null;
-        
-        function toggleMenu() {
-            const nav = document.getElementById('navLinks');
-            nav.classList.toggle('active');
-        }
-        
-        // Fungsi untuk memuat data produk
-        async function loadProducts() {
-            const productsGrid = document.getElementById('productsGrid');
+        // Sample product data
+        const products = [
             
-            try {
-                // Data produk dari JSON yang disediakan
-                const rawProducts = [
-                    
   {
     "kode": "INDOPLY10",
     "keterangan": "10000 Gold Indo Play",
@@ -1287,7 +1539,7 @@
     "keterangan": "12 (11+1) Diamond Mobile Legend",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "3362",
+    "harga": "3345",
     "status": "1"
   },
   {
@@ -1303,7 +1555,7 @@
     "keterangan": "36 (33+3) Diamond Mobile Legend",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "9520",
+    "harga": "9513",
     "status": "1"
   },
   {
@@ -1335,8 +1587,8 @@
     "keterangan": "Starlight Member Plus",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "290280",
-    "status": "0"
+    "harga": "189843",
+    "status": "1"
   },
   {
     "kode": "MLSA",
@@ -1344,7 +1596,7 @@
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
     "harga": "115806",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "MLSB",
@@ -1359,7 +1611,7 @@
     "keterangan": "185 (167+18) Diamond Mobile Legend",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "47550",
+    "harga": "47430",
     "status": "1"
   },
   {
@@ -1495,7 +1747,7 @@
     "keterangan": "59 (53+6) Diamond Mobile Legend",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "15024",
+    "harga": "14980",
     "status": "1"
   },
   {
@@ -1503,7 +1755,7 @@
     "keterangan": "56 (51+5) Diamond Mobile Legend",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "14589",
+    "harga": "14584",
     "status": "1"
   },
   {
@@ -1511,7 +1763,7 @@
     "keterangan": "1X Weekly Diamond Pass 220 (80+20/Hari)",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "27449",
+    "harga": "27514",
     "status": "1"
   },
   {
@@ -1519,7 +1771,7 @@
     "keterangan": "74 (69+5) Diamond Mobile Legend",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "18955",
+    "harga": "18960",
     "status": "1"
   },
   {
@@ -1527,7 +1779,7 @@
     "keterangan": "100 Diamond Mobile Legend",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "25715",
+    "harga": "25709",
     "status": "1"
   },
   {
@@ -1535,7 +1787,7 @@
     "keterangan": "2X Weekly Diamond Pass 440 (80+20/Hari)",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "55025",
+    "harga": "54150",
     "status": "1"
   },
   {
@@ -1551,7 +1803,7 @@
     "keterangan": "4X Weekly Diamond Pass 880 (80+20/Hari)",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "110135",
+    "harga": "109627",
     "status": "1"
   },
   {
@@ -1567,7 +1819,7 @@
     "keterangan": "222 (200+22) Diamond Mobile Legend",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "56625",
+    "harga": "56695",
     "status": "1"
   },
   {
@@ -1583,7 +1835,7 @@
     "keterangan": "296 (256+40) Diamond Mobile Legend",
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
-    "harga": "75297",
+    "harga": "75310",
     "status": "1"
   },
   {
@@ -1592,7 +1844,7 @@
     "produk": "TPG Diamond Mobile Legends",
     "kategori": "DIGITAL",
     "harga": "71070",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "DML355",
@@ -2503,7 +2755,7 @@
     "keterangan": "PUBG Mobile 350 UC",
     "produk": "TPG Game Mobile PUBG",
     "kategori": "DIGITAL",
-    "harga": "84987",
+    "harga": "85165",
     "status": "1"
   },
   {
@@ -2695,7 +2947,7 @@
     "keterangan": "50 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "6229",
+    "harga": "6221",
     "status": "1"
   },
   {
@@ -2703,7 +2955,7 @@
     "keterangan": "70 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "8525",
+    "harga": "8509",
     "status": "1"
   },
   {
@@ -2711,7 +2963,7 @@
     "keterangan": "140 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "16942",
+    "harga": "16904",
     "status": "1"
   },
   {
@@ -2719,7 +2971,7 @@
     "keterangan": "355 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "42223",
+    "harga": "42189",
     "status": "1"
   },
   {
@@ -2743,7 +2995,7 @@
     "keterangan": "2180 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "255994",
+    "harga": "255959",
     "status": "1"
   },
   {
@@ -2751,7 +3003,7 @@
     "keterangan": "Membership Mingguan 50 Diamond",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "25674",
+    "harga": "25669",
     "status": "1"
   },
   {
@@ -2783,7 +3035,7 @@
     "keterangan": "500 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "59824",
+    "harga": "59819",
     "status": "1"
   },
   {
@@ -2791,7 +3043,7 @@
     "keterangan": "1000 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "118149",
+    "harga": "118119",
     "status": "1"
   },
   {
@@ -2799,7 +3051,7 @@
     "keterangan": "100 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "12359",
+    "harga": "12354",
     "status": "1"
   },
   {
@@ -2807,7 +3059,7 @@
     "keterangan": "210 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "25374",
+    "harga": "25369",
     "status": "1"
   },
   {
@@ -2815,7 +3067,7 @@
     "keterangan": "720 Diamond Free Fire",
     "produk": "TPG Diamond Free Fire",
     "kategori": "DIGITAL",
-    "harga": "84398",
+    "harga": "84339",
     "status": "1"
   },
   {
@@ -3695,7 +3947,7 @@
     "keterangan": "90 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "11591",
+    "harga": "11579",
     "status": "1"
   },
   {
@@ -3703,7 +3955,7 @@
     "keterangan": "160 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "20008",
+    "harga": "19993",
     "status": "1"
   },
   {
@@ -3719,7 +3971,7 @@
     "keterangan": "200 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "24604",
+    "harga": "24594",
     "status": "1"
   },
   {
@@ -3735,7 +3987,7 @@
     "keterangan": "405 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "48294",
+    "harga": "48239",
     "status": "1"
   },
   {
@@ -3759,7 +4011,7 @@
     "keterangan": "635 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "75894",
+    "harga": "75889",
     "status": "1"
   },
   {
@@ -3767,7 +4019,7 @@
     "keterangan": "770 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "90399",
+    "harga": "90344",
     "status": "1"
   },
   {
@@ -3775,7 +4027,7 @@
     "keterangan": "790 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "92749",
+    "harga": "92739",
     "status": "1"
   },
   {
@@ -3783,7 +4035,7 @@
     "keterangan": "930 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "109584",
+    "harga": "109559",
     "status": "1"
   },
   {
@@ -3791,7 +4043,7 @@
     "keterangan": "280 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "33789",
+    "harga": "33774",
     "status": "1"
   },
   {
@@ -3799,7 +4051,7 @@
     "keterangan": "150 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "18479",
+    "harga": "18469",
     "status": "1"
   },
   {
@@ -3807,7 +4059,7 @@
     "keterangan": "1075 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "126549",
+    "harga": "126499",
     "status": "1"
   },
   {
@@ -3831,7 +4083,7 @@
     "keterangan": "25 Diamond Free Fire",
     "produk": "TPG Free Fire Denom Unik",
     "kategori": "DIGITAL",
-    "harga": "3841",
+    "harga": "3835",
     "status": "1"
   },
   {
@@ -5431,7 +5683,7 @@
     "keterangan": "Arena Breakout 60 Bonds",
     "produk": "TPG Arena Breakout",
     "kategori": "DIGITAL",
-    "harga": "10472",
+    "harga": "14150",
     "status": "1"
   },
   {
@@ -5439,7 +5691,7 @@
     "keterangan": "Arena Breakout 310 Bonds",
     "produk": "TPG Arena Breakout",
     "kategori": "DIGITAL",
-    "harga": "53114",
+    "harga": "68100",
     "status": "1"
   },
   {
@@ -5447,7 +5699,7 @@
     "keterangan": "Arena Breakout 630 Bonds",
     "produk": "TPG Arena Breakout",
     "kategori": "DIGITAL",
-    "harga": "106203",
+    "harga": "135750",
     "status": "1"
   },
   {
@@ -5455,7 +5707,7 @@
     "keterangan": "Arena Breakout 3.200 Bonds",
     "produk": "TPG Arena Breakout",
     "kategori": "DIGITAL",
-    "harga": "534131",
+    "harga": "679000",
     "status": "1"
   },
   {
@@ -5463,7 +5715,7 @@
     "keterangan": "Arena Breakout 1.580 Bonds",
     "produk": "TPG Arena Breakout",
     "kategori": "DIGITAL",
-    "harga": "268053",
+    "harga": "340500",
     "status": "1"
   },
   {
@@ -5632,7 +5884,7 @@
     "produk": "TPG Zepeto",
     "kategori": "DIGITAL",
     "harga": "13362",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "ZPAF196",
@@ -5672,7 +5924,7 @@
     "produk": "TPG Zepeto",
     "kategori": "DIGITAL",
     "harga": "13837",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "ZPCAF2",
@@ -6698,250 +6950,344 @@
     "harga": "300",
     "status": "1"
   }
-                ];
-                
-                // Tambahkan 1000 ke setiap harga produk
-                products = rawProducts.map(product => {
-                    return {
-                        ...product,
-                        harga: (parseInt(product.harga) + 1000).toString()
-                    };
-                });
-                
-                // Simpan data produk dan render
-                filteredProducts = [...products];
-                renderProducts();
-                
-            } catch (error) {
-                console.error('Error loading products:', error);
-                productsGrid.innerHTML = `
-                    <div class="error-message">
-                        <p>Gagal memuat produk. Silakan coba lagi.</p>
-                        <button class="retry-btn" onclick="loadProducts()">Coba Lagi</button>
-                    </div>
-                `;
-            }
-        }
-        
-        // Fungsi untuk merender produk
-        function renderProducts() {
-            const productsGrid = document.getElementById('productsGrid');
+
+        ];
+
+        // DOM Elements
+        const productsGrid = document.getElementById('productsGrid');
+        const purchaseModal = document.getElementById('purchaseModal');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeConfirmationModal = document.getElementById('closeConfirmationModal');
+        const cancelPurchase = document.getElementById('cancelPurchase');
+        const confirmPurchase = document.getElementById('confirmPurchase');
+        const finishPurchase = document.getElementById('finishPurchase');
+        const searchInput = document.getElementById('searchInput');
+        const paymentMethod = document.getElementById('paymentMethod');
+        const paymentInfo = document.getElementById('paymentInfo');
+        const paymentMethodDetails = document.getElementById('paymentMethodDetails');
+        const timerContainer = document.getElementById('timerContainer');
+        const paymentTimer = document.getElementById('paymentTimer');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingText = document.getElementById('loadingText');
+        const zoneIdInputGroup = document.getElementById('zoneIdInputGroup');
+
+        // Selected product
+        let selectedProduct = null;
+        let countdown;
+
+        // Display products
+        function displayProducts(productsToShow) {
+            productsGrid.innerHTML = '';
             
-            if (filteredProducts.length === 0) {
+            if (productsToShow.length === 0) {
                 productsGrid.innerHTML = `
                     <div class="error-message">
-                        <p>Tidak ada produk yang sesuai dengan pencarian.</p>
+                        <p>Produk tidak ditemukan. Coba kata kunci lain.</p>
                     </div>
                 `;
                 return;
             }
             
-            productsGrid.innerHTML = filteredProducts.map(product => {
-                const isAvailable = product.status === "1";
-                const formattedPrice = new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    minimumFractionDigits: 0
-                }).format(product.harga);
-                
-                return `
-                    <div class="topup-card" data-category="${product.kategori}">
-                        <div class="topup-card-header">
-                            <span class="topup-provider">${product.produk}</span>
-                            <span class="topup-status ${isAvailable ? 'status-available' : 'status-unavailable'}">
-                                ${isAvailable ? 'Tersedia' : 'Habis'}
-                            </span>
-                        </div>
-                        <h3 class="topup-name">${product.keterangan}</h3>
-                        <p class="topup-desc">Kode: ${product.kode}</p>
-                        <div class="topup-price">${formattedPrice}</div>
-                        <div class="topup-action">
-                            <span class="topup-code">${product.kode}</span>
-                            <button class="btn-buy" ${!isAvailable ? 'disabled' : ''} onclick="openModal('${product.kode}')">
-                                <i class="fas fa-shopping-cart"></i> Beli
-                            </button>
-                        </div>
+            productsToShow.forEach(product => {
+                // Tambah harga 1000
+                const hargaFinal = parseInt(product.harga) + 1000;
+
+                const productCard = document.createElement('div');
+                productCard.className = 'topup-card';
+                productCard.innerHTML = `
+                    <div class="topup-card-header">
+                        <span class="topup-provider">${product.produk}</span>
+                        <span class="topup-status ${product.status === '1' ? 'status-available' : 'status-unavailable'}">
+                            ${product.status === '1' ? 'Tersedia' : 'Habis'}
+                        </span>
+                    </div>
+                    <h3 class="topup-name">${product.keterangan}</h3>
+                    <p class="topup-desc">${product.kategori}</p>
+                    <div class="topup-price">Rp ${hargaFinal}</div>
+                    <div class="topup-action">
+                        <span class="topup-code">${product.kode}</span>
+                        <button class="btn-buy" ${product.status !== '1' ? 'disabled' : ''}>
+                            <i class="fas fa-shopping-cart"></i> Beli
+                        </button>
                     </div>
                 `;
-            }).join('');
+                
+                // Add event listener to buy button
+                const buyButton = productCard.querySelector('.btn-buy');
+                if (product.status === '1') {
+                    buyButton.addEventListener('click', () => openPurchaseModal(product));
+                }
+                
+                // Simpan harga final ke product agar konsisten
+                product.hargaFinal = hargaFinal;
+
+                productsGrid.appendChild(productCard);
+            });
         }
-        
-        // Fungsi untuk membuka modal pembelian
-        function openModal(productCode) {
-            selectedProduct = products.find(p => p.kode === productCode);
+
+        // Open purchase modal
+        function openPurchaseModal(product) {
+            selectedProduct = product;
             
-            if (!selectedProduct) return;
-            
-            const modal = document.getElementById('purchaseModal');
-            const productInfo = document.getElementById('modalProductInfo');
-            const phoneInputGroup = document.getElementById('phoneInputGroup');
-            const gameIdInputGroup = document.getElementById('gameIdInputGroup');
-            
-            // Format harga
-            const formattedPrice = new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0
-            }).format(selectedProduct.harga);
-            
-            // Update info produk di modal
-            productInfo.innerHTML = `
+            // Update modal product info
+            document.getElementById('modalProductInfo').innerHTML = `
                 <div class="product-info-item">
                     <span class="product-info-label">Produk:</span>
-                    <span class="product-info-value">${selectedProduct.produk}</span>
-                </div>
-                <div class="product-info-item">
-                    <span class="product-info-label">Keterangan:</span>
-                    <span class="product-info-value">${selectedProduct.keterangan}</span>
+                    <span class="product-info-value">${product.keterangan}</span>
                 </div>
                 <div class="product-info-item">
                     <span class="product-info-label">Harga:</span>
-                    <span class="product-info-value">${formattedPrice}</span>
+                    <span class="product-info-value">Rp ${product.hargaFinal}</span>
                 </div>
             `;
             
-            // Tampilkan input yang sesuai berdasarkan kategori produk
-            if (selectedProduct.kategori === 'DIGITAL') {
-                // Jika produk game, tampilkan input ID Game
-                phoneInputGroup.style.display = 'none';
-                gameIdInputGroup.style.display = 'block';
-            } else {
-                // Jika produk pulsa/kuota, tampilkan input nomor HP
-                phoneInputGroup.style.display = 'block';
-                gameIdInputGroup.style.display = 'none';
-            }
-            
-            // Reset input
+            // Reset form
             document.getElementById('phoneNumber').value = '';
             document.getElementById('gameId').value = '';
+            document.getElementById('zoneId').value = '';
+            document.getElementById('paymentMethod').selectedIndex = 0;
             
-            // Tampilkan modal
-            modal.classList.add('show');
+            // Hide payment info initially
+            paymentInfo.style.display = 'none';
+            timerContainer.style.display = 'none';
+            
+            // Show modal
+            purchaseModal.classList.add('show');
+            document.body.classList.add('no-scroll');
         }
-        
-        // Fungsi untuk menutup modal
-        function closeModal() {
-            const modal = document.getElementById('purchaseModal');
-            modal.classList.remove('show');
+
+        // Close modal
+        function closeModals() {
+            purchaseModal.classList.remove('show');
+            confirmationModal.classList.remove('show');
+            document.body.classList.remove('no-scroll');
+            
+            // Clear countdown if it exists
+            if (countdown) {
+                clearInterval(countdown);
+            }
         }
-        
-        // Fungsi untuk mengonfirmasi pembelian
-        function confirmPurchase() {
-            if (!selectedProduct) return;
-            
-            let customerInput = '';
-            let inputType = '';
-            
-            if (selectedProduct.kategori === 'DIGITAL') {
-                // Untuk produk game, ambil ID Game
-                customerInput = document.getElementById('gameId').value.trim();
-                inputType = 'ID Game';
+
+        // Handle payment method change
+        paymentMethod.addEventListener('change', function() {
+            if (this.value) {
+                paymentInfo.style.display = 'block';
+                
+                // Set payment details based on selected method
+                if (this.value === 'dana') {
+                    paymentMethodDetails.innerHTML = `
+                        <div class="payment-detail">
+                            <span class="payment-label">Nomor DANA:</span>
+                            <span class="payment-value">083151636921</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span class="payment-label">Atas Nama:</span>
+                            <span class="payment-value">Ferdiansyah</span>
+                        </div>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; text-align: center;">
+                            Transfer sesuai nominal pembelian dan sertakan ID pesanan pada keterangan transfer.
+                        </p>
+                    `;
+                } else if (this.value === 'qris') {
+                    paymentMethodDetails.innerHTML = `
+                        <div style="text-align: center;">
+                          <img src="assets/images/qris.png" alt="QR Code Pembayaran" class="qris-image">
+                           <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            Scan QR code di atas untuk melakukan pembayaran.
+                           </p>
+                       </div>
+
+                    `;
+                }
+                
+                // Show and start timer
+                timerContainer.style.display = 'block';
+                startTimer(5 * 60); // 5 minutes
             } else {
-                // Untuk produk pulsa/kuota, ambil nomor HP
-                customerInput = document.getElementById('phoneNumber').value.trim();
-                inputType = 'Nomor HP';
+                paymentInfo.style.display = 'none';
+                timerContainer.style.display = 'none';
+            }
+        });
+
+        // Start countdown timer
+        function startTimer(duration) {
+            let timer = duration;
+            let minutes, seconds;
+            
+            // Clear any existing timer
+            if (countdown) {
+                clearInterval(countdown);
             }
             
-            // Validasi input
-            if (!customerInput) {
-                alert(`Harap masukkan ${inputType} Anda.`);
+            countdown = setInterval(function() {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+                
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                
+                paymentTimer.textContent = minutes + ":" + seconds;
+                
+                if (--timer < 0) {
+                    clearInterval(countdown);
+                    paymentTimer.textContent = "00:00";
+                    paymentTimer.style.color = "var(--danger)";
+                }
+            }, 1000);
+        }
+
+        // Confirm purchase
+        confirmPurchase.addEventListener('click', function() {
+            const phoneNumber = document.getElementById('phoneNumber').value.trim();
+            const gameId = document.getElementById('gameId').value.trim();
+            const zoneId = document.getElementById('zoneId').value.trim();
+            const paymentMethodValue = document.getElementById('paymentMethod').value;
+            
+            // Validate inputs
+            if (!phoneNumber) {
+                alert('Harap masukkan nomor WhatsApp');
                 return;
             }
             
-            // Format pesan WhatsApp
-            const paymentMethod = document.getElementById('paymentMethod').value;
-            const formattedPrice = new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0
-            }).format(selectedProduct.harga);
-            
-            let message = `Halo, saya ingin memesan produk berikut:\n\n`;
-            message += `*Produk:* ${selectedProduct.produk}\n`;
-            message += `*Keterangan:* ${selectedProduct.keterangan}\n`;
-            message += `*Kode:* ${selectedProduct.kode}\n`;
-            message += `*Harga:* ${formattedPrice}\n\n`;
-            
-            if (selectedProduct.kategori === 'DIGITAL') {
-                message += `*ID Game:* ${customerInput}\n`;
-            } else {
-                message += `*Nomor HP:* ${customerInput}\n`;
+            if (!gameId) {
+                alert('Harap masukkan ID Game');
+                return;
             }
             
-            message += `*Metode Pembayaran:* ${paymentMethod.toUpperCase()}\n\n`;
-            message += `_Terima kasih._`;
-            
-            // Encode pesan untuk URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Redirect ke WhatsApp
-            window.open(`https://wa.me/6283151636921?text=${encodedMessage}`, '_blank');
-            
-            // Tutup modal
-            closeModal();
-        }
-        
-        // Fungsi untuk memfilter produk berdasarkan kategori
-        function filterProducts(category) {
-            const searchValue = document.getElementById('searchInput').value.toLowerCase();
-            
-            if (category === 'all') {
-                filteredProducts = products;
-            } else {
-                filteredProducts = products.filter(product => {
-                    if (category === 'DIGITAL') {
-                        return product.kategori === 'DIGITAL';
-                    } else if (category === 'KUOTA') {
-                        return product.kategori.includes('KUOTA');
-                    } else if (category === 'PULSA') {
-                        return product.kategori === 'PULSA';
-                    }
-                    return false;
-                });
+            if (!paymentMethodValue) {
+                alert('Harap pilih metode pembayaran');
+                return;
             }
             
-            // Terapkan pencarian
-            if (searchValue) {
-                filteredProducts = filteredProducts.filter(product => 
-                    product.produk.toLowerCase().includes(searchValue) ||
-                    product.keterangan.toLowerCase().includes(searchValue) ||
-                    product.kode.toLowerCase().includes(searchValue)
-                );
-            }
+            // Show loading overlay
+            loadingOverlay.style.display = 'flex';
+            loadingText.textContent = 'Mengirim pesanan ke admin...';
             
-            renderProducts();
-        }
-        
-        /// Inisialisasi ketika halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load produk
-            loadProducts();
-            
-            // Setup event listener untuk tombol filter
-            document.querySelectorAll('.filter-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    filterProducts(this.dataset.category);
-                });
-            });
-            
-            // Setup event listener untuk pencarian
-            document.getElementById('searchInput').addEventListener('input', function() {
-                const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
-                filterProducts(activeCategory);
-            });
-            
-            // Setup event listener untuk modal
-            document.getElementById('closeModal').addEventListener('click', closeModal);
-            document.getElementById('cancelPurchase').addEventListener('click', closeModal);
-            document.getElementById('confirmPurchase').addEventListener('click', confirmPurchase);
-            
-            // Tutup modal ketika klik di luar konten modal
-            document.getElementById('purchaseModal').addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
+            // Simulate API call to Telegram
+            setTimeout(() => {
+                // Hide loading overlay
+                loadingOverlay.style.display = 'none';
+                
+                // Generate random order ID
+                const orderId = 'PX-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Update confirmation modal
+                document.getElementById('orderId').textContent = orderId;
+                document.getElementById('confirmProductName').textContent = selectedProduct.keterangan;
+                document.getElementById('confirmProductPrice').textContent = `Rp ${selectedProduct.hargaFinal}`;
+                document.getElementById('confirmGameId').textContent = gameId;
+                document.getElementById('confirmZoneId').textContent = zoneId || '-';
+                document.getElementById('confirmPhoneNumber').textContent = phoneNumber;
+                document.getElementById('confirmPaymentMethod').textContent = 
+                    paymentMethodValue === 'dana' ? 'DANA' : 'QRIS';
+                
+                // Hide zone ID in confirmation (tidak dipakai di format baru)
+                document.getElementById('confirmZoneIdContainer').style.display = 'none';
+                
+                // Close purchase modal and open confirmation
+                purchaseModal.classList.remove('show');
+                confirmationModal.classList.add('show');
+                
+                // Send order to Telegram (real)
+                sendOrderToTelegram(orderId, selectedProduct, phoneNumber, gameId, zoneId, paymentMethodValue);
+            }, 2000);
         });
+
+       function sendOrderToTelegram(orderId, product, phoneNumber, gameId, zoneId, paymentMethod) {
+    const botToken = "7513756403:AAHxi73Wd_wI2dfm3yoWIWPXYiowXCZkQB4"; // token bot
+    const chatIds = [
+        { id: "-1002308701716", type: "group" }, // grup
+        { id: "7661292905", type: "admin" } // admin
+    ];
+    const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+    chatIds.forEach(chat => {
+        let displayedNumber = phoneNumber;
+        let displayedGameId = gameId;
+
+        // Sensor jika chat adalah grup
+        if (chat.type === "group") {
+            // Sensor 4 digit tengah nomor WhatsApp
+            if (phoneNumber.length > 4) {
+                const start = Math.floor((phoneNumber.length - 4) / 2);
+                displayedNumber = phoneNumber.slice(0, start) + "xxxx" + phoneNumber.slice(start + 4);
+            } else {
+                displayedNumber = "xxxx";
+            }
+
+            // Sensor 2 digit tengah ID Game
+            if (gameId.length > 2) {
+                const start = Math.floor((gameId.length - 2) / 2);
+                displayedGameId = gameId.slice(0, start) + "xx" + gameId.slice(start + 2);
+            } else {
+                displayedGameId = "xx";
+            }
+        }
+
+        const message = `
+🛒 *ORDER SUKSES* 🛒
+────────────────────
+📦 *Produk:* ${product.kategori}
+🔗 *Rincian:* ${product.keterangan}
+💰 *Harga:* Rp ${product.hargaFinal}
+🆔 *ID Game:* ${displayedGameId}
+📱 *WhatsApp:* ${displayedNumber}
+💳 *Metode Bayar:* ${paymentMethod === 'dana' ? 'DANA' : 'QRIS'}
+📋 *ID Pesanan:* ${orderId}
+────────────────────
+⏰ *Waktu:* ${new Date().toLocaleString('id-ID')}
+        `;
+
+        fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                chat_id: chat.id,
+                text: message,
+                parse_mode: "Markdown",
+                reply_markup: {
+                    inline_keyboard: [
+                        [
+                            { text: "☎️ Admin", url: "https://t.me/frel01" },
+                            { text: "🌐 Website", url: "https://vpn.pxstore.biz.id" } 
+                        ]
+                    ]
+                }
+            })
+        });
+    });
+}
+
+
+        // Finish purchase
+        finishPurchase.addEventListener('click', closeModals);
+
+        // Event listeners
+        closeModal.addEventListener('click', closeModals);
+        closeConfirmationModal.addEventListener('click', closeModals);
+        cancelPurchase.addEventListener('click', closeModals);
+        
+        // Search functionality
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredProducts = products.filter(product => 
+                product.keterangan.toLowerCase().includes(searchTerm) || 
+                product.produk.toLowerCase().includes(searchTerm) ||
+                product.kode.toLowerCase().includes(searchTerm)
+            );
+            
+            displayProducts(filteredProducts);
+        });
+
+        // Initial display of products
+        displayProducts(products);
+
+        // Toggle mobile menu
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
     </script>
 </body>
 </html>

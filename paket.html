@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PX STORE | Topup Pulsa & Kuota</title>
+    <title>PX STORE | Pulsa & Kuota</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* CSS tetap sama seperti sebelumnya */
         :root {
             --primary: #4361ee;
             --primary-dark: #3a56d4;
@@ -164,6 +165,95 @@
             transition: all 0.3s ease;
         }
         
+        /* New styles for payment info and timer */
+        .payment-info {
+            background-color: var(--darker);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .payment-info.show {
+            display: block;
+        }
+        
+        .payment-method-details {
+            margin-top: 1rem;
+        }
+        
+        .payment-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .payment-detail:last-child {
+            border-bottom: none;
+        }
+        
+        .payment-label {
+            color: var(--text-secondary);
+        }
+        
+        .payment-value {
+            font-weight: 600;
+            text-align: right;
+        }
+        
+        .qris-image {
+            width: 100%;
+            max-width: 200px;
+            margin: 0 auto;
+            display: block;
+            border-radius: var(--border-radius);
+        }
+        
+        .timer-container {
+            text-align: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: rgba(247, 37, 133, 0.1);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .timer-text {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timer {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--danger);
+        }
+        
+        .success-checkmark {
+            text-align: center;
+            margin: 1rem 0;
+        }
+        
+        .checkmark {
+            color: var(--success);
+            font-size: 3rem;
+        }
+        
+        .order-details {
+            margin-top: 1.5rem;
+        }
+        
+        .order-id {
+            background-color: var(--darker);
+            padding: 0.5rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
         /* Topup Section Styles */
         .topup-section {
             padding: 3rem 2rem;
@@ -187,22 +277,40 @@
             text-align: center;
         }
         
-        .filter-controls {
+        /* IMPROVED FILTER CONTROLS */
+        .filter-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             gap: 1rem;
             margin-bottom: 2rem;
+        }
+        
+        .filter-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 0.5rem;
             flex-wrap: wrap;
         }
         
         .filter-btn {
-            padding: 0.5rem 1.5rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 20px;
             background-color: var(--card-bg);
             color: var(--text-primary);
             border: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
         }
         
         .filter-btn.active, .filter-btn:hover {
@@ -210,10 +318,47 @@
             color: white;
         }
         
+        .filter-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .filter-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--card-bg);
+            min-width: 200px;
+            box-shadow: var(--box-shadow);
+            z-index: 1;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 0.5rem;
+        }
+        
+        .filter-dropdown-content a {
+            color: var(--text-primary);
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .filter-dropdown-content a:hover {
+            background-color: var(--primary);
+        }
+        
+        .filter-dropdown:hover .filter-dropdown-content {
+            display: block;
+        }
+        
         .search-box {
             display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
+            justify-content: flex-end;
+            flex: 1;
+            max-width: 400px;
         }
         
         .search-input {
@@ -223,7 +368,11 @@
             background-color: var(--card-bg);
             color: var(--text-primary);
             width: 100%;
-            max-width: 400px;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
         }
         
         .topup-grid {
@@ -420,10 +569,12 @@
             background-color: var(--card-bg);
             border-radius: var(--border-radius);
             width: 90%;
-            max-width: 500px;
-            padding: 2rem;
+            max-width: 400px;
+            padding: 1.5rem;
             box-shadow: var(--box-shadow);
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .close-modal {
@@ -440,41 +591,45 @@
         .modal-title {
             margin-bottom: 1rem;
             color: var(--primary);
+            font-size: 1.3rem;
         }
         
         .modal-subtitle {
             color: var(--text-secondary);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .form-label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            font-size: 0.9rem;
         }
         
         .form-input {
             width: 100%;
-            padding: 0.8rem 1rem;
+            padding: 0.7rem 1rem;
             border-radius: var(--border-radius);
             border: 1px solid rgba(255, 255, 255, 0.1);
             background-color: var(--darker);
             color: var(--text-primary);
+            font-size: 0.9rem;
         }
         
         .modal-actions {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
         }
         
         .btn {
-            padding: 0.8rem 1.5rem;
+            padding: 0.7rem 1.2rem;
             border-radius: var(--border-radius);
             font-weight: 600;
             cursor: pointer;
@@ -483,6 +638,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-size: 0.9rem;
         }
         
         .btn-confirm {
@@ -508,13 +664,14 @@
             background-color: var(--darker);
             padding: 1rem;
             border-radius: var(--border-radius);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
         
         .product-info-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.5rem;
+            font-size: 0.9rem;
         }
         
         .product-info-label {
@@ -645,12 +802,14 @@
             flex-direction: column;
             gap: 1rem;
             color: var(--text-secondary);
+            text-align: center;
         }
 
         .legal-links {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .legal-links a {
@@ -745,7 +904,7 @@
                 transform: scale(1.05);
                 box-shadow: 0 0 0 10px rgba(37, 211, 102, 0);
             }
-            100% {
+            to {
                 transform: scale(1);
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
             }
@@ -757,14 +916,33 @@
                 padding: 1rem;
             }
             
+            .filter-main-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
             .filter-controls {
                 flex-direction: column;
-                align-items: center;
+                align-items: stretch;
             }
             
             .filter-btn {
                 width: 100%;
-                max-width: 250px;
+                justify-content: center;
+            }
+            
+            .filter-dropdown {
+                width: 100%;
+            }
+            
+            .filter-dropdown-content {
+                width: 100%;
+                position: relative;
+                margin-top: 0;
+            }
+            
+            .search-box {
+                max-width: 100%;
             }
             
             .topup-grid {
@@ -835,6 +1013,60 @@
                 gap: 1.5rem;
             }
         }
+
+        /* New styles for improved modals */
+        .modal-content.small-modal {
+            max-width: 350px;
+            max-height: 500px;
+            overflow: hidden;
+        }
+        
+        .modal-content.small-modal .modal-body {
+            max-height: calc(500px - 120px);
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .modal-content.small-modal .modal-body::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .modal-content.small-modal .modal-body::-webkit-scrollbar-thumb {
+            background-color: var(--primary);
+            border-radius: 10px;
+        }
+        
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            display: none;
+        }
+
+        .loading-content {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .loading-text {
+            margin-top: 1rem;
+            color: var(--text-primary);
+        }
     </style>
 </head>
 <body>
@@ -844,7 +1076,8 @@
             <a href="index.html">Dashboard</a>
             <a href="server.html">Server Status</a>
             <a href="convert.html">Convert Xray</a>  
-            <a href="https://grupwa.pxstore.biz.id">Grup WhatsApp</a>
+            <a href="game.html">Diamond Game</a>
+            <a href="https://t.me/pxstoree">Grup Telegram</a>
         </nav>
         <div class="burger" onclick="toggleMenu()">
             <div class="line1"></div>
@@ -852,6 +1085,14 @@
             <div class="line3"></div>
         </div>
     </header>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text" id="loadingText">Mengirim pesanan ke admin...</p>
+        </div>
+    </div>
 
     <!-- Main Header -->
     <div class="container">
@@ -862,7 +1103,7 @@
                 </div>
                 <div class="brand-text">
                     <div class="brand-name">PX STORE</div>
-                    <div class="brand-tagline">Topup Pulsa & Kuota</div>
+                    <div class="brand-tagline">Pulsa & Paket Kuota</div>
                 </div>
             </div>
             <div class="welcome-text">Hi, Selamat Datang</div>
@@ -871,23 +1112,24 @@
 
     <div class="container">
         <header>
-            <h1 class="section-title">Pulsa & Kuota</h1>
-            <p class="section-subtitle">Layanan topup pulsa, paket data, proses cepat dan harga terjangkau</p>
+            <h1 class="section-title">Pulsa & Paket Kuota</h1>
+            <p class="section-subtitle">Layanan isi ulang pulsa dan paket data internet, proses cepat dan harga terjangkau</p>
         </header>
         
         <div class="topup-section">
-            <div class="filter-controls">
-                <button class="filter-btn active" data-category="all">Semua Produk</button>
-            </div>
-            
-            <div class="search-box">
-                <input type="text" class="search-input" id="searchInput" placeholder="Cari produk...">
+            <!-- Filter Controls yang disederhanakan -->
+            <div class="filter-container">
+                <div class="filter-main-row">
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Cari produk pulsa/kuota...">
+                    </div>
+                </div>
             </div>
             
             <div class="topup-grid" id="productsGrid">
                 <div class="loading">
                     <div class="loading-spinner"></div>
-                    <p>Memuat produk...</p>
+                    <p>Memuat produk pulsa dan kuota...</p>
                 </div>
             </div>
         </div>
@@ -897,76 +1139,143 @@
     <div class="modal" id="purchaseModal">
         <div class="modal-content">
             <button class="close-modal" id="closeModal">&times;</button>
-            <h2 class="modal-title">Beli Produk</h2>
+            <h2 class="modal-title">Beli Pulsa/Kuota</h2>
             
             <div class="product-info" id="modalProductInfo">
                 <!-- Product info will be inserted here -->
             </div>
             
             <div class="form-group" id="phoneInputGroup">
-                <label for="phoneNumber" class="form-label">Nomor Handphone</label>
+                <label for="phoneNumber" class="form-label">Nomor HP Tujuan</label>
                 <input type="text" id="phoneNumber" class="form-input" placeholder="Contoh: 081234567890" required>
-            </div>
-            
-            <div class="form-group" id="gameIdInputGroup" style="display: none;">
-                <label for="gameId" class="form-label">ID Game</label>
-                <input type="text" id="gameId" class="form-input" placeholder="Masukkan ID Game" required>
             </div>
             
             <div class="form-group">
                 <label class="form-label">Metode Pembayaran</label>
                 <select id="paymentMethod" class="form-input">
+                    <option value="">Pilih metode pembayaran</option>
                     <option value="dana">DANA</option>
-                    <option value="gopay">GoPay</option>
-                    <option value="ovo">OVO</option>
-                    <option value="transfer">Transfer Bank</option>
+                    <option value="qris">QRIS</option>
                 </select>
+            </div>
+            
+            <!-- Payment Information -->
+            <div class="payment-info" id="paymentInfo">
+                <h3 class="modal-subtitle">Informasi Pembayaran</h3>
+                <div class="payment-method-details" id="paymentMethodDetails">
+                    <!-- Payment details will be inserted here -->
+                </div>
+                
+                <div class="timer-container" id="timerContainer" style="display: none;">
+                    <p class="timer-text">Selesaikan pembayaran dalam:</p>
+                    <div class="timer" id="paymentTimer">05:00</div>
+                </div>
             </div>
             
             <div class="modal-actions">
                 <button class="btn btn-cancel" id="cancelPurchase">Batal</button>
-                <button class="btn btn-confirm" id="confirmPurchase">
-                    <i class="fab fa-whatsapp"></i> Order via WhatsApp
-                </button>
+                <button class="btn btn-confirm" id="confirmPurchase">Konfirmasi Pembelian</button>
             </div>
         </div>
     </div>
 
+    <!-- Modal Konfirmasi -->
+<div class="modal" id="confirmationModal">
+    <div class="modal-content small-modal">
+        <button class="close-modal" id="closeConfirmationModal">&times;</button>
+
+        <div class="success-checkmark">
+            <i class="fas fa-check-circle checkmark"></i>
+        </div>
+
+        <h2 class="modal-title" style="text-align: center;">Pembelian Berhasil!</h2>
+
+        <div class="order-details" id="confirmationDetails">
+            <!-- Rincian produk akan diisi via JS -->
+            <div class="product-info-item">
+                <span class="product-info-label">ID Pesanan:</span>
+                <span class="product-info-value" id="orderIdDisplay">PX-123456</span>
+            </div>
+            <div class="product-info-item">
+                <span class="product-info-label">Produk:</span>
+                <span class="product-info-value" id="confirmationProductName">Smart 30GB All + 60GB</span>
+            </div>
+            <div class="product-info-item">
+                <span class="product-info-label">Kode:</span>
+                <span class="product-info-value" id="confirmationProductCode">SMDC150</span>
+            </div>
+            <div class="product-info-item">
+                <span class="product-info-label">Harga:</span>
+                <span class="product-info-value" id="confirmationProductPrice">Rp 136.650</span>
+            </div>
+            <div class="product-info-item">
+                <span class="product-info-label">Nomor:</span>
+                <span class="product-info-value" id="confirmationPhone">081234567890</span>
+            </div>
+            <p style="text-align: center; margin-top: 1rem;">
+                Pesanan Anda akan segera di proses..
+            </p>
+        </div>
+
+        <div class="modal-actions">
+            <button class="btn btn-confirm" id="closeConfirmationBtn">Tutup</button>
+        </div>
+    </div>
+</div>
+
+    <!-- Floating Buttons -->
+    <a href="https://t.me/frel01" class="tg-float" target="_blank">
+        <svg class="tg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.14.141-.259.259-.374.261l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z" fill="#ffffff"/>
+        </svg>
+    </a>
+    
+    <a href="https://wa.me/6283151636921" class="wa-float" target="_blank">
+        <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.150-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.347-.521.149-.222.149-.412.074-.52-.074-.148-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.520.074-.792.372-.272.297-1.040 1.016-1.040 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.200 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.360.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.570-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.510-5.26c.001-5.450 4.436-9.884 9.888-9.884 2.640 0 5.122 1.030 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.450-4.437 9.884-9.885 9.884m8.413-18.297a11.815 11.815 0 00-8.415-3.488c-6.627 0-12.015 5.389-12.015 12.010 0 2.237.614 4.416 1.778 6.304L0 24l4.392-1.151a12.03 12.03 0 005.624 1.397c6.627 0 12.015-5.389 12.015-12.012 0-3.206-1.247-6.219-3.515-8.487" fill="#ffffff"/>
+        </svg>
+    </a>
+
     <footer class="footer">
         <div class="footer-container">
-            <!-- Bagian Atas Footer -->
             <div class="footer-top">
                 <div class="footer-brand">
                     <div class="logo">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>PX STORE</span>
+                        <i class="fas fa-mobile-alt"></i> PX STORE
                     </div>
                     <p class="footer-description">
-                        Layanan VPN premium dengan kecepatan tinggi dan keamanan maksimal untuk pengalaman internet tanpa batas.
+                        Layanan top up pulsa dan paket data internet terpercaya dengan proses cepat dan harga terjangkau.
                     </p>
                     <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-
                 <div class="footer-links">
                     <div class="links-column">
-                        <h3 class="links-title">Layanan</h3>
+                        <h3>Produk</h3>
                         <ul>
-                            <li><a href="#">Tunneling</a></li>
-                            <li><a href="#">PPOB</a></li>
-                            <li><a href="#">Topup Game</a></li>
+                            <li><a href="#">Pulsa</a></li>
+                            <li><a href="#">Paket Data</a></li>
+                            <li><a href="#">E-Wallet</a></li>
+                            <li><a href="#">Voucher Game</a></li>
                         </ul>
                     </div>
-
                     <div class="links-column">
-                        <h3 class="links-title">Dukungan</h3>
+                        <h3>Layanan</h3>
                         <ul>
-                            <li><a href="#">Pusat Bantuan</a></li>
-                            <li><a href="#">Tutorial</a></li>
+                            <li><a href="#">Konversi Xray</a></li>
+                            <li><a href="#">Server SSH</a></li>
+                            <li><a href="#">Layanan Hosting</a></li>
+                            <li><a href="#">Jasa Pembuatan Website</a></li>
+                        </ul>
+                    </div>
+                    <div class="links-column">
+                        <h3>Bantuan</h3>
+                        <ul>
+                            <li><a href="#">Cara Order</a></li>
                             <li><a href="#">FAQ</a></li>
                             <li><a href="#">Kebijakan Privasi</a></li>
                             <li><a href="#">Syarat & Ketentuan</a></li>
@@ -974,42 +1283,25 @@
                     </div>
                 </div>
             </div>
-
             <div class="footer-bottom">
                 <div class="copyright">
-                    <p>&copy; 2025 PX STORE. All rights reserved.</p>
+                    <p>&copy; 2023 PX STORE. All rights reserved.</p>
                     <div class="legal-links">
-                        <a href="#"></a>
-                        <span></span>
-                        <a href="#"></a>
-                        <span></span>
-                        <a href="#"></a>
-                        <span></span>
+                        <a href="#">Privacy Policy</a>
+                        <span>|</span>
+                        <a href="#">Terms of Service</a>
+                        <span>|</span>
+                        <a href="#">Refund Policy</a>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-    
+
     <script>
-        // Data produk
-        let products = [];
-        let filteredProducts = [];
-        let selectedProduct = null;
+    // Data produk dengan format yang diminta
+    const products = [
         
-        function toggleMenu() {
-            const nav = document.getElementById('navLinks');
-            nav.classList.toggle('active');
-        }
-        
-        // Fungsi untuk memuat data produk
-        async function loadProducts() {
-            const productsGrid = document.getElementById('productsGrid');
-            
-            try {
-                // Data produk dari JSON yang disediakan
-                const rawProducts = [
-                    
   {
     "kode": "SMDC150",
     "keterangan": "Smart 30GB All + 60GB (01-05) 30 Hari",
@@ -1063,7 +1355,7 @@
     "keterangan": "Smart 3GB All + 5GB (01-05) + 3GB Chat 30 Hari",
     "produk": "Data Smart Combo",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "19349",
+    "harga": "19425",
     "status": "1"
   },
   {
@@ -1367,7 +1659,7 @@
     "keterangan": "Axis Transfer 20.000",
     "produk": "Axis",
     "kategori": "PULSA",
-    "harga": "19775",
+    "harga": "19727",
     "status": "1"
   },
   {
@@ -1439,7 +1731,7 @@
     "keterangan": "Indosat 20.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "20667",
+    "harga": "20475",
     "status": "1"
   },
   {
@@ -1447,7 +1739,7 @@
     "keterangan": "Indosat 25.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "25399",
+    "harga": "25224",
     "status": "1"
   },
   {
@@ -1455,7 +1747,7 @@
     "keterangan": "Indosat 30.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "30369",
+    "harga": "30210",
     "status": "1"
   },
   {
@@ -1463,7 +1755,7 @@
     "keterangan": "Indosat 50.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "48313",
+    "harga": "48800",
     "status": "1"
   },
   {
@@ -1479,7 +1771,7 @@
     "keterangan": "Isat Promo 5.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "6620",
+    "harga": "6613",
     "status": "1"
   },
   {
@@ -1487,7 +1779,7 @@
     "keterangan": "Isat Promo 10.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "11470",
+    "harga": "11474",
     "status": "1"
   },
   {
@@ -1495,7 +1787,7 @@
     "keterangan": "Indosat 10.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "11470",
+    "harga": "11475",
     "status": "1"
   },
   {
@@ -1511,7 +1803,7 @@
     "keterangan": "Indosat 40.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "39527",
+    "harga": "39460",
     "status": "1"
   },
   {
@@ -1535,7 +1827,7 @@
     "keterangan": "Indosat 15.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "15791",
+    "harga": "15710",
     "status": "1"
   },
   {
@@ -1543,7 +1835,7 @@
     "keterangan": "Indosat 90.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "87344",
+    "harga": "88225",
     "status": "1"
   },
   {
@@ -1551,7 +1843,7 @@
     "keterangan": "Indosat 12.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "12955",
+    "harga": "12795",
     "status": "1"
   },
   {
@@ -1559,7 +1851,7 @@
     "keterangan": "Indosat 200.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "197650",
+    "harga": "196950",
     "status": "1"
   },
   {
@@ -1575,7 +1867,7 @@
     "keterangan": "Indosat 150.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "148400",
+    "harga": "147870",
     "status": "1"
   },
   {
@@ -1583,7 +1875,7 @@
     "keterangan": "Indosat 70.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "67816",
+    "harga": "68500",
     "status": "1"
   },
   {
@@ -1695,7 +1987,7 @@
     "keterangan": "Telkomsel 100.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "97198",
+    "harga": "97085",
     "status": "1"
   },
   {
@@ -1751,7 +2043,7 @@
     "keterangan": "Telkomsel 70.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "69150",
+    "harga": "69095",
     "status": "1"
   },
   {
@@ -1799,7 +2091,7 @@
     "keterangan": "Telkomsel 85.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "83945",
+    "harga": "83890",
     "status": "1"
   },
   {
@@ -1815,7 +2107,7 @@
     "keterangan": "Telkomsel 65.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "64230",
+    "harga": "64175",
     "status": "1"
   },
   {
@@ -1839,7 +2131,7 @@
     "keterangan": "Telkomsel 95.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "93795",
+    "harga": "93740",
     "status": "1"
   },
   {
@@ -1887,7 +2179,7 @@
     "keterangan": "Telkomsel H2H 105.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "104694",
+    "harga": "104689",
     "status": "1"
   },
   {
@@ -1895,7 +2187,7 @@
     "keterangan": "Telkomsel H2H 110.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "109794",
+    "harga": "109789",
     "status": "1"
   },
   {
@@ -1903,7 +2195,7 @@
     "keterangan": "Telkomsel H2H 115.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "114744",
+    "harga": "114739",
     "status": "1"
   },
   {
@@ -1911,7 +2203,7 @@
     "keterangan": "Telkomsel H2H 120.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "119699",
+    "harga": "119698",
     "status": "1"
   },
   {
@@ -1919,7 +2211,7 @@
     "keterangan": "Telkomsel H2H 125.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "124794",
+    "harga": "124789",
     "status": "1"
   },
   {
@@ -1927,7 +2219,7 @@
     "keterangan": "Telkomsel H2H 130.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "129644",
+    "harga": "129639",
     "status": "1"
   },
   {
@@ -1935,7 +2227,7 @@
     "keterangan": "Telkomsel H2H 135.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "134594",
+    "harga": "134589",
     "status": "1"
   },
   {
@@ -1943,7 +2235,7 @@
     "keterangan": "Telkomsel H2H 140.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "139544",
+    "harga": "139539",
     "status": "1"
   },
   {
@@ -1967,7 +2259,7 @@
     "keterangan": "Smartfren 10.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "9920",
+    "harga": "9930",
     "status": "1"
   },
   {
@@ -1975,7 +2267,7 @@
     "keterangan": "Smartfren 20.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "19830",
+    "harga": "19840",
     "status": "1"
   },
   {
@@ -1991,7 +2283,7 @@
     "keterangan": "Smartfren 30.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "29680",
+    "harga": "29730",
     "status": "1"
   },
   {
@@ -2015,7 +2307,7 @@
     "keterangan": "Smartfren 100.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "98600",
+    "harga": "98675",
     "status": "1"
   },
   {
@@ -2023,7 +2315,7 @@
     "keterangan": "Smartfren 75.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "74250",
+    "harga": "74255",
     "status": "1"
   },
   {
@@ -2047,7 +2339,7 @@
     "keterangan": "Smartfren 15.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "14890",
+    "harga": "14895",
     "status": "1"
   },
   {
@@ -2055,7 +2347,7 @@
     "keterangan": "Smartfren 80.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "79200",
+    "harga": "79205",
     "status": "1"
   },
   {
@@ -2063,7 +2355,7 @@
     "keterangan": "Smartfren 85.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "84075",
+    "harga": "84170",
     "status": "1"
   },
   {
@@ -2071,7 +2363,7 @@
     "keterangan": "Smartfren 70.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "69300",
+    "harga": "69315",
     "status": "1"
   },
   {
@@ -2079,7 +2371,7 @@
     "keterangan": "Smartfren 90.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "89075",
+    "harga": "89120",
     "status": "1"
   },
   {
@@ -2088,14 +2380,14 @@
     "produk": "Smartfren",
     "kategori": "PULSA",
     "harga": "11855",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "SM40",
     "keterangan": "Smartfren 40.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "39610",
+    "harga": "39625",
     "status": "1"
   },
   {
@@ -2103,7 +2395,7 @@
     "keterangan": "Smartfren 65.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "64350",
+    "harga": "64370",
     "status": "1"
   },
   {
@@ -2119,7 +2411,7 @@
     "keterangan": "Smartfren 35.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "34900",
+    "harga": "34955",
     "status": "1"
   },
   {
@@ -2127,7 +2419,7 @@
     "keterangan": "Smartfren 45.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "44825",
+    "harga": "44835",
     "status": "1"
   },
   {
@@ -2135,7 +2427,7 @@
     "keterangan": "Smartfren 55.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "54400",
+    "harga": "54430",
     "status": "1"
   },
   {
@@ -2167,7 +2459,7 @@
     "keterangan": "Three 5.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "6416",
+    "harga": "5060",
     "status": "1"
   },
   {
@@ -2175,7 +2467,7 @@
     "keterangan": "Three 10.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "11225",
+    "harga": "10025",
     "status": "1"
   },
   {
@@ -2183,7 +2475,7 @@
     "keterangan": "Three 20.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "20478",
+    "harga": "19485",
     "status": "1"
   },
   {
@@ -2191,7 +2483,7 @@
     "keterangan": "Three 25.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "25287",
+    "harga": "24250",
     "status": "1"
   },
   {
@@ -2199,7 +2491,7 @@
     "keterangan": "Three 30.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "30346",
+    "harga": "29405",
     "status": "1"
   },
   {
@@ -2207,7 +2499,7 @@
     "keterangan": "Three 50.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "48621",
+    "harga": "48210",
     "status": "1"
   },
   {
@@ -2223,7 +2515,7 @@
     "keterangan": "Three 15.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "15660",
+    "harga": "14525",
     "status": "1"
   },
   {
@@ -2231,7 +2523,7 @@
     "keterangan": "Three 75.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "72690",
+    "harga": "72735",
     "status": "1"
   },
   {
@@ -2239,7 +2531,7 @@
     "keterangan": "Three 150.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "146361",
+    "harga": "146350",
     "status": "1"
   },
   {
@@ -2247,7 +2539,7 @@
     "keterangan": "Three 200.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "194936",
+    "harga": "194900",
     "status": "1"
   },
   {
@@ -2255,7 +2547,7 @@
     "keterangan": "Three 40.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "39003",
+    "harga": "39010",
     "status": "1"
   },
   {
@@ -2279,7 +2571,7 @@
     "keterangan": "Three 80.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "77724",
+    "harga": "77770",
     "status": "1"
   },
   {
@@ -2287,7 +2579,7 @@
     "keterangan": "Three 90.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "87342",
+    "harga": "87330",
     "status": "1"
   },
   {
@@ -2295,7 +2587,7 @@
     "keterangan": "Three 125.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "122623",
+    "harga": "122620",
     "status": "1"
   },
   {
@@ -2383,7 +2675,7 @@
     "keterangan": "XL Transfer 20.000",
     "produk": "XL",
     "kategori": "PULSA",
-    "harga": "19785",
+    "harga": "19738",
     "status": "1"
   },
   {
@@ -2479,7 +2771,7 @@
     "keterangan": "Combo 15GB All + 30GB YouTube 30 Hari",
     "produk": "XL Combo X-Tra",
     "kategori": "KUOTA XL",
-    "harga": "122410",
+    "harga": "122370",
     "status": "1"
   },
   {
@@ -2503,7 +2795,7 @@
     "keterangan": "2GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "20205",
+    "harga": "20199",
     "status": "1"
   },
   {
@@ -2511,7 +2803,7 @@
     "keterangan": "1GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "11025",
+    "harga": "11019",
     "status": "1"
   },
   {
@@ -2535,7 +2827,7 @@
     "keterangan": "8GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "39095",
+    "harga": "39080",
     "status": "1"
   },
   {
@@ -2559,7 +2851,7 @@
     "keterangan": "6GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "38895",
+    "harga": "38880",
     "status": "1"
   },
   {
@@ -2567,7 +2859,7 @@
     "keterangan": "9GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "39995",
+    "harga": "52600",
     "status": "1"
   },
   {
@@ -2575,7 +2867,7 @@
     "keterangan": "7GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "38995",
+    "harga": "38890",
     "status": "1"
   },
   {
@@ -2591,7 +2883,7 @@
     "keterangan": "25GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "92195",
+    "harga": "92165",
     "status": "1"
   },
   {
@@ -2607,7 +2899,7 @@
     "keterangan": "100GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "195625",
+    "harga": "195600",
     "status": "1"
   },
   {
@@ -2623,7 +2915,7 @@
     "keterangan": "10GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "39995",
+    "harga": "54000",
     "status": "1"
   },
   {
@@ -2631,7 +2923,7 @@
     "keterangan": "12GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "57400",
+    "harga": "57450",
     "status": "1"
   },
   {
@@ -2639,7 +2931,7 @@
     "keterangan": "11GB All jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "54650",
+    "harga": "54675",
     "status": "1"
   },
   {
@@ -2647,7 +2939,7 @@
     "keterangan": "15GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "61920",
+    "harga": "61925",
     "status": "1"
   },
   {
@@ -2695,7 +2987,7 @@
     "keterangan": "14GB All Jaringan 30 Hari",
     "produk": "Data Bulanan Telkomsel",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "68035",
+    "harga": "68015",
     "status": "1"
   },
   {
@@ -2839,7 +3131,7 @@
     "keterangan": "Unlimited (90GB All+Unl App+Telp+SMS) 24 jam 28 Hari",
     "produk": "Indosat Freedom Unlimited",
     "kategori": "KUOTA INDOSAT",
-    "harga": "145400",
+    "harga": "145348",
     "status": "1"
   },
   {
@@ -2879,7 +3171,7 @@
     "keterangan": "Indosat Yellow 1GB 2 Hari",
     "produk": "Isat Internet Yellow",
     "kategori": "KUOTA INDOSAT",
-    "harga": "5455",
+    "harga": "5380",
     "status": "1"
   },
   {
@@ -3121,1142 +3413,6 @@
     "kategori": "KUOTA XL",
     "harga": "30170",
     "status": "1"
-  },
-  {
-    "kode": "TTP25",
-    "keterangan": "Telkomsel Transfer 25.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "25206",
-    "status": "0"
-  },
-  {
-    "kode": "TTP30",
-    "keterangan": "Telkomsel Transfer 30.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "29721",
-    "status": "0"
-  },
-  {
-    "kode": "TTP40",
-    "keterangan": "Telkomsel Transfer 40.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "38775",
-    "status": "0"
-  },
-  {
-    "kode": "TTP50",
-    "keterangan": "Telkomsel Transfer 50.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "48280",
-    "status": "0"
-  },
-  {
-    "kode": "TTP60",
-    "keterangan": "Telkomsel Transfer 60.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "57409",
-    "status": "0"
-  },
-  {
-    "kode": "TTP70",
-    "keterangan": "Telkomsel Transfer 70.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "66338",
-    "status": "0"
-  },
-  {
-    "kode": "TTP80",
-    "keterangan": "Telkomsel Transfer 80.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "75367",
-    "status": "0"
-  },
-  {
-    "kode": "TTP90",
-    "keterangan": "Telkomsel Transfer 90.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "84396",
-    "status": "0"
-  },
-  {
-    "kode": "TTP100",
-    "keterangan": "Telkomsel Transfer 100.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "95456",
-    "status": "0"
-  },
-  {
-    "kode": "TTP150",
-    "keterangan": "Telkomsel Transfer 150.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "140601",
-    "status": "0"
-  },
-  {
-    "kode": "TTP200",
-    "keterangan": "Telkomsel Transfer 200.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "188543",
-    "status": "0"
-  },
-  {
-    "kode": "TTP300",
-    "keterangan": "Telkomsel Transfer 300.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "294813",
-    "status": "0"
-  },
-  {
-    "kode": "TTP500",
-    "keterangan": "Telkomsel Transfer 500.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "497663",
-    "status": "0"
-  },
-  {
-    "kode": "TTP75",
-    "keterangan": "Telkomsel Transfer 75.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "70853",
-    "status": "0"
-  },
-  {
-    "kode": "TTP65",
-    "keterangan": "Telkomsel Transfer 65.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "61824",
-    "status": "0"
-  },
-  {
-    "kode": "TTP85",
-    "keterangan": "Telkomsel Transfer 85.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "79861",
-    "status": "0"
-  },
-  {
-    "kode": "TTP72",
-    "keterangan": "Telkomsel Transfer 72.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "68144",
-    "status": "0"
-  },
-  {
-    "kode": "TTP73",
-    "keterangan": "Telkomsel Transfer 73.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "69016",
-    "status": "0"
-  },
-  {
-    "kode": "TTP76",
-    "keterangan": "Telkomsel Transfer 76.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "71727",
-    "status": "0"
-  },
-  {
-    "kode": "TTP78",
-    "keterangan": "Telkomsel Transfer 78.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "73561",
-    "status": "0"
-  },
-  {
-    "kode": "TTP81",
-    "keterangan": "Telkomsel Transfer 81.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "76246",
-    "status": "0"
-  },
-  {
-    "kode": "TTP82",
-    "keterangan": "Telkomsel Transfer 82.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "77150",
-    "status": "0"
-  },
-  {
-    "kode": "TTP83",
-    "keterangan": "Telkomsel Transfer 83.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "78054",
-    "status": "0"
-  },
-  {
-    "kode": "TTP31",
-    "keterangan": "Telkomsel Transfer 31.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "30588",
-    "status": "0"
-  },
-  {
-    "kode": "TTP32",
-    "keterangan": "Telkomsel Transfer 32.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "31526",
-    "status": "0"
-  },
-  {
-    "kode": "TTP35",
-    "keterangan": "Telkomsel Transfer 35.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "34207",
-    "status": "0"
-  },
-  {
-    "kode": "TTP39",
-    "keterangan": "Telkomsel Transfer 39.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "37872",
-    "status": "0"
-  },
-  {
-    "kode": "TTP41",
-    "keterangan": "Telkomsel Transfer 41.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "39677",
-    "status": "0"
-  },
-  {
-    "kode": "TTP45",
-    "keterangan": "Telkomsel Transfer 45.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "43289",
-    "status": "0"
-  },
-  {
-    "kode": "TTP47",
-    "keterangan": "Telkomsel Transfer 47.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "45095",
-    "status": "0"
-  },
-  {
-    "kode": "TTP55",
-    "keterangan": "Telkomsel Transfer 55.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "52795",
-    "status": "0"
-  },
-  {
-    "kode": "TTP56",
-    "keterangan": "Telkomsel Transfer 56.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "53697",
-    "status": "0"
-  },
-  {
-    "kode": "TTP57",
-    "keterangan": "Telkomsel Transfer 57.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "54555",
-    "status": "0"
-  },
-  {
-    "kode": "TTP58",
-    "keterangan": "Telkomsel Transfer 58.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "55503",
-    "status": "0"
-  },
-  {
-    "kode": "TTP59",
-    "keterangan": "Telkomsel Transfer 59.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "56362",
-    "status": "0"
-  },
-  {
-    "kode": "TTP67",
-    "keterangan": "Telkomsel Transfer 67.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "63593",
-    "status": "0"
-  },
-  {
-    "kode": "TTP95",
-    "keterangan": "Telkomsel Transfer 95.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "88911",
-    "status": "0"
-  },
-  {
-    "kode": "TTP102",
-    "keterangan": "Telkomsel Transfer 102.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "97262",
-    "status": "0"
-  },
-  {
-    "kode": "TTP105",
-    "keterangan": "Telkomsel Transfer 105.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "99970",
-    "status": "0"
-  },
-  {
-    "kode": "TTP110",
-    "keterangan": "Telkomsel Transfer 110.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "104485",
-    "status": "0"
-  },
-  {
-    "kode": "TTP120",
-    "keterangan": "Telkomsel Transfer 120.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "113527",
-    "status": "0"
-  },
-  {
-    "kode": "TTP122",
-    "keterangan": "Telkomsel Transfer 122.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "115320",
-    "status": "0"
-  },
-  {
-    "kode": "TTP125",
-    "keterangan": "Telkomsel Transfer 125.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "118029",
-    "status": "0"
-  },
-  {
-    "kode": "TTP134",
-    "keterangan": "Telkomsel Transfer 134.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "127065",
-    "status": "0"
-  },
-  {
-    "kode": "TTP140",
-    "keterangan": "Telkomsel Transfer 140.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "131572",
-    "status": "0"
-  },
-  {
-    "kode": "TTP145",
-    "keterangan": "Telkomsel Transfer 145.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "136087",
-    "status": "0"
-  },
-  {
-    "kode": "TTP225",
-    "keterangan": "Telkomsel Transfer 225.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "226910",
-    "status": "0"
-  },
-  {
-    "kode": "TTP250",
-    "keterangan": "Telkomsel Transfer 250.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "248940",
-    "status": "0"
-  },
-  {
-    "kode": "TTP275",
-    "keterangan": "Telkomsel Transfer 275.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "274771",
-    "status": "0"
-  },
-  {
-    "kode": "TTP350",
-    "keterangan": "Telkomsel Transfer 350.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "350847",
-    "status": "0"
-  },
-  {
-    "kode": "TTP400",
-    "keterangan": "Telkomsel Transfer 400.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "399408",
-    "status": "0"
-  },
-  {
-    "kode": "TTP450",
-    "keterangan": "Telkomsel Transfer 450.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "447769",
-    "status": "0"
-  },
-  {
-    "kode": "TTP270",
-    "keterangan": "Telkomsel Transfer 270.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "262006",
-    "status": "0"
-  },
-  {
-    "kode": "TTP220",
-    "keterangan": "Telkomsel Transfer 220.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "223644",
-    "status": "0"
-  },
-  {
-    "kode": "TTP10",
-    "keterangan": "Telkomsel Transfer 10.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "10547",
-    "status": "0"
-  },
-  {
-    "kode": "TTP15",
-    "keterangan": "Telkomsel Transfer 15.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "15585",
-    "status": "0"
-  },
-  {
-    "kode": "TTP20",
-    "keterangan": "Telkomsel Transfer 20.000",
-    "produk": "Telkomsel Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "20831",
-    "status": "0"
-  },
-  {
-    "kode": "XTP30",
-    "keterangan": "XL Transfer 30.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "29998",
-    "status": "0"
-  },
-  {
-    "kode": "XTP50",
-    "keterangan": "XL Transfer 50.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "50068",
-    "status": "0"
-  },
-  {
-    "kode": "XTP75",
-    "keterangan": "XL Transfer 75.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "74043",
-    "status": "0"
-  },
-  {
-    "kode": "XTP100",
-    "keterangan": "XL Transfer 100.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "100035",
-    "status": "0"
-  },
-  {
-    "kode": "XTP90",
-    "keterangan": "XL Transfer 90.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "88428",
-    "status": "0"
-  },
-  {
-    "kode": "XTP200",
-    "keterangan": "XL Transfer 200.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "195828",
-    "status": "0"
-  },
-  {
-    "kode": "XTP500",
-    "keterangan": "XL Transfer 500.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "487671",
-    "status": "0"
-  },
-  {
-    "kode": "XTP300",
-    "keterangan": "XL Transfer 300.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "293853",
-    "status": "0"
-  },
-  {
-    "kode": "XTP150",
-    "keterangan": "XL Transfer 150.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "147985",
-    "status": "0"
-  },
-  {
-    "kode": "XTP40",
-    "keterangan": "XL Transfer 40.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "39998",
-    "status": "0"
-  },
-  {
-    "kode": "XTP60",
-    "keterangan": "XL Transfer 60.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "59558",
-    "status": "0"
-  },
-  {
-    "kode": "XTP70",
-    "keterangan": "XL Transfer 70.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "69248",
-    "status": "0"
-  },
-  {
-    "kode": "XTP80",
-    "keterangan": "XL Transfer 80.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "78838",
-    "status": "0"
-  },
-  {
-    "kode": "XTP25",
-    "keterangan": "XL Transfer 25.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "25006",
-    "status": "0"
-  },
-  {
-    "kode": "XTP35",
-    "keterangan": "XL Transfer 35.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "35153",
-    "status": "0"
-  },
-  {
-    "kode": "XTP45",
-    "keterangan": "XL Transfer 45.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "44793",
-    "status": "0"
-  },
-  {
-    "kode": "XTP55",
-    "keterangan": "XL Transfer 55.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "54912",
-    "status": "0"
-  },
-  {
-    "kode": "XTP65",
-    "keterangan": "XL Transfer 65.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "64502",
-    "status": "0"
-  },
-  {
-    "kode": "XTP85",
-    "keterangan": "XL Transfer 85.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "83682",
-    "status": "0"
-  },
-  {
-    "kode": "XTP95",
-    "keterangan": "XL Transfer 95.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "93272",
-    "status": "0"
-  },
-  {
-    "kode": "XTP10",
-    "keterangan": "XL Transfer 10.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "10806",
-    "status": "0"
-  },
-  {
-    "kode": "XTP15",
-    "keterangan": "XL Transfer 15.000",
-    "produk": "XL Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "15024",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP30",
-    "keterangan": "Axis Transfer 30.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "29602",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP50",
-    "keterangan": "Axis Transfer 50.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "48820",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP75",
-    "keterangan": "Axis Transfer 75.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "72195",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP100",
-    "keterangan": "Axis Transfer 100.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "97540",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP200",
-    "keterangan": "Axis Transfer 200.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "191040",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP300",
-    "keterangan": "Axis Transfer 300.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "286410",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP500",
-    "keterangan": "Axis Transfer 500.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "475380",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP150",
-    "keterangan": "Axis Transfer 150.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "144290",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP90",
-    "keterangan": "Axis Transfer 90.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "86220",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP40",
-    "keterangan": "Axis Transfer 40.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "38952",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP60",
-    "keterangan": "Axis Transfer 60.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "58170",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP70",
-    "keterangan": "Axis Transfer 70.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "67520",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP80",
-    "keterangan": "Axis Transfer 80.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "76870",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP25",
-    "keterangan": "Axis Transfer 25.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "24928",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP35",
-    "keterangan": "Axis Transfer 35.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "34913",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP45",
-    "keterangan": "Axis Transfer 45.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "43678",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP55",
-    "keterangan": "Axis Transfer 55.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "53495",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP65",
-    "keterangan": "Axis Transfer 65.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "62845",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP85",
-    "keterangan": "Axis Transfer 85.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "81545",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP95",
-    "keterangan": "Axis Transfer 95.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "90895",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP10",
-    "keterangan": "Axis Transfer 10.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "10450",
-    "status": "0"
-  },
-  {
-    "kode": "AXTP15",
-    "keterangan": "Axis Transfer 15.000",
-    "produk": "Axis Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "15110",
-    "status": "0"
-  },
-  {
-    "kode": "TPT50",
-    "keterangan": "Three Transfer 50.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "47986",
-    "status": "0"
-  },
-  {
-    "kode": "TPT100",
-    "keterangan": "Three Transfer 100.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "95872",
-    "status": "0"
-  },
-  {
-    "kode": "TPT25",
-    "keterangan": "Three Transfer 25.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "24518",
-    "status": "0"
-  },
-  {
-    "kode": "TPT30",
-    "keterangan": "Three Transfer 30.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "29118",
-    "status": "0"
-  },
-  {
-    "kode": "TPT200",
-    "keterangan": "Three Transfer 200.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "188096",
-    "status": "0"
-  },
-  {
-    "kode": "TPT10",
-    "keterangan": "Three Transfer 10.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "10169",
-    "status": "0"
-  },
-  {
-    "kode": "TPT15",
-    "keterangan": "Three Transfer 15.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "14799",
-    "status": "0"
-  },
-  {
-    "kode": "TPT20",
-    "keterangan": "Three Transfer 20.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "19458",
-    "status": "0"
-  },
-  {
-    "kode": "TPT90",
-    "keterangan": "Three Transfer 90.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "84035",
-    "status": "0"
-  },
-  {
-    "kode": "TPT40",
-    "keterangan": "Three Transfer 40.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "37912",
-    "status": "0"
-  },
-  {
-    "kode": "TPT70",
-    "keterangan": "Three Transfer 70.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "66409",
-    "status": "0"
-  },
-  {
-    "kode": "TPT75",
-    "keterangan": "Three Transfer 75.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "71034",
-    "status": "0"
-  },
-  {
-    "kode": "TPT60",
-    "keterangan": "Three Transfer 60.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "57210",
-    "status": "0"
-  },
-  {
-    "kode": "TPT80",
-    "keterangan": "Three Transfer 80.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "75633",
-    "status": "0"
-  },
-  {
-    "kode": "TPT150",
-    "keterangan": "Three Transfer 150.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "141979",
-    "status": "0"
-  },
-  {
-    "kode": "TPT55",
-    "keterangan": "Three Transfer 55.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "52664",
-    "status": "0"
-  },
-  {
-    "kode": "TPT95",
-    "keterangan": "Three Transfer 95.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "89489",
-    "status": "0"
-  },
-  {
-    "kode": "TPT35",
-    "keterangan": "Three Transfer 35.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "33729",
-    "status": "0"
-  },
-  {
-    "kode": "TPT65",
-    "keterangan": "Three Transfer 65.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "61864",
-    "status": "0"
-  },
-  {
-    "kode": "TPT85",
-    "keterangan": "Three Transfer 85.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "80289",
-    "status": "0"
-  },
-  {
-    "kode": "TPT45",
-    "keterangan": "Three Transfer 45.000",
-    "produk": "Three Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "42474",
-    "status": "0"
-  },
-  {
-    "kode": "ITP50",
-    "keterangan": "Indosat Transfer 50.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "48930",
-    "status": "0"
-  },
-  {
-    "kode": "ITP60",
-    "keterangan": "Indosat Transfer 60.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "58380",
-    "status": "0"
-  },
-  {
-    "kode": "ITP70",
-    "keterangan": "Indosat Transfer 70.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "68118",
-    "status": "0"
-  },
-  {
-    "kode": "ITP80",
-    "keterangan": "Indosat Transfer 80.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "77558",
-    "status": "0"
-  },
-  {
-    "kode": "ITP90",
-    "keterangan": "Indosat Transfer 90.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "86998",
-    "status": "0"
-  },
-  {
-    "kode": "ITP100",
-    "keterangan": "Indosat Transfer 100.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "97860",
-    "status": "0"
-  },
-  {
-    "kode": "ITP200",
-    "keterangan": "Indosat Transfer 200.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "192876",
-    "status": "0"
-  },
-  {
-    "kode": "ITP150",
-    "keterangan": "Indosat Transfer 150.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "146076",
-    "status": "0"
-  },
-  {
-    "kode": "ITP55",
-    "keterangan": "Indosat Transfer 55.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "53630",
-    "status": "0"
-  },
-  {
-    "kode": "ITP65",
-    "keterangan": "Indosat Transfer 65.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "63080",
-    "status": "0"
-  },
-  {
-    "kode": "ITP75",
-    "keterangan": "Indosat Transfer 75.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "72480",
-    "status": "0"
-  },
-  {
-    "kode": "ITP85",
-    "keterangan": "Indosat Transfer 85.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "82278",
-    "status": "0"
-  },
-  {
-    "kode": "ITP95",
-    "keterangan": "Indosat Transfer 95.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "91280",
-    "status": "0"
-  },
-  {
-    "kode": "ITP10",
-    "keterangan": "Indosat Transfer 10.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "10390",
-    "status": "0"
-  },
-  {
-    "kode": "ITP20",
-    "keterangan": "Indosat Transfer 20.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "19770",
-    "status": "0"
-  },
-  {
-    "kode": "ITP25",
-    "keterangan": "Indosat Transfer 25.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "24940",
-    "status": "0"
-  },
-  {
-    "kode": "ITP30",
-    "keterangan": "Indosat Transfer 30.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "29650",
-    "status": "0"
-  },
-  {
-    "kode": "ITP35",
-    "keterangan": "Indosat Transfer 35.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "34350",
-    "status": "0"
-  },
-  {
-    "kode": "ITP40",
-    "keterangan": "Indosat Transfer 40.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "39050",
-    "status": "0"
-  },
-  {
-    "kode": "ITP45",
-    "keterangan": "Indosat Transfer 45.000",
-    "produk": "Indosat Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "43750",
-    "status": "0"
   },
   {
     "kode": "VIU1",
@@ -4659,174 +3815,6 @@
     "status": "0"
   },
   {
-    "kode": "TDH10GB3",
-    "keterangan": "Mini Data 10GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "51200",
-    "status": "1"
-  },
-  {
-    "kode": "TDH1GB1",
-    "keterangan": "Mini Data 800MB All 1 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "6255",
-    "status": "1"
-  },
-  {
-    "kode": "TDH1GB3",
-    "keterangan": "Mini Data 1GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "9225",
-    "status": "1"
-  },
-  {
-    "kode": "TDH20GB3",
-    "keterangan": "Mini Data 20GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "68675",
-    "status": "1"
-  },
-  {
-    "kode": "TDH2GB3",
-    "keterangan": "Mini Data 2GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11025",
-    "status": "1"
-  },
-  {
-    "kode": "TDH5001",
-    "keterangan": "Mini Data 500MB All 1 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "5055",
-    "status": "1"
-  },
-  {
-    "kode": "TDH5003",
-    "keterangan": "Mini Data 500MB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "6700",
-    "status": "1"
-  },
-  {
-    "kode": "TDH5GB1",
-    "keterangan": "Mini Data 5GB All 1 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "19700",
-    "status": "1"
-  },
-  {
-    "kode": "TDH5GB3",
-    "keterangan": "Mini Data 5GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "28200",
-    "status": "1"
-  },
-  {
-    "kode": "TDH15GB3",
-    "keterangan": "Mini Data 15GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "51450",
-    "status": "1"
-  },
-  {
-    "kode": "TDH3GB3",
-    "keterangan": "Mini Data 3GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "20700",
-    "status": "1"
-  },
-  {
-    "kode": "TDH7GB3",
-    "keterangan": "Mini Data 7GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "30200",
-    "status": "1"
-  },
-  {
-    "kode": "TDH1GBB",
-    "keterangan": "Mini Data 1GB All 1 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "6649",
-    "status": "1"
-  },
-  {
-    "kode": "TDH2G5NA",
-    "keterangan": "Mini Data 2,5GB All 5 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11549",
-    "status": "1"
-  },
-  {
-    "kode": "TDH3GB5",
-    "keterangan": "Mini Data 3GB All 5 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "21199",
-    "status": "1"
-  },
-  {
-    "kode": "TDH4GB1",
-    "keterangan": "Mini Data 4GB All 1 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "14500",
-    "status": "1"
-  },
-  {
-    "kode": "TDH6GB1",
-    "keterangan": "Mini Data 6GB All 1 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "17700",
-    "status": "1"
-  },
-  {
-    "kode": "TDH8GB3",
-    "keterangan": "Mini Data 8GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "35525",
-    "status": "1"
-  },
-  {
-    "kode": "TDH17GB3",
-    "keterangan": "Mini Data 17GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "51500",
-    "status": "1"
-  },
-  {
-    "kode": "TDH153GB",
-    "keterangan": "(Promo) Mini Data 1,5GB All 3 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11500",
-    "status": "1"
-  },
-  {
-    "kode": "TDH1GB2",
-    "keterangan": "(Promo) Mini Data 1GB All 2 Hari",
-    "produk": "Tsel Data Mini Harian",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "6765",
-    "status": "1"
-  },
-  {
     "kode": "AXO4",
     "keterangan": "1GB All + 1GB 4G + 2GB Game 30 Hari",
     "produk": "Isi Ulang Owsem 30 Hari",
@@ -5095,7 +4083,7 @@
     "keterangan": "1,5GB All Jaringan 30 Hari",
     "produk": "Mini Data Indosat",
     "kategori": "KUOTA INDOSAT",
-    "harga": "9025",
+    "harga": "10090",
     "status": "1"
   },
   {
@@ -5159,7 +4147,7 @@
     "keterangan": "9GB All Jaringan 30 Hari",
     "produk": "Mini Data Indosat",
     "kategori": "KUOTA INDOSAT",
-    "harga": "53650",
+    "harga": "60040",
     "status": "1"
   },
   {
@@ -5384,7 +4372,7 @@
     "produk": "Tri Data Combo",
     "kategori": "KUOTA TRI",
     "harga": "20100",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TTDG2",
@@ -5392,7 +4380,7 @@
     "produk": "Tri Data Combo",
     "kategori": "KUOTA TRI",
     "harga": "27600",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TTDG6",
@@ -5400,7 +4388,7 @@
     "produk": "Tri Data Combo",
     "kategori": "KUOTA TRI",
     "harga": "42600",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TMD1",
@@ -5415,7 +4403,7 @@
     "keterangan": "750MB All jaringan + 2GB 4G 7 Hari",
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
-    "harga": "20150",
+    "harga": "20040",
     "status": "1"
   },
   {
@@ -5423,7 +4411,7 @@
     "keterangan": "1,75GB All + 2GB 4G 7 Hari",
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
-    "harga": "25380",
+    "harga": "24650",
     "status": "1"
   },
   {
@@ -5432,14 +4420,14 @@
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
     "harga": "24650",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TDM10",
     "keterangan": "750 MB + 2GB 4G 3 Hari",
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
-    "harga": "12400",
+    "harga": "12150",
     "status": "1"
   },
   {
@@ -5448,7 +4436,7 @@
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
     "harga": "12200",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TDM5",
@@ -5456,7 +4444,7 @@
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
     "harga": "20150",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TMD750",
@@ -5544,7 +4532,7 @@
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
     "harga": "29800",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TDA5",
@@ -5567,7 +4555,7 @@
     "keterangan": "12GB All + 4GB Bonus AON 365 Hari",
     "produk": "AON Tri Baru",
     "kategori": "KUOTA TRI",
-    "harga": "54262",
+    "harga": "54261",
     "status": "1"
   },
   {
@@ -5575,7 +4563,7 @@
     "keterangan": "2,5GB All + 0,5GB Bonus AON 365 Hari",
     "produk": "AON Tri Baru",
     "kategori": "KUOTA TRI",
-    "harga": "19075",
+    "harga": "19000",
     "status": "1"
   },
   {
@@ -5583,7 +4571,7 @@
     "keterangan": "3,5GB All + 1GB Bonus AON 365 Hari",
     "produk": "AON Tri Baru",
     "kategori": "KUOTA TRI",
-    "harga": "22360",
+    "harga": "22185",
     "status": "1"
   },
   {
@@ -5599,7 +4587,7 @@
     "keterangan": "6GB All + 2GB Bonus AON 365 Hari",
     "produk": "AON Tri Baru",
     "kategori": "KUOTA TRI",
-    "harga": "28934",
+    "harga": "28929",
     "status": "1"
   },
   {
@@ -5632,7 +4620,7 @@
     "produk": "AON Tri Baru",
     "kategori": "KUOTA TRI",
     "harga": "25550",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TD5B",
@@ -5640,7 +4628,7 @@
     "produk": "AON Tri Baru",
     "kategori": "KUOTA TRI",
     "harga": "27500",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TDL10",
@@ -5664,7 +4652,7 @@
     "produk": "Tri All Jaringan",
     "kategori": "KUOTA TRI",
     "harga": "67650",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TDL30",
@@ -5859,107 +4847,11 @@
     "status": "1"
   },
   {
-    "kode": "TDYT1A",
-    "keterangan": "Ketengan Youtube 1GB 1 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "7225",
-    "status": "0"
-  },
-  {
-    "kode": "TDYT2A",
-    "keterangan": "Ketengan Youtube 1GB 3 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11500",
-    "status": "0"
-  },
-  {
-    "kode": "TDYT3A",
-    "keterangan": "Ketengan Youtube 1GB 7 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "19665",
-    "status": "0"
-  },
-  {
-    "kode": "TDYT4A",
-    "keterangan": "Ketengan Youtube 2GB 3 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "15300",
-    "status": "0"
-  },
-  {
-    "kode": "TDYT5A",
-    "keterangan": "Ketengan Youtube 2GB 7 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "23465",
-    "status": "0"
-  },
-  {
-    "kode": "TDYT6A",
-    "keterangan": "Ketengan Youtube 3GB 7 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "28315",
-    "status": "0"
-  },
-  {
-    "kode": "TDYT7A",
-    "keterangan": "Ketengan Youtube 5GB 30 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "39525",
-    "status": "0"
-  },
-  {
-    "kode": "TDYT8A",
-    "keterangan": "Ketengan Youtube 10GB 30 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "64225",
-    "status": "0"
-  },
-  {
-    "kode": "SDYTP",
-    "keterangan": "Telkomsel Berlangganan Youtube 30 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "62500",
-    "status": "1"
-  },
-  {
-    "kode": "TDSYTU1N",
-    "keterangan": "Ketengan Youtube Unlimited 1 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "10125",
-    "status": "0"
-  },
-  {
-    "kode": "TDSYTU3N",
-    "keterangan": "Ketengan Youtube Unlimited 3 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "19200",
-    "status": "0"
-  },
-  {
-    "kode": "TDSYTU7N",
-    "keterangan": "Ketengan Youtube Unlimited 7 Hari",
-    "produk": "Tsel Ketengan Youtube",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "32500",
-    "status": "0"
-  },
-  {
     "kode": "AXM4",
     "keterangan": "Mini Axis 10GB + Bonus Aigo 3 Hari",
     "produk": "Mini Isi Ulang Axis 1-3 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "13753",
+    "harga": "13752",
     "status": "1"
   },
   {
@@ -5967,7 +4859,7 @@
     "keterangan": "Mini 4GB + Bonus Aigo 3 Hari",
     "produk": "Mini Isi Ulang Axis 1-3 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "10192",
+    "harga": "10191",
     "status": "1"
   },
   {
@@ -6047,7 +4939,7 @@
     "keterangan": "Freedom 7GB 7 Hari",
     "produk": "Isat Fredoom Harian",
     "kategori": "KUOTA INDOSAT",
-    "harga": "21874",
+    "harga": "21939",
     "status": "1"
   },
   {
@@ -6584,7 +5476,7 @@
     "produk": "Voucher Tsel Jatim - Madura",
     "kategori": "KUOTA TELKOMSEL",
     "harga": "40050",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "VTJT23",
@@ -6783,7 +5675,7 @@
     "keterangan": "Vcr 18GB Flash + 2GB OMG 30 Hari",
     "produk": "Voucher Tsel Jateng - Jogja",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "78300",
+    "harga": "78200",
     "status": "1"
   },
   {
@@ -6815,7 +5707,7 @@
     "keterangan": "Voucher Kuota 7GB 7 Hari",
     "produk": "Voucher Tsel Jateng - Jogja",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "26425",
+    "harga": "26800",
     "status": "1"
   },
   {
@@ -7104,7 +5996,7 @@
     "produk": "Voucher Tsel Jabo - Banten",
     "kategori": "KUOTA TELKOMSEL",
     "harga": "56800",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "TVJH28",
@@ -7112,7 +6004,7 @@
     "produk": "Voucher Tsel Jabo - Banten",
     "kategori": "KUOTA TELKOMSEL",
     "harga": "75500",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "TVJH42",
@@ -7120,7 +6012,7 @@
     "produk": "Voucher Tsel Jabo - Banten",
     "kategori": "KUOTA TELKOMSEL",
     "harga": "96100",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "VTM5",
@@ -7239,7 +6131,7 @@
     "keterangan": "Smart Unlimited FUP 2GB 28 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "85744",
+    "harga": "85429",
     "status": "1"
   },
   {
@@ -7255,7 +6147,7 @@
     "keterangan": "Smart Unlimited FUP 1GB 14 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "46698",
+    "harga": "46393",
     "status": "1"
   },
   {
@@ -7263,7 +6155,7 @@
     "keterangan": "Smart Unlimited FUP 1GB 7 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "21287",
+    "harga": "21286",
     "status": "1"
   },
   {
@@ -7279,7 +6171,7 @@
     "keterangan": "Smart Unlimited FUP 3GB 28 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "117322",
+    "harga": "117321",
     "status": "1"
   },
   {
@@ -7295,7 +6187,7 @@
     "keterangan": "Smart Unlimited FUP 2GB 7 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "26428",
+    "harga": "26417",
     "status": "1"
   },
   {
@@ -7423,7 +6315,7 @@
     "keterangan": "Vcr Unlimited FUP 2GB 28 Hari",
     "produk": "Voucher Data Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "87449",
+    "harga": "87399",
     "status": "1"
   },
   {
@@ -7591,7 +6483,7 @@
     "keterangan": "Smart 10GB + Unlimited 28 Hari",
     "produk": "Data Kuota Nonstop",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "53134",
+    "harga": "53131",
     "status": "1"
   },
   {
@@ -7599,7 +6491,7 @@
     "keterangan": "Smart 18GB + Unlimited 28 Hari",
     "produk": "Data Kuota Nonstop",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "75771",
+    "harga": "75768",
     "status": "1"
   },
   {
@@ -7607,7 +6499,7 @@
     "keterangan": "Smart 30GB + Unlimited 28 Hari",
     "produk": "Data Kuota Nonstop",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "74483",
+    "harga": "74480",
     "status": "1"
   },
   {
@@ -7615,7 +6507,7 @@
     "keterangan": "Smart 6GB + Unlimited 28 Hari",
     "produk": "Data Kuota Nonstop",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "37679",
+    "harga": "37669",
     "status": "1"
   },
   {
@@ -7715,174 +6607,6 @@
     "status": "1"
   },
   {
-    "kode": "TDH100",
-    "keterangan": "Tsel Mini Data 100MB 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "3525",
-    "status": "1"
-  },
-  {
-    "kode": "TDH250",
-    "keterangan": "Tsel Mini Data 250MB 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "5025",
-    "status": "1"
-  },
-  {
-    "kode": "TDH500",
-    "keterangan": "Tsel Mini Data 500MB 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "7600",
-    "status": "1"
-  },
-  {
-    "kode": "TMD1GB",
-    "keterangan": "1GB All Jaringan 30 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11130",
-    "status": "1"
-  },
-  {
-    "kode": "TDM5007H",
-    "keterangan": "Mini Data 500MB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "15200",
-    "status": "1"
-  },
-  {
-    "kode": "TDM1GB14",
-    "keterangan": "Mini Data 1,5GB All 14 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "21200",
-    "status": "1"
-  },
-  {
-    "kode": "TDM1GB7",
-    "keterangan": "Mini Data 1GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "9725",
-    "status": "1"
-  },
-  {
-    "kode": "TDM10GB7",
-    "keterangan": "Mini Data 10GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "55950",
-    "status": "1"
-  },
-  {
-    "kode": "TDM30GB7",
-    "keterangan": "Mini Data 30GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "80200",
-    "status": "0"
-  },
-  {
-    "kode": "TDM2GB14",
-    "keterangan": "Mini Data 2GB All 14 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "21230",
-    "status": "1"
-  },
-  {
-    "kode": "TDM2GB7",
-    "keterangan": "Mini Data 2GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "15299",
-    "status": "1"
-  },
-  {
-    "kode": "TDH50",
-    "keterangan": "Tsel Mini Data 50MB 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "2130",
-    "status": "1"
-  },
-  {
-    "kode": "TDM15GB7",
-    "keterangan": "Mini Data 15GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "80000",
-    "status": "1"
-  },
-  {
-    "kode": "TDM3GB7",
-    "keterangan": "Mini Data 3GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "20095",
-    "status": "1"
-  },
-  {
-    "kode": "TDM5GB7",
-    "keterangan": "Mini Data 5GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "25000",
-    "status": "1"
-  },
-  {
-    "kode": "TDM3GB14",
-    "keterangan": "Mini Data 3GB All 14 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "58800",
-    "status": "1"
-  },
-  {
-    "kode": "TDM5GB14",
-    "keterangan": "Mini Data 5GB All 14 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "65300",
-    "status": "1"
-  },
-  {
-    "kode": "TDH750",
-    "keterangan": "Tsel Mini Data 750MB 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "14700",
-    "status": "1"
-  },
-  {
-    "kode": "TDM7GB7",
-    "keterangan": "Mini Data 7GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "25689",
-    "status": "1"
-  },
-  {
-    "kode": "TDM17GB7",
-    "keterangan": "Mini Data 17GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "73325",
-    "status": "1"
-  },
-  {
-    "kode": "TDM157GB",
-    "keterangan": "Mini Data 1.5GB All 7 Hari",
-    "produk": "Tsel Data Mini Mingguan",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "15035",
-    "status": "1"
-  },
-  {
     "kode": "IFCS14",
     "keterangan": "7,5GB All + 7,5GB Lokal + 5GB Malam 28 Hari",
     "produk": "Freedoom Combo Attack",
@@ -7928,7 +6652,7 @@
     "produk": "Freedoom Combo Attack",
     "kategori": "KUOTA INDOSAT",
     "harga": "47600",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "IDFIA21",
@@ -7936,7 +6660,7 @@
     "produk": "Freedoom Combo Attack",
     "kategori": "KUOTA INDOSAT",
     "harga": "89925",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "IDFIA3",
@@ -7944,7 +6668,7 @@
     "produk": "Freedoom Combo Attack",
     "kategori": "KUOTA INDOSAT",
     "harga": "22300",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "IDFIA30",
@@ -7952,7 +6676,7 @@
     "produk": "Freedoom Combo Attack",
     "kategori": "KUOTA INDOSAT",
     "harga": "113150",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "IDFIA5",
@@ -7960,7 +6684,7 @@
     "produk": "Freedoom Combo Attack",
     "kategori": "KUOTA INDOSAT",
     "harga": "31800",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "VIDF16",
@@ -7991,7 +6715,7 @@
     "keterangan": "Voucher Freedom Internet 3GB 20 Hari",
     "produk": "Voucher Freedom Internet",
     "kategori": "KUOTA INDOSAT",
-    "harga": "22460",
+    "harga": "22500",
     "status": "1"
   },
   {
@@ -8235,86 +6959,6 @@
     "status": "0"
   },
   {
-    "kode": "TDD1",
-    "keterangan": "Kuota Malam 1GB 1 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "6450",
-    "status": "1"
-  },
-  {
-    "kode": "TDD15",
-    "keterangan": "Kuota Malam 15GB 30 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "33450",
-    "status": "0"
-  },
-  {
-    "kode": "TDD5",
-    "keterangan": "Kuota Malam 5GB 1 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11970",
-    "status": "1"
-  },
-  {
-    "kode": "TDD5C",
-    "keterangan": "Kuota Malam 5GB 30 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "24450",
-    "status": "1"
-  },
-  {
-    "kode": "TDD2",
-    "keterangan": "Kuota Malam 1.5GB 2 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "4750",
-    "status": "0"
-  },
-  {
-    "kode": "TDD18",
-    "keterangan": "Kuota Malam 12GB 7 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "23900",
-    "status": "0"
-  },
-  {
-    "kode": "TDD13",
-    "keterangan": "Kuota Malam 7GB 4 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11500",
-    "status": "0"
-  },
-  {
-    "kode": "TDD14",
-    "keterangan": "Kuota Malam 10GB 4 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11500",
-    "status": "0"
-  },
-  {
-    "kode": "TDD5A",
-    "keterangan": "Kuota Malam 5GB 2 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "9125",
-    "status": "1"
-  },
-  {
-    "kode": "TDD5B",
-    "keterangan": "Kuota Malam 6GB 8 Hari",
-    "produk": "Tsel Data Mini Malam",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "14400",
-    "status": "0"
-  },
-  {
     "kode": "VAXM2",
     "keterangan": "Vcr Mini 7GB + Bonus Aigo 7 Hari",
     "produk": "Axis Mini Voucher 7 Hari",
@@ -8391,7 +7035,7 @@
     "keterangan": "Mini Axis 7GB + Bonus Aigo 7 Hari",
     "produk": "Mini Isi Ulang Axis 7 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "22254",
+    "harga": "22252",
     "status": "1"
   },
   {
@@ -8399,7 +7043,7 @@
     "keterangan": "Mini Axis 8,5GB + Bonus Aigo 7 Hari",
     "produk": "Mini Isi Ulang Axis 7 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "24899",
+    "harga": "24886",
     "status": "1"
   },
   {
@@ -8407,7 +7051,7 @@
     "keterangan": "Mini Axis 11GB + Bonus Aigo 7 Hari",
     "produk": "Mini Isi Ulang Axis 7 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "28191",
+    "harga": "28193",
     "status": "1"
   },
   {
@@ -8415,7 +7059,7 @@
     "keterangan": "Mini Axis 24GB + Bonus Aigo 7 Hari",
     "produk": "Mini Isi Ulang Axis 7 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "39229",
+    "harga": "39232",
     "status": "1"
   },
   {
@@ -8439,7 +7083,7 @@
     "keterangan": "Mini Axis 11,5GB + Bonus Aigo 15 Hari",
     "produk": "Mini Isi Ulang Axis 15 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "41095",
+    "harga": "41097",
     "status": "1"
   },
   {
@@ -8447,7 +7091,7 @@
     "keterangan": "Mini Axis 35GB + Bonus Aigo 15 Hari",
     "produk": "Mini Isi Ulang Axis 15 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "68788",
+    "harga": "68783",
     "status": "1"
   },
   {
@@ -8472,7 +7116,7 @@
     "produk": "Tri Data Happy",
     "kategori": "KUOTA TRI",
     "harga": "92050",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TDHM1",
@@ -8520,7 +7164,7 @@
     "produk": "Tri Data Happy",
     "kategori": "KUOTA TRI",
     "harga": "7150",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TH1GB30",
@@ -8528,7 +7172,7 @@
     "produk": "Tri Data Happy",
     "kategori": "KUOTA TRI",
     "harga": "7699",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TH1GB3",
@@ -8536,15 +7180,15 @@
     "produk": "Tri Data Happy",
     "kategori": "KUOTA TRI",
     "harga": "6400",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TH1GB5",
     "keterangan": "1GB All Jaringan 5 Hari",
     "produk": "Tri Data Happy",
     "kategori": "KUOTA TRI",
-    "harga": "7050",
-    "status": "0"
+    "harga": "6900",
+    "status": "1"
   },
   {
     "kode": "TH2GB10",
@@ -8552,7 +7196,7 @@
     "produk": "Tri Data Happy",
     "kategori": "KUOTA TRI",
     "harga": "13650",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TH2GB30",
@@ -8560,7 +7204,7 @@
     "produk": "Tri Data Happy",
     "kategori": "KUOTA TRI",
     "harga": "13750",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "IDLL8",
@@ -8615,7 +7259,7 @@
     "keterangan": "Freedom Mini 1GB 2 Hari",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "5219",
+    "harga": "5204",
     "status": "1"
   },
   {
@@ -8631,7 +7275,7 @@
     "keterangan": "Freedom Mini 7GB 7 Hari",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "21774",
+    "harga": "21740",
     "status": "1"
   },
   {
@@ -8639,7 +7283,7 @@
     "keterangan": "Freedom Mini 2,5GB 5 Hari (Unreg)",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "11750",
+    "harga": "11650",
     "status": "1"
   },
   {
@@ -8655,7 +7299,7 @@
     "keterangan": "Freedom Mini 5GB 5 Hari (Unreg)",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "15975",
+    "harga": "15875",
     "status": "1"
   },
   {
@@ -8671,7 +7315,7 @@
     "keterangan": "Freedom Mini 2GB 5 Hari (Unreg)",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "11699",
+    "harga": "11599",
     "status": "1"
   },
   {
@@ -8679,7 +7323,7 @@
     "keterangan": "Freedom Mini 15GB 5 Hari (Unreg)",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "27450",
+    "harga": "27400",
     "status": "1"
   },
   {
@@ -8711,7 +7355,7 @@
     "keterangan": "Freedom Mini 2,5GB 5 Hari",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "11975",
+    "harga": "11775",
     "status": "1"
   },
   {
@@ -8727,7 +7371,7 @@
     "keterangan": "Freedom Mini 5GB 5 Hari",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "16100",
+    "harga": "16000",
     "status": "1"
   },
   {
@@ -8975,7 +7619,7 @@
     "keterangan": "Smart 2GB All 3 Hari",
     "produk": "Mini Data Smart",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "7710",
+    "harga": "7765",
     "status": "1"
   },
   {
@@ -8991,336 +7635,8 @@
     "keterangan": "Smart 3GB All 5 Hari",
     "produk": "Mini Data Smart",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "11940",
+    "harga": "11955",
     "status": "1"
-  },
-  {
-    "kode": "TDWA1A",
-    "keterangan": "Ketengan WA 1GB 1 Hari",
-    "produk": "Tsel Ketengan WA",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "7225",
-    "status": "0"
-  },
-  {
-    "kode": "TDWA2A",
-    "keterangan": "Ketengan WA 1GB 3 Hari",
-    "produk": "Tsel Ketengan WA",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11500",
-    "status": "0"
-  },
-  {
-    "kode": "TDWA3A",
-    "keterangan": "Ketengan WA 1GB 7 Hari",
-    "produk": "Tsel Ketengan WA",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "19765",
-    "status": "0"
-  },
-  {
-    "kode": "TDWA4A",
-    "keterangan": "Ketengan WA 2.5GB 3 Hari",
-    "produk": "Tsel Ketengan WA",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "15300",
-    "status": "0"
-  },
-  {
-    "kode": "TDWA5A",
-    "keterangan": "Ketengan WA 2.5GB 7 Hari",
-    "produk": "Tsel Ketengan WA",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "23565",
-    "status": "0"
-  },
-  {
-    "kode": "TDWA6A",
-    "keterangan": "Ketengan WA 3.5GB 7 Hari",
-    "produk": "Tsel Ketengan WA",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "28315",
-    "status": "0"
-  },
-  {
-    "kode": "TDWA7A",
-    "keterangan": "Ketengan WA 5.5GB 30 Hari",
-    "produk": "Tsel Ketengan WA",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "39525",
-    "status": "0"
-  },
-  {
-    "kode": "TDWA8A",
-    "keterangan": "Ketengan WA 11GB 30 Hari",
-    "produk": "Tsel Ketengan WA",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "64225",
-    "status": "0"
-  },
-  {
-    "kode": "TDFB1A",
-    "keterangan": "Facebook 1GB 1 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "4200",
-    "status": "1"
-  },
-  {
-    "kode": "TDFB2A",
-    "keterangan": "Facebook 1GB 3 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "6200",
-    "status": "1"
-  },
-  {
-    "kode": "TDFB3A",
-    "keterangan": "Facebook 1GB 7 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "9200",
-    "status": "1"
-  },
-  {
-    "kode": "TDFB4A",
-    "keterangan": "Facebook 2GB 3 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "7200",
-    "status": "1"
-  },
-  {
-    "kode": "TDFB5A",
-    "keterangan": "Facebook 2GB 7 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11200",
-    "status": "1"
-  },
-  {
-    "kode": "TDFB6A",
-    "keterangan": "Facebook 3GB 7 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "12200",
-    "status": "1"
-  },
-  {
-    "kode": "TDFB7A",
-    "keterangan": "Facebook 5GB 30 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "33200",
-    "status": "1"
-  },
-  {
-    "kode": "TDFB8A",
-    "keterangan": "Facebook 10GB 30 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "49200",
-    "status": "1"
-  },
-  {
-    "kode": "TDSFBU1N",
-    "keterangan": "Unlimited Facebook 1 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "10125",
-    "status": "0"
-  },
-  {
-    "kode": "TDSFBU3N",
-    "keterangan": "Unlimited Facebook 3 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "19200",
-    "status": "0"
-  },
-  {
-    "kode": "TDSFBU7N",
-    "keterangan": "Unlimited Facebook 7 Hari",
-    "produk": "Tsel Ketengan Facebook",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "32500",
-    "status": "0"
-  },
-  {
-    "kode": "TDIG1A",
-    "keterangan": "Instagram 1GB 1 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "4200",
-    "status": "1"
-  },
-  {
-    "kode": "TDIG2A",
-    "keterangan": "Instagram 1GB 3 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "6200",
-    "status": "1"
-  },
-  {
-    "kode": "TDIG3A",
-    "keterangan": "Instagram 1GB 7 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "9200",
-    "status": "1"
-  },
-  {
-    "kode": "TDIG4A",
-    "keterangan": "Instagram 2GB 3 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "7200",
-    "status": "1"
-  },
-  {
-    "kode": "TDIG5A",
-    "keterangan": "Instagram 2GB 7 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11200",
-    "status": "1"
-  },
-  {
-    "kode": "TDIG6A",
-    "keterangan": "Instagram 3GB 7 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "12200",
-    "status": "1"
-  },
-  {
-    "kode": "TDIG7A",
-    "keterangan": "Instagram 5GB 30 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "33200",
-    "status": "1"
-  },
-  {
-    "kode": "TDIG8A",
-    "keterangan": "Instagram 10GB 30 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "49200",
-    "status": "1"
-  },
-  {
-    "kode": "TDSIGU1N",
-    "keterangan": "Unlimited Instagram 1 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "9975",
-    "status": "0"
-  },
-  {
-    "kode": "TDSIGU3N",
-    "keterangan": "Unlimited Instagram 3 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "19000",
-    "status": "0"
-  },
-  {
-    "kode": "TDSIGU7N",
-    "keterangan": "Unlimited Instagram 7 Hari",
-    "produk": "Tsel Ketengan Instagram",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "32300",
-    "status": "0"
-  },
-  {
-    "kode": "TDTT1A",
-    "keterangan": "Tik Tok 1GB 1 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "6700",
-    "status": "1"
-  },
-  {
-    "kode": "TDTT2A",
-    "keterangan": "Tik Tok 1GB 3 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "11600",
-    "status": "0"
-  },
-  {
-    "kode": "TDTT3A",
-    "keterangan": "Tik Tok 1GB 7 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "17700",
-    "status": "1"
-  },
-  {
-    "kode": "TDTT4A",
-    "keterangan": "Tik Tok 2GB 3 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "14700",
-    "status": "1"
-  },
-  {
-    "kode": "TDTT5A",
-    "keterangan": "Tik Tok 2GB 7 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "21200",
-    "status": "1"
-  },
-  {
-    "kode": "TDTT6A",
-    "keterangan": "Tik Tok 3GB 7 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "25200",
-    "status": "1"
-  },
-  {
-    "kode": "TDTT7A",
-    "keterangan": "Tik Tok 5GB 30 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "37200",
-    "status": "1"
-  },
-  {
-    "kode": "TDTT8A",
-    "keterangan": "Tik Tok 10GB 30 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "57200",
-    "status": "1"
-  },
-  {
-    "kode": "TDSTTU1N",
-    "keterangan": "Unlimited Tiktok 1 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "10125",
-    "status": "0"
-  },
-  {
-    "kode": "TDSTTU3N",
-    "keterangan": "Unlimited Tiktok 3 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "19200",
-    "status": "0"
-  },
-  {
-    "kode": "TDSTTU7N",
-    "keterangan": "Unlimited Tiktok 7 Hari",
-    "produk": "Tsel Ketengan Tiktok",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "32550",
-    "status": "0"
   },
   {
     "kode": "CSC",
@@ -9369,38 +7685,6 @@
     "kategori": "KUOTA TELKOMSEL",
     "harga": "0",
     "status": "0"
-  },
-  {
-    "kode": "TOM100GB",
-    "keterangan": "Kartu 1-3 Bulan - Orbit 100GB 30 Hari",
-    "produk": "Tsel Orbit Modem",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "131700",
-    "status": "1"
-  },
-  {
-    "kode": "TOM10GB",
-    "keterangan": "Kartu 1-3 Bulan - Orbit 10GB 7 Hari",
-    "produk": "Tsel Orbit Modem",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "31550",
-    "status": "1"
-  },
-  {
-    "kode": "TOM30GB",
-    "keterangan": "Kartu 1-3 Bulan - Orbit 30GB 30 Hari",
-    "produk": "Tsel Orbit Modem",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "69175",
-    "status": "1"
-  },
-  {
-    "kode": "TOM50GB",
-    "keterangan": "Kartu 1-3 Bulan - Orbit 50GB 30 Hari",
-    "produk": "Tsel Orbit Modem",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "84000",
-    "status": "1"
   },
   {
     "kode": "FIBMX12",
@@ -9475,54 +7759,6 @@
     "status": "1"
   },
   {
-    "kode": "TMKM10",
-    "keterangan": "10GB All + 1GB WA 30 Hari",
-    "produk": "Tsel Data UMKM",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "85325",
-    "status": "0"
-  },
-  {
-    "kode": "TMKM17",
-    "keterangan": "17GB All + 1GB WA 30 Hari",
-    "produk": "Tsel Data UMKM",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "110325",
-    "status": "0"
-  },
-  {
-    "kode": "TMKM27",
-    "keterangan": "27GB All + 3GB WA 30 Hari",
-    "produk": "Tsel Data UMKM",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "132325",
-    "status": "0"
-  },
-  {
-    "kode": "TMKM3",
-    "keterangan": "3GB All + 1GB WA 30 Hari",
-    "produk": "Tsel Data UMKM",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "42825",
-    "status": "0"
-  },
-  {
-    "kode": "TMKM40",
-    "keterangan": "40GB All + 5GB WA 30 Hari",
-    "produk": "Tsel Data UMKM",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "175325",
-    "status": "0"
-  },
-  {
-    "kode": "TMKM6",
-    "keterangan": "6GB All + 1GB WA 30 Hari",
-    "produk": "Tsel Data UMKM",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "63325",
-    "status": "0"
-  },
-  {
     "kode": "IFM4A",
     "keterangan": "Freedom Mini 4GB 5 Hari",
     "produk": "Mini Freedoom Jatim - Balinusra",
@@ -9559,7 +7795,7 @@
     "keterangan": "Freedom Mini 1GB 2 Hari",
     "produk": "Mini Freedoom Jatim - Balinusra",
     "kategori": "KUOTA INDOSAT",
-    "harga": "5450",
+    "harga": "5424",
     "status": "1"
   },
   {
@@ -9567,7 +7803,7 @@
     "keterangan": "Freedom Mini 5GB 5 Hari",
     "produk": "Mini Freedoom Jatim - Balinusra",
     "kategori": "KUOTA INDOSAT",
-    "harga": "16625",
+    "harga": "16624",
     "status": "1"
   },
   {
@@ -9663,7 +7899,7 @@
     "keterangan": "Freedom Mini 1GB 2 Hari",
     "produk": "Mini Freedoom Jateng - Jabar",
     "kategori": "KUOTA INDOSAT",
-    "harga": "5450",
+    "harga": "5424",
     "status": "1"
   },
   {
@@ -9671,7 +7907,7 @@
     "keterangan": "Freedom Mini 5GB 5 Hari",
     "produk": "Mini Freedoom Jateng - Jabar",
     "kategori": "KUOTA INDOSAT",
-    "harga": "16625",
+    "harga": "16624",
     "status": "1"
   },
   {
@@ -9679,7 +7915,7 @@
     "keterangan": "Freedom Mini 7GB 7 Hari",
     "produk": "Mini Freedoom Jateng - Jabar",
     "kategori": "KUOTA INDOSAT",
-    "harga": "21550",
+    "harga": "22349",
     "status": "1"
   },
   {
@@ -9759,7 +7995,7 @@
     "keterangan": "Freedom Mini 1GB 2 Hari",
     "produk": "Mini Freedoom Jabodetabek",
     "kategori": "KUOTA INDOSAT",
-    "harga": "5450",
+    "harga": "5424",
     "status": "1"
   },
   {
@@ -9767,7 +8003,7 @@
     "keterangan": "Freedom Mini 5GB 5 Hari",
     "produk": "Mini Freedoom Jabodetabek",
     "kategori": "KUOTA INDOSAT",
-    "harga": "16625",
+    "harga": "16624",
     "status": "1"
   },
   {
@@ -9775,7 +8011,7 @@
     "keterangan": "Freedom Mini 7GB 7 Hari",
     "produk": "Mini Freedoom Jabodetabek",
     "kategori": "KUOTA INDOSAT",
-    "harga": "21550",
+    "harga": "22349",
     "status": "1"
   },
   {
@@ -9935,7 +8171,7 @@
     "keterangan": "Flex L  9GB + Kuota Area 4GB-18GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "63014",
+    "harga": "62991",
     "status": "1"
   },
   {
@@ -9943,7 +8179,7 @@
     "keterangan": "Flex M  5GB + Kuota Area 2GB-10GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "43277",
+    "harga": "43484",
     "status": "1"
   },
   {
@@ -9951,7 +8187,7 @@
     "keterangan": "Flex S  1,5GB + Kuota Area 1GB-3,5GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "20072",
+    "harga": "20071",
     "status": "1"
   },
   {
@@ -9959,7 +8195,7 @@
     "keterangan": "Flex XL  15GB + Kuota Area 5GB-30GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "88082",
+    "harga": "88001",
     "status": "1"
   },
   {
@@ -9967,7 +8203,7 @@
     "keterangan": "Flex XXL  30GB + Kuota Area 6GB-60GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "119094",
+    "harga": "119000",
     "status": "1"
   },
   {
@@ -9983,7 +8219,7 @@
     "keterangan": "Flex S+  3GB + Kuota Area 2GB-7GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "31544",
+    "harga": "31480",
     "status": "1"
   },
   {
@@ -9991,7 +8227,7 @@
     "keterangan": "Flex M+  6GB + Kuota Area 3GB-13GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "53498",
+    "harga": "53486",
     "status": "1"
   },
   {
@@ -9999,7 +8235,7 @@
     "keterangan": "Flex L+  11GB + Kuota Area 4GB-20GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "72876",
+    "harga": "72812",
     "status": "1"
   },
   {
@@ -10007,7 +8243,7 @@
     "keterangan": "XL Data Flex S (5GB - 8GB) + All 5 Menit 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "24972",
+    "harga": "24907",
     "status": "1"
   },
   {
@@ -10015,55 +8251,7 @@
     "keterangan": "Flex S 3.5GB-5GB + All 5 mnt All 21 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "19528",
-    "status": "1"
-  },
-  {
-    "kode": "TOMA10",
-    "keterangan": "Kartu diatas 4 Bulan - Orbit 10GB 7 Hari",
-    "produk": "Tsel Orbit Modem 4 Bln",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "38400",
-    "status": "1"
-  },
-  {
-    "kode": "TOMA100",
-    "keterangan": "Kartu diatas 4 Bulan - Orbit 100GB 30 Hari",
-    "produk": "Tsel Orbit Modem 4 Bln",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "183500",
-    "status": "1"
-  },
-  {
-    "kode": "TOMA150",
-    "keterangan": "Kartu diatas 4 Bulan - Orbit 150GB 30 Hari",
-    "produk": "Tsel Orbit Modem 4 Bln",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "265500",
-    "status": "1"
-  },
-  {
-    "kode": "TOMA250",
-    "keterangan": "Kartu diatas 4 Bulan - Orbit 250GB 30 Hari",
-    "produk": "Tsel Orbit Modem 4 Bln",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "415500",
-    "status": "1"
-  },
-  {
-    "kode": "TOMA35",
-    "keterangan": "Kartu diatas 4 Bulan - Orbit 35GB 30 Hari",
-    "produk": "Tsel Orbit Modem 4 Bln",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "88400",
-    "status": "1"
-  },
-  {
-    "kode": "TOMA70",
-    "keterangan": "Kartu diatas 4 Bulan - Orbit 70GB 30 Hari",
-    "produk": "Tsel Orbit Modem 4 Bln",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "138500",
+    "harga": "19537",
     "status": "1"
   },
   {
@@ -10151,7 +8339,7 @@
     "keterangan": "Promo Indosat Data 16GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "42595",
+    "harga": "42570",
     "status": "1"
   },
   {
@@ -10175,7 +8363,7 @@
     "keterangan": "Promo Indosat Data 5,5GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "26144",
+    "harga": "26143",
     "status": "1"
   },
   {
@@ -10191,7 +8379,7 @@
     "keterangan": "Promo Freedom Sensasi 50GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "86075",
+    "harga": "85989",
     "status": "1"
   },
   {
@@ -10215,7 +8403,7 @@
     "keterangan": "Promo Indosat Data 3GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "22094",
+    "harga": "22093",
     "status": "1"
   },
   {
@@ -10231,7 +8419,7 @@
     "keterangan": "Promo Indosat Data 7GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "26741",
+    "harga": "26701",
     "status": "1"
   },
   {
@@ -10239,7 +8427,7 @@
     "keterangan": "Promo Indosat Data 10GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "33294",
+    "harga": "33293",
     "status": "1"
   },
   {
@@ -10255,7 +8443,7 @@
     "keterangan": "Promo Indosat Data 12GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "40544",
+    "harga": "40543",
     "status": "1"
   },
   {
@@ -10263,7 +8451,7 @@
     "keterangan": "Promo Indosat Data 15GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "57569",
+    "harga": "57568",
     "status": "1"
   },
   {
@@ -10271,7 +8459,7 @@
     "keterangan": "Promo Indosat Data 18GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "55544",
+    "harga": "55543",
     "status": "1"
   },
   {
@@ -10279,7 +8467,7 @@
     "keterangan": "Promo Indosat Data 8GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "46544",
+    "harga": "46543",
     "status": "1"
   },
   {
@@ -10287,7 +8475,7 @@
     "keterangan": "Promo Indosat Data 5GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "30494",
+    "harga": "30493",
     "status": "1"
   },
   {
@@ -10303,7 +8491,7 @@
     "keterangan": "Promo Indosat Data 4GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "22944",
+    "harga": "22943",
     "status": "1"
   },
   {
@@ -10311,7 +8499,7 @@
     "keterangan": "Promo Indosat Data 20GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "54064",
+    "harga": "54044",
     "status": "1"
   },
   {
@@ -10336,7 +8524,7 @@
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
     "harga": "129800",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRHG3",
@@ -10431,7 +8619,7 @@
     "keterangan": "Xtra Hotrod Spesial 14GB, 30 Hari",
     "produk": "XL Hotrod Spesial",
     "kategori": "KUOTA XL",
-    "harga": "41037",
+    "harga": "41035",
     "status": "1"
   },
   {
@@ -10479,7 +8667,7 @@
     "keterangan": "Bronet 3GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "22271",
+    "harga": "22189",
     "status": "1"
   },
   {
@@ -10487,7 +8675,7 @@
     "keterangan": "Bronet 6GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "29590",
+    "harga": "29519",
     "status": "1"
   },
   {
@@ -10495,7 +8683,7 @@
     "keterangan": "Bronet 8GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "37921",
+    "harga": "37850",
     "status": "1"
   },
   {
@@ -10503,7 +8691,7 @@
     "keterangan": "Bronet 14GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "56220",
+    "harga": "56222",
     "status": "1"
   },
   {
@@ -10511,7 +8699,7 @@
     "keterangan": "Bronet 20GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "70665",
+    "harga": "70587",
     "status": "1"
   },
   {
@@ -10519,7 +8707,7 @@
     "keterangan": "Bronet 30GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "86100",
+    "harga": "86549",
     "status": "1"
   },
   {
@@ -10543,7 +8731,7 @@
     "keterangan": "Bronet 2GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "14986",
+    "harga": "14918",
     "status": "1"
   },
   {
@@ -10559,7 +8747,7 @@
     "keterangan": "Bronet 5GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "25543",
+    "harga": "25541",
     "status": "1"
   },
   {
@@ -10639,7 +8827,7 @@
     "keterangan": "Masa Aktif Telkomsel + 180 Hari",
     "produk": "+Masa Aktif",
     "kategori": "PULSA",
-    "harga": "58010",
+    "harga": "57665",
     "status": "1"
   },
   {
@@ -10711,7 +8899,7 @@
     "keterangan": "1,5GB All + 0,5GB Bonus 1 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "3506",
+    "harga": "3549",
     "status": "1"
   },
   {
@@ -10751,7 +8939,7 @@
     "keterangan": "5GB All + 1,5GB Jabo 1 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "8174",
+    "harga": "8175",
     "status": "1"
   },
   {
@@ -10759,7 +8947,7 @@
     "keterangan": "5GB All + 1,5GB Bonus 3 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "13349",
+    "harga": "13344",
     "status": "1"
   },
   {
@@ -10799,7 +8987,7 @@
     "keterangan": "Happy 14GB 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "40829",
+    "harga": "40814",
     "status": "1"
   },
   {
@@ -10807,7 +8995,7 @@
     "keterangan": "18GB + 6GB Bonus 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "50729",
+    "harga": "50722",
     "status": "1"
   },
   {
@@ -10823,7 +9011,7 @@
     "keterangan": "Happy 30GB 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "66559",
+    "harga": "66532",
     "status": "1"
   },
   {
@@ -10831,7 +9019,7 @@
     "keterangan": "42GB Nat + 100 Mnt/Hari 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "67029",
+    "harga": "66997",
     "status": "1"
   },
   {
@@ -10839,7 +9027,7 @@
     "keterangan": "Happy 55GB 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "87290",
+    "harga": "87289",
     "status": "1"
   },
   {
@@ -10847,7 +9035,7 @@
     "keterangan": "7GB + 2GB Bonus 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "27479",
+    "harga": "27470",
     "status": "1"
   },
   {
@@ -10855,7 +9043,7 @@
     "keterangan": "1GB All + 0,5GB Bonus 3 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "6970",
+    "harga": "6855",
     "status": "1"
   },
   {
@@ -10863,7 +9051,7 @@
     "keterangan": "2GB All + 0,5GB Bonus 5 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "10236",
+    "harga": "10235",
     "status": "1"
   },
   {
@@ -10871,7 +9059,7 @@
     "keterangan": "3GB All + 1GB Bonus 7 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "15119",
+    "harga": "15120",
     "status": "1"
   },
   {
@@ -10887,7 +9075,7 @@
     "keterangan": "30GB + 12GB Jabo 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "71245",
+    "harga": "67800",
     "status": "1"
   },
   {
@@ -10928,7 +9116,7 @@
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
     "harga": "26200",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRH5M5",
@@ -10936,7 +9124,7 @@
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
     "harga": "19201",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "RH8GB7",
@@ -10944,7 +9132,7 @@
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
     "harga": "23700",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRHJ500",
@@ -10960,7 +9148,7 @@
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
     "harga": "19100",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRH8M5",
@@ -10968,7 +9156,7 @@
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
     "harga": "20200",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRHBL130",
@@ -10992,14 +9180,14 @@
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
     "harga": "4020",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRH3M1",
     "keterangan": "Happy 3GB 1 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "6802",
+    "harga": "6800",
     "status": "1"
   },
   {
@@ -11015,7 +9203,7 @@
     "keterangan": "Happy 6GB 3 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "13368",
+    "harga": "13393",
     "status": "1"
   },
   {
@@ -11032,14 +9220,14 @@
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
     "harga": "22740",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRH15M7",
     "keterangan": "Happy 15GB 7 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "28378",
+    "harga": "27640",
     "status": "1"
   },
   {
@@ -11047,7 +9235,7 @@
     "keterangan": "Happy 55GB 60 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "97229",
+    "harga": "95500",
     "status": "1"
   },
   {
@@ -11280,14 +9468,14 @@
     "produk": "Voucher Tsel Kalimantan",
     "kategori": "KUOTA TELKOMSEL",
     "harga": "21420",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "VSDK55",
     "keterangan": "(Zona 1) Voucher 5GB 5 Hari",
     "produk": "Voucher Tsel Kalimantan",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "24099",
+    "harga": "24049",
     "status": "1"
   },
   {
@@ -11295,7 +9483,7 @@
     "keterangan": "(Zona 2) Voucher 1GB 3 Hari",
     "produk": "Voucher Tsel Kalimantan",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "12125",
+    "harga": "11925",
     "status": "1"
   },
   {
@@ -11640,7 +9828,7 @@
     "produk": "Voucher Tsel Sumbagteng",
     "kategori": "KUOTA TELKOMSEL",
     "harga": "19950",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "VMSBT3Z3",
@@ -11739,174 +9927,6 @@
     "status": "1"
   },
   {
-    "kode": "TOMB100",
-    "keterangan": "All Zona - Orbit 100GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "183000",
-    "status": "0"
-  },
-  {
-    "kode": "TOMB150",
-    "keterangan": "All Zona - Orbit 150GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "265000",
-    "status": "0"
-  },
-  {
-    "kode": "TOMB35",
-    "keterangan": "All Zona - Orbit 35GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "87900",
-    "status": "0"
-  },
-  {
-    "kode": "TOMB70",
-    "keterangan": "All Zona - Orbit 70GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "138000",
-    "status": "0"
-  },
-  {
-    "kode": "TOMB100A",
-    "keterangan": "All Zona - Orbit 100GB 14 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB125",
-    "keterangan": "All Zona - Orbit 125GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "242000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB15",
-    "keterangan": "All Zona - Orbit 15GB 14 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "56000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB175",
-    "keterangan": "All Zona - Orbit 175GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "333000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB20",
-    "keterangan": "All Zona - Orbit 20GB 90 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "122000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB25",
-    "keterangan": "All Zona - Orbit 25GB 7 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "66000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB25A",
-    "keterangan": "All Zona - Orbit 25GB 14 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "66000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB280",
-    "keterangan": "All Zona - Orbit 280GB 90 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "455000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB300",
-    "keterangan": "All Zona - Orbit 300GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "535000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB45",
-    "keterangan": "All Zona - Orbit 45GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "111000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB50",
-    "keterangan": "All Zona - Orbit 50GB 14 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "126000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB65",
-    "keterangan": "All Zona - Orbit 65GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "152000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB7",
-    "keterangan": "All Zona - Orbit 15GB 7 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "42500",
-    "status": "1"
-  },
-  {
-    "kode": "TOMB90",
-    "keterangan": "All Zona - Orbit 90GB 30 Hari",
-    "produk": "Tsel Orbit Modem All Zona",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "182000",
-    "status": "1"
-  },
-  {
-    "kode": "BYRORBIT",
-    "keterangan": "Bayar Paket Orbit Telkomsel",
-    "produk": "Tsel Orbit Modem Ekstra",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "300",
-    "status": "1"
-  },
-  {
-    "kode": "CEKORBIT",
-    "keterangan": "Cek Harga Paket Orbit Telkomsel",
-    "produk": "Tsel Orbit Modem Ekstra",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "LISTORBIT",
-    "keterangan": "Cek List Paket Modem Orbit Anda",
-    "produk": "Tsel Orbit Modem Ekstra",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
     "kode": "IFM1D",
     "keterangan": "Freedom Mini 1,5GB  5 Hari",
     "produk": "Mini Freedoom Kasumapa",
@@ -11935,7 +9955,7 @@
     "keterangan": "Freedom Mini 5GB 5 Hari",
     "produk": "Mini Freedoom Kasumapa",
     "kategori": "KUOTA INDOSAT",
-    "harga": "16675",
+    "harga": "16650",
     "status": "1"
   },
   {
@@ -11943,7 +9963,7 @@
     "keterangan": "Freedom Mini 7GB 7 Hari",
     "produk": "Mini Freedoom Kasumapa",
     "kategori": "KUOTA INDOSAT",
-    "harga": "21874",
+    "harga": "21939",
     "status": "1"
   },
   {
@@ -11975,7 +9995,7 @@
     "keterangan": "Freedom Mini 2.5GB 5 Hari",
     "produk": "Mini Freedoom Kasumapa",
     "kategori": "KUOTA INDOSAT",
-    "harga": "12350",
+    "harga": "12300",
     "status": "1"
   },
   {
@@ -12223,7 +10243,7 @@
     "keterangan": "Kuota 2,5GB All 5 Hari",
     "produk": "Byu Data Harian",
     "kategori": "KUOTA BYU",
-    "harga": "9090",
+    "harga": "9089",
     "status": "1"
   },
   {
@@ -12231,7 +10251,7 @@
     "keterangan": "Kuota 3GB All 7 Hari",
     "produk": "Byu Data Harian",
     "kategori": "KUOTA BYU",
-    "harga": "8950",
+    "harga": "8949",
     "status": "1"
   },
   {
@@ -12239,7 +10259,7 @@
     "keterangan": "Kuota 5GB All 7 Hari",
     "produk": "Byu Data Harian",
     "kategori": "KUOTA BYU",
-    "harga": "15390",
+    "harga": "15389",
     "status": "1"
   },
   {
@@ -12287,7 +10307,7 @@
     "keterangan": "Kuota 100GB All 7 Hari",
     "produk": "Byu Data Harian",
     "kategori": "KUOTA BYU",
-    "harga": "42390",
+    "harga": "43840",
     "status": "1"
   },
   {
@@ -12295,7 +10315,7 @@
     "keterangan": "Kuota 1GB All 30 Hari",
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
-    "harga": "8920",
+    "harga": "8919",
     "status": "1"
   },
   {
@@ -12304,7 +10324,7 @@
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
     "harga": "155125",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "BYUB12",
@@ -12320,7 +10340,7 @@
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
     "harga": "204300",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "BYUB3",
@@ -12335,7 +10355,7 @@
     "keterangan": "Kuota 50GB All 30 Hari",
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
-    "harga": "100190",
+    "harga": "100185",
     "status": "1"
   },
   {
@@ -12343,7 +10363,7 @@
     "keterangan": "Kuota 6GB All 30 Hari",
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
-    "harga": "16140",
+    "harga": "16139",
     "status": "1"
   },
   {
@@ -12464,7 +10484,7 @@
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
     "harga": "15500",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "BYUB11",
@@ -12835,166 +10855,6 @@
     "status": "1"
   },
   {
-    "kode": "BYUTP30",
-    "keterangan": "By U Transfer 30.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "29853",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP35",
-    "keterangan": "By U Transfer 35.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "34403",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP40",
-    "keterangan": "By U Transfer 40.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "38953",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP45",
-    "keterangan": "By U Transfer 45.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "43503",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP50",
-    "keterangan": "By U Transfer 50.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "48508",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP55",
-    "keterangan": "By U Transfer 55.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "53058",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP60",
-    "keterangan": "By U Transfer 60.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "57608",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP65",
-    "keterangan": "By U Transfer 65.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "62158",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP70",
-    "keterangan": "By U Transfer 70.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "66708",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP75",
-    "keterangan": "By U Transfer 75.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "71258",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP80",
-    "keterangan": "By U Transfer 80.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "75808",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP85",
-    "keterangan": "By U Transfer 85.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "80358",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP90",
-    "keterangan": "By U Transfer 90.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "84908",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP95",
-    "keterangan": "By U Transfer 95.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "89458",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP100",
-    "keterangan": "By U Transfer 100.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "96055",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP125",
-    "keterangan": "By U Transfer 125.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "118805",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP150",
-    "keterangan": "By U Transfer 150.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "141555",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP200",
-    "keterangan": "By U Transfer 200.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "189785",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP300",
-    "keterangan": "By U Transfer 300.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "293955",
-    "status": "0"
-  },
-  {
-    "kode": "BYUTP500",
-    "keterangan": "By U Transfer 500.000",
-    "produk": "By U Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "484047",
-    "status": "0"
-  },
-  {
     "kode": "IDGSP11",
     "keterangan": "1GB 1Hari + U Voice Onnet",
     "produk": "Indosat Data Gaspol",
@@ -13095,7 +10955,7 @@
     "keterangan": "Freedom Mini 7GB 7 Hari",
     "produk": "Mini Freedoom Sumatra",
     "kategori": "KUOTA INDOSAT",
-    "harga": "21974",
+    "harga": "22039",
     "status": "1"
   },
   {
@@ -13187,134 +11047,6 @@
     "status": "1"
   },
   {
-    "kode": "ST25",
-    "keterangan": "Smartfren Transfer 25.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "24645",
-    "status": "0"
-  },
-  {
-    "kode": "ST30",
-    "keterangan": "Smartfren Transfer 30.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "29490",
-    "status": "0"
-  },
-  {
-    "kode": "ST35",
-    "keterangan": "Smartfren Transfer 35.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "34195",
-    "status": "0"
-  },
-  {
-    "kode": "ST40",
-    "keterangan": "Smartfren Transfer 40.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "38650",
-    "status": "0"
-  },
-  {
-    "kode": "ST45",
-    "keterangan": "Smartfren Transfer 45.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "43200",
-    "status": "0"
-  },
-  {
-    "kode": "ST50",
-    "keterangan": "Smartfren Transfer 50.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "48645",
-    "status": "0"
-  },
-  {
-    "kode": "ST55",
-    "keterangan": "Smartfren Transfer 55.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "53845",
-    "status": "0"
-  },
-  {
-    "kode": "ST60",
-    "keterangan": "Smartfren Transfer 60.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "58395",
-    "status": "0"
-  },
-  {
-    "kode": "ST65",
-    "keterangan": "Smartfren Transfer 65.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "63120",
-    "status": "0"
-  },
-  {
-    "kode": "ST70",
-    "keterangan": "Smartfren Transfer 70.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "67770",
-    "status": "0"
-  },
-  {
-    "kode": "ST75",
-    "keterangan": "Smartfren Transfer 75.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "72395",
-    "status": "0"
-  },
-  {
-    "kode": "ST80",
-    "keterangan": "Smartfren Transfer 80.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "76995",
-    "status": "0"
-  },
-  {
-    "kode": "ST85",
-    "keterangan": "Smartfren Transfer 85.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "81670",
-    "status": "0"
-  },
-  {
-    "kode": "ST90",
-    "keterangan": "Smartfren Transfer 90.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "86270",
-    "status": "0"
-  },
-  {
-    "kode": "ST95",
-    "keterangan": "Smartfren Transfer 95.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "90870",
-    "status": "0"
-  },
-  {
-    "kode": "ST100",
-    "keterangan": "Smartfren Transfer 100.000",
-    "produk": "Smartfren Transfer",
-    "kategori": "PULSA TRANSFER",
-    "harga": "95520",
-    "status": "0"
-  },
-  {
     "kode": "VIFL2",
     "keterangan": "Voucher Freedom Mini KSMP 1GB 2 Hari",
     "produk": "Voucher Freedoom Mini Kasumapa",
@@ -13359,7 +11091,7 @@
     "keterangan": "Voucher Freedom Mini KSMP 3.5GB 5 Hari",
     "produk": "Voucher Freedoom Mini Kasumapa",
     "kategori": "KUOTA INDOSAT",
-    "harga": "14360",
+    "harga": "13900",
     "status": "1"
   },
   {
@@ -14295,7 +12027,7 @@
     "keterangan": "13GB Reguler + Kuota Area 28 Hari",
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
-    "harga": "41500",
+    "harga": "41750",
     "status": "0"
   },
   {
@@ -14343,7 +12075,7 @@
     "keterangan": "19GB Reguler + Kuota Area 28 Hari",
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
-    "harga": "45240",
+    "harga": "45250",
     "status": "0"
   },
   {
@@ -14391,206 +12123,6 @@
     "keterangan": "Cek List Paket Tri Cuan Max",
     "produk": "Tri Cuan Max",
     "kategori": "KUOTA TRI",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "CMDT15A",
-    "keterangan": "Cek Paket 25GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "CMDT15B",
-    "keterangan": "Cek Paket 20GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "CMDT1A",
-    "keterangan": "Cek Paket 1,5GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "0"
-  },
-  {
-    "kode": "CMDT1B",
-    "keterangan": "Cek Paket 5GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "CMDT2A",
-    "keterangan": "Cek Paket 5,5GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "CMDT2B",
-    "keterangan": "Cek Paket 30GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "CMDT3",
-    "keterangan": "Cek Paket 3,5GB All 1 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "0"
-  },
-  {
-    "kode": "CMDT3A",
-    "keterangan": "Cek Paket 10GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "CMDT3B",
-    "keterangan": "Cek Paket 80GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "CMDT5B",
-    "keterangan": "Cek Paket 10GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "CMDT7A",
-    "keterangan": "Cek Paket 15GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "BMDT3",
-    "keterangan": "Bayar Data 3,5GB All 1 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "0"
-  },
-  {
-    "kode": "BMDT3A",
-    "keterangan": "Bayar Data 10GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "1"
-  },
-  {
-    "kode": "BMDT3B",
-    "keterangan": "Bayar Data 80GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "1"
-  },
-  {
-    "kode": "BMDT15A",
-    "keterangan": "Bayar Data 25GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "1"
-  },
-  {
-    "kode": "BMDT15B",
-    "keterangan": "Bayar Data 20GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "1"
-  },
-  {
-    "kode": "BMDT1A",
-    "keterangan": "Bayar Data 1,5GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "0"
-  },
-  {
-    "kode": "BMDT1B",
-    "keterangan": "Bayar Data 5GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "1"
-  },
-  {
-    "kode": "BMDT7A",
-    "keterangan": "Bayar Data 15GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "1"
-  },
-  {
-    "kode": "BMDT2A",
-    "keterangan": "Bayar Data 5,5GB All 3 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "1"
-  },
-  {
-    "kode": "BMDT2B",
-    "keterangan": "Bayar Data 30GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "203",
-    "status": "1"
-  },
-  {
-    "kode": "BMDT5B",
-    "keterangan": "Bayar Data 10GB All 7 Hari",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "202",
-    "status": "1"
-  },
-  {
-    "kode": "CEKHTDM",
-    "keterangan": "Cek Harga Data Mini",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "0",
-    "status": "1"
-  },
-  {
-    "kode": "BYRHTDM",
-    "keterangan": "Bayar Paket Data Mini",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "300",
-    "status": "1"
-  },
-  {
-    "kode": "LISTTDM",
-    "keterangan": "Cek List Data Mingguan",
-    "produk": "Paket Data Digipos Mini",
-    "kategori": "BULK TELKOMSEL",
     "harga": "0",
     "status": "1"
   },
@@ -14655,7 +12187,7 @@
     "keterangan": "Axis Data Paket Warnet  Unlimited 1 Jam",
     "produk": "Axis Data Paket Warnet",
     "kategori": "KUOTA AXIS",
-    "harga": "1649",
+    "harga": "1644",
     "status": "1"
   },
   {
@@ -14663,7 +12195,7 @@
     "keterangan": "Axis Data Paket Warnet Unlimited 3 Jam",
     "produk": "Axis Data Paket Warnet",
     "kategori": "KUOTA AXIS",
-    "harga": "3299",
+    "harga": "3294",
     "status": "1"
   },
   {
@@ -14671,7 +12203,7 @@
     "keterangan": "Axis Data Paket Warnet Unlimited 24 Jam",
     "produk": "Axis Data Paket Warnet",
     "kategori": "KUOTA AXIS",
-    "harga": "5949",
+    "harga": "5935",
     "status": "1"
   },
   {
@@ -15127,7 +12659,7 @@
     "keterangan": "INDOSAT PRIORITAS 5.000",
     "produk": "+Masa Aktif Indosat",
     "kategori": "PULSA",
-    "harga": "7079",
+    "harga": "7150",
     "status": "1"
   },
   {
@@ -15927,7 +13459,7 @@
     "keterangan": "Bebas Puas 250MB 1 Hari",
     "produk": "XL Bebas Puas 2K",
     "kategori": "KUOTA XL",
-    "harga": "2075",
+    "harga": "2049",
     "status": "1"
   },
   {
@@ -16383,7 +13915,7 @@
     "keterangan": "Bebas Puas 3,5GB 7 Hari",
     "produk": "XL Bebas Puas 3K",
     "kategori": "KUOTA XL",
-    "harga": "19645",
+    "harga": "19630",
     "status": "1"
   },
   {
@@ -17295,7 +14827,7 @@
     "keterangan": "Mini 3,5GB + Channel SKS 5 Hari",
     "produk": "Mini Isi Ulang Axis 5 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "11899",
+    "harga": "11898",
     "status": "1"
   },
   {
@@ -17311,7 +14843,7 @@
     "keterangan": "Mini Axis 4,5GB + Bonus Aigo 5 Hari",
     "produk": "Mini Isi Ulang Axis 5 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "14136",
+    "harga": "14135",
     "status": "1"
   },
   {
@@ -17327,7 +14859,7 @@
     "keterangan": "Mini Axis 12GB + Bonus Aigo 5 Hari",
     "produk": "Mini Isi Ulang Axis 5 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "24589",
+    "harga": "24588",
     "status": "1"
   },
   {
@@ -17343,7 +14875,7 @@
     "keterangan": "Mini 3,5GB + Channel Jawa 5 Hari",
     "produk": "Mini Isi Ulang Axis 5 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "11889",
+    "harga": "11870",
     "status": "1"
   },
   {
@@ -17535,7 +15067,7 @@
     "keterangan": "300MB Mengikuti Masa Aktif Kartu",
     "produk": "Tri Data Harian",
     "kategori": "KUOTA TRI",
-    "harga": "10450",
+    "harga": "9950",
     "status": "1"
   },
   {
@@ -17543,7 +15075,7 @@
     "keterangan": "80MB Mengikuti Masa Aktif Kartu",
     "produk": "Tri Data Harian",
     "kategori": "KUOTA TRI",
-    "harga": "6145",
+    "harga": "4950",
     "status": "1"
   },
   {
@@ -17599,7 +15131,7 @@
     "keterangan": "10GB All Jaringan 30 Hari",
     "produk": "Tri Data Harian",
     "kategori": "KUOTA TRI",
-    "harga": "36950",
+    "harga": "36925",
     "status": "1"
   },
   {
@@ -17999,7 +15531,7 @@
     "keterangan": "Indosat Data HiFi Air 75GB 30 Hari",
     "produk": "Indosat Data Modem HiFi Air",
     "kategori": "KUOTA INDOSAT",
-    "harga": "65725",
+    "harga": "65925",
     "status": "1"
   },
   {
@@ -18015,7 +15547,7 @@
     "keterangan": "Indosat Data HiFi Air 200GB 30 Hari",
     "produk": "Indosat Data Modem HiFi Air",
     "kategori": "KUOTA INDOSAT",
-    "harga": "132275",
+    "harga": "134525",
     "status": "1"
   },
   {
@@ -18031,7 +15563,7 @@
     "keterangan": "Indosat Data HiFi Air Booster 20GB 30 Hari",
     "produk": "Indosat Data Modem HiFi Air",
     "kategori": "KUOTA INDOSAT",
-    "harga": "22055",
+    "harga": "22032",
     "status": "1"
   },
   {
@@ -18039,7 +15571,7 @@
     "keterangan": "Indosat Data HiFi Air Booster 50GB 30 Hari",
     "produk": "Indosat Data Modem HiFi Air",
     "kategori": "KUOTA INDOSAT",
-    "harga": "44825",
+    "harga": "44645",
     "status": "1"
   },
   {
@@ -18048,7 +15580,7 @@
     "produk": "Tri Data Modem HiFi Air",
     "kategori": "KUOTA TRI",
     "harga": "66524",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRHIFI125",
@@ -18056,7 +15588,7 @@
     "produk": "Tri Data Modem HiFi Air",
     "kategori": "KUOTA TRI",
     "harga": "90800",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRHIFI200",
@@ -18064,7 +15596,7 @@
     "produk": "Tri Data Modem HiFi Air",
     "kategori": "KUOTA TRI",
     "harga": "134600",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "TRHIFI500",
@@ -18072,222 +15604,6 @@
     "produk": "Tri Data Modem HiFi Air",
     "kategori": "KUOTA TRI",
     "harga": "226000",
-    "status": "0"
-  },
-  {
-    "kode": "TOME11",
-    "keterangan": "Orbit Extra 11 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "25000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME20",
-    "keterangan": "Orbit Extra 20 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "40000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME40",
-    "keterangan": "Orbit Extra 40 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "65000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME50",
-    "keterangan": "Orbit Extra 50 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "80000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME52",
-    "keterangan": "Orbit Extra 52 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "95000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME60A",
-    "keterangan": "Orbit Extra 60 GB + Kuota 5 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "105000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME75",
-    "keterangan": "Orbit Extra 75 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "120000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME75A",
-    "keterangan": "Orbit Extra 75 GB + Kuota 5 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "125000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME90",
-    "keterangan": "Orbit Extra 90 GB + Kuota 5 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "150000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME100",
-    "keterangan": "Orbit Extra 100 GB + Kuota 5 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "160000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME130",
-    "keterangan": "Orbit Extra 130 GB + Kuota 5 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "200000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME175",
-    "keterangan": "Orbit Extra 175 GB + Kuota 5 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "250000",
-    "status": "1"
-  },
-  {
-    "kode": "TOME60",
-    "keterangan": "Orbit Extra 60 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Extra Fix",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "100500",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ7",
-    "keterangan": "Internet Orbit 15 GB - 7 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "35000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ25",
-    "keterangan": "Internet Orbit 25 GB - 7 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "52000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ25A",
-    "keterangan": "Internet Orbit 25 GB - 14 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "55000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ15",
-    "keterangan": "Internet Orbit 15 GB - 14 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "45000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ50",
-    "keterangan": "Internet Orbit 50 GB - 14 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "105000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ100",
-    "keterangan": "Internet Orbit 100 GB - 14 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "155000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ45",
-    "keterangan": "Internet Orbit 45 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "85000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ65",
-    "keterangan": "Internet Orbit 65 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "105000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ90",
-    "keterangan": "Internet Orbit 90 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "135000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ125",
-    "keterangan": "Internet Orbit 125 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "180000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ175",
-    "keterangan": "Internet Orbit 175 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "260000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ300",
-    "keterangan": "Internet Orbit 300 GB - 30 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "415000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ20",
-    "keterangan": "Internet Orbit 20 GB - 90 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "100000",
-    "status": "1"
-  },
-  {
-    "kode": "TOMZ280",
-    "keterangan": "Internet Orbit 280 GB - 90 Hari",
-    "produk": "Tsel Orbit Modem Zona 1 - 10",
-    "kategori": "BULK TELKOMSEL",
-    "harga": "410000",
     "status": "1"
   },
   {
@@ -20583,7 +17899,7 @@
     "keterangan": "Voucher Tri Java 7GB - 9GB + Telepon 3000 menit 28 Hari",
     "produk": "Tri Voucher Happy Java",
     "kategori": "KUOTA TRI",
-    "harga": "29900",
+    "harga": "31000",
     "status": "1"
   },
   {
@@ -20704,7 +18020,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "6500",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "XCRC3",
@@ -20712,7 +18028,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "8000",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "XCRC4",
@@ -20720,7 +18036,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "10000",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "XCRC8",
@@ -20728,7 +18044,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "17500",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "XCRC12",
@@ -20736,7 +18052,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "22000",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "XCRC16",
@@ -20744,7 +18060,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "27800",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "XCRC10",
@@ -20855,7 +18171,7 @@
     "keterangan": "Voucher Tri Kasumapa AON 6GB (Unlimited)",
     "produk": "Tri Voucher AON Kasumapa",
     "kategori": "KUOTA TRI",
-    "harga": "75900",
+    "harga": "77900",
     "status": "1"
   },
   {
@@ -21024,7 +18340,7 @@
     "produk": "Tri Voucher Mini Happy Kasumapa",
     "kategori": "KUOTA TRI",
     "harga": "22900",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "VDNS1",
@@ -21609,252 +18925,343 @@
     "kategori": "KUOTA INDOSAT",
     "harga": "42775",
     "status": "1"
+  },
+  {
+    "kode": "VFBWJ1",
+    "keterangan": "Voucher Freedom Internet WJ 3GB 14 Hari",
+    "produk": "Voucher Freedom Internet West Java",
+    "kategori": "KUOTA INDOSAT",
+    "harga": "22050",
+    "status": "1"
+  },
+  {
+    "kode": "XEP1",
+    "keterangan": "XL Data Enterprise 2.5GB + 1.5GB DPI 7 Hari",
+    "produk": "XL Data Enterprise",
+    "kategori": "KUOTA XL",
+    "harga": "18225",
+    "status": "1"
   }
+    ];
 
-                ];
-                
-                // Tambahkan 1000 ke setiap harga produk
-                products = rawProducts.map(product => {
-                    return {
-                        ...product,
-                        harga: (parseInt(product.harga) + 1000).toString()
-                    };
-                });
-                
-                // Simpan data produk dan render
-                filteredProducts = [...products];
-                renderProducts();
-                
-            } catch (error) {
-                console.error('Error loading products:', error);
-                productsGrid.innerHTML = `
-                    <div class="error-message">
-                        <p>Gagal memuat produk. Silakan coba lagi.</p>
-                        <button class="retry-btn" onclick="loadProducts()">Coba Lagi</button>
-                    </div>
-                `;
-            }
+    // DOM Elements
+    const productsGrid = document.getElementById('productsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const purchaseModal = document.getElementById('purchaseModal');
+    const confirmationModal = document.getElementById('confirmationModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const closeConfirmationModalBtn = document.getElementById('closeConfirmationModal');
+    const cancelPurchaseBtn = document.getElementById('cancelPurchase');
+    const confirmPurchaseBtn = document.getElementById('confirmPurchase');
+    const closeConfirmationBtn = document.getElementById('closeConfirmationBtn');
+    const modalProductInfo = document.getElementById('modalProductInfo');
+    const phoneInputGroup = document.getElementById('phoneInputGroup');
+    const paymentInfo = document.getElementById('paymentInfo');
+    const paymentMethodDetails = document.getElementById('paymentMethodDetails');
+    const paymentMethodSelect = document.getElementById('paymentMethod');
+    const timerContainer = document.getElementById('timerContainer');
+    const paymentTimer = document.getElementById('paymentTimer');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loadingText = document.getElementById('loadingText');
+
+    // State
+    let selectedProduct = null;
+    let searchQuery = '';
+    let timerInterval = null;
+    let timeLeft = 300; // 5 menit
+
+    function init() {
+        renderProducts();
+        setupEventListeners();
+    }
+
+    function setupEventListeners() {
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            renderProducts();
+        });
+
+        closeModalBtn.addEventListener('click', closePurchaseModal);
+        cancelPurchaseBtn.addEventListener('click', closePurchaseModal);
+        closeConfirmationModalBtn.addEventListener('click', closeConfirmationModal);
+        closeConfirmationBtn.addEventListener('click', closeConfirmationModal);
+
+        confirmPurchaseBtn.addEventListener('click', confirmPurchase);
+        paymentMethodSelect.addEventListener('change', updatePaymentInfo);
+
+        window.addEventListener('click', (e) => {
+            if (e.target === purchaseModal) closePurchaseModal();
+            if (e.target === confirmationModal) closeConfirmationModal();
+        });
+    }
+
+    function renderProducts() {
+        productsGrid.innerHTML = '';
+
+        const filteredProducts = products.filter(product => {
+            const searchMatch = product.keterangan.toLowerCase().includes(searchQuery) ||
+                                product.kode.toLowerCase().includes(searchQuery) ||
+                                product.kategori.toLowerCase().includes(searchQuery);
+            return searchMatch;
+        });
+
+        if (filteredProducts.length === 0) {
+            productsGrid.innerHTML = `<div class="error-message"><p>Tidak ada produk yang ditemukan.</p></div>`;
+            return;
         }
-        
-        // Fungsi untuk merender produk
-        function renderProducts() {
-            const productsGrid = document.getElementById('productsGrid');
-            
-            if (filteredProducts.length === 0) {
-                productsGrid.innerHTML = `
-                    <div class="error-message">
-                        <p>Tidak ada produk yang sesuai dengan pencarian.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            productsGrid.innerHTML = filteredProducts.map(product => {
-                const isAvailable = product.status === "1";
-                const formattedPrice = new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    minimumFractionDigits: 0
-                }).format(product.harga);
-                
-                return `
-                    <div class="topup-card" data-category="${product.kategori}">
-                        <div class="topup-card-header">
-                            <span class="topup-provider">${product.produk}</span>
-                            <span class="topup-status ${isAvailable ? 'status-available' : 'status-unavailable'}">
-                                ${isAvailable ? 'Tersedia' : 'Habis'}
-                            </span>
-                        </div>
-                        <h3 class="topup-name">${product.keterangan}</h3>
-                        <p class="topup-desc">Kode: ${product.kode}</p>
-                        <div class="topup-price">${formattedPrice}</div>
-                        <div class="topup-action">
-                            <span class="topup-code">${product.kode}</span>
-                            <button class="btn-buy" ${!isAvailable ? 'disabled' : ''} onclick="openModal('${product.kode}')">
-                                <i class="fas fa-shopping-cart"></i> Beli
-                            </button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+
+        filteredProducts.forEach(product => {
+            const productCard = createProductCard(product);
+            productsGrid.appendChild(productCard);
+        });
+    }
+
+    function createProductCard(product) {
+        const card = document.createElement('div');
+        card.className = 'topup-card';
+
+        const isAvailable = product.status === '1';
+        const statusText = isAvailable ? 'Tersedia' : 'Tidak Tersedia';
+        const statusClass = isAvailable ? 'status-available' : 'status-unavailable';
+
+        // Tambah 1.000 ke harga
+        const hargaPlusSeribu = Number(product.harga) + 1000;
+
+        const formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(hargaPlusSeribu);
+
+        card.innerHTML = `
+            <div class="topup-card-header">
+                <span class="topup-provider">${product.kategori}</span>
+                <span class="topup-status ${statusClass}">${statusText}</span>
+            </div>
+            <h3 class="topup-name">${product.keterangan}</h3>
+            <p class="topup-desc">${product.produk}</p>
+            <div class="topup-price">${formattedPrice}</div>
+            <div class="topup-action">
+                <span class="topup-code">${product.kode}</span>
+                <button class="btn-buy" ${!isAvailable ? 'disabled' : ''}>
+                    <i class="fas fa-shopping-cart"></i> Beli
+                </button>
+            </div>
+        `;
+
+        if (isAvailable) {
+            const buyButton = card.querySelector('.btn-buy');
+            buyButton.addEventListener('click', () => {
+                const productWithAddedPrice = { ...product, harga: hargaPlusSeribu };
+                openPurchaseModal(productWithAddedPrice);
+            });
         }
-        
-        // Fungsi untuk membuka modal pembelian
-        function openModal(productCode) {
-            selectedProduct = products.find(p => p.kode === productCode);
-            
-            if (!selectedProduct) return;
-            
-            const modal = document.getElementById('purchaseModal');
-            const productInfo = document.getElementById('modalProductInfo');
-            const phoneInputGroup = document.getElementById('phoneInputGroup');
-            const gameIdInputGroup = document.getElementById('gameIdInputGroup');
-            
-            // Format harga
-            const formattedPrice = new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0
-            }).format(selectedProduct.harga);
-            
-            // Update info produk di modal
-            productInfo.innerHTML = `
-                <div class="product-info-item">
-                    <span class="product-info-label">Produk:</span>
-                    <span class="product-info-value">${selectedProduct.produk}</span>
+
+        return card;
+    }
+
+    function openPurchaseModal(product) {
+        selectedProduct = product;
+
+        const formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(product.harga);
+
+        modalProductInfo.innerHTML = `
+            <div class="product-info-item">
+                <span class="product-info-label">Produk:</span>
+                <span class="product-info-value">${product.keterangan}</span>
+            </div>
+            <div class="product-info-item">
+                <span class="product-info-label">Kode:</span>
+                <span class="product-info-value">${product.kode}</span>
+            </div>
+            <div class="product-info-item">
+                <span class="product-info-label">Harga:</span>
+                <span class="product-info-value">${formattedPrice}</span>
+            </div>
+        `;
+
+        document.getElementById('phoneNumber').value = '';
+        paymentMethodSelect.selectedIndex = 0;
+        paymentInfo.classList.remove('show');
+        timerContainer.style.display = 'none';
+
+        purchaseModal.classList.add('show');
+        document.body.classList.add('no-scroll');
+    }
+
+    function closePurchaseModal() {
+        purchaseModal.classList.remove('show');
+        document.body.classList.remove('no-scroll');
+        clearTimer();
+    }
+
+    function updatePaymentInfo() {
+        const method = paymentMethodSelect.value;
+
+        if (!method) {
+            paymentInfo.classList.remove('show');
+            timerContainer.style.display = 'none';
+            return;
+        }
+
+        paymentInfo.classList.add('show');
+
+        if (method === 'dana') {
+            paymentMethodDetails.innerHTML = `
+                <div class="payment-detail">
+                    <span class="payment-label">Nomor DANA:</span>
+                    <span class="payment-value">083151636921</span>
                 </div>
-                <div class="product-info-item">
-                    <span class="product-info-label">Keterangan:</span>
-                    <span class="product-info-value">${selectedProduct.keterangan}</span>
+                <div class="payment-detail">
+                    <span class="payment-label">Atas Nama:</span>
+                    <span class="payment-value">ferdiansyah</span>
                 </div>
-                <div class="product-info-item">
-                    <span class="product-info-label">Harga:</span>
-                    <span class="product-info-value">${formattedPrice}</span>
+                <div class="payment-detail">
+                    <span class="payment-label">Total Pembayaran:</span>
+                    <span class="payment-value">${new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0}).format(selectedProduct.harga)}</span>
                 </div>
             `;
-            
-            // Tampilkan input yang sesuai berdasarkan kategori produk
-            if (selectedProduct.kategori === 'DIGITAL') {
-                // Jika produk game, tampilkan input ID Game
-                phoneInputGroup.style.display = 'none';
-                gameIdInputGroup.style.display = 'block';
-            } else {
-                // Jika produk pulsa/kuota, tampilkan input nomor HP
-                phoneInputGroup.style.display = 'block';
-                gameIdInputGroup.style.display = 'none';
-            }
-            
-            // Reset input
-            document.getElementById('phoneNumber').value = '';
-            document.getElementById('gameId').value = '';
-            
-            // Tampilkan modal
-            modal.classList.add('show');
+        } else if (method === 'qris') {
+            paymentMethodDetails.innerHTML = `
+                <div style="text-align: center;">
+                          <img src="assets/images/qris.png" alt="QR Code Pembayaran" class="qris-image">
+                           <p style="margin-top: 1rem; font-size: 0.9rem;">
+                            Scan QR code di atas untuk melakukan pembayaran.
+                           </p>
+                       </div>
+            `;
         }
-        
-        // Fungsi untuk menutup modal
-        function closeModal() {
-            const modal = document.getElementById('purchaseModal');
-            modal.classList.remove('show');
-        }
-        
-        // Fungsi untuk mengonfirmasi pembelian
-        function confirmPurchase() {
-            if (!selectedProduct) return;
-            
-            let customerInput = '';
-            let inputType = '';
-            
-            if (selectedProduct.kategori === 'DIGITAL') {
-                // Untuk produk game, ambil ID Game
-                customerInput = document.getElementById('gameId').value.trim();
-                inputType = 'ID Game';
+
+        timerContainer.style.display = 'block';
+        startTimer();
+    }
+
+    function startTimer() {
+        clearTimer();
+        timeLeft = 300;
+        updateTimerDisplay();
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0) clearTimer();
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        paymentTimer.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+        paymentTimer.style.color = timeLeft < 60 ? 'var(--danger)' : 'var(--text-primary)';
+    }
+
+    function clearTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    function confirmPurchase() {
+    const phoneNumber = document.getElementById('phoneNumber').value.trim();
+    const paymentMethod = paymentMethodSelect.value;
+
+    if (!phoneNumber) { 
+        alert('Harap masukkan nomor handphone tujuan.'); 
+        return; 
+    }
+    if (!paymentMethod) { 
+        alert('Harap pilih metode pembayaran.'); 
+        return; 
+    }
+
+    showLoadingOverlay();
+
+    setTimeout(() => {
+        hideLoadingOverlay();
+        closePurchaseModal();
+
+        const orderId = 'PX-' + Math.floor(100000 + Math.random() * 900000);
+
+        // Tampilkan rincian produk di modal konfirmasi
+        document.getElementById('orderIdDisplay').textContent = orderId;
+        document.getElementById('confirmationProductName').textContent = selectedProduct.keterangan;
+        document.getElementById('confirmationProductCode').textContent = selectedProduct.kode;
+        document.getElementById('confirmationProductPrice').textContent = new Intl.NumberFormat('id-ID', {style:'currency', currency:'IDR', minimumFractionDigits:0}).format(selectedProduct.harga);
+        document.getElementById('confirmationPhone').textContent = phoneNumber;
+
+        // Kirim ke Telegram admin
+        sendOrderToTelegram(selectedProduct, phoneNumber, orderId);
+
+        // Tampilkan modal konfirmasi
+        confirmationModal.classList.add('show');
+        document.body.classList.add('no-scroll');
+
+    }, 2000);
+}
+
+   function sendOrderToTelegram(product, phoneNumber, orderId) {
+    const botToken = "7513756403:AAHxi73Wd_wI2dfm3yoWIWPXYiowXCZkQB4";
+
+    // Daftar chat: type = 'group' atau 'admin'
+    const chatList = [
+        { id: "-1002308701716", type: "group" },
+        { id: "7661292905", type: "admin" }
+    ];
+
+    const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+    chatList.forEach(chat => {
+        // Sensor nomor WhatsApp untuk grup
+        let displayedNumber = phoneNumber;
+        if (chat.type === "group") {
+            if (phoneNumber.length > 4) {
+                const start = Math.floor((phoneNumber.length - 4) / 2);
+                displayedNumber = phoneNumber.slice(0, start) + "xxxx" + phoneNumber.slice(start + 4);
             } else {
-                // Untuk produk pulsa/kuota, ambil nomor HP
-                customerInput = document.getElementById('phoneNumber').value.trim();
-                inputType = 'Nomor HP';
+                displayedNumber = "xxxx";
             }
-            
-            // Validasi input
-            if (!customerInput) {
-                alert(`Harap masukkan ${inputType} Anda.`);
-                return;
-            }
-            
-            // Format pesan WhatsApp
-            const paymentMethod = document.getElementById('paymentMethod').value;
-            const formattedPrice = new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0
-            }).format(selectedProduct.harga);
-            
-            let message = `Halo, saya ingin memesan produk berikut:\n\n`;
-            message += `*Produk:* ${selectedProduct.produk}\n`;
-            message += `*Keterangan:* ${selectedProduct.keterangan}\n`;
-            message += `*Kode:* ${selectedProduct.kode}\n`;
-            message += `*Harga:* ${formattedPrice}\n\n`;
-            
-            if (selectedProduct.kategori === 'DIGITAL') {
-                message += `*ID Game:* ${customerInput}\n`;
-            } else {
-                message += `*Nomor HP:* ${customerInput}\n`;
-            }
-            
-            message += `*Metode Pembayaran:* ${paymentMethod.toUpperCase()}\n\n`;
-            message += `_Terima kasih._`;
-            
-            // Encode pesan untuk URL
-            const encodedMessage = encodeURIComponent(message);
-            
-            // Redirect ke WhatsApp
-            window.open(`https://wa.me/6283151636921?text=${encodedMessage}`, '_blank');
-            
-            // Tutup modal
-            closeModal();
         }
-        
-        // Fungsi untuk memfilter produk berdasarkan kategori
-        function filterProducts(category) {
-            const searchValue = document.getElementById('searchInput').value.toLowerCase();
-            
-            if (category === 'all') {
-                filteredProducts = products;
-            } else {
-                filteredProducts = products.filter(product => {
-                    if (category === 'DIGITAL') {
-                        return product.kategori === 'DIGITAL';
-                    } else if (category === 'KUOTA') {
-                        return product.kategori.includes('KUOTA');
-                    } else if (category === 'PULSA') {
-                        return product.kategori === 'PULSA';
-                    }
-                    return false;
-                });
+
+        const message = `
+🛒 *ORDER SUKSES* 🛒
+────────────────────
+📦 *Produk:* ${product.kategori}
+🔗 *Rincian:* ${product.keterangan}
+🆔 *Kode:* ${product.kode}
+💰 *Harga:* Rp ${Number(product.harga).toLocaleString('id-ID')}
+📱 *Nomor:* ${displayedNumber}
+📋 *ID Pesanan:* ${orderId}
+────────────────────
+⏰ *Waktu:* ${new Date().toLocaleString('id-ID')}
+        `;
+
+        const payload = {
+            chat_id: chat.id,
+            text: message,
+            parse_mode: "Markdown",
+            reply_markup: {
+                inline_keyboard: [
+                    [
+                        { text: "☎️ Admin", url: `https://t.me/frel01` },
+                        { text: "🌐 Website", url: "https://vpn.pxstore.biz.id" }
+                    ]
+                ]
             }
-            
-            // Terapkan pencarian
-            if (searchValue) {
-                filteredProducts = filteredProducts.filter(product => 
-                    product.produk.toLowerCase().includes(searchValue) ||
-                    product.keterangan.toLowerCase().includes(searchValue) ||
-                    product.kode.toLowerCase().includes(searchValue)
-                );
-            }
-            
-            renderProducts();
-        }
-        
-        /// Inisialisasi ketika halaman dimuat
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load produk
-            loadProducts();
-            
-            // Setup event listener untuk tombol filter
-            document.querySelectorAll('.filter-btn').forEach(button => {
-                button.addEventListener('click', function() {
-                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    filterProducts(this.dataset.category);
-                });
-            });
-            
-            // Setup event listener untuk pencarian
-            document.getElementById('searchInput').addEventListener('input', function() {
-                const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
-                filterProducts(activeCategory);
-            });
-            
-            // Setup event listener untuk modal
-            document.getElementById('closeModal').addEventListener('click', closeModal);
-            document.getElementById('cancelPurchase').addEventListener('click', closeModal);
-            document.getElementById('confirmPurchase').addEventListener('click', confirmPurchase);
-            
-            // Tutup modal ketika klik di luar konten modal
-            document.getElementById('purchaseModal').addEventListener('click', function(e) {
-                if (e.target === this) closeModal();
-            });
-        });
-    </script>
+        };
+
+        fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => console.log("Telegram response:", data))
+        .catch(err => console.error("Telegram error:", err));
+    });
+}
+
+
+    function showLoadingOverlay() { loadingOverlay.style.display = 'flex'; }
+    function hideLoadingOverlay() { loadingOverlay.style.display = 'none'; }
+    function closeConfirmationModal() { confirmationModal.classList.remove('show'); document.body.classList.remove('no-scroll'); }
+
+    function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+
+    document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
