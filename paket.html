@@ -1067,6 +1067,137 @@
             margin-top: 1rem;
             color: var(--text-primary);
         }
+
+        .filter-category-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+  padding: 1rem;
+  background-color: var(--darker);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.category-filter-chip {
+  padding: 0.8rem 1.2rem;
+  background: linear-gradient(145deg, var(--card-bg), var(--darker));
+  color: var(--text-primary);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.category-filter-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  border-color: var(--primary);
+}
+
+.category-filter-chip.active {
+  background: linear-gradient(145deg, var(--primary), var(--secondary));
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+}
+
+.category-icon {
+  font-size: 1.1rem;
+}
+
+.product-count-badge {
+  background-color: var(--primary-dark);
+  color: white;
+  border-radius: 10px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.current-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  background: linear-gradient(145deg, var(--darker), var(--card-bg));
+  border-radius: 12px;
+  border-left: 4px solid var(--primary);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.current-filter-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.current-filter-clear {
+  background: none;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: var(--transition);
+}
+
+.current-filter-clear:hover {
+  color: #e5177e;
+  transform: scale(1.05);
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.search-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .filter-category-container {
+    gap: 0.6rem;
+    padding: 0.8rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+  
+  .category-filter-chip {
+    padding: 0.7rem 1rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
     </style>
 </head>
 <body>
@@ -1111,31 +1242,54 @@
             <div class="welcome-text">Hi, Selamat Datang</div>
         </div>
     </div>
-
-    <div class="container">
-        <header>
-            <h1 class="section-title">Pulsa & Paket Kuota</h1>
-            <p class="section-subtitle">Layanan isi ulang pulsa dan paket data internet, proses cepat dan harga terjangkau</p>
-        </header>
         
-        <div class="topup-section">
-            <!-- Filter Controls yang disederhanakan -->
-            <div class="filter-container">
-                <div class="filter-main-row">
-                    <div class="search-box">
-                        <input type="text" class="search-input" id="searchInput" placeholder="Cari produk pulsa/kuota...">
-                    </div>
-                </div>
-            </div>
-            
-            <div class="topup-grid" id="productsGrid">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Memuat produk pulsa dan kuota...</p>
-                </div>
-            </div>
+  <div class="container">
+  <header>
+    <h1 class="section-title">Pulsa & Paket Data</h1>
+    <p class="section-subtitle">Topup pulsa, kuota, dan layanan digital dengan harga terbaik</p>
+  </header>
+
+  <div class="topup-section">
+    <div class="filter-container">
+      <div class="filter-main-row">
+        <div class="search-box">
+          <input 
+            type="text" 
+            class="search-input" 
+            id="searchInput" 
+            placeholder="Cari produk..."
+          >
+          <i class="fas fa-search search-icon"></i>
         </div>
+      </div>
+
+      <!-- Filter Categories -->
+      <div class="filter-category-container" id="filterCategoryContainer">
+        <!-- Chip kategori akan di-generate dari JS -->
+      </div>
+
+      <!-- Current Filter Indicator -->
+      <div class="current-filter" id="currentFilter" style="display: none;">
+        <span class="current-filter-text" id="currentFilterText"></span>
+        <button class="current-filter-clear" onclick="resetFilters()">
+          <i class="fas fa-times"></i> Hapus Filter
+        </button>
+      </div>
+
+      <div class="filter-status">
+        <p id="filterStatusText">Menampilkan semua produk</p>
+      </div>
     </div>
+
+    <!-- Grid Produk -->
+    <div class="topup-grid" id="productsGrid">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>Memuat produk...</p>
+      </div>
+    </div>
+  </div>
+</div>
 
     <!-- Modal Pembelian -->
     <div class="modal" id="purchaseModal">
@@ -1225,19 +1379,6 @@
     </div>
 </div>
 
-    <!-- Floating Buttons -->
-    <a href="https://t.me/frel01" class="tg-float" target="_blank">
-        <svg class="tg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.14.141-.259.259-.374.261l.213-3.053 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.136-.954l11.566-4.458c.538-.196 1.006.128.832.941z" fill="#ffffff"/>
-        </svg>
-    </a>
-    
-    <a href="https://wa.me/6283151636921" class="wa-float" target="_blank">
-        <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.150-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.347-.521.149-.222.149-.412.074-.52-.074-.148-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.520.074-.792.372-.272.297-1.040 1.016-1.040 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.200 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.360.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.570-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.510-5.26c.001-5.450 4.436-9.884 9.888-9.884 2.640 0 5.122 1.030 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.450-4.437 9.884-9.885 9.884m8.413-18.297a11.815 11.815 0 00-8.415-3.488c-6.627 0-12.015 5.389-12.015 12.010 0 2.237.614 4.416 1.778 6.304L0 24l4.392-1.151a12.03 12.03 0 005.624 1.397c6.627 0 12.015-5.389 12.015-12.012 0-3.206-1.247-6.219-3.515-8.487" fill="#ffffff"/>
-        </svg>
-    </a>
-
     <footer class="footer">
         <div class="footer-container">
             <div class="footer-top">
@@ -1301,9 +1442,9 @@
     </footer>
 
     <script>
-    // Data produk dengan format yang diminta
-    const products = [
-        
+// Jangan ubah produk
+const products = [
+  
   {
     "kode": "SMDC150",
     "keterangan": "Smart 30GB All + 60GB (01-05) 30 Hari",
@@ -1373,7 +1514,7 @@
     "keterangan": "Smart 1GB All + 2GB (01-05) + 1GB Chat 3 Hari",
     "produk": "Data Smart Combo",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "6950",
+    "harga": "7020",
     "status": "1"
   },
   {
@@ -1645,7 +1786,7 @@
     "keterangan": "Axis 150.000",
     "produk": "Axis",
     "kategori": "PULSA",
-    "harga": "150000",
+    "harga": "149650",
     "status": "1"
   },
   {
@@ -1661,7 +1802,7 @@
     "keterangan": "Axis Transfer 20.000",
     "produk": "Axis",
     "kategori": "PULSA",
-    "harga": "19727",
+    "harga": "19726",
     "status": "1"
   },
   {
@@ -1733,7 +1874,7 @@
     "keterangan": "Indosat 20.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "20475",
+    "harga": "20490",
     "status": "1"
   },
   {
@@ -1749,7 +1890,7 @@
     "keterangan": "Indosat 30.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "30210",
+    "harga": "30225",
     "status": "1"
   },
   {
@@ -1765,7 +1906,7 @@
     "keterangan": "Indosat 100.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "96100",
+    "harga": "96000",
     "status": "1"
   },
   {
@@ -1781,7 +1922,7 @@
     "keterangan": "Isat Promo 10.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "11474",
+    "harga": "11469",
     "status": "1"
   },
   {
@@ -1789,7 +1930,7 @@
     "keterangan": "Indosat 10.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "11475",
+    "harga": "11470",
     "status": "1"
   },
   {
@@ -1805,7 +1946,7 @@
     "keterangan": "Indosat 40.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "39460",
+    "harga": "39493",
     "status": "1"
   },
   {
@@ -1829,7 +1970,7 @@
     "keterangan": "Indosat 15.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "15710",
+    "harga": "15733",
     "status": "1"
   },
   {
@@ -1845,7 +1986,7 @@
     "keterangan": "Indosat 12.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "12795",
+    "harga": "12810",
     "status": "1"
   },
   {
@@ -1869,7 +2010,7 @@
     "keterangan": "Indosat 150.000",
     "produk": "Indosat",
     "kategori": "PULSA",
-    "harga": "147870",
+    "harga": "143650",
     "status": "1"
   },
   {
@@ -2085,7 +2226,7 @@
     "keterangan": "Telkomsel 90.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "88890",
+    "harga": "88810",
     "status": "1"
   },
   {
@@ -2125,7 +2266,7 @@
     "keterangan": "Telkomsel 80.000",
     "produk": "Telkomsel",
     "kategori": "PULSA",
-    "harga": "79030",
+    "harga": "78960",
     "status": "1"
   },
   {
@@ -2261,7 +2402,7 @@
     "keterangan": "Smartfren 10.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "9930",
+    "harga": "9920",
     "status": "1"
   },
   {
@@ -2269,7 +2410,7 @@
     "keterangan": "Smartfren 20.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "19840",
+    "harga": "19830",
     "status": "1"
   },
   {
@@ -2285,7 +2426,7 @@
     "keterangan": "Smartfren 30.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "29730",
+    "harga": "29680",
     "status": "1"
   },
   {
@@ -2317,7 +2458,7 @@
     "keterangan": "Smartfren 75.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "74255",
+    "harga": "74250",
     "status": "1"
   },
   {
@@ -2341,7 +2482,7 @@
     "keterangan": "Smartfren 15.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "14895",
+    "harga": "14890",
     "status": "1"
   },
   {
@@ -2349,7 +2490,7 @@
     "keterangan": "Smartfren 80.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "79205",
+    "harga": "79200",
     "status": "1"
   },
   {
@@ -2357,7 +2498,7 @@
     "keterangan": "Smartfren 85.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "84170",
+    "harga": "84075",
     "status": "1"
   },
   {
@@ -2365,7 +2506,7 @@
     "keterangan": "Smartfren 70.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "69315",
+    "harga": "69300",
     "status": "1"
   },
   {
@@ -2373,7 +2514,7 @@
     "keterangan": "Smartfren 90.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "89120",
+    "harga": "89075",
     "status": "1"
   },
   {
@@ -2382,14 +2523,14 @@
     "produk": "Smartfren",
     "kategori": "PULSA",
     "harga": "11855",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "SM40",
     "keterangan": "Smartfren 40.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "39625",
+    "harga": "39610",
     "status": "1"
   },
   {
@@ -2397,7 +2538,7 @@
     "keterangan": "Smartfren 65.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "64370",
+    "harga": "64350",
     "status": "1"
   },
   {
@@ -2413,7 +2554,7 @@
     "keterangan": "Smartfren 35.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "34955",
+    "harga": "34900",
     "status": "1"
   },
   {
@@ -2421,7 +2562,7 @@
     "keterangan": "Smartfren 45.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "44835",
+    "harga": "44825",
     "status": "1"
   },
   {
@@ -2429,7 +2570,7 @@
     "keterangan": "Smartfren 55.000",
     "produk": "Smartfren",
     "kategori": "PULSA",
-    "harga": "54430",
+    "harga": "54400",
     "status": "1"
   },
   {
@@ -2461,7 +2602,7 @@
     "keterangan": "Three 5.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "5060",
+    "harga": "5108",
     "status": "1"
   },
   {
@@ -2469,7 +2610,7 @@
     "keterangan": "Three 10.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "10025",
+    "harga": "10070",
     "status": "1"
   },
   {
@@ -2477,7 +2618,7 @@
     "keterangan": "Three 20.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "19485",
+    "harga": "19530",
     "status": "1"
   },
   {
@@ -2493,7 +2634,7 @@
     "keterangan": "Three 30.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "29405",
+    "harga": "29450",
     "status": "1"
   },
   {
@@ -2517,7 +2658,7 @@
     "keterangan": "Three 15.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "14525",
+    "harga": "14570",
     "status": "1"
   },
   {
@@ -2525,7 +2666,7 @@
     "keterangan": "Three 75.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "72735",
+    "harga": "72775",
     "status": "1"
   },
   {
@@ -2533,7 +2674,7 @@
     "keterangan": "Three 150.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "146350",
+    "harga": "142350",
     "status": "1"
   },
   {
@@ -2541,7 +2682,7 @@
     "keterangan": "Three 200.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "194900",
+    "harga": "190900",
     "status": "1"
   },
   {
@@ -2573,7 +2714,7 @@
     "keterangan": "Three 80.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "77770",
+    "harga": "77810",
     "status": "1"
   },
   {
@@ -2581,7 +2722,7 @@
     "keterangan": "Three 90.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "87330",
+    "harga": "87375",
     "status": "1"
   },
   {
@@ -2589,7 +2730,7 @@
     "keterangan": "Three 125.000",
     "produk": "Three",
     "kategori": "PULSA",
-    "harga": "122620",
+    "harga": "118200",
     "status": "1"
   },
   {
@@ -2677,7 +2818,7 @@
     "keterangan": "XL Transfer 20.000",
     "produk": "XL",
     "kategori": "PULSA",
-    "harga": "19738",
+    "harga": "19737",
     "status": "1"
   },
   {
@@ -3157,7 +3298,7 @@
     "keterangan": "Indosat Yellow 1GB 7 Hari",
     "produk": "Isat Internet Yellow",
     "kategori": "KUOTA INDOSAT",
-    "harga": "5749",
+    "harga": "5750",
     "status": "1"
   },
   {
@@ -3173,7 +3314,7 @@
     "keterangan": "Indosat Yellow 1GB 2 Hari",
     "produk": "Isat Internet Yellow",
     "kategori": "KUOTA INDOSAT",
-    "harga": "5380",
+    "harga": "5379",
     "status": "1"
   },
   {
@@ -3181,7 +3322,7 @@
     "keterangan": "Indosat Yellow 1GB 1 Hari",
     "produk": "Isat Internet Yellow",
     "kategori": "KUOTA INDOSAT",
-    "harga": "4399",
+    "harga": "4400",
     "status": "1"
   },
   {
@@ -4477,7 +4618,7 @@
     "keterangan": "4GB All Jaringan 14 Hari",
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
-    "harga": "22500",
+    "harga": "22730",
     "status": "1"
   },
   {
@@ -4510,14 +4651,14 @@
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
     "harga": "10750",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "TDM37",
     "keterangan": "Tri Data Mini 3GB  7 Hari",
     "produk": "Tri Data Mini",
     "kategori": "KUOTA TRI",
-    "harga": "15577",
+    "harga": "15700",
     "status": "1"
   },
   {
@@ -4573,7 +4714,7 @@
     "keterangan": "3,5GB All + 1GB Bonus AON 365 Hari",
     "produk": "AON Tri Baru",
     "kategori": "KUOTA TRI",
-    "harga": "22185",
+    "harga": "22575",
     "status": "1"
   },
   {
@@ -4941,7 +5082,7 @@
     "keterangan": "Freedom 7GB 7 Hari",
     "produk": "Isat Fredoom Harian",
     "kategori": "KUOTA INDOSAT",
-    "harga": "21939",
+    "harga": "21824",
     "status": "1"
   },
   {
@@ -5669,7 +5810,7 @@
     "keterangan": "Voucher Kuota 1,5GB 5 Hari",
     "produk": "Voucher Tsel Jateng - Jogja",
     "kategori": "KUOTA TELKOMSEL",
-    "harga": "12955",
+    "harga": "13075",
     "status": "1"
   },
   {
@@ -6133,7 +6274,7 @@
     "keterangan": "Smart Unlimited FUP 2GB 28 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "85429",
+    "harga": "85724",
     "status": "1"
   },
   {
@@ -6149,7 +6290,7 @@
     "keterangan": "Smart Unlimited FUP 1GB 14 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "46393",
+    "harga": "46391",
     "status": "1"
   },
   {
@@ -6157,7 +6298,7 @@
     "keterangan": "Smart Unlimited FUP 1GB 7 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "21286",
+    "harga": "21352",
     "status": "1"
   },
   {
@@ -6173,7 +6314,7 @@
     "keterangan": "Smart Unlimited FUP 3GB 28 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "117321",
+    "harga": "117320",
     "status": "1"
   },
   {
@@ -6189,7 +6330,7 @@
     "keterangan": "Smart Unlimited FUP 2GB 7 Hari",
     "produk": "Data Smart Unlimited",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "26417",
+    "harga": "26716",
     "status": "1"
   },
   {
@@ -6485,7 +6626,7 @@
     "keterangan": "Smart 10GB + Unlimited 28 Hari",
     "produk": "Data Kuota Nonstop",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "53131",
+    "harga": "53130",
     "status": "1"
   },
   {
@@ -6493,7 +6634,7 @@
     "keterangan": "Smart 18GB + Unlimited 28 Hari",
     "produk": "Data Kuota Nonstop",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "75768",
+    "harga": "75767",
     "status": "1"
   },
   {
@@ -6501,7 +6642,7 @@
     "keterangan": "Smart 30GB + Unlimited 28 Hari",
     "produk": "Data Kuota Nonstop",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "74480",
+    "harga": "74479",
     "status": "1"
   },
   {
@@ -6509,7 +6650,7 @@
     "keterangan": "Smart 6GB + Unlimited 28 Hari",
     "produk": "Data Kuota Nonstop",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "37669",
+    "harga": "37854",
     "status": "1"
   },
   {
@@ -7045,7 +7186,7 @@
     "keterangan": "Mini Axis 8,5GB + Bonus Aigo 7 Hari",
     "produk": "Mini Isi Ulang Axis 7 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "24886",
+    "harga": "24888",
     "status": "1"
   },
   {
@@ -7053,7 +7194,7 @@
     "keterangan": "Mini Axis 11GB + Bonus Aigo 7 Hari",
     "produk": "Mini Isi Ulang Axis 7 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "28193",
+    "harga": "28194",
     "status": "1"
   },
   {
@@ -7077,7 +7218,7 @@
     "keterangan": "Mini Axis 5GB + Bonus Aigo 15 Hari",
     "produk": "Mini Isi Ulang Axis 15 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "26731",
+    "harga": "26732",
     "status": "1"
   },
   {
@@ -7085,7 +7226,7 @@
     "keterangan": "Mini Axis 11,5GB + Bonus Aigo 15 Hari",
     "produk": "Mini Isi Ulang Axis 15 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "41097",
+    "harga": "41098",
     "status": "1"
   },
   {
@@ -7093,7 +7234,7 @@
     "keterangan": "Mini Axis 35GB + Bonus Aigo 15 Hari",
     "produk": "Mini Isi Ulang Axis 15 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "68783",
+    "harga": "68784",
     "status": "1"
   },
   {
@@ -7101,7 +7242,7 @@
     "keterangan": "Mini Axis 4GB + Bonus Aigo 15 Hari",
     "produk": "Mini Isi Ulang Axis 15 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "19474",
+    "harga": "19477",
     "status": "1"
   },
   {
@@ -7157,7 +7298,7 @@
     "keterangan": "Mini Happy 5GB 7 Hari",
     "produk": "Tri Data Happy",
     "kategori": "KUOTA TRI",
-    "harga": "19185",
+    "harga": "25200",
     "status": "1"
   },
   {
@@ -7277,7 +7418,7 @@
     "keterangan": "Freedom Mini 7GB 7 Hari",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "21740",
+    "harga": "21724",
     "status": "1"
   },
   {
@@ -7285,7 +7426,7 @@
     "keterangan": "Freedom Mini 2,5GB 5 Hari (Unreg)",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "11650",
+    "harga": "11649",
     "status": "1"
   },
   {
@@ -7301,7 +7442,7 @@
     "keterangan": "Freedom Mini 5GB 5 Hari (Unreg)",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "15875",
+    "harga": "16275",
     "status": "1"
   },
   {
@@ -7317,7 +7458,7 @@
     "keterangan": "Freedom Mini 2GB 5 Hari (Unreg)",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "11599",
+    "harga": "11597",
     "status": "1"
   },
   {
@@ -7357,7 +7498,7 @@
     "keterangan": "Freedom Mini 2,5GB 5 Hari",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "11775",
+    "harga": "11774",
     "status": "1"
   },
   {
@@ -7373,7 +7514,7 @@
     "keterangan": "Freedom Mini 5GB 5 Hari",
     "produk": "Mini Freedoom All Nasional",
     "kategori": "KUOTA INDOSAT",
-    "harga": "16000",
+    "harga": "16400",
     "status": "1"
   },
   {
@@ -7613,7 +7754,7 @@
     "keterangan": "Smart 1GB All 3 Hari",
     "produk": "Mini Data Smart",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "4950",
+    "harga": "4910",
     "status": "1"
   },
   {
@@ -7621,7 +7762,7 @@
     "keterangan": "Smart 2GB All 3 Hari",
     "produk": "Mini Data Smart",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "7765",
+    "harga": "7710",
     "status": "1"
   },
   {
@@ -7637,7 +7778,7 @@
     "keterangan": "Smart 3GB All 5 Hari",
     "produk": "Mini Data Smart",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "11955",
+    "harga": "11940",
     "status": "1"
   },
   {
@@ -8157,7 +8298,7 @@
     "keterangan": "3GB + Unlimited Apps 14 Hari",
     "produk": "Data Kuota Nonstop New",
     "kategori": "KUOTA SMARTFREN",
-    "harga": "16732",
+    "harga": "16800",
     "status": "1"
   },
   {
@@ -8173,7 +8314,7 @@
     "keterangan": "Flex L  9GB + Kuota Area 4GB-18GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "62991",
+    "harga": "62977",
     "status": "1"
   },
   {
@@ -8181,7 +8322,7 @@
     "keterangan": "Flex M  5GB + Kuota Area 2GB-10GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "43484",
+    "harga": "43527",
     "status": "1"
   },
   {
@@ -8189,7 +8330,7 @@
     "keterangan": "Flex S  1,5GB + Kuota Area 1GB-3,5GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "20071",
+    "harga": "20074",
     "status": "1"
   },
   {
@@ -8197,7 +8338,7 @@
     "keterangan": "Flex XL  15GB + Kuota Area 5GB-30GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "88001",
+    "harga": "88185",
     "status": "1"
   },
   {
@@ -8205,7 +8346,7 @@
     "keterangan": "Flex XXL  30GB + Kuota Area 6GB-60GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "119000",
+    "harga": "119400",
     "status": "1"
   },
   {
@@ -8213,7 +8354,7 @@
     "keterangan": "Flex XXXL  60GB + Kuota Area 10GB-120GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "157899",
+    "harga": "157895",
     "status": "1"
   },
   {
@@ -8221,7 +8362,7 @@
     "keterangan": "Flex S+  3GB + Kuota Area 2GB-7GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "31480",
+    "harga": "31518",
     "status": "1"
   },
   {
@@ -8229,7 +8370,7 @@
     "keterangan": "Flex M+  6GB + Kuota Area 3GB-13GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "53486",
+    "harga": "53490",
     "status": "1"
   },
   {
@@ -8237,7 +8378,7 @@
     "keterangan": "Flex L+  11GB + Kuota Area 4GB-20GB + Bonus Flex 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "72812",
+    "harga": "73037",
     "status": "1"
   },
   {
@@ -8245,7 +8386,7 @@
     "keterangan": "XL Data Flex S (5GB - 8GB) + All 5 Menit 28 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "24907",
+    "harga": "25234",
     "status": "1"
   },
   {
@@ -8253,7 +8394,7 @@
     "keterangan": "Flex S 3.5GB-5GB + All 5 mnt All 21 Hari",
     "produk": "XL Combo Flex",
     "kategori": "KUOTA XL",
-    "harga": "19537",
+    "harga": "19513",
     "status": "1"
   },
   {
@@ -8341,7 +8482,7 @@
     "keterangan": "Promo Indosat Data 16GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "42570",
+    "harga": "42650",
     "status": "1"
   },
   {
@@ -8349,7 +8490,7 @@
     "keterangan": "Promo Indosat Data 25GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "59050",
+    "harga": "75100",
     "status": "1"
   },
   {
@@ -8357,7 +8498,7 @@
     "keterangan": "Promo Indosat Data 42GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "84749",
+    "harga": "83249",
     "status": "1"
   },
   {
@@ -8365,7 +8506,7 @@
     "keterangan": "Promo Indosat Data 5,5GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "26143",
+    "harga": "26119",
     "status": "1"
   },
   {
@@ -8373,7 +8514,7 @@
     "keterangan": "Promo Indosat Data 9GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "30649",
+    "harga": "30645",
     "status": "1"
   },
   {
@@ -8381,7 +8522,7 @@
     "keterangan": "Promo Freedom Sensasi 50GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "85989",
+    "harga": "85925",
     "status": "1"
   },
   {
@@ -8405,7 +8546,7 @@
     "keterangan": "Promo Indosat Data 3GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "22093",
+    "harga": "22069",
     "status": "1"
   },
   {
@@ -8421,7 +8562,7 @@
     "keterangan": "Promo Indosat Data 7GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "26701",
+    "harga": "26677",
     "status": "1"
   },
   {
@@ -8429,7 +8570,7 @@
     "keterangan": "Promo Indosat Data 10GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "33293",
+    "harga": "33350",
     "status": "1"
   },
   {
@@ -8445,7 +8586,7 @@
     "keterangan": "Promo Indosat Data 12GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "40543",
+    "harga": "40600",
     "status": "1"
   },
   {
@@ -8453,7 +8594,7 @@
     "keterangan": "Promo Indosat Data 15GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "57568",
+    "harga": "57544",
     "status": "1"
   },
   {
@@ -8461,7 +8602,7 @@
     "keterangan": "Promo Indosat Data 18GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "55543",
+    "harga": "55519",
     "status": "1"
   },
   {
@@ -8469,7 +8610,7 @@
     "keterangan": "Promo Indosat Data 8GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "46543",
+    "harga": "46519",
     "status": "1"
   },
   {
@@ -8477,7 +8618,7 @@
     "keterangan": "Promo Indosat Data 5GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "30493",
+    "harga": "30469",
     "status": "1"
   },
   {
@@ -8485,7 +8626,7 @@
     "keterangan": "Promo Indosat Data 6GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "33837",
+    "harga": "33833",
     "status": "1"
   },
   {
@@ -8493,7 +8634,7 @@
     "keterangan": "Promo Indosat Data 4GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "22943",
+    "harga": "22919",
     "status": "1"
   },
   {
@@ -8501,7 +8642,7 @@
     "keterangan": "Promo Indosat Data 20GB 28 Hari",
     "produk": "Indosat Data Bulanan (Promo)",
     "kategori": "KUOTA INDOSAT",
-    "harga": "54044",
+    "harga": "54013",
     "status": "1"
   },
   {
@@ -8621,7 +8762,7 @@
     "keterangan": "Xtra Hotrod Spesial 14GB, 30 Hari",
     "produk": "XL Hotrod Spesial",
     "kategori": "KUOTA XL",
-    "harga": "41035",
+    "harga": "41034",
     "status": "1"
   },
   {
@@ -8669,7 +8810,7 @@
     "keterangan": "Bronet 3GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "22189",
+    "harga": "22158",
     "status": "1"
   },
   {
@@ -8677,7 +8818,7 @@
     "keterangan": "Bronet 6GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "29519",
+    "harga": "29481",
     "status": "1"
   },
   {
@@ -8685,7 +8826,7 @@
     "keterangan": "Bronet 8GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "37850",
+    "harga": "37811",
     "status": "1"
   },
   {
@@ -8693,7 +8834,7 @@
     "keterangan": "Bronet 14GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "56222",
+    "harga": "56225",
     "status": "1"
   },
   {
@@ -8701,7 +8842,7 @@
     "keterangan": "Bronet 20GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "70587",
+    "harga": "70560",
     "status": "1"
   },
   {
@@ -8733,7 +8874,7 @@
     "keterangan": "Bronet 2GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "14918",
+    "harga": "16099",
     "status": "1"
   },
   {
@@ -8749,7 +8890,7 @@
     "keterangan": "Bronet 5GB + Bonus Aigo 28 Hari",
     "produk": "Bronet Isi Ulang 30 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "25541",
+    "harga": "25542",
     "status": "1"
   },
   {
@@ -8901,7 +9042,7 @@
     "keterangan": "1,5GB All + 0,5GB Bonus 1 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "3549",
+    "harga": "3550",
     "status": "1"
   },
   {
@@ -8925,7 +9066,7 @@
     "keterangan": "3GB All + 1GB Bonus 3 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "9749",
+    "harga": "9750",
     "status": "1"
   },
   {
@@ -8933,7 +9074,7 @@
     "keterangan": "3,5GB All + 1GB Jabo 5 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "14570",
+    "harga": "14680",
     "status": "1"
   },
   {
@@ -8957,8 +9098,8 @@
     "keterangan": "5GB All + 1,5GB Bonus 7 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "19279",
-    "status": "1"
+    "harga": "19370",
+    "status": "0"
   },
   {
     "kode": "TRH6M5",
@@ -9013,7 +9154,7 @@
     "keterangan": "Happy 30GB 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "66532",
+    "harga": "66526",
     "status": "1"
   },
   {
@@ -9021,7 +9162,7 @@
     "keterangan": "42GB Nat + 100 Mnt/Hari 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "66997",
+    "harga": "66991",
     "status": "1"
   },
   {
@@ -9037,7 +9178,7 @@
     "keterangan": "7GB + 2GB Bonus 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "27470",
+    "harga": "27471",
     "status": "1"
   },
   {
@@ -9045,7 +9186,7 @@
     "keterangan": "1GB All + 0,5GB Bonus 3 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "6855",
+    "harga": "7000",
     "status": "1"
   },
   {
@@ -9053,16 +9194,16 @@
     "keterangan": "2GB All + 0,5GB Bonus 5 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "10235",
-    "status": "1"
+    "harga": "10288",
+    "status": "0"
   },
   {
     "kode": "RH3GB7",
     "keterangan": "3GB All + 1GB Bonus 7 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "15120",
-    "status": "1"
+    "harga": "15175",
+    "status": "0"
   },
   {
     "kode": "TRH3M2",
@@ -9109,8 +9250,8 @@
     "keterangan": " 9GB All + 3GB Bonus 10 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "29609",
-    "status": "1"
+    "harga": "29610",
+    "status": "0"
   },
   {
     "kode": "TRH9M7",
@@ -9285,7 +9426,7 @@
     "keterangan": "6GB + 2GB Lokal 28 Hari",
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
-    "harga": "24775",
+    "harga": "24779",
     "status": "1"
   },
   {
@@ -9302,7 +9443,7 @@
     "produk": "Tri Data Happy New",
     "kategori": "KUOTA TRI",
     "harga": "20195",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "VMSUL1Z1",
@@ -9470,7 +9611,7 @@
     "produk": "Voucher Tsel Kalimantan",
     "kategori": "KUOTA TELKOMSEL",
     "harga": "21420",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "VSDK55",
@@ -9965,7 +10106,7 @@
     "keterangan": "Freedom Mini 7GB 7 Hari",
     "produk": "Mini Freedoom Kasumapa",
     "kategori": "KUOTA INDOSAT",
-    "harga": "21939",
+    "harga": "21824",
     "status": "1"
   },
   {
@@ -10245,7 +10386,7 @@
     "keterangan": "Kuota 2,5GB All 5 Hari",
     "produk": "Byu Data Harian",
     "kategori": "KUOTA BYU",
-    "harga": "9089",
+    "harga": "9090",
     "status": "1"
   },
   {
@@ -10253,7 +10394,7 @@
     "keterangan": "Kuota 3GB All 7 Hari",
     "produk": "Byu Data Harian",
     "kategori": "KUOTA BYU",
-    "harga": "8949",
+    "harga": "8950",
     "status": "1"
   },
   {
@@ -10261,7 +10402,7 @@
     "keterangan": "Kuota 5GB All 7 Hari",
     "produk": "Byu Data Harian",
     "kategori": "KUOTA BYU",
-    "harga": "15389",
+    "harga": "15390",
     "status": "1"
   },
   {
@@ -10310,14 +10451,14 @@
     "produk": "Byu Data Harian",
     "kategori": "KUOTA BYU",
     "harga": "43840",
-    "status": "1"
+    "status": "0"
   },
   {
     "kode": "BYUB1",
     "keterangan": "Kuota 1GB All 30 Hari",
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
-    "harga": "8919",
+    "harga": "8920",
     "status": "1"
   },
   {
@@ -10349,7 +10490,7 @@
     "keterangan": "Kuota 3GB All 30 Hari",
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
-    "harga": "9085",
+    "harga": "9090",
     "status": "1"
   },
   {
@@ -10357,7 +10498,7 @@
     "keterangan": "Kuota 50GB All 30 Hari",
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
-    "harga": "100185",
+    "harga": "100190",
     "status": "1"
   },
   {
@@ -10365,7 +10506,7 @@
     "keterangan": "Kuota 6GB All 30 Hari",
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
-    "harga": "16139",
+    "harga": "16140",
     "status": "1"
   },
   {
@@ -10389,7 +10530,7 @@
     "keterangan": "Kuota 14GB All 30 Hari",
     "produk": "Byu Data Bulanan",
     "kategori": "KUOTA BYU",
-    "harga": "35150",
+    "harga": "35450",
     "status": "1"
   },
   {
@@ -10957,7 +11098,7 @@
     "keterangan": "Freedom Mini 7GB 7 Hari",
     "produk": "Mini Freedoom Sumatra",
     "kategori": "KUOTA INDOSAT",
-    "harga": "22039",
+    "harga": "21924",
     "status": "1"
   },
   {
@@ -11738,7 +11879,7 @@
   },
   {
     "kode": "FIBS70",
-    "keterangan": "Freedom Internet Sensasi 70GB 28 Hari",
+    "keterangan": "Freedom Internet 5G 70GB 28 Hari",
     "produk": "Freedom Internet Mobo",
     "kategori": "KUOTA INDOSAT",
     "harga": "112110",
@@ -12038,7 +12179,7 @@
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
     "harga": "69350",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "XBD31",
@@ -12046,55 +12187,55 @@
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
     "harga": "54000",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "XBD38",
     "keterangan": "38GB Reguler + Kuota Area 28 Hari",
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
-    "harga": "61600",
-    "status": "0"
+    "harga": "59350",
+    "status": "1"
   },
   {
     "kode": "XBD88",
     "keterangan": "88GB Reguler + Kuota Area 28 Hari",
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
-    "harga": "92400",
-    "status": "0"
+    "harga": "91500",
+    "status": "1"
   },
   {
     "kode": "XBD76",
     "keterangan": "76GB Reguler + Kuota Area 28 Hari",
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
-    "harga": "82060",
-    "status": "0"
+    "harga": "82000",
+    "status": "1"
   },
   {
     "kode": "XBD19",
     "keterangan": "19GB Reguler + Kuota Area 28 Hari",
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
-    "harga": "45250",
-    "status": "0"
+    "harga": "45240",
+    "status": "1"
   },
   {
     "kode": "XBD47",
     "keterangan": "47GB Reguler + Kuota Area 28 Hari",
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
-    "harga": "64300",
-    "status": "0"
+    "harga": "63800",
+    "status": "1"
   },
   {
     "kode": "XBD63",
     "keterangan": "63GB Reguler + Kuota Area 28 Hari",
     "produk": "XL Big Data",
     "kategori": "KUOTA XL",
-    "harga": "74600",
-    "status": "0"
+    "harga": "74300",
+    "status": "1"
   },
   {
     "kode": "XBD105",
@@ -12277,7 +12418,7 @@
     "keterangan": "Masa Aktif XL + 30 Hari",
     "produk": "+Masa Aktif XL",
     "kategori": "PULSA",
-    "harga": "6070",
+    "harga": "4800",
     "status": "1"
   },
   {
@@ -12309,7 +12450,7 @@
     "keterangan": "Paket Harian S (1.5GB - 2.5GB) - 3 Hari",
     "produk": "XL Harian 3 Hari",
     "kategori": "KUOTA XL",
-    "harga": "8989",
+    "harga": "8985",
     "status": "1"
   },
   {
@@ -12317,7 +12458,7 @@
     "keterangan": "Paket Harian L (4.5GB - 6.5GB) - 3 Hari",
     "produk": "XL Harian 3 Hari",
     "kategori": "KUOTA XL",
-    "harga": "12900",
+    "harga": "12896",
     "status": "1"
   },
   {
@@ -12325,7 +12466,7 @@
     "keterangan": "Paket Harian M (2.5GB - 4GB) - 3 Hari",
     "produk": "XL Harian 3 Hari",
     "kategori": "KUOTA XL",
-    "harga": "10382",
+    "harga": "10378",
     "status": "1"
   },
   {
@@ -12333,7 +12474,7 @@
     "keterangan": "Paket Harian S (2GB - 3.5GB) - 5 Hari",
     "produk": "XL Harian 5 Hari",
     "kategori": "KUOTA XL",
-    "harga": "12390",
+    "harga": "12386",
     "status": "1"
   },
   {
@@ -12341,7 +12482,7 @@
     "keterangan": "Paket Harian L (5.5GB - 8.5GB) - 5 Hari",
     "produk": "XL Harian 5 Hari",
     "kategori": "KUOTA XL",
-    "harga": "16780",
+    "harga": "16776",
     "status": "1"
   },
   {
@@ -12349,7 +12490,7 @@
     "keterangan": "Paket Harian M (3GB - 5GB) - 5 Hari",
     "produk": "XL Harian 5 Hari",
     "kategori": "KUOTA XL",
-    "harga": "14354",
+    "harga": "14350",
     "status": "1"
   },
   {
@@ -12357,7 +12498,7 @@
     "keterangan": "Paket Harian XS (1.5GB - 3.5GB) - 7 Hari",
     "produk": "XL Harian 7 Hari",
     "kategori": "KUOTA XL",
-    "harga": "13359",
+    "harga": "13353",
     "status": "1"
   },
   {
@@ -12365,7 +12506,7 @@
     "keterangan": "Paket Harian S (3GB - 5.5GB) - 7 Hari",
     "produk": "XL Harian 7 Hari",
     "kategori": "KUOTA XL",
-    "harga": "16294",
+    "harga": "16290",
     "status": "1"
   },
   {
@@ -12373,7 +12514,7 @@
     "keterangan": "Paket Harian M (4.5GB - 7.5GB) - 7 Hari",
     "produk": "XL Harian 7 Hari",
     "kategori": "KUOTA XL",
-    "harga": "19199",
+    "harga": "19195",
     "status": "1"
   },
   {
@@ -12381,7 +12522,7 @@
     "keterangan": "Paket Harian L (6.5GB - 11.5GB) - 7 Hari",
     "produk": "XL Harian 7 Hari",
     "kategori": "KUOTA XL",
-    "harga": "24540",
+    "harga": "24536",
     "status": "1"
   },
   {
@@ -12397,7 +12538,7 @@
     "keterangan": "Paket Harian XS (1.5GB - 5GB) - 10 Hari",
     "produk": "XL Harian 10 Hari",
     "kategori": "KUOTA XL",
-    "harga": "14258",
+    "harga": "14250",
     "status": "1"
   },
   {
@@ -12405,7 +12546,7 @@
     "keterangan": "Paket Harian S (2.5GB - 6.5GB) - 10 Hari",
     "produk": "XL Harian 10 Hari",
     "kategori": "KUOTA XL",
-    "harga": "16105",
+    "harga": "16097",
     "status": "1"
   },
   {
@@ -12869,15 +13010,15 @@
     "keterangan": "XL Data Blue 1GB All Jaringan 2 Hari",
     "produk": "XL Data Blue",
     "kategori": "KUOTA XL",
-    "harga": "5073",
-    "status": "1"
+    "harga": "5095",
+    "status": "0"
   },
   {
     "kode": "XLDB2",
     "keterangan": "XL Data Blue 3GB All Jaringan 2 Hari",
     "produk": "XL Data Blue",
     "kategori": "KUOTA XL",
-    "harga": "9790",
+    "harga": "9900",
     "status": "1"
   },
   {
@@ -13917,7 +14058,7 @@
     "keterangan": "Bebas Puas 3,5GB 7 Hari",
     "produk": "XL Bebas Puas 3K",
     "kategori": "KUOTA XL",
-    "harga": "19630",
+    "harga": "19626",
     "status": "1"
   },
   {
@@ -14861,7 +15002,7 @@
     "keterangan": "Mini Axis 12GB + Bonus Aigo 5 Hari",
     "produk": "Mini Isi Ulang Axis 5 Hari",
     "kategori": "KUOTA AXIS",
-    "harga": "24588",
+    "harga": "24587",
     "status": "1"
   },
   {
@@ -15141,7 +15282,7 @@
     "keterangan": "3GB All Jaringan 30 Hari",
     "produk": "Tri Data Harian",
     "kategori": "KUOTA TRI",
-    "harga": "20050",
+    "harga": "20190",
     "status": "1"
   },
   {
@@ -18022,7 +18163,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "6500",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "XCRC3",
@@ -18030,7 +18171,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "8000",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "XCRC4",
@@ -18038,7 +18179,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "10000",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "XCRC8",
@@ -18046,7 +18187,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "17500",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "XCRC12",
@@ -18054,7 +18195,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "22000",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "XCRC16",
@@ -18062,7 +18203,7 @@
     "produk": "XL Data Circle",
     "kategori": "KUOTA XL",
     "harga": "27800",
-    "status": "0"
+    "status": "1"
   },
   {
     "kode": "XCRC10",
@@ -18944,326 +19085,397 @@
     "harga": "18225",
     "status": "1"
   }
-    ];
+  //Tambahkan produk lainnya
+];
 
-    // DOM Elements
-    const productsGrid = document.getElementById('productsGrid');
-    const searchInput = document.getElementById('searchInput');
-    const purchaseModal = document.getElementById('purchaseModal');
-    const confirmationModal = document.getElementById('confirmationModal');
-    const closeModalBtn = document.getElementById('closeModal');
-    const closeConfirmationModalBtn = document.getElementById('closeConfirmationModal');
-    const cancelPurchaseBtn = document.getElementById('cancelPurchase');
-    const confirmPurchaseBtn = document.getElementById('confirmPurchase');
-    const closeConfirmationBtn = document.getElementById('closeConfirmationBtn');
-    const modalProductInfo = document.getElementById('modalProductInfo');
-    const phoneInputGroup = document.getElementById('phoneInputGroup');
-    const paymentInfo = document.getElementById('paymentInfo');
-    const paymentMethodDetails = document.getElementById('paymentMethodDetails');
-    const paymentMethodSelect = document.getElementById('paymentMethod');
-    const timerContainer = document.getElementById('timerContainer');
-    const paymentTimer = document.getElementById('paymentTimer');
-    const loadingOverlay = document.getElementById('loadingOverlay');
-    const loadingText = document.getElementById('loadingText');
+// Daftar kategori pulsa dan kuota
+const categoryList = [
+  { id: 'all', name: 'Semua Produk', icon: 'fas fa-th-large', keywords: [] },
+  { id: 'smartfren', name: 'Smartfren', icon: 'fas fa-wifi', keywords: ['smartfren', 'smart'] },
+  { id: 'telkomsel', name: 'Telkomsel', icon: 'fas fa-sim-card', keywords: ['telkomsel', 'tsel'] },
+  { id: 'indosat', name: 'Indosat', icon: 'fas fa-signal', keywords: ['indosat', 'im3'] },
+  { id: 'xl', name: 'XL Axiata', icon: 'fas fa-broadcast-tower', keywords: ['xl', 'axiata'] },
+  { id: 'tri', name: '3 (Tri)', icon: 'fas fa-mobile-alt', keywords: ['tri', '3'] },
+  { id: 'axis', name: 'Axis', icon: 'fas fa-network-wired', keywords: ['axis'] },
+  { id: 'pulsa', name: 'Pulsa Reguler', icon: 'fas fa-money-bill-wave', keywords: ['pulsa'] },
+  { id: 'data', name: 'Paket Data', icon: 'fas fa-database', keywords: ['data', 'kuota', 'gb', 'internet'] }
+];
 
-    // State
-    let selectedProduct = null;
-    let searchQuery = '';
-    let timerInterval = null;
-    let timeLeft = 300; // 5 menit
+// Variabel global untuk filter
+let currentCategory = 'all';
+let searchQuery = '';
+let filteredProducts = [];
 
-    function init() {
-        renderProducts();
-        setupEventListeners();
+// DOM Elements
+const productsGrid = document.getElementById('productsGrid');
+const searchInput = document.getElementById('searchInput');
+const purchaseModal = document.getElementById('purchaseModal');
+const confirmationModal = document.getElementById('confirmationModal');
+const closeModalBtn = document.getElementById('closeModal');
+const closeConfirmationModalBtn = document.getElementById('closeConfirmationModal');
+const cancelPurchaseBtn = document.getElementById('cancelPurchase');
+const confirmPurchaseBtn = document.getElementById('confirmPurchase');
+const closeConfirmationBtn = document.getElementById('closeConfirmationBtn');
+const modalProductInfo = document.getElementById('modalProductInfo');
+const paymentInfo = document.getElementById('paymentInfo');
+const paymentMethodDetails = document.getElementById('paymentMethodDetails');
+const paymentMethodSelect = document.getElementById('paymentMethod');
+const timerContainer = document.getElementById('timerContainer');
+const paymentTimer = document.getElementById('paymentTimer');
+const loadingOverlay = document.getElementById('loadingOverlay');
+
+// State
+let selectedProduct = null;
+let timerInterval = null;
+let timeLeft = 300; // 5 menit
+
+/* ===========================
+   FILTERING & DISPLAY PRODUK
+===========================*/
+
+// Hitung jumlah produk per kategori
+function countProductsByCategory() {
+  const counts = {};
+  categoryList.forEach(category => {
+    if (category.id === 'all') {
+      counts['all'] = products.length;
+    } else {
+      counts[category.id] = products.filter(product => {
+        const text = (product.kategori + ' ' + product.produk + ' ' + product.keterangan).toLowerCase();
+        return category.keywords.some(keyword => text.includes(keyword));
+      }).length;
     }
-
-    function setupEventListeners() {
-        searchInput.addEventListener('input', (e) => {
-            searchQuery = e.target.value.toLowerCase();
-            renderProducts();
-        });
-
-        closeModalBtn.addEventListener('click', closePurchaseModal);
-        cancelPurchaseBtn.addEventListener('click', closePurchaseModal);
-        closeConfirmationModalBtn.addEventListener('click', closeConfirmationModal);
-        closeConfirmationBtn.addEventListener('click', closeConfirmationModal);
-
-        confirmPurchaseBtn.addEventListener('click', confirmPurchase);
-        paymentMethodSelect.addEventListener('change', updatePaymentInfo);
-
-        window.addEventListener('click', (e) => {
-            if (e.target === purchaseModal) closePurchaseModal();
-            if (e.target === confirmationModal) closeConfirmationModal();
-        });
-    }
-
-    function renderProducts() {
-        productsGrid.innerHTML = '';
-
-        const filteredProducts = products.filter(product => {
-            const searchMatch = product.keterangan.toLowerCase().includes(searchQuery) ||
-                                product.kode.toLowerCase().includes(searchQuery) ||
-                                product.kategori.toLowerCase().includes(searchQuery);
-            return searchMatch;
-        });
-
-        if (filteredProducts.length === 0) {
-            productsGrid.innerHTML = `<div class="error-message"><p>Tidak ada produk yang ditemukan.</p></div>`;
-            return;
-        }
-
-        filteredProducts.forEach(product => {
-            const productCard = createProductCard(product);
-            productsGrid.appendChild(productCard);
-        });
-    }
-
-    function createProductCard(product) {
-        const card = document.createElement('div');
-        card.className = 'topup-card';
-
-        const isAvailable = product.status === '1';
-        const statusText = isAvailable ? 'Tersedia' : 'Tidak Tersedia';
-        const statusClass = isAvailable ? 'status-available' : 'status-unavailable';
-
-        // Tambah 1.000 ke harga
-        const hargaPlusSeribu = Number(product.harga) + 1000;
-
-        const formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(hargaPlusSeribu);
-
-        card.innerHTML = `
-            <div class="topup-card-header">
-                <span class="topup-provider">${product.kategori}</span>
-                <span class="topup-status ${statusClass}">${statusText}</span>
-            </div>
-            <h3 class="topup-name">${product.keterangan}</h3>
-            <p class="topup-desc">${product.produk}</p>
-            <div class="topup-price">${formattedPrice}</div>
-            <div class="topup-action">
-                <span class="topup-code">${product.kode}</span>
-                <button class="btn-buy" ${!isAvailable ? 'disabled' : ''}>
-                    <i class="fas fa-shopping-cart"></i> Beli
-                </button>
-            </div>
-        `;
-
-        if (isAvailable) {
-            const buyButton = card.querySelector('.btn-buy');
-            buyButton.addEventListener('click', () => {
-                const productWithAddedPrice = { ...product, harga: hargaPlusSeribu };
-                openPurchaseModal(productWithAddedPrice);
-            });
-        }
-
-        return card;
-    }
-
-    function openPurchaseModal(product) {
-        selectedProduct = product;
-
-        const formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(product.harga);
-
-        modalProductInfo.innerHTML = `
-            <div class="product-info-item">
-                <span class="product-info-label">Produk:</span>
-                <span class="product-info-value">${product.keterangan}</span>
-            </div>
-            <div class="product-info-item">
-                <span class="product-info-label">Kode:</span>
-                <span class="product-info-value">${product.kode}</span>
-            </div>
-            <div class="product-info-item">
-                <span class="product-info-label">Harga:</span>
-                <span class="product-info-value">${formattedPrice}</span>
-            </div>
-        `;
-
-        document.getElementById('phoneNumber').value = '';
-        paymentMethodSelect.selectedIndex = 0;
-        paymentInfo.classList.remove('show');
-        timerContainer.style.display = 'none';
-
-        purchaseModal.classList.add('show');
-        document.body.classList.add('no-scroll');
-    }
-
-    function closePurchaseModal() {
-        purchaseModal.classList.remove('show');
-        document.body.classList.remove('no-scroll');
-        clearTimer();
-    }
-
-    function updatePaymentInfo() {
-        const method = paymentMethodSelect.value;
-
-        if (!method) {
-            paymentInfo.classList.remove('show');
-            timerContainer.style.display = 'none';
-            return;
-        }
-
-        paymentInfo.classList.add('show');
-
-        if (method === 'dana') {
-            paymentMethodDetails.innerHTML = `
-                <div class="payment-detail">
-                    <span class="payment-label">Nomor DANA:</span>
-                    <span class="payment-value">083151636921</span>
-                </div>
-                <div class="payment-detail">
-                    <span class="payment-label">Atas Nama:</span>
-                    <span class="payment-value">ferdiansyah</span>
-                </div>
-                <div class="payment-detail">
-                    <span class="payment-label">Total Pembayaran:</span>
-                    <span class="payment-value">${new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0}).format(selectedProduct.harga)}</span>
-                </div>
-            `;
-        } else if (method === 'qris') {
-            paymentMethodDetails.innerHTML = `
-                <div style="text-align: center;">
-                          <img src="assets/images/qris.png" alt="QR Code Pembayaran" class="qris-image">
-                           <p style="margin-top: 1rem; font-size: 0.9rem;">
-                            Scan QR code di atas untuk melakukan pembayaran.
-                           </p>
-                       </div>
-            `;
-        }
-
-        timerContainer.style.display = 'block';
-        startTimer();
-    }
-
-    function startTimer() {
-        clearTimer();
-        timeLeft = 300;
-        updateTimerDisplay();
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            updateTimerDisplay();
-            if (timeLeft <= 0) clearTimer();
-        }, 1000);
-    }
-
-    function updateTimerDisplay() {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        paymentTimer.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
-        paymentTimer.style.color = timeLeft < 60 ? 'var(--danger)' : 'var(--text-primary)';
-    }
-
-    function clearTimer() {
-        if (timerInterval) clearInterval(timerInterval);
-        timerInterval = null;
-    }
-
-    function confirmPurchase() {
-    const phoneNumber = document.getElementById('phoneNumber').value.trim();
-    const paymentMethod = paymentMethodSelect.value;
-
-    if (!phoneNumber) { 
-        alert('Harap masukkan nomor handphone tujuan.'); 
-        return; 
-    }
-    if (!paymentMethod) { 
-        alert('Harap pilih metode pembayaran.'); 
-        return; 
-    }
-
-    showLoadingOverlay();
-
-    setTimeout(() => {
-        hideLoadingOverlay();
-        closePurchaseModal();
-
-        const orderId = 'PX-' + Math.floor(100000 + Math.random() * 900000);
-
-        // Tampilkan rincian produk di modal konfirmasi
-        document.getElementById('orderIdDisplay').textContent = orderId;
-        document.getElementById('confirmationProductName').textContent = selectedProduct.keterangan;
-        document.getElementById('confirmationProductCode').textContent = selectedProduct.kode;
-        document.getElementById('confirmationProductPrice').textContent = new Intl.NumberFormat('id-ID', {style:'currency', currency:'IDR', minimumFractionDigits:0}).format(selectedProduct.harga);
-        document.getElementById('confirmationPhone').textContent = phoneNumber;
-
-        // Kirim ke Telegram admin
-        sendOrderToTelegram(selectedProduct, phoneNumber, orderId);
-
-        // Tampilkan modal konfirmasi
-        confirmationModal.classList.add('show');
-        document.body.classList.add('no-scroll');
-
-    }, 2000);
+  });
+  return counts;
 }
 
-   function sendOrderToTelegram(product, phoneNumber, orderId) {
-    const botToken = "7513756403:AAHxi73Wd_wI2dfm3yoWIWPXYiowXCZkQB4";
+// Render kategori jadi chip
+function renderCategories() {
+  const container = document.getElementById("filterCategoryContainer");
+  container.innerHTML = "";
 
-    // Daftar chat: type = 'group' atau 'admin'
-    const chatList = [
-        { id: "-1002308701716", type: "group" },
-        { id: "7661292905", type: "admin" }
-    ];
+  const categoryCounts = countProductsByCategory();
 
-    const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+  categoryList.forEach(cat => {
+    const chip = document.createElement("div");
+    chip.className = "category-filter-chip";
+    chip.dataset.category = cat.id;
+    chip.innerHTML = `
+      <i class="${cat.icon} category-icon"></i> ${cat.name}
+      <span class="product-count-badge" id="badge-${cat.id}">${categoryCounts[cat.id] || 0}</span>
+    `;
+    chip.addEventListener("click", () => {
+      document.querySelectorAll(".category-filter-chip").forEach(c => c.classList.remove("active"));
+      chip.classList.add("active");
+      applyFilter(cat.id);
+    });
+    container.appendChild(chip);
+  });
+}
 
-    chatList.forEach(chat => {
-        // Sensor nomor WhatsApp untuk grup
-        let displayedNumber = phoneNumber;
-        if (chat.type === "group") {
-            if (phoneNumber.length > 4) {
-                const start = Math.floor((phoneNumber.length - 4) / 2);
-                displayedNumber = phoneNumber.slice(0, start) + "xxxx" + phoneNumber.slice(start + 4);
-            } else {
-                displayedNumber = "xxxx";
-            }
-        }
+// Terapkan filter kategori + pencarian
+function applyFilter(categoryId) {
+  currentCategory = categoryId;
+  let productsToShow = products;
 
-        const message = `
+  if (categoryId !== "all") {
+    productsToShow = products.filter(product => {
+      const text = (product.kategori + ' ' + product.produk + ' ' + product.keterangan).toLowerCase();
+      return categoryList.find(c => c.id === categoryId).keywords.some(k => text.includes(k));
+    });
+  }
+
+  if (searchQuery) {
+    productsToShow = productsToShow.filter(p =>
+      p.keterangan.toLowerCase().includes(searchQuery) ||
+      p.kode.toLowerCase().includes(searchQuery) ||
+      p.kategori.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  filteredProducts = productsToShow;
+  displayProducts(filteredProducts);
+
+  // Update teks filter
+  const currentFilter = document.getElementById("currentFilter");
+  const filterText = document.getElementById("currentFilterText");
+  if (categoryId === "all") {
+    currentFilter.style.display = "none";
+    document.getElementById("filterStatusText").textContent = "Menampilkan semua produk";
+  } else {
+    currentFilter.style.display = "flex";
+    filterText.textContent = "Filter: " + categoryList.find(c => c.id === categoryId).name;
+    document.getElementById("filterStatusText").textContent = "Menampilkan produk kategori " + categoryList.find(c => c.id === categoryId).name;
+  }
+}
+
+function resetFilters() {
+  document.querySelectorAll(".category-filter-chip").forEach(c => c.classList.remove("active"));
+  applyFilter("all");
+  const allChip = document.querySelector('.category-filter-chip[data-category="all"]');
+  if (allChip) allChip.classList.add("active");
+}
+
+// Render produk sesuai filter
+function displayProducts(productsToShow) {
+  productsGrid.innerHTML = '';
+  if (productsToShow.length === 0) {
+    productsGrid.innerHTML = `<div class="error-message"><p>Tidak ada produk yang ditemukan.</p></div>`;
+    return;
+  }
+  productsToShow.forEach(product => {
+    const productCard = createProductCard(product);
+    productsGrid.appendChild(productCard);
+  });
+}
+
+// Buat kartu produk
+function createProductCard(product) {
+  const card = document.createElement('div');
+  card.className = 'topup-card';
+
+  const isAvailable = product.status === '1';
+  const statusText = isAvailable ? 'Tersedia' : 'Tidak Tersedia';
+  const statusClass = isAvailable ? 'status-available' : 'status-unavailable';
+
+  const hargaPlusSeribu = Number(product.harga) + 1000;
+  const formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(hargaPlusSeribu);
+
+  card.innerHTML = `
+    <div class="topup-card-header">
+      <span class="topup-provider">${product.kategori}</span>
+      <span class="topup-status ${statusClass}">${statusText}</span>
+    </div>
+    <h3 class="topup-name">${product.keterangan}</h3>
+    <p class="topup-desc">${product.produk}</p>
+    <div class="topup-price">${formattedPrice}</div>
+    <div class="topup-action">
+      <span class="topup-code">${product.kode}</span>
+      <button class="btn-buy" ${!isAvailable ? 'disabled' : ''}>
+        <i class="fas fa-shopping-cart"></i> Beli
+      </button>
+    </div>
+  `;
+
+  if (isAvailable) {
+    const buyButton = card.querySelector('.btn-buy');
+    buyButton.addEventListener('click', () => {
+      const productWithAddedPrice = { ...product, harga: hargaPlusSeribu };
+      openPurchaseModal(productWithAddedPrice);
+    });
+  }
+
+  return card;
+}
+
+/* ===========================
+   MODAL & PEMBAYARAN
+===========================*/
+function openPurchaseModal(product) {
+  selectedProduct = product;
+
+  const formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(product.harga);
+
+  modalProductInfo.innerHTML = `
+    <div class="product-info-item"><span class="product-info-label">Produk:</span><span class="product-info-value">${product.keterangan}</span></div>
+    <div class="product-info-item"><span class="product-info-label">Kode:</span><span class="product-info-value">${product.kode}</span></div>
+    <div class="product-info-item"><span class="product-info-label">Harga:</span><span class="product-info-value">${formattedPrice}</span></div>
+  `;
+
+  document.getElementById('phoneNumber').value = '';
+  paymentMethodSelect.selectedIndex = 0;
+  paymentInfo.classList.remove('show');
+  timerContainer.style.display = 'none';
+
+  purchaseModal.classList.add('show');
+  document.body.classList.add('no-scroll');
+}
+
+function closePurchaseModal() {
+  purchaseModal.classList.remove('show');
+  document.body.classList.remove('no-scroll');
+  clearTimer();
+}
+
+function updatePaymentInfo() {
+  const method = paymentMethodSelect.value;
+
+  if (!method) {
+    paymentInfo.classList.remove('show');
+    timerContainer.style.display = 'none';
+    return;
+  }
+
+  paymentInfo.classList.add('show');
+
+  if (method === 'dana') {
+    paymentMethodDetails.innerHTML = `
+      <div class="payment-detail"><span class="payment-label">Nomor DANA:</span><span class="payment-value">083151636921</span></div>
+      <div class="payment-detail"><span class="payment-label">Atas Nama:</span><span class="payment-value">ferdiansyah</span></div>
+      <div class="payment-detail"><span class="payment-label">Total Pembayaran:</span><span class="payment-value">${new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0}).format(selectedProduct.harga)}</span></div>
+    `;
+  } else if (method === 'qris') {
+    paymentMethodDetails.innerHTML = `
+      <div style="text-align: center;">
+        <img src="assets/images/qris.png" alt="QR Code Pembayaran" class="qris-image">
+        <p style="margin-top: 1rem; font-size: 0.9rem;">Scan QR code di atas untuk melakukan pembayaran.</p>
+      </div>
+    `;
+  }
+
+  timerContainer.style.display = 'block';
+  startTimer();
+}
+
+function startTimer() {
+  clearTimer();
+  timeLeft = 300;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) clearTimer();
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+  paymentTimer.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+  paymentTimer.style.color = timeLeft < 60 ? 'var(--danger)' : 'var(--text-primary)';
+}
+
+function clearTimer() {
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function confirmPurchase() {
+  const phoneNumber = document.getElementById('phoneNumber').value.trim();
+  const paymentMethod = paymentMethodSelect.value;
+
+  if (!phoneNumber) { alert('Harap masukkan nomor handphone tujuan.'); return; }
+  if (!paymentMethod) { alert('Harap pilih metode pembayaran.'); return; }
+
+  showLoadingOverlay();
+
+  setTimeout(() => {
+    hideLoadingOverlay();
+    closePurchaseModal();
+
+    const orderId = 'PX-' + Math.floor(100000 + Math.random() * 900000);
+
+    document.getElementById('orderIdDisplay').textContent = orderId;
+    document.getElementById('confirmationProductName').textContent = selectedProduct.keterangan;
+    document.getElementById('confirmationProductCode').textContent = selectedProduct.kode;
+    document.getElementById('confirmationProductPrice').textContent = new Intl.NumberFormat('id-ID', {style:'currency', currency:'IDR', minimumFractionDigits:0}).format(selectedProduct.harga);
+    document.getElementById('confirmationPhone').textContent = phoneNumber;
+
+    sendOrderToTelegram(selectedProduct, phoneNumber, orderId);
+
+    confirmationModal.classList.add('show');
+    document.body.classList.add('no-scroll');
+
+  }, 2000);
+}
+
+/* ===========================
+   TELEGRAM NOTIFIKASI
+===========================*/
+function sendOrderToTelegram(product, phoneNumber, orderId) {
+  const botToken = "7513756403:AAHxi73Wd_wI2dfm3yoWIWPXYiowXCZkQB4";
+
+  const chatList = [
+    { id: "-1002308701716", type: "group" },
+    { id: "7661292905", type: "admin" }
+  ];
+
+  const apiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+  chatList.forEach(chat => {
+    let displayedNumber = phoneNumber;
+    if (chat.type === "group") {
+      if (phoneNumber.length > 4) {
+        const start = Math.floor((phoneNumber.length - 4) / 2);
+        displayedNumber = phoneNumber.slice(0, start) + "xxxx" + phoneNumber.slice(start + 4);
+      } else {
+        displayedNumber = "xxxx";
+      }
+    }
+
+    const message = `
 🛒 *ORDER SUKSES* 🛒
 ────────────────────
 📦 *Produk:* ${product.kategori}
 🔗 *Rincian:* ${product.keterangan}
 🆔 *Kode:* ${product.kode}
-💰 *Harga:* Rp ${Number(product.harga).toLocaleString('id-ID')}
+💰 *Harga:* ${new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',minimumFractionDigits:0}).format(product.harga)}
 📱 *Nomor:* ${displayedNumber}
 📋 *ID Pesanan:* ${orderId}
 ────────────────────
 ⏰ *Waktu:* ${new Date().toLocaleString('id-ID')}
-        `;
+    `;
 
-        const payload = {
-            chat_id: chat.id,
-            text: message,
-            parse_mode: "Markdown",
-            reply_markup: {
-                inline_keyboard: [
-                    [
-                        { text: "☎️ Admin", url: `https://t.me/frel01` },
-                        { text: "🌐 Website", url: "https://vpn.pxstore.biz.id" }
-                    ]
-                ]
-            }
-        };
+    const payload = {
+      chat_id: chat.id,
+      text: message,
+      parse_mode: "Markdown",
+      reply_markup: {
+        inline_keyboard: [
+          [
+            { text: "☎️ Admin", url: `https://t.me/frel01` },
+            { text: "🌐 Website", url: "https://vpn.pxstore.biz.id" }
+          ]
+        ]
+      }
+    };
 
-        fetch(apiUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        })
-        .then(res => res.json())
-        .then(data => console.log("Telegram response:", data))
-        .catch(err => console.error("Telegram error:", err));
-    });
+    fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(data => console.log("Telegram response:", data))
+    .catch(err => console.error("Telegram error:", err));
+  });
 }
 
+/* ===========================
+   UTIL
+===========================*/
+function showLoadingOverlay() { loadingOverlay.style.display = 'flex'; }
+function hideLoadingOverlay() { loadingOverlay.style.display = 'none'; }
+function closeConfirmationModal() { confirmationModal.classList.remove('show'); document.body.classList.remove('no-scroll'); }
 
-    function showLoadingOverlay() { loadingOverlay.style.display = 'flex'; }
-    function hideLoadingOverlay() { loadingOverlay.style.display = 'none'; }
-    function closeConfirmationModal() { confirmationModal.classList.remove('show'); document.body.classList.remove('no-scroll'); }
+/* ===========================
+   INIT
+===========================*/
+function init() {
+  renderCategories();
+  resetFilters();
+  displayProducts(products);
 
-    function toggleMenu() { document.getElementById('navLinks').classList.toggle('active'); }
+  searchInput.addEventListener('input', (e) => {
+    searchQuery = e.target.value.toLowerCase();
+    applyFilter(currentCategory);
+  });
 
-    document.addEventListener('DOMContentLoaded', init);
+  closeModalBtn.addEventListener('click', closePurchaseModal);
+  cancelPurchaseBtn.addEventListener('click', closePurchaseModal);
+  closeConfirmationModalBtn.addEventListener('click', closeConfirmationModal);
+  closeConfirmationBtn.addEventListener('click', closeConfirmationModal);
+
+  confirmPurchaseBtn.addEventListener('click', confirmPurchase);
+  paymentMethodSelect.addEventListener('change', updatePaymentInfo);
+
+  window.addEventListener('click', (e) => {
+    if (e.target === purchaseModal) closePurchaseModal();
+    if (e.target === confirmationModal) closeConfirmationModal();
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
