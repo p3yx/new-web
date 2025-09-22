@@ -648,14 +648,6 @@ cursor: pointer;
 </head>
 <body>
 
-    <!-- Tombol Navigasi Kategori -->
-<div class="filter-controls">
-<button class="filter-btn" onclick="scrollToCategory('game')">Topup Game</button>
-<button class="filter-btn" onclick="scrollToCategory('pulsa')">Pulsa</button>
-<button class="filter-btn" onclick="scrollToCategory('kuota')">Kuota</button>
-<button class="filter-btn" onclick="scrollToCategory('vpn')">VPN</button>
-</div>
-
     <!-- Floating Action Buttons -->
     <a href="https://t.me/frel01" class="tg-float" title="Hubungi Admin via Telegram" aria-label="Telegram">
         <img src="https://img.icons8.com/color/48/000000/telegram-app.png" alt="Telegram" class="tg-icon">
@@ -682,6 +674,15 @@ cursor: pointer;
             <div class="line3"></div>
         </div>
     </header>
+    
+        <!-- Tombol Navigasi Kategori -->
+<div class="filter-controls">
+<button class="filter-btn" onclick="scrollToCategory('game')">Topup Game</button>
+<button class="filter-btn" onclick="scrollToCategory('pulsa')">Pulsa</button>
+<button class="filter-btn" onclick="scrollToCategory('kuota')">Kuota</button>
+<button class="filter-btn" onclick="scrollToCategory('vpn')">VPN</button>
+</div>
+
 
     <!-- Main Header -->
     <div class="container">
@@ -709,9 +710,9 @@ cursor: pointer;
         </header>
         
         <!-- Kategori Game -->
-        <div class="category-header">
-            <h2 class="category-title">Top Up Game</h2>
-        </div>
+<div class="category-header" id="game">
+  <h2 class="category-title">Top Up Game</h2>
+</div>
         
         <!-- Menu Grid Game -->
         <div class="menu-grid">
@@ -789,9 +790,9 @@ cursor: pointer;
         </div>
         
         <!-- Kategori Pulsa & Kuota -->
-        <div class="category-header">
-            <h2 class="category-title">Pulsa & Kuota</h2>
-        </div>
+<div class="category-header" id="pulsa">
+  <h2 class="category-title">Pulsa & Kuota</h2>
+</div>
         
         <!-- Menu Grid Pulsa & Kuota -->
         <div class="menu-grid">
@@ -900,10 +901,10 @@ cursor: pointer;
             </div>
         </div>
         
-        <!-- Kategori Kuota Provider -->
-        <div class="category-header">
-            <h2 class="category-title">Kuota Provider</h2>
-        </div>
+<!-- Kategori Kuota Provider -->
+<div class="category-header" id="kuota">
+  <h2 class="category-title">Kuota Provider</h2>
+</div>
         
         <!-- Menu Grid Provider -->
         <div class="menu-grid">
@@ -992,9 +993,10 @@ cursor: pointer;
             </div>
         </div>
         
-        <!-- Kategori Akun VPN -->
-        <div class="category-header">
-            <h2 class="category-title">Akun VPN</h2>
+<!-- Kategori Akun VPN -->
+<div class="category-header" id="vpn">
+  <h2 class="category-title">Akun VPN</h2>
+</div>
         </div>
         
         <!-- Menu Grid Akun VPN -->
@@ -1137,13 +1139,13 @@ cursor: pointer;
     </footer>
 
     <script>
-    
-    function scrollToCategory(id) {
-const section = document.getElementById(id);
-if (section) {
-section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+function scrollToCategory(id) {
+  const section = document.getElementById(id);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
-}
+
         // Toggle mobile menu
         function toggleMenu() {
             const navLinks = document.getElementById('navLinks');
