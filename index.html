@@ -627,9 +627,35 @@
                 gap: 1.5rem;
             }
         }
+        
+        body { background: #121212; color: var(--text-primary); font-family: Poppins, sans-serif; }
+.filter-controls { text-align:center; margin: 2rem 0; }
+.filter-btn {
+background: var(--card-bg);
+border: 1px solid rgba(255,255,255,0.1);
+color: var(--text-primary);
+padding: 0.6rem 1.2rem;
+border-radius: var(--border-radius);
+margin: 0 0.3rem;
+cursor: pointer;
+}
+.filter-btn:hover { background: var(--primary); color: #fff; }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
+.menu-card { background: var(--card-bg); border-radius: var(--border-radius); padding: 1.5rem; text-align: center; }
+.category-header { text-align:center; margin:2rem 0 1rem; }
+</style>
     </style>
 </head>
 <body>
+
+    <!-- Tombol Navigasi Kategori -->
+<div class="filter-controls">
+<button class="filter-btn" onclick="scrollToCategory('game')">Topup Game</button>
+<button class="filter-btn" onclick="scrollToCategory('pulsa')">Pulsa</button>
+<button class="filter-btn" onclick="scrollToCategory('kuota')">Kuota</button>
+<button class="filter-btn" onclick="scrollToCategory('vpn')">VPN</button>
+</div>
+
     <!-- Floating Action Buttons -->
     <a href="https://t.me/frel01" class="tg-float" title="Hubungi Admin via Telegram" aria-label="Telegram">
         <img src="https://img.icons8.com/color/48/000000/telegram-app.png" alt="Telegram" class="tg-icon">
@@ -1111,6 +1137,13 @@
     </footer>
 
     <script>
+    
+    function scrollToCategory(id) {
+const section = document.getElementById(id);
+if (section) {
+section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+}
         // Toggle mobile menu
         function toggleMenu() {
             const navLinks = document.getElementById('navLinks');
