@@ -527,24 +527,57 @@
             background: linear-gradient(90deg, transparent, var(--primary));
         }
         
-        /* Filter Controls */
+        /* Filter Controls (modern style) */
         .filter-controls { 
-            text-align:center; 
-            margin: 2rem 0; 
+            text-align: center; 
+            margin: 2.5rem 0; 
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
         }
+
         .filter-btn {
-            background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-primary);
-            padding: 0.6rem 1.2rem;
-            border-radius: var(--border-radius);
-            margin: 0 0.3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: #fff;
+            padding: 0.7rem 1.4rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
         }
-        .filter-btn:hover { 
-            background: var(--primary); 
-            color: #fff; 
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.4s ease;
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            box-shadow: 0 6px 20px rgba(114, 9, 183, 0.4);
         }
         
         /* Responsive */
@@ -583,79 +616,52 @@
                 right: 0;
                 background-color: var(--card-bg);
                 width: 100%;
+                max-height: 0;
+                overflow: hidden;
                 flex-direction: column;
-                align-items: flex-start;
-                padding: 20px;
-                transform: translateY(-100%);
-                opacity: 0;
-                pointer-events: none;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-                border-radius: 0 0 var(--border-radius) var(--border-radius);
+                align-items: center;
+                gap: 15px;
+                padding: 0;
+                border-radius: var(--border-radius);
+                box-shadow: var(--box-shadow);
             }
-
+            
             .nav-links.active {
-                transform: translateY(0);
-                opacity: 1;
-                pointer-events: auto;
+                max-height: 400px;
+                padding: 20px 0;
             }
-
+            
             .burger {
                 display: flex;
             }
-            
-            .main-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-                padding: 1.5rem;
-            }
-            
-            .welcome-text {
-                order: -1;
-            }
-            
-            .wa-float {
-                bottom: 90px;
-            }
-            
-            .category-title::before,
-            .category-title::after {
-                width: 30px;
-            }
-            
-            .filter-btn {
-                margin: 0.3rem;
-                padding: 0.5rem 1rem;
-            }
         }
-
+        
         @media (max-width: 480px) {
+            .container {
+                padding: 1rem;
+            }
+            
             .menu-grid {
                 grid-template-columns: 1fr;
             }
             
-            .menu-card {
-                padding: 1.5rem;
+            .brand-name {
+                font-size: 1.4rem;
             }
             
-            .filter-btn {
-                display: block;
-                width: 100%;
-                margin: 0.3rem 0;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .footer-bottom {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
+            .main-header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+                text-align: center;
             }
             
-            .copyright {
-                flex-direction: row;
-                align-items: center;
-                gap: 1.5rem;
+            .welcome-text {
+                font-size: 1rem;
+            }
+            
+            .footer-top {
+                grid-template-columns: 1fr;
             }
         }
     </style>
