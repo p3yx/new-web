@@ -675,14 +675,6 @@ cursor: pointer;
         </div>
     </header>
     
-        <!-- Tombol Navigasi Kategori -->
-<div class="filter-controls">
-<button class="filter-btn" onclick="scrollToCategory('game')">Topup Game</button>
-<button class="filter-btn" onclick="scrollToCategory('pulsa')">Pulsa</button>
-<button class="filter-btn" onclick="scrollToCategory('kuota')">Kuota</button>
-<button class="filter-btn" onclick="scrollToCategory('vpn')">VPN</button>
-</div>
-
 
     <!-- Main Header -->
     <div class="container">
@@ -708,6 +700,15 @@ cursor: pointer;
             </div>
             <p class="tagline">Layanan terpercaya untuk kebutuhan kuota, pulsa, akun VPN, dan top up game dengan harga terjangkau dan proses cepat.</p>
         </header>
+        
+               <!-- Tombol Navigasi Kategori -->
+<div class="filter-controls">
+<button class="filter-btn" onclick="scrollToCategory('game')">Topup Game</button>
+<button class="filter-btn" onclick="scrollToCategory('pulsa')">Pulsa</button>
+<button class="filter-btn" onclick="scrollToCategory('kuota')">Kuota</button>
+<button class="filter-btn" onclick="scrollToCategory('vpn')">VPN</button>
+</div>
+
         
         <!-- Kategori Game -->
 <div class="category-header" id="game">
@@ -787,7 +788,41 @@ cursor: pointer;
                     <i class="fas fa-shopping-cart"></i> Beli Sekarang
                 </a>
             </div>
-        </div>
+
+<div class="menu-card" onclick="navigateTo('valorant.html')">
+    <div class="menu-icon">
+        <i class="fas fa-crosshairs"></i>
+    </div>
+    <h3 class="menu-title">Valorant</h3>
+    <p class="menu-description">Top up Valorant Points dengan harga terjangkau dan proses instan.</p>
+    <a href="game.html" class="menu-btn">
+        <i class="fas fa-shopping-cart"></i> Beli Sekarang
+    </a>
+</div>
+
+<div class="menu-card" onclick="navigateTo('steam.html')">
+    <div class="menu-icon">
+        <i class="fas fa-gamepad"></i>
+    </div>
+    <h3 class="menu-title">Steam Wallet</h3>
+    <p class="menu-description">Isi saldo Steam Wallet dengan mudah untuk beli game favorit Anda.</p>
+    <a href="game.html" class="menu-btn">
+        <i class="fas fa-shopping-cart"></i> Beli Sekarang
+    </a>
+</div>
+
+<div class="menu-card" onclick="navigateTo('gplay.html')">
+    <div class="menu-icon">
+        <i class="fas fa-google-play"></i>
+    </div>
+    <h3 class="menu-title">Google Play Voucher</h3>
+    <p class="menu-description">Beli voucher Google Play resmi untuk semua kebutuhan aplikasi dan game.</p>
+    <a href="game.html" class="menu-btn">
+        <i class="fas fa-shopping-cart"></i> Beli Sekarang
+    </a>
+  </div>
+ </div>
+        
         
         <!-- Kategori Pulsa & Kuota -->
 <div class="category-header" id="pulsa">
@@ -1036,18 +1071,7 @@ cursor: pointer;
                     <i class="fas fa-shopping-cart"></i> Pesan Sekarang
                 </a>
             </div>
-            
-            <!-- WireGuard Card -->
-            <div class="menu-card" onclick="navigateTo('wireguard.html')">
-                <div class="menu-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <h3 class="menu-title">WireGuard Account</h3>
-                <p class="menu-description">Akun WireGuard dengan performa tinggi dan konsumsi resource yang rendah.</p>
-                <a href="vpn.html" class="menu-btn">
-                    <i class="fas fa-shopping-cart"></i> Pesan Sekarang
-                </a>
-            </div>
+     
             
             <!-- OpenVPN Card -->
             <div class="menu-card" onclick="navigateTo('openvpn.html')">
