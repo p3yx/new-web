@@ -3,606 +3,921 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon" href="/assets/images/icon.ico" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PeyxDev Proxy Converter | V2Ray & Trojan to YAML</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>Convert Xray | PX STORE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --accent: #ec4899;
-            --light: #f8fafc;
-            --dark: #0f172a;
-            --gray: #94a3b8;
-            --light-gray: #334155;
-            --dark-gray: #cbd5e1;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --border-radius: 12px;
-            --border-radius-sm: 8px;
-            --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-            --box-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --card-bg: #1e293b;
-            --body-bg: #0f172a;
-            --input-bg: #334155;
-            --text-color: #e2e8f0;
+        /* FIX UNTUK MENCEGAH HALAMAN BERGESER KESAMPING */
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+            position: relative;
         }
 
+        body {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-tap-highlight-color: transparent; /* Hilangkan highlight biru saat klik */
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s ease;
+            padding-bottom: 80px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Hilangkan highlight biru saat klik pada elemen interaktif */
+        button, .layanan-item, .nav-item, .saldo-container, .topup-option, .payment-method {
+            -webkit-tap-highlight-color: transparent;
+            outline: none;
+        }
+
+        /* Hilangkan outline saat fokus (opsional, untuk aksesibilitas lebih baik) */
+        button:focus, .layanan-item:focus, .nav-item:focus {
+            outline: none;
+        }
+
+        /* Pastikan input tetap bisa dipilih untuk pengisian data */
+        input, textarea {
+            -webkit-user-select: text; /* Safari */
+            -moz-user-select: text; /* Firefox */
+            -ms-user-select: text; /* IE10+/Edge */
+            user-select: text; /* Standard */
+            max-width: 100%;
+        }
+        
+        /* VARIABEL WARNA & STYLE (SAMA DENGAN BERANDA) */
+        :root {
+            --primary: #6c63ff;
+            --primary-dark: #564fd8;
+            --secondary: #4d44db;
+            --accent: #9d4edd;
+            --dark-bg: #121212;
+            --dark-card: #1e1e1e;
+            --dark-hover: #2d2d2d;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        /* RESET & BASE STYLES (SAMA DENGAN BERANDA) */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--body-bg);
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1400px;
+        .app-container {
+            padding: 15px;
+            padding-bottom: 80px;
+            max-width: 500px;
             margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 2.5rem 0;
-            margin-bottom: 3rem;
-            box-shadow: var(--box-shadow);
-            position: relative;
+            width: 100%;
             overflow: hidden;
         }
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
+        /* HEADER STYLES (SAMA DENGAN BERANDA) */
+        .header-top {
+            display: none;
+        }
+
+        /* PERBAIKAN: Layout Profil dan Poin */
+        .profile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            flex-wrap: wrap;
+            gap: 10px;
             width: 100%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
+            max-width: 100%;
         }
 
-        .header-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .logo {
+        .profile-left {
             display: flex;
             align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .logo-icon {
-            font-size: 2.8rem;
-            margin-right: 1.5rem;
-            color: white;
-        }
-
-        .logo-text {
-            font-size: 2.2rem;
-            font-weight: 700;
-            background: linear-gradient(to right, white, #e0e7ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            max-width: 700px;
-            margin-bottom: 1.5rem;
-        }
-
-        .version-badge {
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 0.4rem 1rem;
-            border-radius: 100px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        /* Main Content */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2.5rem;
-            margin-bottom: 4rem;
-        }
-
-        @media (min-width: 1200px) {
-            .main-content {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        /* Card Styles */
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 2.5rem;
-            transition: var(--transition);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--box-shadow-lg);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .card-icon {
-            font-size: 1.8rem;
-            color: var(--primary);
-            margin-right: 1.5rem;
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-color);
-        }
-
-        .card-subtitle {
-            font-size: 0.95rem;
-            color: var(--gray);
-            margin-top: 0.25rem;
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 1.75rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-            color: var(--text-color);
-            font-size: 1rem;
-        }
-
-        .form-control, .form-select {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius-sm);
-            font-family: 'Menlo', 'Consolas', monospace;
-            font-size: 0.95rem;
-            transition: var(--transition);
-            background-color: var(--input-bg);
-            color: var(--text-color);
-        }
-
-        .form-control:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
-
-        .form-control::placeholder {
-            color: var(--gray);
-            opacity: 0.6;
-        }
-
-        textarea.form-control {
-            min-height: 220px;
-            resize: vertical;
-            line-height: 1.7;
-        }
-
-        /* Filename Input */
-        .filename-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .filename-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-color);
-        }
-
-        .filename-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius-sm);
-            font-family: 'Inter', sans-serif;
-            transition: var(--transition);
-            background-color: var(--input-bg);
-            color: var(--text-color);
-        }
-
-        .filename-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
-
-        /* Button Styles */
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: auto;
-            padding-top: 1rem;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem 1.75rem;
-            border-radius: var(--border-radius-sm);
-            font-weight: 500;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
             flex: 1;
+            min-width: 200px;
+            max-width: 100%;
         }
 
-        .btn i {
-            margin-right: 0.75rem;
-            font-size: 1.1rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(to right, var(--primary-dark), #7c3aed);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-        }
-
-        .btn-secondary:hover {
-            background-color: #475569;
-            transform: translateY(-2px);
-        }
-
-        .btn-success {
-            background: linear-gradient(to right, var(--success), #059669);
-            color: white;
-        }
-
-        .btn-success:hover {
-            background: linear-gradient(to right, #0d9488, #0f766e);
-            transform: translateY(-2px);
-        }
-
-        /* Output Container */
-        .output-container {
-            position: relative;
-        }
-
-        .copy-btn {
-            position: absolute;
-            right: 12px;
-            top: 12px;
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(4px);
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius-sm);
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
+        .profile-right {
             display: flex;
             align-items: center;
-            z-index: 10;
-            transition: var(--transition);
-            color: var(--text-color);
+            justify-content: flex-end;
+            max-width: 100%;
+        }
+        
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            overflow: hidden;
+            padding: 0;
+            flex-shrink: 0;
         }
 
-        .copy-btn:hover {
-            background: var(--card-bg);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        .profile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
 
-        /* Tab Navigation */
+        .username {
+            font-weight: 600;
+            word-wrap: break-word;
+        }
+
+        .points-container {
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2px 8px;
+            font-size: 12px;
+            max-width: 100%;
+        }
+
+        .point-icon {
+            color: gold;
+            margin-right: 5px;
+            flex-shrink: 0;
+        }
+
+        /* CONVERT CONTENT STYLES */
+        .convert-container {
+            background-color: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .convert-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        .convert-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background-color: rgba(108, 99, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .convert-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            word-wrap: break-word;
+        }
+
+        .convert-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+            width: 100%;
+        }
+
+        /* TAB STYLES */
+        .tab-container {
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 100%;
+        }
+
         .tab-nav {
             display: flex;
-            border-bottom: 1px solid var(--light-gray);
-            margin-bottom: 1.5rem;
+            background-color: var(--dark-bg);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 100%;
         }
 
         .tab-btn {
-            padding: 0.75rem 1.5rem;
+            flex: 1;
+            padding: 12px;
+            text-align: center;
             background: none;
             border: none;
-            cursor: pointer;
+            color: var(--text-secondary);
             font-weight: 500;
-            color: var(--gray);
-            position: relative;
+            cursor: pointer;
+            border-radius: 8px;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 0;
+            word-wrap: break-word;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .tab-btn.active {
-            color: var(--primary);
-        }
-
-        .tab-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            border-radius: 3px 3px 0 0;
+            background-color: var(--primary);
+            color: white;
         }
 
         .tab-content {
             display: none;
+            width: 100%;
         }
 
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s ease-out;
+            width: 100%;
         }
 
-        /* Features Section */
-        .features-section {
-            margin: 4rem 0;
+        .input-group {
+            margin-bottom: 20px;
+            width: 100%;
         }
 
-        .section-header {
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+            word-wrap: break-word;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--dark-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .input-field.small {
+            min-height: 60px;
+            resize: none;
+        }
+
+        .select-field {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: var(--dark-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            cursor: pointer;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .select-field:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .convert-actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .convert-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 0;
+            word-wrap: break-word;
+        }
+
+        .convert-btn.primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .convert-btn.primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .convert-btn.secondary {
+            background-color: var(--dark-hover);
+            color: var(--text-primary);
+        }
+
+        .convert-btn.secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* OUTPUT SECTION */
+        .output-container {
+            position: relative;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(108, 99, 255, 0.9);
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+        }
+
+        /* LOADING INDICATOR */
+        .loading {
+            display: none;
             text-align: center;
-            margin-bottom: 3.5rem;
+            padding: 20px;
+            color: var(--primary);
+            width: 100%;
         }
 
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(108, 99, 255, 0.3);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
         }
 
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* FEATURES SECTION */
+        .features-container {
+            background-color: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        .features-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+
+        .features-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: rgba(157, 78, 221, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            color: var(--accent);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .features-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            word-wrap: break-word;
         }
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
         }
 
         .feature-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2.5rem 2rem;
-            box-shadow: var(--box-shadow);
+            background-color: var(--dark-bg);
+            border-radius: 10px;
+            padding: 20px;
             text-align: center;
             transition: var(--transition);
+            width: 100%;
+            min-width: 0;
         }
 
         .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--box-shadow-lg);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background-color: rgba(108, 99, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            color: var(--primary);
+            font-size: 1.5rem;
+            flex-shrink: 0;
         }
 
         .feature-title {
-            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-color);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            word-wrap: break-word;
         }
 
         .feature-desc {
-            color: var(--gray);
-            font-size: 1rem;
-            line-height: 1.7;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            word-wrap: break-word;
         }
 
-        /* Footer */
-        footer {
-            background-color: var(--dark);
+        /* NOTIFICATION STYLES */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            padding: 4rem 0 3rem;
-            margin-top: 4rem;
+            padding: 12px 18px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(108, 99, 255, 0.3);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            max-width: 320px;
+            transform: translateX(150%) scale(0.9);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            width: calc(100% - 40px);
         }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
+        .notification.show {
+            transform: translateX(0) scale(1);
         }
 
-        .footer-column h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: white;
+        .notification-icon {
+            margin-right: 12px;
+            font-size: 1.3rem;
+            flex-shrink: 0;
         }
 
-        .footer-links {
-            list-style: none;
+        .notification-message {
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.4;
+            flex: 1;
+            word-wrap: break-word;
         }
 
-        .footer-link {
-            color: var(--gray);
-            text-decoration: none;
-            transition: var(--transition);
-            display: block;
-            margin-bottom: 0.75rem;
+        /* NAVBAR STYLES (SAMA DENGAN BERANDA) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: var(--dark-card);
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+            padding: 10px 0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            z-index: 1000;
+            max-width: 100%;
+            box-sizing: border-box;
         }
 
-        .footer-link:hover {
-            color: white;
-            transform: translateX(4px);
+        .center-menu {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            min-width: 0;
         }
 
-        .footer-link i {
-            margin-right: 0.75rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid var(--light-gray);
-            padding-top: 2rem;
-            text-align: center;
-        }
-
-        .copyright {
-            color: var(--gray);
-            font-size: 0.95rem;
-        }
-
-        .social-links {
+        .logo-circle {
+            background-color: #7540f1;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
             display: flex;
             justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+            align-items: center;
+            margin-bottom: 5px;
+            flex-shrink: 0;
         }
 
-        .social-link {
-            color: var(--gray);
-            font-size: 1.25rem;
-            transition: var(--transition);
+        .nav-logo {
+            height: 40px;
+            max-width: 100%;
         }
 
-        .social-link:hover {
+        .menu-title {
+            font-size: 12px;
+            color: #a3a1a1;
+            word-wrap: break-word;
+            text-align: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 10px;
+            cursor: pointer;
+            flex: 1;
+            min-width: 0;
+            padding: 0 5px;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 3px;
+            flex-shrink: 0;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item span {
+            font-size: 11px;
+            font-weight: 500;
+            word-wrap: break-word;
+            text-align: center;
+        }
+
+        /* WEBAPP COMPATIBILITY STYLES */
+        .standalone-mode {
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+
+        /* DOWNLOAD SECTION STYLES */
+        .download-section {
+            background-color: var(--dark-card);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        
+        .download-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+        
+        .download-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background-color: rgba(76, 175, 80, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #4CAF50;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .download-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            word-wrap: break-word;
+        }
+        
+        .filename-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .filename-input {
+            flex: 1;
+            padding: 12px 15px;
+            background-color: var(--dark-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            max-width: 100%;
+            box-sizing: border-box;
+            min-width: 0;
+        }
+        
+        .filename-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filename-input.error {
+            border-color: #ff4757;
+            background-color: rgba(255, 71, 87, 0.1);
+        }
+        
+        .download-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 10px;
             color: white;
-            transform: translateY(-3px);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .download-btn:hover {
+            background-color: #3d8b40;
+        }
+        
+        .download-btn:disabled {
+            background-color: #666;
+            cursor: not-allowed;
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 992px) {
-            .logo-text {
-                font-size: 1.8rem;
-            }
-            
-            .card {
-                padding: 2rem;
-            }
+        .validation-message {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            min-height: 20px;
+            word-wrap: break-word;
+            width: 100%;
         }
 
+        .validation-message.error {
+            color: #ff4757;
+        }
+
+        .validation-message.success {
+            color: #2ed573;
+        }
+
+        /* RESPONSIVE STYLES */
         @media (max-width: 768px) {
-            header {
-                padding: 2rem 0;
-            }
-            
-            .logo {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .logo-icon {
-                margin-right: 0;
-                margin-bottom: 1rem;
-            }
-            
-            .btn-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-            
-            .footer-content {
+            .features-grid {
                 grid-template-columns: 1fr;
-                text-align: center;
             }
             
-            .footer-links {
-                display: flex;
+            .convert-actions {
                 flex-direction: column;
-                align-items: center;
+            }
+
+            /* Improve touch targets for webapp */
+            .convert-btn, .copy-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .tab-btn {
+                min-height: 40px;
+                padding: 12px 8px;
+                font-size: 0.8rem;
+            }
+            
+            .notification {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+                width: calc(100% - 20px);
             }
         }
+
+        @media (max-width: 480px) {
+            .app-container {
+                padding: 10px;
+                padding-bottom: 70px;
+            }
+            
+            .convert-container, .features-container, .download-section {
+                padding: 15px;
+            }
+            
+            .convert-title {
+                font-size: 1.2rem;
+            }
+            
+            .convert-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .tab-btn {
+                font-size: 0.8rem;
+                padding: 10px 8px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .feature-card {
+                padding: 15px;
+            }
+        }
+
+        /* ANIMASI TAMBAHAN */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        /* INSTRUCTION NOTE STYLES */
+        .instruction-note {
+            background-color: rgba(157, 78, 221, 0.1);
+            border-left: 4px solid var(--accent);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            color: var(--text-primary);
+            width: 100%;
+            word-wrap: break-word;
+        }
+
+        .instruction-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            word-wrap: break-word;
+        }
+
+        .instruction-title i {
+            color: var(--accent);
+        }
+
+        .instruction-steps {
+            margin-left: 20px;
+            width: 100%;
+        }
+
+        .instruction-step {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .instruction-step strong {
+            color: var(--accent);
+        }
+    </style>
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-random"></i>
-                    </div>
-                    <div class="logo-text">Proxy Converter</div>
+    <div class="app-container">
+        <!-- Header Profil (Sama dengan Beranda) -->
+        <div class="profile-header">
+            <div class="profile-left">
+                <div class="profile-icon">
+                    <img src="assets/images/icon.ico" alt="PX STORE">
                 </div>
-                <p class="tagline">Konversi konfigurasi V2Ray dan Trojan ke format YAML dengan mudah dan presisi tinggi</p>
-                <div class="version-badge">v2.1.0</div>
+                <div>
+                    <span class="username">Selamat Datang</span>
+                    <div class="points-container">
+                        <i class="fas fa-star point-icon"></i>
+                        <span class="points" id="userDisplay">Layanan Terpercaya</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="container">
-        <div class="main-content">
-            <!-- Input Card -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div>
-                        <h3 class="card-title">Konfigurasi Input</h3>
-                        <p class="card-subtitle">Paste konfigurasi V2Ray atau Trojan Anda</p>
-                    </div>
+        <!-- Container Utama Convert -->
+        <div class="convert-container fade-in">
+            <div class="convert-header">
+                <div class="convert-icon">
+                    <i class="fas fa-random"></i>
                 </div>
-                
+                <h1 class="convert-title">Convert Xray</h1>
+            </div>
+            
+            <p class="convert-description">
+                Konversi konfigurasi Xray/V2Ray/Trojan ke format YAML untuk digunakan dengan Clash, Shadowrocket, dan aplikasi lainnya.
+            </p>
+            
+            <!-- Tab Navigation -->
+            <div class="tab-container">
                 <div class="tab-nav">
                     <button class="tab-btn active" data-tab="v2ray-tab">
                         <i class="fas fa-shield-alt"></i> V2Ray
@@ -612,87 +927,134 @@
                     </button>
                 </div>
                 
+                <!-- V2Ray Tab -->
                 <div class="tab-content active" id="v2ray-tab">
-                    <div class="form-group">
-                        <label for="inputType" class="form-label">Tipe Input V2Ray</label>
-                        <select id="inputType" class="form-select">
+                    <div class="input-group">
+                        <label class="input-label" for="inputType">Tipe Input V2Ray</label>
+                        <select class="select-field" id="inputType">
                             <option value="json">JSON Config</option>
                             <option value="vmess">VMess Link</option>
                             <option value="vless">VLESS Link</option>
                         </select>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="inputConfig" class="form-label">Konfigurasi V2Ray</label>
-                        <textarea id="inputConfig" class="form-control" placeholder="Tempel konfigurasi V2Ray atau link VMess/VLess di sini..."></textarea>
+                    <div class="input-group">
+                        <label class="input-label" for="inputConfig">Konfigurasi V2Ray</label>
+                        <textarea class="input-field" id="inputConfig" placeholder="Tempel konfigurasi V2Ray atau link VMess/VLess di sini..."></textarea>
                     </div>
                 </div>
                 
+                <!-- Trojan Tab -->
                 <div class="tab-content" id="trojan-tab">
-                    <div class="form-group">
-                        <label for="trojanInputType" class="form-label">Tipe Input Trojan</label>
-                        <select id="trojanInputType" class="form-select">
+                    <div class="input-group">
+                        <label class="input-label" for="trojanInputType">Tipe Input Trojan</label>
+                        <select class="select-field" id="trojanInputType">
                             <option value="json">JSON Config</option>
                             <option value="link">Trojan Link</option>
                         </select>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="trojanInputConfig" class="form-label">Konfigurasi Trojan</label>
-                        <textarea id="trojanInputConfig" class="form-control" placeholder="Tempel konfigurasi Trojan atau link Trojan di sini..."></textarea>
+                    <div class="input-group">
+                        <label class="input-label" for="trojanInputConfig">Konfigurasi Trojan</label>
+                        <textarea class="input-field" id="trojanInputConfig" placeholder="Tempel konfigurasi Trojan atau link Trojan di sini..."></textarea>
                     </div>
                 </div>
-                
-                <div class="btn-group">
-                    <button class="btn btn-secondary" id="clearBtn">
-                        <i class="fas fa-eraser"></i> Bersihkan
-                    </button>
-                    <button class="btn btn-primary" id="convertBtn">
-                        <i class="fas fa-exchange-alt"></i> Konversi
+            </div>
+            
+            <div class="convert-actions">
+                <button class="convert-btn secondary" id="clearBtn">
+                    <i class="fas fa-eraser"></i> Bersihkan
+                </button>
+                <button class="convert-btn primary" id="convertBtn">
+                    <i class="fas fa-exchange-alt"></i> Konversi
+                </button>
+            </div>
+        </div>
+
+        <!-- Output Card -->
+        <div class="convert-container fade-in">
+            <div class="convert-header">
+                <div class="convert-icon">
+                    <i class="fas fa-file-code"></i>
+                </div>
+                <h2 class="convert-title">Hasil YAML</h2>
+            </div>
+            
+            <p class="convert-description">
+                Konfigurasi dalam format YAML yang siap digunakan
+            </p>
+            
+            <div class="input-group">
+                <label class="input-label" for="outputConfig">Konfigurasi Output</label>
+                <div class="output-container">
+                    <textarea class="input-field" id="outputConfig" readonly placeholder="Hasil konversi akan muncul di sini..."></textarea>
+                    <button class="copy-btn" id="copyBtn">
+                        <i class="far fa-copy"></i> Salin
                     </button>
                 </div>
             </div>
             
-            <!-- Output Card -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">
-                        <i class="fas fa-file-code"></i>
-                    </div>
-                    <div>
-                        <h3 class="card-title">Hasil YAML</h3>
-                        <p class="card-subtitle">Konfigurasi dalam format YAML</p>
-                    </div>
+            <!-- Instruction Note -->
+            <div class="instruction-note">
+                <div class="instruction-title">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Instruksi Penggunaan</span>
                 </div>
-                
-                <div class="form-group">
-                    <label for="outputConfig" class="form-label">Konfigurasi Output</label>
-                    <div class="output-container">
-                        <textarea id="outputConfig" class="form-control" readonly placeholder="Hasil konversi akan muncul di sini..."></textarea>
-                        <button class="copy-btn" id="copyBtn">
-                            <i class="far fa-copy"></i> Salin
-                        </button>
+                <div class="instruction-steps">
+                    <div class="instruction-step">
+                        <strong>Untuk OpenClash:</strong> Silakan salin hasil konversi di atas dan tempel di konfigurasi OpenClash Anda.
+                    </div>
+                    <div class="instruction-step">
+                        <strong>Untuk aplikasi lain:</strong> Buat file dengan format .yaml, tempelkan hasil konversi di atas, lalu simpan.
                     </div>
                 </div>
-
-                <!-- Filename Input -->
-                <div class="filename-group">
-                    <label for="configFilename" class="filename-label">Nama File Konfigurasi</label>
-                    <input type="text" id="configFilename" class="filename-input" placeholder="Misal: config-vidio">
-                </div>
-                
-                <button class="btn btn-success" id="downloadBtn">
-                    <i class="fas fa-download"></i> Unduh File YAML
-                </button>
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>Memproses konversi...</p>
             </div>
         </div>
-        
-        <!-- Features Section -->
-        <div class="features-section">
-            <div class="section-header">
-                <h2 class="section-title">Keunggulan Alat Kami</h2>
-                <p class="section-subtitle">Konversi konfigurasi proxy dengan mudah dan akurat untuk berbagai kebutuhan</p>
+
+        <!-- Download Section -->
+        <div class="download-section fade-in">
+            <div class="download-header">
+                <div class="download-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h2 class="download-title">Download File</h2>
             </div>
+            
+            <p class="convert-description">
+                Simpan hasil konversi sebagai file YAML untuk digunakan nanti
+            </p>
+            
+            <div class="input-group">
+                <label class="input-label" for="filenameInput">Nama File</label>
+                <div class="filename-input-group">
+                    <input type="text" class="filename-input" id="filenameInput" placeholder="Masukkan nama file...">
+                    <span class="filename-extension">.yaml</span>
+                </div>
+            </div>
+            
+            <button class="download-btn" id="downloadBtn" disabled>
+                <i class="fas fa-download"></i> Download File YAML
+            </button>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features-container fade-in">
+            <div class="features-header">
+                <div class="features-icon">
+                    <i class="fas fa-cogs"></i>
+                </div>
+                <h2 class="features-title">Keunggulan Alat Kami</h2>
+            </div>
+            
+            <p class="convert-description">
+                Konversi konfigurasi proxy dengan mudah dan akurat untuk berbagai kebutuhan
+            </p>
             
             <div class="features-grid">
                 <div class="feature-card">
@@ -718,286 +1080,511 @@
                     <h3 class="feature-title">Presisi Tinggi</h3>
                     <p class="feature-desc">Hasil konversi dengan format YAML yang rapi dan sesuai standar terbaru.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-code-branch"></i>
-                    </div>
-                    <h3 class="feature-title">Multi Protokol</h3>
-                    <p class="feature-desc">Mendukung V2Ray (VMess/VLESS) dan Trojan dalam satu alat yang terintegrasi.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Responsif</h3>
-                    <p class="feature-desc">Tampilan yang optimal di semua perangkat, dari desktop hingga smartphone.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cloud-download-alt"></i>
-                    </div>
-                    <h3 class="feature-title">Ekspor Mudah</h3>
-                    <p class="feature-desc">Download hasil konversi langsung atau salin ke clipboard dengan satu klik.</p>
-                </div>
             </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Footer -->
-    <footer>        
-            <div class="footer-bottom">
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-telegram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
-                </div>
-                <p class="copyright">© 2025 PeyxDev Converter. All rights reserved.</p>
-            </div>
+    <!-- Notifikasi -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">
+            <i class="fas fa-check-circle"></i>
         </div>
-    </footer>
+        <div class="notification-message" id="notificationMessage">Konversi berhasil!</div>
+    </div>
 
+    <!-- Navbar (Sama dengan Beranda) -->
+    <div class="navbar">
+        <div class="nav-item" onclick="window.open('beranda.html')">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </div>
 
+        <div class="nav-item" onclick="window.open('riwayat.html')">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Transaksi</span>
+        </div>
+
+        <div class="nav-item center-menu" onclick="window.open('server.html')">
+            <div class="logo-circle">
+                <img src="assets/images/icon.ico" alt="Logo" class="nav-logo">
+            </div>
+            <span class="menu-title">Server</span>
+        </div>
+
+        <div class="nav-item" onclick="window.open('profil.html')">
+            <i class="fas fa-user"></i>
+            <span>Profil</span>
+        </div>
+        <div class="nav-item" onclick="window.open('logout.html')">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+        </div>
+    </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tab Navigation
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-            
-            tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const tabId = btn.getAttribute('data-tab');
-                    
-                    // Remove active class from all buttons and contents
-                    tabBtns.forEach(b => b.classList.remove('active'));
-                    tabContents.forEach(c => c.classList.remove('active'));
-                    
-                    // Add active class to clicked button and corresponding content
-                    btn.classList.add('active');
-                    document.getElementById(tabId).classList.add('active');
-                });
-            });
-            
-            // Converter Elements
-            const convertBtn = document.getElementById('convertBtn');
-            const clearBtn = document.getElementById('clearBtn');
-            const copyBtn = document.getElementById('copyBtn');
-            const downloadBtn = document.getElementById('downloadBtn');
-            const outputConfig = document.getElementById('outputConfig');
-            const configFilenameInput = document.getElementById('configFilename');
-            
-            // Conversion Functions
-            function convertToYaml() {
-                const activeTab = document.querySelector('.tab-content.active').id;
-                
-                if (activeTab === 'v2ray-tab') {
-                    return convertV2RayToYaml();
-                } else if (activeTab === 'trojan-tab') {
-                    return convertTrojanToYaml();
-                }
-            }
-            
-            function convertV2RayToYaml() {
-                const inputType = document.getElementById('inputType').value;
-                const inputConfig = document.getElementById('inputConfig').value.trim();
-                
-                if (!inputConfig) {
-                    alert('Silakan masukkan konfigurasi V2Ray terlebih dahulu!');
-                    return '';
-                }
-                
-                try {
-                    let jsonObj;
-                    
-                    if (inputType === 'json') {
-                        jsonObj = JSON.parse(inputConfig);
-                    } else if (inputType === 'vmess' || inputType === 'vless') {
-                        const decoded = decodeURIComponent(inputConfig.split('://')[1]);
-                        jsonObj = JSON.parse(atob(decoded));
-                    }
-                    
-                    return generateV2RayYaml(jsonObj);
-                    
-                } catch (e) {
-                    return '# Error: Format input tidak valid\n' + 
-                           '# Pesan error: ' + e.message + '\n\n' +
-                           '# Pastikan input yang Anda masukkan sudah benar:\n' +
-                           '# - Untuk JSON: Konfigurasi V2Ray yang valid\n' +
-                           '# - Untuk VMess/VLess: Link yang lengkap';
-                }
-            }
-            
-            function convertTrojanToYaml() {
-                const inputType = document.getElementById('trojanInputType').value;
-                const inputConfig = document.getElementById('trojanInputConfig').value.trim();
-                
-                if (!inputConfig) {
-                    alert('Silakan masukkan konfigurasi Trojan terlebih dahulu!');
-                    return '';
-                }
-                
-                try {
-                    let trojanConfig;
-                    
-                    if (inputType === 'json') {
-                        trojanConfig = JSON.parse(inputConfig);
-                    } else if (inputType === 'link') {
-                        trojanConfig = parseTrojanLink(inputConfig);
-                    }
-                    
-                    return generateTrojanYaml(trojanConfig);
-                    
-                } catch (e) {
-                    return '# Error: Format input tidak valid\n' + 
-                           '# Pesan error: ' + e.message + '\n\n' +
-                           '# Pastikan input yang Anda masukkan sudah benar:\n' +
-                           '# - Untuk JSON: Konfigurasi Trojan yang valid\n' +
-                           '# - Untuk Link: Link Trojan yang lengkap';
-                }
-            }
-            
-            function parseTrojanLink(link) {
-                // Enhanced Trojan link parser with path support
-                const url = new URL(link);
-                const config = {
-                    password: url.username,
-                    server: url.hostname,
-                    port: url.port || 443,
-                    sni: url.searchParams.get('sni') || url.hostname,
-                    allowInsecure: url.searchParams.get('allowInsecure') === '1' || true,
-                    name: url.hash ? decodeURIComponent(url.hash.substring(1)) : 'trojan-proxy',
-                    type: 'trojan',
-                    network: 'ws',
-                    path: url.searchParams.get('path') || '%2Ftrojan-ws',
-                    host: url.searchParams.get('host') || url.hostname
-                };
-                return config;
-            }
-            
-            function generateV2RayYaml(v2rayConfig) {
-                // Extract the necessary information from V2Ray config
-                const proxyName = v2rayConfig.ps || v2rayConfig.name || "v2ray-proxy";
-                const server = v2rayConfig.add || v2rayConfig.address || "server.example.com";
-                const port = v2rayConfig.port || 443;
-                const uuid = v2rayConfig.id || v2rayConfig.uuid || "66ce30e3-4c14-42f6-b708-2f4dd60a161f";
-                const alterId = v2rayConfig.aid || v2rayConfig.alterId || 0;
-                const cipher = v2rayConfig.cipher || "auto";
-                const tls = v2rayConfig.tls === "tls" || v2rayConfig.tls === true;
-                const skipVerify = v2rayConfig.skipCertVerify || true;
-                const servername = v2rayConfig.sni || v2rayConfig.servername || server;
-                const network = v2rayConfig.net || "ws";
-                const wsPath = v2rayConfig.path || "/path";
-                const wsHost = v2rayConfig.host || servername;
-                const udp = v2rayConfig.udp || true;
-                
-                // Generate the YAML in the exact format requested
-                let yaml = "proxies:\n";
-                yaml += `  - name: ${proxyName}\n`;
-                yaml += `    server: ${server}\n`;
-                yaml += `    port: ${port}\n`;
-                yaml += `    type: vmess\n`;
-                yaml += `    uuid: ${uuid}\n`;
-                yaml += `    alterId: ${alterId}\n`;
-                yaml += `    cipher: ${cipher}\n`;
-                yaml += `    tls: ${tls}\n`;
-                yaml += `    skip-cert-verify: ${skipVerify}\n`;
-                yaml += `    servername: ${servername}\n`;
-                yaml += `    network: ${network}\n`;
-                
-                if (network === "ws") {
-                    yaml += `    ws-opts:\n`;
-                    yaml += `      path: ${wsPath}\n`;
-                    yaml += `      headers:\n`;
-                    yaml += `        Host: ${wsHost}\n`;
-                }
-                
-                yaml += `    udp: ${udp}\n`;
-                
-                return yaml;
-            }
-            
-            function generateTrojanYaml(trojanConfig) {
-                // Generate the exact Trojan YAML format requested
-                let yaml = "proxies:\n";
-                yaml += `  - name: ${trojanConfig.name}\n`;
-                yaml += `    server: ${trojanConfig.server}\n`;
-                yaml += `    port: ${trojanConfig.port}\n`;
-                yaml += `    type: trojan\n`;
-                yaml += `    password: ${trojanConfig.password}\n`;
-                yaml += `    skip-cert-verify: ${trojanConfig.allowInsecure}\n`;
-                yaml += `    sni: ${trojanConfig.sni}\n`;
-                yaml += `    network: ws\n`;
-                yaml += `    ws-opts:\n`;
-                yaml += `      path: "${trojanConfig.path}"\n`;
-                yaml += `      headers:\n`;
-                yaml += `        Host: ${trojanConfig.host}\n`;
-                yaml += `    udp: true\n`;
-                
-                return yaml;
-            }
+    // Event listeners saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        // Deteksi jika aplikasi berjalan dalam mode webapp/standalone
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                            window.navigator.standalone ||
+                            document.referrer.includes('android-app://');
 
-            // Event Listeners
-            convertBtn.addEventListener('click', function() {
-                outputConfig.value = convertToYaml();
+        if (isStandalone) {
+            console.log('Running in standalone mode (WebApp)');
+            // Tambahkan style khusus untuk webapp jika diperlukan
+            document.body.classList.add('standalone-mode');
+        }
+
+        // Tampilkan username
+        displayUsername();
+        
+        // Inisialisasi event listeners
+        initEventListeners();
+    });
+
+    // Fungsi untuk menampilkan username
+    function displayUsername() {
+        const savedUsername = localStorage.getItem('pxstore_username');
+        const userDisplay = document.getElementById('userDisplay');
+        
+        if (savedUsername && userDisplay) {
+            userDisplay.textContent = savedUsername;
+        } else {
+            userDisplay.textContent = "Layanan Terpercaya";
+        }
+    }
+
+    // Fungsi untuk inisialisasi event listeners
+    function initEventListeners() {
+        // Tab Navigation
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding content
+                btn.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+                
+                // Show notification
+                showNotification(`Beralih ke ${btn.textContent.trim()}`);
             });
-            
+        });
+        
+        // Converter Elements
+        const convertBtn = document.getElementById('convertBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const outputConfig = document.getElementById('outputConfig');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const filenameInput = document.getElementById('filenameInput');
+        
+        // Event listener untuk tombol konversi
+        if (convertBtn) {
+            convertBtn.addEventListener('click', function() {
+                loadingIndicator.style.display = 'block';
+                
+                // Simulate processing time for better UX
+                setTimeout(() => {
+                    outputConfig.value = convertToYaml();
+                    loadingIndicator.style.display = 'none';
+                    
+                    if (outputConfig.value && !outputConfig.value.startsWith('# Error:')) {
+                        downloadBtn.disabled = false;
+                        showNotification('Konversi berhasil!');
+                    } else {
+                        downloadBtn.disabled = true;
+                    }
+                }, 800);
+            });
+        }
+        
+        // Event listener untuk tombol bersihkan
+        if (clearBtn) {
             clearBtn.addEventListener('click', function() {
                 document.querySelectorAll('textarea').forEach(ta => ta.value = '');
+                downloadBtn.disabled = true;
+                showNotification('Semua input telah dibersihkan');
             });
-            
+        }
+        
+        // Event listener untuk tombol salin
+        if (copyBtn) {
             copyBtn.addEventListener('click', function() {
                 if (!outputConfig.value) {
-                    alert('Tidak ada hasil konversi untuk disalin!');
+                    showNotification('Tidak ada hasil konversi untuk disalin!', 'error');
                     return;
                 }
                 
-                outputConfig.select();
-                document.execCommand('copy');
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(outputConfig.value)
+                        .then(() => {
+                            const icon = copyBtn.querySelector('i');
+                            icon.classList.remove('fa-copy');
+                            icon.classList.add('fa-check');
+                            copyBtn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                            
+                            showNotification('Teks berhasil disalin!');
+                            
+                            setTimeout(() => {
+                                icon.classList.remove('fa-check');
+                                icon.classList.add('fa-copy');
+                                copyBtn.innerHTML = '<i class="far fa-copy"></i> Salin';
+                            }, 2000);
+                        })
+                        .catch(err => {
+                            console.error('Gagal menyalin: ', err);
+                            fallbackCopyText(outputConfig.value);
+                        });
+                } else {
+                    fallbackCopyText(outputConfig.value);
+                }
+            });
+        }
+        
+        // Event listener untuk tombol download
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', function() {
+                if (!outputConfig.value || outputConfig.value.startsWith('# Error:')) {
+                    showNotification('Tidak ada hasil konversi untuk diunduh!', 'error');
+                    return;
+                }
                 
-                // Feedback visual
+                const filename = filenameInput.value.trim() || 'config';
+                downloadYamlFile(filename + '.yaml', outputConfig.value);
+                showNotification(`File ${filename}.yaml berhasil diunduh!`);
+            });
+        }
+        
+        function fallbackCopyText(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
                 const icon = copyBtn.querySelector('i');
                 icon.classList.remove('fa-copy');
                 icon.classList.add('fa-check');
                 copyBtn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+                
+                showNotification('Teks berhasil disalin!');
                 
                 setTimeout(() => {
                     icon.classList.remove('fa-check');
                     icon.classList.add('fa-copy');
                     copyBtn.innerHTML = '<i class="far fa-copy"></i> Salin';
                 }, 2000);
-            });
+            } catch (err) {
+                console.error('Fallback: Gagal menyalin teks', err);
+                showNotification('Gagal menyalin teks ke clipboard', 'error');
+            }
             
-            downloadBtn.addEventListener('click', function() {
-                if (!outputConfig.value) {
-                    alert('Tidak ada hasil konversi untuk diunduh!');
-                    return;
-                }
-                
-                const filename = configFilenameInput.value.trim() || 'config-proxy';
-                const blob = new Blob([outputConfig.value], { type: 'text/yaml' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `${filename}.yaml`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            });
-            
-            // Sample data for testing (uncomment to use)
-            /*
-            // Sample V2Ray VMess link
-            document.getElementById('inputConfig').value = "vmess://eyJhZGQiOiJhdmEuZ2FtZS5uYXZlci5jb20iLCJhaWQiOiIwIiwiaG9zdCI6ImF2YS5nYW1lLm5hdmVyLmNvbS5zbmF5ZGVycy54LXZ2aXAuY2xvdWQiLCJpZCI6IjY2Y2UzMGUzLTRjMTQtNDJmNi1iNzA4LTJmNGRkNjBhMTYxZiIsIm5ldCI6IndzIiwicGF0aCI6Ii9udXNhLnB4c3RvcmUuYml6LmlkL3ZtZXNzIiwicG9ydCI6IjQ0MyIsInBzIjoidHJpYWwgeHV0cyIsInNjeSI6ImF1dG8iLCJzbiI6ImF2YS5nYW1lLm5hdmVyLmNvbS5zbmF5ZGVycy54LXZ2aXAuY2xvdWQiLCJ0bHMiOiJ0bHMiLCJ0eXBlIjoibm9uZSIsInVybF9ncm91cCI6InZtZXNzIiwidXNlciI6IiJ9";
-            
-            // Sample Trojan link with path
-            document.getElementById('trojanInputConfig').value = "trojan://password123@server.example.com:443?allowInsecure=1&sni=example.com&type=ws&path=%2Ftrojan-ws&host=example.com#MyTrojanWS";
-            */
+            document.body.removeChild(textArea);
+        }
+        
+        // Auto-convert when input is long enough
+        document.getElementById('inputConfig').addEventListener('input', function() {
+            if (this.value.trim().length > 50) {
+                setTimeout(() => {
+                    if (this.value === document.getElementById('inputConfig').value) {
+                        outputConfig.value = convertToYaml();
+                        if (outputConfig.value && !outputConfig.value.startsWith('# Error:')) {
+                            downloadBtn.disabled = false;
+                        }
+                    }
+                }, 1500);
+            }
         });
-    </script>
+        
+        // Touch improvements
+        document.querySelectorAll('.convert-btn, .tab-btn, .feature-card').forEach(el => {
+            el.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(0.98)';
+            });
+            
+            el.addEventListener('touchend', function() {
+                this.style.transform = '';
+            });
+        });
+        
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    }
+
+    // Fungsi untuk menambahkan note/header pada YAML
+    function addYamlNotes(config, proxyType, additionalInfo = {}) {
+        const now = new Date();
+        const timestamp = now.toLocaleString('id-ID');
+        const date = now.toLocaleDateString('id-ID');
+        const time = now.toLocaleTimeString('id-ID');
+        
+        let notes = `# ========================================\n`;
+        notes += `# KONFIGURASI ${proxyType.toUpperCase()} - PX STORE\n`;
+        notes += `# ========================================\n`;
+        notes += `# - Pastikan server dalam keadaan aktif\n`;
+        notes += `# - Untuk masalah koneksi, cek status server\n\n`;
+        
+        return notes;
+    }
+
+    // Conversion Functions
+    function convertToYaml() {
+        const activeTab = document.querySelector('.tab-content.active').id;
+        
+        if (activeTab === 'v2ray-tab') {
+            return convertV2RayToYaml();
+        } else if (activeTab === 'trojan-tab') {
+            return convertTrojanToYaml();
+        }
+    }
+    
+    function convertV2RayToYaml() {
+        const inputType = document.getElementById('inputType').value;
+        const inputConfig = document.getElementById('inputConfig').value.trim();
+        
+        if (!inputConfig) {
+            showNotification('Silakan masukkan konfigurasi V2Ray terlebih dahulu!', 'error');
+            return '';
+        }
+        
+        try {
+            let jsonObj;
+            
+            if (inputType === 'json') {
+                jsonObj = JSON.parse(inputConfig);
+            } else if (inputType === 'vmess') {
+                const decoded = decodeURIComponent(inputConfig.split('://')[1]);
+                jsonObj = JSON.parse(atob(decoded));
+            } else if (inputType === 'vless') {
+                jsonObj = parseVLessLink(inputConfig);
+            }
+            
+            return generateV2RayYaml(jsonObj);
+            
+        } catch (e) {
+            return '# Error: Format input tidak valid\n' + 
+                   '# Pesan error: ' + e.message + '\n\n' +
+                   '# Pastikan input yang Anda masukkan sudah benar:\n' +
+                   '# - Untuk JSON: Konfigurasi V2Ray yang valid\n' +
+                   '# - Untuk VMess/VLess: Link yang lengkap';
+        }
+    }
+    
+    function parseVLessLink(link) {
+        try {
+            const url = new URL(link);
+            const params = new URLSearchParams(url.search);
+            
+            const config = {
+                id: url.username,
+                add: url.hostname,
+                port: url.port || 443,
+                type: 'vless',
+                ps: url.hash ? decodeURIComponent(url.hash.substring(1)) : 'vless-proxy',
+                tls: params.get('security') === 'tls' ? 'tls' : 'none',
+                sni: params.get('sni') || params.get('host') || url.hostname,
+                host: params.get('host') || url.hostname,
+                net: params.get('type') || 'ws',
+                path: params.get('path') || '/',
+                aid: 0,
+                cipher: 'auto',
+                udp: true,
+                skipCertVerify: true
+            };
+            
+            return config;
+        } catch (error) {
+            throw new Error('Format link VLESS tidak valid: ' + error.message);
+        }
+    }
+    
+    function convertTrojanToYaml() {
+        const inputType = document.getElementById('trojanInputType').value;
+        const inputConfig = document.getElementById('trojanInputConfig').value.trim();
+        
+        if (!inputConfig) {
+            showNotification('Silakan masukkan konfigurasi Trojan terlebih dahulu!', 'error');
+            return '';
+        }
+        
+        try {
+            let trojanConfig;
+            
+            if (inputType === 'json') {
+                trojanConfig = JSON.parse(inputConfig);
+            } else if (inputType === 'link') {
+                trojanConfig = parseTrojanLink(inputConfig);
+            }
+            
+            return generateTrojanYaml(trojanConfig);
+            
+        } catch (e) {
+            return '# Error: Format input tidak valid\n' + 
+                   '# Pesan error: ' + e.message + '\n\n' +
+                   '# Pastikan input yang Anda masukkan sudah benar:\n' +
+                   '# - Untuk JSON: Konfigurasi Trojan yang valid\n' +
+                   '# - Untuk Link: Link Trojan yang lengkap';
+        }
+    }
+    
+    function parseTrojanLink(link) {
+        const url = new URL(link);
+        const config = {
+            password: url.username,
+            server: url.hostname,
+            port: url.port || 443,
+            sni: url.searchParams.get('sni') || url.hostname,
+            allowInsecure: url.searchParams.get('allowInsecure') === '1' || true,
+            name: url.hash ? decodeURIComponent(url.hash.substring(1)) : 'trojan-proxy',
+            type: 'trojan',
+            network: 'ws',
+            path: url.searchParams.get('path') || '%2Ftrojan-ws',
+            host: url.searchParams.get('host') || url.hostname
+        };
+        return config;
+    }
+    
+    function generateV2RayYaml(v2rayConfig) {
+        const proxyName = v2rayConfig.ps || v2rayConfig.name || "v2ray-proxy";
+        const server = v2rayConfig.add || v2rayConfig.address || "server.example.com";
+        const port = v2rayConfig.port || 443;
+        const uuid = v2rayConfig.id || v2rayConfig.uuid || "66ce30e3-4c14-42f6-b708-2f4dd60a161f";
+        const alterId = v2rayConfig.aid || v2rayConfig.alterId || 0;
+        const cipher = v2rayConfig.cipher || "auto";
+        const tls = v2rayConfig.tls === "tls" || v2rayConfig.tls === true;
+        const skipVerify = v2rayConfig.skipCertVerify || true;
+        const servername = v2rayConfig.sni || v2rayConfig.servername || server;
+        const network = v2rayConfig.net || "ws";
+        const wsPath = v2rayConfig.path || "/";
+        const wsHost = v2rayConfig.host || servername;
+        const udp = v2rayConfig.udp || true;
+        
+        const proxyType = v2rayConfig.type === 'vless' ? 'vless' : 'vmess';
+        
+        // Tambahkan note/header di awal YAML
+        let yaml = addYamlNotes(v2rayConfig, proxyType);
+        
+        yaml += "proxies:\n";
+        yaml += `  - name: ${proxyName}\n`;
+        yaml += `    server: ${server}\n`;
+        yaml += `    port: ${port}\n`;
+        yaml += `    type: ${proxyType}\n`;
+        yaml += `    uuid: ${uuid}\n`;
+        
+        if (proxyType === 'vmess') {
+            yaml += `    alterId: ${alterId}\n`;
+        }
+        
+        yaml += `    cipher: ${cipher}\n`;
+        yaml += `    tls: ${tls}\n`;
+        yaml += `    skip-cert-verify: ${skipVerify}\n`;
+        yaml += `    servername: ${servername}\n`;
+        yaml += `    network: ${network}\n`;
+        
+        if (network === "ws") {
+            yaml += `    ws-opts:\n`;
+            yaml += `      path: "${wsPath}"\n`;
+            yaml += `      headers:\n`;
+            yaml += `        Host: ${wsHost}\n`;
+        }
+        
+        yaml += `    udp: ${udp}\n`;
+        
+        return yaml;
+    }
+    
+    function generateTrojanYaml(trojanConfig) {
+        // Tambahkan note/header di awal YAML
+        let yaml = addYamlNotes(trojanConfig, 'trojan');
+        
+        yaml += "proxies:\n";
+        yaml += `  - name: ${trojanConfig.name}\n`;
+        yaml += `    server: ${trojanConfig.server}\n`;
+        yaml += `    port: ${trojanConfig.port}\n`;
+        yaml += `    type: trojan\n`;
+        yaml += `    password: ${trojanConfig.password}\n`;
+        yaml += `    skip-cert-verify: ${trojanConfig.allowInsecure}\n`;
+        yaml += `    sni: ${trojanConfig.sni}\n`;
+        yaml += `    network: ws\n`;
+        yaml += `    ws-opts:\n`;
+        yaml += `      path: "${trojanConfig.path}"\n`;
+        yaml += `      headers:\n`;
+        yaml += `        Host: ${trojanConfig.host}\n`;
+        yaml += `    udp: true\n`;
+        
+        return yaml;
+    }
+
+    // Fungsi untuk menampilkan notifikasi
+    function showNotification(message, type = 'success', duration = 3000) {
+        const notification = document.getElementById('notification');
+        const notificationMessage = document.getElementById('notificationMessage');
+        
+        if (notification && notificationMessage) {
+            // Set ikon berdasarkan tipe notifikasi
+            const notificationIcon = notification.querySelector('.notification-icon');
+            if (notificationIcon) {
+                if (type === 'success') {
+                    notificationIcon.className = 'notification-icon fas fa-check-circle';
+                    notification.style.background = 'linear-gradient(135deg, var(--primary), var(--accent))';
+                } else if (type === 'error') {
+                    notificationIcon.className = 'notification-icon fas fa-exclamation-circle';
+                    notification.style.background = 'linear-gradient(135deg, #ff4757, #ff3742)';
+                } else if (type === 'info') {
+                    notificationIcon.className = 'notification-icon fas fa-info-circle';
+                    notification.style.background = 'linear-gradient(135deg, #2ed573, #1e90ff)';
+                }
+            }
+            
+            notificationMessage.textContent = message;
+            
+            // Tampilkan notifikasi dengan animasi
+            notification.classList.add('show');
+            
+            // Sembunyikan otomatis setelah 3 detik
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, duration);
+        }
+    }
+
+    // Fungsi untuk download file YAML
+    function downloadYamlFile(filename, content) {
+        const blob = new Blob([content], { type: 'text/yaml' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // Fungsi untuk navigasi
+    function navigateTo(page) {
+        window.location.href = page;
+    }
+</script>
 </body>
 </html>
