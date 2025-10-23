@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Remove .html extension from URLs
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+# Optional: Redirect .html URLs to clean URLs
+RewriteCond %{THE_REQUEST} \s/([^.]+)\.html [NC]
+RewriteRule ^ /%1 [R=301,L]
+php_value date.timezone Asia/Jakarta
